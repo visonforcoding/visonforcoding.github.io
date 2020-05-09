@@ -5,8 +5,6 @@
   <!-- SEO相关 -->
   
     
-      <meta name="robots" content="noindex,follow">
-    
   
   <!-- 渲染优化 -->
   <meta name="renderer" content="webkit">
@@ -18,8 +16,22 @@
 
   <!-- 页面元数据 -->
   
-    <title>Archive: 2017/12 - 麦田麦穗</title>
+    <title>地理位置geo处理之mysql函数 - 麦田麦穗</title>
   
+  
+    <meta name="description" content="
+目前越来越多的业务都会基于LBS，附近的人，外卖位置，附近商家等等，现就讨论离我最近这一业务场景的解决方案。
+
+目前已知解决方案有:
+
+mysql 自定义函数计算
+mysql geo索引
+mongodb geo索引
+postgresql PostGis索引
+redis geo
+ElasticSearch
+
+本文...">
   
 
   <!-- feed -->
@@ -75,95 +87,7 @@
 
 <body>
   
-  <div class="cover-wrapper">
-    
-      <cover class='cover  half'>
-        <div class='cover-body'>
-  <div class='a'>
-    
-    
-      <p class="title">麦田麦穗</p>
-    
-    
-      <p class="subtitle">哥德尔、埃舍尔、巴赫</p>
-    
-  </div>
-  <div class='b'>
-    
-      <div class="m_search">
-        <form name="searchform" class="form u-search-form">
-          <input type="text" class="input u-search-input" placeholder="" />
-          <i class="icon fas fa-search fa-fw"></i>
-        </form>
-      </div>
-    
-    <div class='menu navigation'>
-      <ul class='cover-list-h'>
-        
-          
-            <li>
-              <a class="nav home"
-                href="https://visonforcoding.github.io/getting-started/"
-                
-                
-                id="https:visonforcodinggithubiogetting-started">
-                <i class='fas fa-book fa-fw'></i>文档
-              </a>
-            </li>
-          
-            <li>
-              <a class="nav home"
-                href="https://visonforcoding.github.io/archives/"
-                
-                
-                id="https:visonforcodinggithubioarchives">
-                <i class='fas fa-rss fa-fw'></i>博文
-              </a>
-            </li>
-          
-            <li>
-              <a class="nav home"
-                href="https://visonforcoding.github.io/examples/"
-                
-                
-                id="https:visonforcodinggithubioexamples">
-                <i class='fas fa-play-circle fa-fw'></i>示例
-              </a>
-            </li>
-          
-            <li>
-              <a class="nav home"
-                href="https://github.com/xaoxuu/hexo-theme-volantis/"
-                
-                  rel="external nofollow noopener noreferrer"
-                
-                
-                  target="_blank"
-                
-                id="https:githubcomxaoxuuhexo-theme-volantis">
-                <i class='fas fa-file-code fa-fw'></i>源码
-              </a>
-            </li>
-          
-            <li>
-              <a class="nav home"
-                href="https://volantis.js.org/contributors/"
-                
-                
-                id="https:volantisjsorgcontributors">
-                <i class='fas fa-handshake fa-fw'></i>鸣谢
-              </a>
-            </li>
-          
-        
-      </ul>
-    </div>
-  </div>
-</div>
-
-      </cover>
-    
-    <div id="loading-bar-wrapper">
+  <div id="loading-bar-wrapper">
   <div id="loading-bar"></div>
 </div>
 <header class="l_header shadow blur">
@@ -416,32 +340,18 @@
 
 <script>setLoadingBarProgress(40);</script>
 
-  </div>
 
 
-  <div class="l_body">
+  <div class="l_body nocover">
     <div class='body-wrapper'>
       
 
 <div class='l_main'>
-	
-		
-  <section class="post-list ">
-    
-      
-        
-          
-        
-          
-        
-      
-    
-    
-      
-        
-          <div class='post-wrapper'>
-            <article class="post white-box shadow reveal ">
   
+
+  
+    <article id="post" class="post white-box reveal shadow article-type-post" itemscope itemprop="blogPost">
+      
 
 
   <section class='meta'>
@@ -451,11 +361,11 @@
       <div class="meta" id="header-meta">
         
           
-  <h2 class="title">
+  <h1 class="title">
     <a href="/2017/12/01/%E5%9C%B0%E7%90%86%E4%BD%8D%E7%BD%AEgeo%E5%A4%84%E7%90%86%E4%B9%8Bmysql%E5%87%BD%E6%95%B0/">
       地理位置geo处理之mysql函数
     </a>
-  </h2>
+  </h1>
 
 
         
@@ -491,24 +401,6 @@
           
             
               
-  <div class="new-meta-item wordcount">
-    <a class='notlink'>
-      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>861 words</p>
-    </a>
-  </div>
-  <div class="new-meta-item readtime">
-    <a class='notlink'>
-      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>4 min</p>
-    </a>
-  </div>
-
-
-            
-          
-            
-              
 
             
           
@@ -521,10 +413,10 @@
   </section>
 
 
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          
+          <blockquote>
 <p>目前越来越多的业务都会基于LBS，附近的人，外卖位置，附近商家等等，现就讨论离我最近这一业务场景的解决方案。</p>
 </blockquote>
 <p>目前已知解决方案有:</p>
@@ -537,205 +429,182 @@
 <li>ElasticSearch</li>
 </ul>
 <p>本文测试下mysql 函数运算的性能</p>
-      
-    </div>
-    
-      
-        <div class="button readmore">
-          <a href="/2017/12/01/%E5%9C%B0%E7%90%86%E4%BD%8D%E7%BD%AEgeo%E5%A4%84%E7%90%86%E4%B9%8Bmysql%E5%87%BD%E6%95%B0/">
-            Read More <i class="fas fa-chevron-right"></i>
-          </a>
-        </div>
-      
-    
-  </section>
-</article>
+<a id="more"></a>
 
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <article class="post white-box shadow reveal ">
-  
-
-
-  <section class='meta'>
-    
-      
-      
-      <div class="meta" id="header-meta">
-        
-          
-  <h2 class="title">
-    <a href="/2017/12/01/%E5%9C%B0%E7%90%86%E4%BD%8D%E7%BD%AE%E5%A4%84%E7%90%86%E4%B9%8Bmongodb/">
-      地理位置geo处理之mongodb geo 索引
-    </a>
-  </h2>
-
-
-        
-        <div class='new-meta-box'>
-          
-            
-          
-            
-              
-<div class='new-meta-item author'>
-  <a href="" rel="nofollow">
-    <img src="http://img.rc5j.cn/blog20200508235943.png">
-    <p>vison</p>
-  </a>
-</div>
-
-            
-          
-            
-              
-
-            
-          
-            
-              <div class="new-meta-item date">
-  <a class='notlink'>
-    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Dec 1, 2017</p>
-  </a>
-</div>
-
-            
-          
-            
-              
-  <div class="new-meta-item wordcount">
-    <a class='notlink'>
-      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>401 words</p>
-    </a>
-  </div>
-  <div class="new-meta-item readtime">
-    <a class='notlink'>
-      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>1 min</p>
-    </a>
-  </div>
-
-
-            
-          
-            
-              
-
-            
-          
-        </div>
-        
-          <hr>
-        
-      </div>
-    
-  </section>
-
-
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>目前越来越多的业务都会基于LBS，附近的人，外卖位置，附近商家等等，现就讨论离我最近这一业务场景的解决方案。</p>
-</blockquote>
-<p>目前已知解决方案有:</p>
+<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><h3 id="创建数据表"><a href="#创建数据表" class="headerlink" title="创建数据表"></a>创建数据表</h3><pre><code class="sql">CREATE TABLE `driver` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `lng` float DEFAULT NULL,
+  `lat` float DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;</code></pre>
+<h3 id="创建测试数据"><a href="#创建测试数据" class="headerlink" title="创建测试数据"></a>创建测试数据</h3><p>在创建数据之前先了解下基本的地理知识:</p>
 <ul>
-<li>mysql 自定义函数计算</li>
-<li>mysql geo索引</li>
-<li>mongodb geo索引</li>
-<li>postgresql PostGis索引</li>
-<li>redis geo</li>
-<li>ElasticSearch</li>
+<li><p><strong>全球经纬度的取值范围为:</strong> 纬度-90<del>90，经度-180</del>180</p>
+</li>
+<li><p><strong>中国的经纬度范围大约为：</strong> 纬度3.86<del>53.55，经度73.66</del>135.05</p>
+</li>
+<li><p>北京行政中心的纬度为39.92，经度为116.46</p>
+</li>
+<li><p>越北面的地方纬度数值越大，越东面的地方经度数值越大</p>
+</li>
+<li><p>度分转换： 将度分单位数据转换为度单位数据，公式：度=度+分/60</p>
+</li>
+<li><p>分秒转换： 将度分秒单位数据转换为度单位数据，公式：度 = 度 + 分 / 60 + 秒 / 60 / 60</p>
+</li>
 </ul>
-<p>本文测试下mongodb geo索引 函数运算的性能</p>
-      
-    </div>
-    
-      
-        <div class="button readmore">
-          <a href="/2017/12/01/%E5%9C%B0%E7%90%86%E4%BD%8D%E7%BD%AE%E5%A4%84%E7%90%86%E4%B9%8Bmongodb/">
-            Read More <i class="fas fa-chevron-right"></i>
-          </a>
-        </div>
-      
-    
-  </section>
-</article>
+<p>在纬度相等的情况下：</p>
+<ul>
+<li>经度每隔0.00001度，距离相差约1米</li>
+</ul>
+<p>在经度相等的情况下：</p>
+<ul>
+<li>纬度每隔0.00001度，距离相差约1.1米</li>
+</ul>
+<h2 id="mysql函数计算"><a href="#mysql函数计算" class="headerlink" title="mysql函数计算"></a>mysql函数计算</h2><pre><code class="sql">DELIMITER //
+CREATE DEFINER=`root`@`localhost` FUNCTION `getDistance`(
+    `lng1` float(10,7) 
+    ,
+    `lat1` float(10,7)
+    ,
+    `lng2` float(10,7) 
+    ,
+    `lat2` float(10,7)
 
-          </div>
-        
-      
-    
-  </section>
+) RETURNS double
+    COMMENT &#39;计算2坐标点距离&#39;
+BEGIN
+    declare d double;
+    declare radius int;
+    set radius = 6371000; #假设地球为正球形，直径为6371000米
+    set d = (2*ATAN2(SQRT(SIN((lat1-lat2)*PI()/180/2)   
+        *SIN((lat1-lat2)*PI()/180/2)+   
+        COS(lat2*PI()/180)*COS(lat1*PI()/180)   
+        *SIN((lng1-lng2)*PI()/180/2)   
+        *SIN((lng1-lng2)*PI()/180/2)),   
+        SQRT(1-SIN((lat1-lat2)*PI()/180/2)   
+        *SIN((lat1-lat2)*PI()/180/2)   
+        +COS(lat2*PI()/180)*COS(lat1*PI()/180)   
+        *SIN((lng1-lng2)*PI()/180/2)   
+        *SIN((lng1-lng2)*PI()/180/2))))*radius;
+    return d;
+END//
+DELIMITER ;</code></pre>
+<h2 id="创建数据python脚本"><a href="#创建数据python脚本" class="headerlink" title="创建数据python脚本"></a>创建数据python脚本</h2><pre><code class="python"># coding=utf-8
+from orator import DatabaseManager, Model
+import logging
+import random
+import threading
+
+&quot;&quot;&quot; 中国的经纬度范围 纬度3.86~53.55，经度73.66~135.05。大概0.00001度差距1米 &quot;&quot;&quot;
+
+# 创建 日志 对象
+logger = logging.getLogger()
+handler = logging.StreamHandler()
+formatter = logging.Formatter(
+    &#39;%(asctime)s %(name)-12s %(levelname)-8s %(message)s&#39;)
+handler.setFormatter(formatter)
+logger.addHandler(handler)
+logger.setLevel(logging.DEBUG)
+
+# Connect to the database
+
+config = {
+    &#39;mysql&#39;: {
+        &#39;driver&#39;: &#39;mysql&#39;,
+        &#39;host&#39;: &#39;localhost&#39;,
+        &#39;database&#39;: &#39;dbtest&#39;,
+        &#39;user&#39;: &#39;root&#39;,
+        &#39;password&#39;: &#39;&#39;,
+        &#39;prefix&#39;: &#39;&#39;
+    }
+}
+
+db = DatabaseManager(config)
+Model.set_connection_resolver(db)
+
+
+class Driver(Model):
+    __table__ = &#39;driver&#39;
+    __timestamps__ = False
+    pass
+
+
+def ins_driver(thread_name,nums):
+    logger.info(&#39;开启线程%s&#39; % thread_name)
+    for _ in range(nums):
+        lng = &#39;%.5f&#39; % random.uniform(73.66, 135.05)
+        lat = &#39;%.5f&#39; % random.uniform(3.86, 53.55)
+
+        driver = Driver()
+        driver.lng = lng
+        driver.lat = lat
+        driver.save()
+
+thread_nums = 10
+for i in range(thread_nums):
+    t = threading.Thread(target=ins_driver, args=(i, 400000))
+    t.start()</code></pre>
+<p><img src="http://upload-images.jianshu.io/upload_images/4033700-dda526bdfcc5c759.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>以上脚本创建10个线程，10个线程插入4万条数据。耗费150.18s执行完,总共插入40万条数据</p>
+<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><ul>
+<li>测试环境</li>
+</ul>
+<p>系统：mac os</p>
+<p>内存：16G</p>
+<p>cpu: intel core i5</p>
+<p>硬盘: 500g 固态硬盘</p>
+<p>测试下查找距离(134.38753,18.56734)这个坐标点最近的10个司机</p>
+<pre><code class="sql">select *,`getDistance`(134.38753,18.56734,`lng`,`lat`) as dis from driver ORDER BY dis limit 10</code></pre>
+<ul>
+<li>耗时：18.0s</li>
+<li>explain:全表扫描</li>
+</ul>
+<p>我测试了从1万到10万间隔1万和从10万到90万每间隔10万测试的结果变化</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/4033700-c40f60c1ef7b3f18.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><ul>
+<li>此方案在数据量达到3万条查询耗时就会超过1秒</li>
+<li>大约每增加1万条就会增加0.4秒的耗时</li>
+</ul>
+
+          
+            <div class='article_footer'>
+              
+                
   
     
-    <!-- 根据主题中的设置决定是否在archive中针对摘要部分的MathJax公式加载mathjax.js文件 -->
     
-    
+
+
 
   
 
-
-	
-</div>
-<aside class='l_side'>
-  
   
     
     
 
-<section class="widget blogger shadow desktop mobile">
+
+
+  
+
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
   <div class='content'>
     
-      
-        <a class='avatar flat-box' href='/about/'>
-          <img no-lazy src='http://img.rc5j.cn/blog20200508235943.png'/>
-        </a>
-      
-    
-    
-      <div class='text'>
-        
-        
-        
-          <p><span id="jinrishici-sentence">麦田麦穗</span></p>
-          <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
-        
-      </div>
-    
-    
-      <div class="social-wrapper">
+      <blockquote>
         
           
-            <a href="/atom.xml"
-              class="social fas fa-rss flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
+            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
           
         
           
-            <a href="mailto:visonforcoding@gmail.com"
-              class="social fas fa-envelope flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
+            <p>本文永久链接是：<a href=http://visonforcoding.github.io/2017/12/01/%E5%9C%B0%E7%90%86%E4%BD%8D%E7%BD%AEgeo%E5%A4%84%E7%90%86%E4%B9%8Bmysql%E5%87%BD%E6%95%B0/>http://visonforcoding.github.io/2017/12/01/%E5%9C%B0%E7%90%86%E4%BD%8D%E7%BD%AEgeo%E5%A4%84%E7%90%86%E4%B9%8Bmysql%E5%87%BD%E6%95%B0/</a></p>
           
         
-          
-            <a href="https://music.163.com/#/user/home?id=63035382"
-              class="social fas fa-headphones-alt flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
-          
-        
-      </div>
+      </blockquote>
     
   </div>
 </section>
@@ -746,29 +615,247 @@
     
     
 
+<section class="widget qrcode  desktop mobile">
+  
+
+  <div class='content article-entry'>
+    
+      
+        <div class='fancybox'><img src='http://img.rc5j.cn/blog20200509000739.png'
+        
+          height='240px'
+        ></div>
+      
+    
+    请我喝杯咖啡
+  </div>
+</section>
+
+  
+
+
+              
+            </div>
+          
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-05-09T12:19:29+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：May 9, 2020</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=http://visonforcoding.github.io/2017/12/01/%E5%9C%B0%E7%90%86%E4%BD%8D%E7%BD%AEgeo%E5%A4%84%E7%90%86%E4%B9%8Bmysql%E5%87%BD%E6%95%B0/&title=地理位置geo处理之mysql函数 - 麦田麦穗&summary=
+目前越来越多的业务都会基于LBS，附近的人，外卖位置，附近商家等等，现就讨论离我最近这一业务场景的解决方案。
+
+目前已知解决方案有:
+
+mysql 自定义函数计算
+mysql geo索引
+mongodb geo索引
+postgresql PostGis索引
+redis geo
+ElasticSearch
+
+本文测试下mysql 函数运算的性能"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://visonforcoding.github.io/2017/12/01/%E5%9C%B0%E7%90%86%E4%BD%8D%E7%BD%AEgeo%E5%A4%84%E7%90%86%E4%B9%8Bmysql%E5%87%BD%E6%95%B0/&title=地理位置geo处理之mysql函数 - 麦田麦穗&summary=
+目前越来越多的业务都会基于LBS，附近的人，外卖位置，附近商家等等，现就讨论离我最近这一业务场景的解决方案。
+
+目前已知解决方案有:
+
+mysql 自定义函数计算
+mysql geo索引
+mongodb geo索引
+postgresql PostGis索引
+redis geo
+ElasticSearch
+
+本文测试下mysql 函数运算的性能"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=http://visonforcoding.github.io/2017/12/01/%E5%9C%B0%E7%90%86%E4%BD%8D%E7%BD%AEgeo%E5%A4%84%E7%90%86%E4%B9%8Bmysql%E5%87%BD%E6%95%B0/&title=地理位置geo处理之mysql函数 - 麦田麦穗&summary=
+目前越来越多的业务都会基于LBS，附近的人，外卖位置，附近商家等等，现就讨论离我最近这一业务场景的解决方案。
+
+目前已知解决方案有:
+
+mysql 自定义函数计算
+mysql geo索引
+mongodb geo索引
+postgresql PostGis索引
+redis geo
+ElasticSearch
+
+本文测试下mysql 函数运算的性能"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/weibo.png">
+          
+        </a>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+          <div class="prev-next">
+            
+              <a class='prev' href='/2019/04/04/%E5%B7%A5%E6%AC%B2%E5%96%84%E5%85%B6%E4%BA%8B%E5%BF%85%E5%85%88%E5%88%A9%E5%85%B6%E5%99%A8/'>
+                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>工欲善其事必先利其器-程序员工具</p>
+                <p class='content'>
+提高工作效率，首先你得有一套用的顺手的工具
+
+
+图床
+
+PicGo
+
+支持粘贴板，直接上传到云存储。
+我用七牛云，上传之后制动把markdown的格式地址，放到粘贴板直接可以粘贴到markdo...</p>
+              </a>
+            
+            
+              <a class='next' href='/2017/12/01/%E5%9C%B0%E7%90%86%E4%BD%8D%E7%BD%AE%E5%A4%84%E7%90%86%E4%B9%8Bmongodb/'>
+                <p class='title'>地理位置geo处理之mongodb geo 索引<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>
+目前越来越多的业务都会基于LBS，附近的人，外卖位置，附近商家等等，现就讨论离我最近这一业务场景的解决方案。
+
+目前已知解决方案有:
+
+mysql 自定义函数计算
+mysql geo索引
+mo...</p>
+              </a>
+            
+          </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  <article class="post white-box reveal comments shadow">
+    <section class="article typo">
+      <p ct><i class='fas fa-comments'></i> 评论</p>
+      
+      
+        <section id="comments">
+          <div id="disqus_thread">
+            <div><i class='fas fa-exclamation-triangle'></i>&nbsp;Unable to load Disqus, please make sure your network can access.</div>
+          </div>
+        </section>
+      
+      
+      
+      
+      
+      
+    </section>
+  </article>
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: '地理位置geo处理之mysql函数',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
   
 
   
     
     
-  
 
-  <section class="widget tagcloud shadow desktop mobile">
+
+  <section class="widget toc-wrapper shadow desktop mobile">
     
   <header>
     
-      <a href='/blog/tags/'><i class="fas fa-tags fa-fw" aria-hidden="true"></i><span class='name'>热门标签</span></a>
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
     
   </header>
 
 
     <div class='content'>
-      <a href="/tags/mysql/" style="font-size: 14px; color: #999">mysql</a> <a href="/tags/python/" style="font-size: 14px; color: #999">python</a> <a href="/tags/%E6%96%B9%E6%A1%88/" style="font-size: 14px; color: #999">方案</a> <a href="/tags/%E7%A8%8B%E5%BA%8F%E4%BA%BA%E7%94%9F/" style="font-size: 14px; color: #999">程序人生</a> <a href="/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 14px; color: #999">随笔</a>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#准备工作"><span class="toc-text">准备工作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#创建数据表"><span class="toc-text">创建数据表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#创建测试数据"><span class="toc-text">创建测试数据</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#mysql函数计算"><span class="toc-text">mysql函数计算</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#创建数据python脚本"><span class="toc-text">创建数据python脚本</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#测试"><span class="toc-text">测试</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#结论"><span class="toc-text">结论</span></a></li></ol>
     </div>
   </section>
 
-
-  
 
   
 
@@ -843,14 +930,6 @@
   </footer>
 
 <script>setLoadingBarProgress(80);</script>
-
-
-
-
-	<!-- 根据主题中的设置决定是否在archive中针对摘要部分的MathJax公式加载mathjax.js文件 -->
-	
-
-	
 
 
       <script>setLoadingBarProgress(60);</script>
@@ -950,6 +1029,20 @@
 
 
 
+
+  <script>
+    var disqus_shortname = 'visonforcoding-github-io';
+    
+      var disqus_url = 'http://visonforcoding.github.io/2017/12/01/%E5%9C%B0%E7%90%86%E4%BD%8D%E7%BD%AEgeo%E5%A4%84%E7%90%86%E4%B9%8Bmysql%E5%87%BD%E6%95%B0/';
+    
+    (function(){
+      var dsq = document.createElement('script');
+      dsq.type = 'text/javascript';
+      dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
 
 
 

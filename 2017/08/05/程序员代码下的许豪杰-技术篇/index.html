@@ -19,6 +19,11 @@
     <title>程序员代码下的许豪杰(技术篇) - 麦田麦穗</title>
   
   
+    <meta name="description" content="
+接上篇，这一篇将从技术层面讲讲是如何实现的。阅读本文您将会了解如何用python爬取微博的评论以及如何用python word_cloud库进行数据可视化。
+
+上一篇:程序员代码下的许豪杰">
+  
 
   <!-- feed -->
   
@@ -406,6 +411,8 @@
 <p>接上篇，这一篇将从技术层面讲讲是如何实现的。阅读本文您将会了解如何用python爬取微博的评论以及如何用python word_cloud库进行数据可视化。</p>
 </blockquote>
 <p>上一篇:<a href="http://www.jianshu.com/p/ab49113c1fda" target="_blank" rel="noopener">程序员代码下的许豪杰</a></p>
+<a id="more"></a>
+
 <h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><p>打开微博pc m站并找到许豪杰该条微博地址:<a href="https://m.weibo.cn/status/4132385564040383" target="_blank" rel="noopener">https://m.weibo.cn/status/4132385564040383</a></p>
 <p><strong>为什么要用m站地址？因为m站可以直接抓取到api json数据,而pc站虽然也有api返回的是html,相比而言选取m站会省去很多麻烦</strong></p>
 <p>打开该页面，并且用chrome 的检查工具 查看network，可以获取到评论的api地址。</p>
@@ -684,7 +691,7 @@ plt.show()</code></pre>
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-05-09T11:02:59+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-05-09T11:08:42+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
     <p>更新于：May 9, 2020</p>
@@ -711,7 +718,10 @@ plt.show()</code></pre>
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://connect.qq.com/widget/shareqq/index.html?url=http://visonforcoding.github.io/2017/08/05/%E7%A8%8B%E5%BA%8F%E5%91%98%E4%BB%A3%E7%A0%81%E4%B8%8B%E7%9A%84%E8%AE%B8%E8%B1%AA%E6%9D%B0-%E6%8A%80%E6%9C%AF%E7%AF%87/&title=程序员代码下的许豪杰(技术篇) - 麦田麦穗&summary="
+          href="http://connect.qq.com/widget/shareqq/index.html?url=http://visonforcoding.github.io/2017/08/05/%E7%A8%8B%E5%BA%8F%E5%91%98%E4%BB%A3%E7%A0%81%E4%B8%8B%E7%9A%84%E8%AE%B8%E8%B1%AA%E6%9D%B0-%E6%8A%80%E6%9C%AF%E7%AF%87/&title=程序员代码下的许豪杰(技术篇) - 麦田麦穗&summary=
+接上篇，这一篇将从技术层面讲讲是如何实现的。阅读本文您将会了解如何用python爬取微博的评论以及如何用python word_cloud库进行数据可视化。
+
+上一篇:程序员代码下的许豪杰"
           
           >
           
@@ -723,7 +733,10 @@ plt.show()</code></pre>
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
           
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://visonforcoding.github.io/2017/08/05/%E7%A8%8B%E5%BA%8F%E5%91%98%E4%BB%A3%E7%A0%81%E4%B8%8B%E7%9A%84%E8%AE%B8%E8%B1%AA%E6%9D%B0-%E6%8A%80%E6%9C%AF%E7%AF%87/&title=程序员代码下的许豪杰(技术篇) - 麦田麦穗&summary="
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://visonforcoding.github.io/2017/08/05/%E7%A8%8B%E5%BA%8F%E5%91%98%E4%BB%A3%E7%A0%81%E4%B8%8B%E7%9A%84%E8%AE%B8%E8%B1%AA%E6%9D%B0-%E6%8A%80%E6%9C%AF%E7%AF%87/&title=程序员代码下的许豪杰(技术篇) - 麦田麦穗&summary=
+接上篇，这一篇将从技术层面讲讲是如何实现的。阅读本文您将会了解如何用python爬取微博的评论以及如何用python word_cloud库进行数据可视化。
+
+上一篇:程序员代码下的许豪杰"
           
           >
           
@@ -735,7 +748,10 @@ plt.show()</code></pre>
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://service.weibo.com/share/share.php?url=http://visonforcoding.github.io/2017/08/05/%E7%A8%8B%E5%BA%8F%E5%91%98%E4%BB%A3%E7%A0%81%E4%B8%8B%E7%9A%84%E8%AE%B8%E8%B1%AA%E6%9D%B0-%E6%8A%80%E6%9C%AF%E7%AF%87/&title=程序员代码下的许豪杰(技术篇) - 麦田麦穗&summary="
+          href="http://service.weibo.com/share/share.php?url=http://visonforcoding.github.io/2017/08/05/%E7%A8%8B%E5%BA%8F%E5%91%98%E4%BB%A3%E7%A0%81%E4%B8%8B%E7%9A%84%E8%AE%B8%E8%B1%AA%E6%9D%B0-%E6%8A%80%E6%9C%AF%E7%AF%87/&title=程序员代码下的许豪杰(技术篇) - 麦田麦穗&summary=
+接上篇，这一篇将从技术层面讲讲是如何实现的。阅读本文您将会了解如何用python爬取微博的评论以及如何用python word_cloud库进行数据可视化。
+
+上一篇:程序员代码下的许豪杰"
           
           >
           

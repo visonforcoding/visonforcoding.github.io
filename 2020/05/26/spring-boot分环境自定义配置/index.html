@@ -421,7 +421,7 @@
           <p>在一般规模企业，应当都有测试环境和正式环境区别，或者至少也有开发环境和正式环境。那不同环境必然就会有一些环境依赖的不同，不管是出于安全性考虑还是其他原因导致的。比如数据库配置、OSS账号信息等。那程序当中就需要配置多份配置信息和根据不同环境使用不同配置。</p>
 <a id="more"></a>
 
-<h2 id="分环境配置"><a href="#分环境配置" class="headerlink" title="分环境配置"></a>分环境配置</h2><p><img src="https://user-gold-cdn.xitu.io/2020/4/28/171bf4e4682557aa?w=982&h=198&f=png&s=45808" alt=""></p>
+<h2 id="分环境配置"><a href="#分环境配置" class="headerlink" title="分环境配置"></a>分环境配置</h2><p><img src="http://img.rc5j.cn/blog20200526133442.png" alt=""></p>
 <pre><code># 激活日志环境
 spring.profiles.active=prd</code></pre><p>公共配置还是写在application。<br>相应配置写在-{env} 文件里。</p>
 <h2 id="自定义配置获取"><a href="#自定义配置获取" class="headerlink" title="自定义配置获取"></a>自定义配置获取</h2><p>上面是spring框架所需的默认配置方法，我们通常还需要非常多的自定义配置。比如密码的加盐salt等等，这是项目的自定义配置。</p>
@@ -449,6 +449,9 @@ public class OssService {
     private String bucketName;
 }</code></pre>
 <p><strong>一定要是在spring bean里进行获取，否则无法获取到。</strong></p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ol>
+<li><a href="https://docs.spring.io/spring-boot/docs/1.5.22.RELEASE/reference/html/boot-features-external-config.html" target="_blank" rel="noopener">https://docs.spring.io/spring-boot/docs/1.5.22.RELEASE/reference/html/boot-features-external-config.html</a></li>
+</ol>
 
           
             <div class='article_footer'>
@@ -530,7 +533,7 @@ public class OssService {
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-05-26T13:22:03+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-05-26T13:34:52+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
     <p>更新于：May 26, 2020</p>
@@ -687,7 +690,7 @@ revokeMysql本身是支持用revoke进行权限回...</p>
 
 
     <div class='content'>
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#分环境配置"><span class="toc-text">分环境配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#自定义配置获取"><span class="toc-text">自定义配置获取</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#配置"><span class="toc-text">配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#获取配置"><span class="toc-text">获取配置</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#分环境配置"><span class="toc-text">分环境配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#自定义配置获取"><span class="toc-text">自定义配置获取</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#配置"><span class="toc-text">配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#获取配置"><span class="toc-text">获取配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考"><span class="toc-text">参考</span></a></li></ol>
     </div>
   </section>
 

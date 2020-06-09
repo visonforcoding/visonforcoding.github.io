@@ -21,7 +21,9 @@
     <meta name="keywords" content="java">
   
   
-    <meta name="description" content="首先说明下，我可能是被这个插件的名字给误导了。我原本以为Dynamic SQL是为了解决动态查询场景的。但可能MyBatis Dynamic SQL 并不是来解决这个问题的。">
+    <meta name="description" content="首先说明下，我可能是被这个插件的名字给误导了。我原本以为Dynamic SQL是为了解决动态查询场景的。但可能MyBatis Dynamic SQL 并不是来解决这个问题的。
+20.06.04更新
+打脸了，原来它是支持的，果然是动态sql.并且还真香！">
   
 
   <!-- feed -->
@@ -419,6 +421,8 @@
         <div class="article-entry" itemprop="articleBody">
           
           <p>首先说明下，我可能是被这个插件的名字给误导了。我原本以为Dynamic SQL是为了解决动态查询场景的。但可能<code>MyBatis Dynamic SQL</code> 并不是来解决这个问题的。</p>
+<p>20.06.04更新</p>
+<p><strong>打脸了</strong>，原来它是支持的，果然是动态sql.并且还真香！</p>
 <a id="more"></a>
 
 <h2 id="MyBatis-Dynamic-SQL"><a href="#MyBatis-Dynamic-SQL" class="headerlink" title="MyBatis Dynamic SQL"></a>MyBatis Dynamic SQL</h2><h3 id="官方定义"><a href="#官方定义" class="headerlink" title="官方定义"></a>官方定义</h3><p>This library is a framework for generating dynamic SQL statements. Think of it as a typesafe SQL templating library, with additional support for MyBatis3 and Spring JDBC Templates.</p>
@@ -507,7 +511,43 @@
                 .limit(iPageSize).offset(iOffset).build()
                 .render(RenderingStrategy.MYBATIS3);
     List&lt;Task&gt; tasks = taskMapper.selectMany(tasksQuerypProvider);</code></pre>
-<p>看起来<code>MyBatis Dynamic SQL</code>只是了更为优雅得sqlbuilder方式。</p>
+<p><code>MyBatis Dynamic SQL</code>非常优雅得sqlbuilder方式,会提示表字段名。</p>
+<h3 id="动态sql"><a href="#动态sql" class="headerlink" title="动态sql"></a>动态sql</h3><p>在这之前<code>mybatis</code>可以使用xml或注解方式进行动态组织sql</p>
+<pre><code class="java">public class TaskService {
+
+    public String queryCount(String type, String remark) {
+        return new SQL() {
+            {
+                SELECT(&quot;T.ID&quot;);
+                FROM(&quot;TASK T&quot;);
+                if (type != null) {
+                    WHERE(&quot;T.type = #{type}&quot;);
+                }
+                if (remark != null) {
+                    WHERE(&quot;T.remark = #{remark}&quot;);
+                }
+                ORDER_BY(&quot;T.create_time&quot;);
+            }
+        }.toString();
+    }</code></pre>
+<p>在mapper上</p>
+<pre><code class="java">  @SelectProvider(type = TaskService.class, method = &quot;queryCount&quot;)
+    public Object queryCount(String type, String remark);</code></pre>
+<p>现在可以换另一种方式</p>
+<pre><code class="java">   public SelectStatementProvider search(Integer typeInteger, String remarkString) {
+        QueryExpressionDSL&lt;SelectModel&gt;.QueryExpressionWhereBuilder builder = select(count())
+                .from(task).where();
+        if (typeInteger != null) {
+            builder.and(type, isEqualTo(typeInteger));
+        }
+        if (remarkString != null) {
+            builder.and(remark, isEqualTo(remarkString));
+        }
+        return builder.build().render(RenderingStrategy.MYBATIS3);
+    }</code></pre>
+<p>从编码感受上，由于根据表结构生成了<code>SqlSupport</code>.任何对表的信息引用都能有提示，包括表名、字段名。</p>
+<pre><code class="java">List&lt;Task&gt; tasks = taskMapper.selectMany(taskService.search(null, iPageSize, iOffset));</code></pre>
+<p>调用上面，也无需在mapper上再编写方法，因为已经全部生成了。</p>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://blog.olowolo.com/post/new-mybatis-dynamic-sql/" target="_blank" rel="noopener">Mybatis Dynamic SQL - 重新定义 Mybatis 动态 SQL</a></p>
 
           
@@ -590,10 +630,10 @@
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-06-02T14:07:46+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-06-09T14:56:56+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Jun 2, 2020</p>
+    <p>更新于：Jun 9, 2020</p>
   </a>
 </div>
 
@@ -620,7 +660,9 @@
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://connect.qq.com/widget/shareqq/index.html?url=http://visonforcoding.github.io/2020/06/01/MyBatis-Dynamic-SQL%E4%BD%BF%E7%94%A8%E5%B0%9D%E8%AF%95/&title=MyBatis Dynamic SQL使用尝试 - 麦田麦穗&summary=首先说明下，我可能是被这个插件的名字给误导了。我原本以为Dynamic SQL是为了解决动态查询场景的。但可能MyBatis Dynamic SQL 并不是来解决这个问题的。"
+          href="http://connect.qq.com/widget/shareqq/index.html?url=http://visonforcoding.github.io/2020/06/01/MyBatis-Dynamic-SQL%E4%BD%BF%E7%94%A8%E5%B0%9D%E8%AF%95/&title=MyBatis Dynamic SQL使用尝试 - 麦田麦穗&summary=首先说明下，我可能是被这个插件的名字给误导了。我原本以为Dynamic SQL是为了解决动态查询场景的。但可能MyBatis Dynamic SQL 并不是来解决这个问题的。
+20.06.04更新
+打脸了，原来它是支持的，果然是动态sql.并且还真香！"
           
           >
           
@@ -632,7 +674,9 @@
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
           
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://visonforcoding.github.io/2020/06/01/MyBatis-Dynamic-SQL%E4%BD%BF%E7%94%A8%E5%B0%9D%E8%AF%95/&title=MyBatis Dynamic SQL使用尝试 - 麦田麦穗&summary=首先说明下，我可能是被这个插件的名字给误导了。我原本以为Dynamic SQL是为了解决动态查询场景的。但可能MyBatis Dynamic SQL 并不是来解决这个问题的。"
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://visonforcoding.github.io/2020/06/01/MyBatis-Dynamic-SQL%E4%BD%BF%E7%94%A8%E5%B0%9D%E8%AF%95/&title=MyBatis Dynamic SQL使用尝试 - 麦田麦穗&summary=首先说明下，我可能是被这个插件的名字给误导了。我原本以为Dynamic SQL是为了解决动态查询场景的。但可能MyBatis Dynamic SQL 并不是来解决这个问题的。
+20.06.04更新
+打脸了，原来它是支持的，果然是动态sql.并且还真香！"
           
           >
           
@@ -644,7 +688,9 @@
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://service.weibo.com/share/share.php?url=http://visonforcoding.github.io/2020/06/01/MyBatis-Dynamic-SQL%E4%BD%BF%E7%94%A8%E5%B0%9D%E8%AF%95/&title=MyBatis Dynamic SQL使用尝试 - 麦田麦穗&summary=首先说明下，我可能是被这个插件的名字给误导了。我原本以为Dynamic SQL是为了解决动态查询场景的。但可能MyBatis Dynamic SQL 并不是来解决这个问题的。"
+          href="http://service.weibo.com/share/share.php?url=http://visonforcoding.github.io/2020/06/01/MyBatis-Dynamic-SQL%E4%BD%BF%E7%94%A8%E5%B0%9D%E8%AF%95/&title=MyBatis Dynamic SQL使用尝试 - 麦田麦穗&summary=首先说明下，我可能是被这个插件的名字给误导了。我原本以为Dynamic SQL是为了解决动态查询场景的。但可能MyBatis Dynamic SQL 并不是来解决这个问题的。
+20.06.04更新
+打脸了，原来它是支持的，果然是动态sql.并且还真香！"
           
           >
           
@@ -742,7 +788,7 @@
 
 
     <div class='content'>
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#MyBatis-Dynamic-SQL"><span class="toc-text">MyBatis Dynamic SQL</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#官方定义"><span class="toc-text">官方定义</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MyBatis-Generator"><span class="toc-text">MyBatis Generator</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Running-MyBatis-Generator-With-Maven"><span class="toc-text">Running MyBatis Generator With Maven</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用MyBatis-Dynamic-SQL"><span class="toc-text">使用MyBatis Dynamic SQL</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考"><span class="toc-text">参考</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#MyBatis-Dynamic-SQL"><span class="toc-text">MyBatis Dynamic SQL</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#官方定义"><span class="toc-text">官方定义</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MyBatis-Generator"><span class="toc-text">MyBatis Generator</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Running-MyBatis-Generator-With-Maven"><span class="toc-text">Running MyBatis Generator With Maven</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用MyBatis-Dynamic-SQL"><span class="toc-text">使用MyBatis Dynamic SQL</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#动态sql"><span class="toc-text">动态sql</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考"><span class="toc-text">参考</span></a></li></ol>
     </div>
   </section>
 

@@ -534,15 +534,12 @@
 <pre><code class="java">  @SelectProvider(type = TaskService.class, method = &quot;queryCount&quot;)
     public Object queryCount(String type, String remark);</code></pre>
 <p>现在可以换另一种方式</p>
-<pre><code class="java">   public SelectStatementProvider search(Integer typeInteger, String remarkString) {
-        QueryExpressionDSL&lt;SelectModel&gt;.QueryExpressionWhereBuilder builder = select(count())
+<pre><code class="java">    public SelectStatementProvider search(Object searchObj, Integer iPageSize, Integer iOffset) {
+        QueryExpressionDSL&lt;SelectModel&gt;.QueryExpressionWhereBuilder builder = select(remark, type, createTime, modifyTime)
                 .from(task).where();
-        if (typeInteger != null) {
-            builder.and(type, isEqualTo(typeInteger));
-        }
-        if (remarkString != null) {
-            builder.and(remark, isEqualTo(remarkString));
-        }
+        builder
+                .orderBy(createTime)
+                .limit(iPageSize).offset(iOffset);
         return builder.build().render(RenderingStrategy.MYBATIS3);
     }</code></pre>
 <p>从编码感受上，由于根据表结构生成了<code>SqlSupport</code>.任何对表的信息引用都能有提示，包括表名、字段名。</p>
@@ -630,7 +627,7 @@
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-06-09T14:56:56+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-06-09T14:58:36+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
     <p>更新于：Jun 9, 2020</p>

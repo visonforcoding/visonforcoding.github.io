@@ -5,8 +5,6 @@
   <!-- SEO相关 -->
   
     
-      <meta name="robots" content="noindex,follow">
-    
   
   <!-- 渲染优化 -->
   <meta name="renderer" content="webkit">
@@ -18,8 +16,12 @@
 
   <!-- 页面元数据 -->
   
-    <title>Tag: 随笔 - 麦田麦穗</title>
+    <title>intl安装的那些事儿 - 麦田麦穗</title>
   
+    <meta name="keywords" content="php">
+  
+  
+    <meta name="description" content="被intl折磨的还不够么">
   
 
   <!-- feed -->
@@ -346,25 +348,12 @@
     <div class='body-wrapper'>
       
 
-
 <div class='l_main'>
   
-    
-      
-  <section class="post-list ">
-    
-      
-        
-          
-        
-      
-    
-    
-      
-        
-          <div class='post-wrapper'>
-            <article class="post white-box shadow reveal ">
+
   
+    <article id="post" class="post white-box reveal shadow article-type-post" itemscope itemprop="blogPost">
+      
 
 
   <section class='meta'>
@@ -374,11 +363,11 @@
       <div class="meta" id="header-meta">
         
           
-  <h2 class="title">
-    <a href="/2020/05/07/Hello-world/">
-      Hello world
+  <h1 class="title">
+    <a href="/2020/06/19/intl%E5%AE%89%E8%A3%85%E7%9A%84%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/">
+      intl安装的那些事儿
     </a>
-  </h2>
+  </h1>
 
 
         
@@ -406,27 +395,9 @@
               <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：May 7, 2020</p>
+    <p>发布于：Jun 19, 2020</p>
   </a>
 </div>
-
-            
-          
-            
-              
-  <div class="new-meta-item wordcount">
-    <a class='notlink'>
-      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>2 words</p>
-    </a>
-  </div>
-  <div class="new-meta-item readtime">
-    <a class='notlink'>
-      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>1 min</p>
-    </a>
-  </div>
-
 
             
           
@@ -444,88 +415,62 @@
   </section>
 
 
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      
-        <pre><code>hello,world </code></pre>
-      
-    </div>
-    
-      
-    
-  </section>
-</article>
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          
+          <p>被intl折磨的还不够么</p>
+<a id="more"></a>
 
-          </div>
-        
-      
-    
-  </section>
-  
-    
-    <!-- 根据主题中的设置决定是否在archive中针对摘要部分的MathJax公式加载mathjax.js文件 -->
-    
-    
+<p>To build the extension you need to install the » ICU library, version 4.0.0 or newer is required. As of PHP 7.4.0 ICU 50.1 or newer is required.</p>
+<p>This extension is bundled with PHP as of PHP version 5.3.0. Alternatively, the PECL version of this extension may be used with all PHP versions greater than 5.2.0 (5.2.4+ recommended).</p>
+<h2 id="ICU安装"><a href="#ICU安装" class="headerlink" title="ICU安装"></a>ICU安装</h2><p>现在icu已被放到github，下载建议直接从github下载源码到本地。</p>
+<p><a href="https://github.com/unicode-org/icu/releases/tag/release-60-3" target="_blank" rel="noopener">https://github.com/unicode-org/icu/releases/tag/release-60-3</a></p>
+<p>下载后编译安装</p>
+<h2 id="拓展安装"><a href="#拓展安装" class="headerlink" title="拓展安装"></a>拓展安装</h2><pre><code class="shell">pecl install intl</code></pre>
+<p>总会遇到问题,建议用phpize 源码安装。</p>
+<pre><code>./configure  --enable-intl   --with-php-config=/usr/local/php7/bin/php-config
+make
+make install</code></pre><p>重启php-fpm</p>
 
-  
-
-
-    
-  
-</div>
-<aside class='l_side'>
-  
+          
+            <div class='article_footer'>
+              
+                
   
     
     
 
-<section class="widget blogger shadow desktop mobile">
+
+
+  
+
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
   <div class='content'>
     
-      
-        <a class='avatar flat-box' href='/about/'>
-          <img no-lazy src='http://img.rc5j.cn/blog20200508235943.png'/>
-        </a>
-      
-    
-    
-      <div class='text'>
-        
-        
-        
-          <p><span id="jinrishici-sentence">麦田麦穗</span></p>
-          <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
-        
-      </div>
-    
-    
-      <div class="social-wrapper">
+      <blockquote>
         
           
-            <a href="/atom.xml"
-              class="social fas fa-rss flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
+            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
           
         
           
-            <a href="mailto:visonforcoding@gmail.com"
-              class="social fas fa-envelope flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
+            <p>本文永久链接是：<a href=http://visonforcoding.github.io/2020/06/19/intl%E5%AE%89%E8%A3%85%E7%9A%84%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/>http://visonforcoding.github.io/2020/06/19/intl%E5%AE%89%E8%A3%85%E7%9A%84%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/</a></p>
           
         
-          
-            <a href="https://music.163.com/#/user/home?id=63035382"
-              class="social fas fa-headphones-alt flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
-          
-        
-      </div>
+      </blockquote>
     
   </div>
 </section>
@@ -536,29 +481,194 @@
     
     
 
+<section class="widget qrcode  desktop mobile">
+  
+
+  <div class='content article-entry'>
+    
+      
+        <div class='fancybox'><img src='http://img.rc5j.cn/blog20200509000739.png'
+        
+          height='240px'
+        ></div>
+      
+    
+    请我喝杯咖啡
+  </div>
+</section>
+
+  
+
+
+              
+            </div>
+          
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-06-19T10:50:43+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：Jun 19, 2020</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/php/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>php</p></a></div>
+
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=http://visonforcoding.github.io/2020/06/19/intl%E5%AE%89%E8%A3%85%E7%9A%84%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/&title=intl安装的那些事儿 - 麦田麦穗&summary=被intl折磨的还不够么"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://visonforcoding.github.io/2020/06/19/intl%E5%AE%89%E8%A3%85%E7%9A%84%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/&title=intl安装的那些事儿 - 麦田麦穗&summary=被intl折磨的还不够么"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=http://visonforcoding.github.io/2020/06/19/intl%E5%AE%89%E8%A3%85%E7%9A%84%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/&title=intl安装的那些事儿 - 麦田麦穗&summary=被intl折磨的还不够么"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/weibo.png">
+          
+        </a>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+          <div class="prev-next">
+            
+            
+              <a class='next' href='/2020/06/01/MyBatis-Dynamic-SQL%E4%BD%BF%E7%94%A8%E5%B0%9D%E8%AF%95/'>
+                <p class='title'>MyBatis Dynamic SQL使用尝试<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>首先说明下，我可能是被这个插件的名字给误导了。我原本以为Dynamic SQL是为了解决动态查询场景的。但可能MyBatis Dynamic SQL 并不是来解决这个问题的。
+20.06.04更...</p>
+              </a>
+            
+          </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  <article class="post white-box reveal comments shadow">
+    <section class="article typo">
+      <p ct><i class='fas fa-comments'></i> 评论</p>
+      
+      
+        <section id="comments">
+          <div id="disqus_thread">
+            <div><i class='fas fa-exclamation-triangle'></i>&nbsp;Unable to load Disqus, please make sure your network can access.</div>
+          </div>
+        </section>
+      
+      
+      
+      
+      
+      
+    </section>
+  </article>
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: 'intl安装的那些事儿',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
   
 
   
     
     
-  
 
-  <section class="widget tagcloud shadow desktop mobile">
+
+  <section class="widget toc-wrapper shadow desktop mobile">
     
   <header>
     
-      <a href='/blog/tags/'><i class="fas fa-tags fa-fw" aria-hidden="true"></i><span class='name'>热门标签</span></a>
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
     
   </header>
 
 
     <div class='content'>
-      <a href="/tags/java/" style="font-size: 14px; color: #999">java</a> <a href="/tags/java-spring-boot/" style="font-size: 14px; color: #999">java spring-boot</a> <a href="/tags/mysql/" style="font-size: 14px; color: #999">mysql</a> <a href="/tags/php/" style="font-size: 14px; color: #999">php</a> <a href="/tags/php-linux/" style="font-size: 14px; color: #999">php linux</a> <a href="/tags/python/" style="font-size: 14px; color: #999">python</a> <a href="/tags/%E6%96%B9%E6%A1%88/" style="font-size: 14px; color: #999">方案</a> <a href="/tags/%E7%A8%8B%E5%BA%8F%E4%BA%BA%E7%94%9F/" style="font-size: 14px; color: #999">程序人生</a> <a href="/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 14px; color: #999">随笔</a>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#ICU安装"><span class="toc-text">ICU安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#拓展安装"><span class="toc-text">拓展安装</span></a></li></ol>
     </div>
   </section>
 
-
-  
 
   
 
@@ -732,6 +842,20 @@
 
 
 
+
+  <script>
+    var disqus_shortname = 'visonforcoding-github-io';
+    
+      var disqus_url = 'http://visonforcoding.github.io/2020/06/19/intl%E5%AE%89%E8%A3%85%E7%9A%84%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/';
+    
+    (function(){
+      var dsq = document.createElement('script');
+      dsq.type = 'text/javascript';
+      dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
 
 
 

@@ -433,6 +433,10 @@
 <p>其中UI测试和数据测试的自动化可能是最不容易做且效益最小的。这部分可能最好是人为的进行测试效果最好。</p>
 <p>在体验了java 的junit之后特别觉得junit的强大,其实PHP也可以做。接下来我们来了解下PHP的测试框架<code>codeception</code></p>
 <h2 id="安装使用"><a href="#安装使用" class="headerlink" title="安装使用"></a>安装使用</h2><h3 id="install"><a href="#install" class="headerlink" title="install"></a>install</h3><pre><code>composer require &quot;codeception/codeception&quot; --dev</code></pre><h3 id="setup"><a href="#setup" class="headerlink" title="setup"></a>setup</h3><pre><code>php vendor/bin/codecept bootstrap</code></pre><p>该命令会初始化配置文件和目录</p>
+<h3 id="轻量安装"><a href="#轻量安装" class="headerlink" title="轻量安装"></a>轻量安装</h3><p>Use predefined installation templates for common use cases. Run them instead of bootstrap command.</p>
+<p><code>bootstrap</code>会默认初始化所有测试类型所需要的组件，有些你不会用到的类库也会安装。推荐使用轻量安装所用能到的测试类型。</p>
+<p>例如你只需要单元测试，则可以</p>
+<pre><code>php vendor/bin/codecept init unit</code></pre><p><img src="http://img.rc5j.cn/blog20200702152857.png" alt=""></p>
 <h2 id="codeception单元测试"><a href="#codeception单元测试" class="headerlink" title="codeception单元测试"></a>codeception单元测试</h2><p><img src="http://img.rc5j.cn/blog20200702143824.png" alt=""></p>
 <p>codeception的单元测试其实也是基于phpunit之上构建的。phpunit的单元测试用例可以之前在codeception上执行。</p>
 <h3 id="创建单元测试"><a href="#创建单元测试" class="headerlink" title="创建单元测试"></a>创建单元测试</h3><pre><code>php vendor/bin/codecept generate:test unit Example</code></pre><p>执行完会在tests/unit目录里创建测试用例文件 </p>
@@ -561,7 +565,7 @@ class ExampleTest extends \Codeception\Test\Unit
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-07-02T14:55:52+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-07-02T15:29:13+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
     <p>更新于：Jul 2, 2020</p>
@@ -721,7 +725,7 @@ To build the extension you need to install the » ICU library, version 4.0.0 or 
 
 
     <div class='content'>
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#自动化测试范围"><span class="toc-text">自动化测试范围</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装使用"><span class="toc-text">安装使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#install"><span class="toc-text">install</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#setup"><span class="toc-text">setup</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#codeception单元测试"><span class="toc-text">codeception单元测试</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#创建单元测试"><span class="toc-text">创建单元测试</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#运行用例"><span class="toc-text">运行用例</span></a></li></ol></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#自动化测试范围"><span class="toc-text">自动化测试范围</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装使用"><span class="toc-text">安装使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#install"><span class="toc-text">install</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#setup"><span class="toc-text">setup</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#轻量安装"><span class="toc-text">轻量安装</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#codeception单元测试"><span class="toc-text">codeception单元测试</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#创建单元测试"><span class="toc-text">创建单元测试</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#运行用例"><span class="toc-text">运行用例</span></a></li></ol></li></ol>
     </div>
   </section>
 

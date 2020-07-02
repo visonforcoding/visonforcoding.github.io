@@ -436,7 +436,20 @@
 <h3 id="轻量安装"><a href="#轻量安装" class="headerlink" title="轻量安装"></a>轻量安装</h3><p>Use predefined installation templates for common use cases. Run them instead of bootstrap command.</p>
 <p><code>bootstrap</code>会默认初始化所有测试类型所需要的组件，有些你不会用到的类库也会安装。推荐使用轻量安装所用能到的测试类型。</p>
 <p>例如你只需要单元测试，则可以</p>
-<pre><code>php vendor/bin/codecept init unit</code></pre><p><img src="http://img.rc5j.cn/blog20200702152857.png" alt=""></p>
+<pre><code>php vendor/bin/codecept init unit</code></pre><p><strong>suite配置</strong></p>
+<p>初始化之后还要对测试类型进行相应的配置,在tests目录下新建unit的配置</p>
+<pre><code class="yml"># unit.suite.yml
+# Codeception Test Suite Configuration
+#
+# Suite for unit or integration tests.
+
+actor: UnitTester
+modules:
+    enabled:
+        - Asserts
+        - \Helper\Unit
+    step_decorators: ~        </code></pre>
+<p><img src="http://img.rc5j.cn/blog20200702152857.png" alt=""></p>
 <h2 id="codeception单元测试"><a href="#codeception单元测试" class="headerlink" title="codeception单元测试"></a>codeception单元测试</h2><p><img src="http://img.rc5j.cn/blog20200702143824.png" alt=""></p>
 <p>codeception的单元测试其实也是基于phpunit之上构建的。phpunit的单元测试用例可以之前在codeception上执行。</p>
 <h3 id="创建单元测试"><a href="#创建单元测试" class="headerlink" title="创建单元测试"></a>创建单元测试</h3><pre><code>php vendor/bin/codecept generate:test unit Example</code></pre><p>执行完会在tests/unit目录里创建测试用例文件 </p>
@@ -565,7 +578,7 @@ class ExampleTest extends \Codeception\Test\Unit
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-07-02T15:29:13+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-07-02T15:42:30+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
     <p>更新于：Jul 2, 2020</p>

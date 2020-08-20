@@ -16,13 +16,10 @@
 
   <!-- 页面元数据 -->
   
-    <title>pandas数据快速处理 - 麦田麦穗</title>
+    <title>gunicorn+flask_rest构建部署轻量级api服务 - 麦田麦穗</title>
   
     <meta name="keywords" content="python">
   
-  
-    <meta name="description" content="
-销售同事拿到一份数据，但是数据导出列是json,我顺手就帮他处理了下。不得不说 pandas在处理这类问题还是非常效率高的.">
   
 
   <!-- feed -->
@@ -365,8 +362,8 @@
         
           
   <h1 class="title">
-    <a href="/2020/07/31/pandas%E6%95%B0%E6%8D%AE%E5%BF%AB%E9%80%9F%E5%A4%84%E7%90%86/">
-      pandas数据快速处理
+    <a href="/2020/08/20/gunicorn-flask-rest%E6%9E%84%E5%BB%BA%E9%83%A8%E7%BD%B2%E8%BD%BB%E9%87%8F%E7%BA%A7api%E6%9C%8D%E5%8A%A1/">
+      gunicorn+flask_rest构建部署轻量级api服务
     </a>
   </h1>
 
@@ -396,7 +393,7 @@
               <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Jul 31, 2020</p>
+    <p>发布于：Aug 20, 2020</p>
   </a>
 </div>
 
@@ -419,31 +416,54 @@
       <section class="article typo">
         <div class="article-entry" itemprop="articleBody">
           
-          <p><img src="http://img.rc5j.cn/blog20200731122918.png" alt=""></p>
-<p>销售同事拿到一份数据，但是数据导出列是json,我顺手就帮他处理了下。不得不说 pandas在处理这类问题还是非常效率高的.</p>
+          <p><img src="http://img.rc5j.cn/blog20200820155306.png" alt=""></p>
 <a id="more"></a>
 
-<pre><code class="python">import pandas
-import json
-data = pandas.read_excel(&#39;data.xlsx&#39;)
+<h2 id="flask-结构"><a href="#flask-结构" class="headerlink" title="flask 结构"></a>flask 结构</h2><p>首先简单看看 flask_rest的目录结构。</p>
+<p><img src="http://img.rc5j.cn/blog20200820155423.png" alt=""></p>
+<h3 id="入口文件"><a href="#入口文件" class="headerlink" title="入口文件"></a>入口文件</h3><pre><code class="python">#app.py
+from flask import Flask
+from flask_restful import Resource, Api
+from resources.bd import Index,Format
+from flask_cors import CORS
 
-address = data[&#39;address&#39;].values.tolist()
-ordertime_list = data[&#39;order_datetime&#39;].values.tolist()
-address_new_list = []
-for ad in address:
-    addressJson = json.loads(ad)
-    address_new_list.append(addressJson[0])
-
-for ad in address_new_list:
-    for t in ordertime_list:
-        ad[&#39;order_time&#39;] = t
-
-df = pandas.DataFrame.from_records(address_new_list)
-df.to_excel(&#39;new_data.xlsx&#39;)
+# from common import config
+app = Flask(__name__)
+CORS(app)
+api = Api(app)
 
 
 
-</code></pre>
+api.add_resource(Format, &#39;/bd/format&#39;)
+
+# if __name__ == &#39;__main__&#39;:
+#     app.run(debug=True)</code></pre>
+<p>如果使用gunicorn启动，则注释掉app.run</p>
+<h2 id="gunicorn启动配置"><a href="#gunicorn启动配置" class="headerlink" title="gunicorn启动配置"></a>gunicorn启动配置</h2><pre><code class="python"># config.py
+import os
+import gevent.monkey
+gevent.monkey.patch_all()
+
+import multiprocessing
+
+debug = True
+loglevel = &#39;debug&#39;
+bind = &quot;0.0.0.0:5000&quot;
+pidfile = &quot;logs/gunicorn.pid&quot;
+accesslog = &quot;logs/access.log&quot;
+errorlog = &quot;logs/debug.log&quot;
+daemon = True
+
+# 启动的进程数
+workers = multiprocessing.cpu_count()
+worker_class = &#39;gevent&#39;
+x_forwarded_for_header = &#39;X-FORWARDED-FOR&#39;</code></pre>
+<h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><pre><code class="shell">python3 -m venv webpj
+source webpj/bin/activate
+pip install -r requirements.txt -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com
+pip install xlrd -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com
+pip install openpyxl -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com
+gunicorn -c config.py app:app</code></pre>
 
           
             <div class='article_footer'>
@@ -480,7 +500,7 @@ df.to_excel(&#39;new_data.xlsx&#39;)
           
         
           
-            <p>本文永久链接是：<a href=http://visonforcoding.github.io/2020/07/31/pandas%E6%95%B0%E6%8D%AE%E5%BF%AB%E9%80%9F%E5%A4%84%E7%90%86/>http://visonforcoding.github.io/2020/07/31/pandas%E6%95%B0%E6%8D%AE%E5%BF%AB%E9%80%9F%E5%A4%84%E7%90%86/</a></p>
+            <p>本文永久链接是：<a href=http://visonforcoding.github.io/2020/08/20/gunicorn-flask-rest%E6%9E%84%E5%BB%BA%E9%83%A8%E7%BD%B2%E8%BD%BB%E9%87%8F%E7%BA%A7api%E6%9C%8D%E5%8A%A1/>http://visonforcoding.github.io/2020/08/20/gunicorn-flask-rest%E6%9E%84%E5%BB%BA%E9%83%A8%E7%BD%B2%E8%BD%BB%E9%87%8F%E7%BA%A7api%E6%9C%8D%E5%8A%A1/</a></p>
           
         
       </blockquote>
@@ -525,10 +545,10 @@ df.to_excel(&#39;new_data.xlsx&#39;)
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-07-31T12:29:28+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-08-20T16:02:12+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Jul 31, 2020</p>
+    <p>更新于：Aug 20, 2020</p>
   </a>
 </div>
 
@@ -555,8 +575,7 @@ df.to_excel(&#39;new_data.xlsx&#39;)
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://connect.qq.com/widget/shareqq/index.html?url=http://visonforcoding.github.io/2020/07/31/pandas%E6%95%B0%E6%8D%AE%E5%BF%AB%E9%80%9F%E5%A4%84%E7%90%86/&title=pandas数据快速处理 - 麦田麦穗&summary=
-销售同事拿到一份数据，但是数据导出列是json,我顺手就帮他处理了下。不得不说 pandas在处理这类问题还是非常效率高的."
+          href="http://connect.qq.com/widget/shareqq/index.html?url=http://visonforcoding.github.io/2020/08/20/gunicorn-flask-rest%E6%9E%84%E5%BB%BA%E9%83%A8%E7%BD%B2%E8%BD%BB%E9%87%8F%E7%BA%A7api%E6%9C%8D%E5%8A%A1/&title=gunicorn+flask_rest构建部署轻量级api服务 - 麦田麦穗&summary="
           
           >
           
@@ -568,8 +587,7 @@ df.to_excel(&#39;new_data.xlsx&#39;)
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
           
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://visonforcoding.github.io/2020/07/31/pandas%E6%95%B0%E6%8D%AE%E5%BF%AB%E9%80%9F%E5%A4%84%E7%90%86/&title=pandas数据快速处理 - 麦田麦穗&summary=
-销售同事拿到一份数据，但是数据导出列是json,我顺手就帮他处理了下。不得不说 pandas在处理这类问题还是非常效率高的."
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://visonforcoding.github.io/2020/08/20/gunicorn-flask-rest%E6%9E%84%E5%BB%BA%E9%83%A8%E7%BD%B2%E8%BD%BB%E9%87%8F%E7%BA%A7api%E6%9C%8D%E5%8A%A1/&title=gunicorn+flask_rest构建部署轻量级api服务 - 麦田麦穗&summary="
           
           >
           
@@ -581,8 +599,7 @@ df.to_excel(&#39;new_data.xlsx&#39;)
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://service.weibo.com/share/share.php?url=http://visonforcoding.github.io/2020/07/31/pandas%E6%95%B0%E6%8D%AE%E5%BF%AB%E9%80%9F%E5%A4%84%E7%90%86/&title=pandas数据快速处理 - 麦田麦穗&summary=
-销售同事拿到一份数据，但是数据导出列是json,我顺手就帮他处理了下。不得不说 pandas在处理这类问题还是非常效率高的."
+          href="http://service.weibo.com/share/share.php?url=http://visonforcoding.github.io/2020/08/20/gunicorn-flask-rest%E6%9E%84%E5%BB%BA%E9%83%A8%E7%BD%B2%E8%BD%BB%E9%87%8F%E7%BA%A7api%E6%9C%8D%E5%8A%A1/&title=gunicorn+flask_rest构建部署轻量级api服务 - 麦田麦穗&summary="
           
           >
           
@@ -606,21 +623,12 @@ df.to_excel(&#39;new_data.xlsx&#39;)
         
           <div class="prev-next">
             
-              <a class='prev' href='/2020/08/11/PHP%E7%9A%84%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86/'>
-                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>PHP的错误处理</p>
+            
+              <a class='next' href='/2020/08/11/PHP%E7%9A%84%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86/'>
+                <p class='title'>PHP的错误处理<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
                 <p class='content'>set_error_handler 覆盖前一个注册
 set_error_handler(function(){
     echo &quot;error hander function 2\n&...</p>
-              </a>
-            
-            
-              <a class='next' href='/2020/07/23/php%E7%94%9F%E6%80%81%E4%B9%8B%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90/'>
-                <p class='title'>php生态之性能分析<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
-                <p class='content'>
-一般情况下我们并不会太关注PHP的执行效率，因为一般而言他都表现正常满足需求。但当真正遇到问题的时候，我们需要有分析性能在哪丢失的能力。
-
-
-xhprof正是这样的工具。但是由于年久失修，目前...</p>
               </a>
             
           </div>
@@ -665,7 +673,7 @@ xhprof正是这样的工具。但是由于年久失修，目前...</p>
 
   <script>
     window.subData = {
-      title: 'pandas数据快速处理',
+      title: 'gunicorn+flask_rest构建部署轻量级api服务',
       tools: true
     }
   </script>
@@ -680,6 +688,20 @@ xhprof正是这样的工具。但是由于年久失修，目前...</p>
     
     
 
+
+  <section class="widget toc-wrapper shadow desktop mobile">
+    
+  <header>
+    
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#flask-结构"><span class="toc-text">flask 结构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#入口文件"><span class="toc-text">入口文件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#gunicorn启动配置"><span class="toc-text">gunicorn启动配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#启动"><span class="toc-text">启动</span></a></li></ol>
+    </div>
+  </section>
 
 
   
@@ -858,7 +880,7 @@ xhprof正是这样的工具。但是由于年久失修，目前...</p>
   <script>
     var disqus_shortname = 'visonforcoding-github-io';
     
-      var disqus_url = 'http://visonforcoding.github.io/2020/07/31/pandas%E6%95%B0%E6%8D%AE%E5%BF%AB%E9%80%9F%E5%A4%84%E7%90%86/';
+      var disqus_url = 'http://visonforcoding.github.io/2020/08/20/gunicorn-flask-rest%E6%9E%84%E5%BB%BA%E9%83%A8%E7%BD%B2%E8%BD%BB%E9%87%8F%E7%BA%A7api%E6%9C%8D%E5%8A%A1/';
     
     (function(){
       var dsq = document.createElement('script');

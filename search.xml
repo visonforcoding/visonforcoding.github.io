@@ -4,6 +4,44 @@
   
     
     <entry>
+      <title>gunicorn+flask_rest构建部署轻量级api服务</title>
+      <link href="/2020/08/20/gunicorn-flask-rest%E6%9E%84%E5%BB%BA%E9%83%A8%E7%BD%B2%E8%BD%BB%E9%87%8F%E7%BA%A7api%E6%9C%8D%E5%8A%A1/"/>
+      <url>/2020/08/20/gunicorn-flask-rest%E6%9E%84%E5%BB%BA%E9%83%A8%E7%BD%B2%E8%BD%BB%E9%87%8F%E7%BA%A7api%E6%9C%8D%E5%8A%A1/</url>
+      
+        <content type="html"><![CDATA[<p><img src="http://img.rc5j.cn/blog20200820155306.png" alt=""></p><a id="more"></a><h2 id="flask-结构"><a href="#flask-结构" class="headerlink" title="flask 结构"></a>flask 结构</h2><p>首先简单看看 flask_rest的目录结构。</p><p><img src="http://img.rc5j.cn/blog20200820155423.png" alt=""></p><h3 id="入口文件"><a href="#入口文件" class="headerlink" title="入口文件"></a>入口文件</h3><pre><code class="python">#app.pyfrom flask import Flaskfrom flask_restful import Resource, Apifrom resources.bd import Index,Formatfrom flask_cors import CORS# from common import configapp = Flask(__name__)CORS(app)api = Api(app)api.add_resource(Format, &#39;/bd/format&#39;)# if __name__ == &#39;__main__&#39;:#     app.run(debug=True)</code></pre><p>如果使用gunicorn启动，则注释掉app.run</p><h2 id="gunicorn启动配置"><a href="#gunicorn启动配置" class="headerlink" title="gunicorn启动配置"></a>gunicorn启动配置</h2><pre><code class="python"># config.pyimport osimport gevent.monkeygevent.monkey.patch_all()import multiprocessingdebug = Trueloglevel = &#39;debug&#39;bind = &quot;0.0.0.0:5000&quot;pidfile = &quot;logs/gunicorn.pid&quot;accesslog = &quot;logs/access.log&quot;errorlog = &quot;logs/debug.log&quot;daemon = True# 启动的进程数workers = multiprocessing.cpu_count()worker_class = &#39;gevent&#39;x_forwarded_for_header = &#39;X-FORWARDED-FOR&#39;</code></pre><h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><pre><code class="shell">python3 -m venv webpjsource webpj/bin/activatepip install -r requirements.txt -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.compip install xlrd -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.compip install openpyxl -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.comgunicorn -c config.py app:app</code></pre>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> python </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>PHP的错误处理</title>
+      <link href="/2020/08/11/PHP%E7%9A%84%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86/"/>
+      <url>/2020/08/11/PHP%E7%9A%84%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86/</url>
+      
+        <content type="html"><![CDATA[<p><code>set_error_handler</code> 覆盖前一个注册</p><pre><code class="php">set_error_handler(function(){    echo &quot;error hander function 2\n&quot;;});</code></pre>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> php </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>pandas数据快速处理</title>
       <link href="/2020/07/31/pandas%E6%95%B0%E6%8D%AE%E5%BF%AB%E9%80%9F%E5%A4%84%E7%90%86/"/>
       <url>/2020/07/31/pandas%E6%95%B0%E6%8D%AE%E5%BF%AB%E9%80%9F%E5%A4%84%E7%90%86/</url>
@@ -129,7 +167,7 @@
       <link href="/2020/06/19/intl%E5%AE%89%E8%A3%85%E7%9A%84%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/"/>
       <url>/2020/06/19/intl%E5%AE%89%E8%A3%85%E7%9A%84%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/</url>
       
-        <content type="html"><![CDATA[<p>被intl折磨的还不够么</p><a id="more"></a><p>To build the extension you need to install the » ICU library, version 4.0.0 or newer is required. As of PHP 7.4.0 ICU 50.1 or newer is required.</p><p>This extension is bundled with PHP as of PHP version 5.3.0. Alternatively, the PECL version of this extension may be used with all PHP versions greater than 5.2.0 (5.2.4+ recommended).</p><h2 id="ICU安装"><a href="#ICU安装" class="headerlink" title="ICU安装"></a>ICU安装</h2><p>现在icu已被放到github，下载建议直接从github下载源码到本地。</p><p><a href="https://github.com/unicode-org/icu/releases/tag/release-60-3" target="_blank" rel="noopener">https://github.com/unicode-org/icu/releases/tag/release-60-3</a></p><p>下载后编译安装</p><h2 id="拓展安装"><a href="#拓展安装" class="headerlink" title="拓展安装"></a>拓展安装</h2><pre><code class="shell">pecl install intl</code></pre><p>总会遇到问题,建议用phpize 源码安装。</p><pre><code>./configure  --enable-intl   --with-php-config=/usr/local/php7/bin/php-configmakemake install</code></pre><p>重启php-fpm</p>]]></content>
+        <content type="html"><![CDATA[<p>被intl折磨的还不够么</p><a id="more"></a><p>To build the extension you need to install the » ICU library, version 4.0.0 or newer is required. As of PHP 7.4.0 ICU 50.1 or newer is required.</p><p>This extension is bundled with PHP as of PHP version 5.3.0. Alternatively, the PECL version of this extension may be used with all PHP versions greater than 5.2.0 (5.2.4+ recommended).</p><h2 id="ICU安装"><a href="#ICU安装" class="headerlink" title="ICU安装"></a>ICU安装</h2><p>现在icu已被放到github，下载建议直接从github下载源码到本地。</p><p><a href="https://github.com/unicode-org/icu/releases/tag/release-60-3" target="_blank" rel="noopener">https://github.com/unicode-org/icu/releases/tag/release-60-3</a></p><p>下载后编译安装</p><h2 id="拓展安装"><a href="#拓展安装" class="headerlink" title="拓展安装"></a>拓展安装</h2><pre><code class="shell">pecl install intl</code></pre><p>总会遇到问题,建议用phpize 源码安装。进入源码ext下的intl目录</p><pre><code>./configure  --enable-intl   --with-php-config=/usr/local/php7/bin/php-configmakemake install</code></pre><p>重启php-fpm</p>]]></content>
       
       
       

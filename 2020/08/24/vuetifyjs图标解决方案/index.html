@@ -5,8 +5,6 @@
   <!-- SEO相关 -->
   
     
-      <meta name="robots" content="noindex,follow">
-    
   
   <!-- 渲染优化 -->
   <meta name="renderer" content="webkit">
@@ -18,8 +16,13 @@
 
   <!-- 页面元数据 -->
   
-    <title>Tag: mysql - 麦田麦穗</title>
+    <title>vuetifyjs图标解决方案 - 麦田麦穗</title>
   
+    <meta name="keywords" content="web前端">
+  
+  
+    <meta name="description" content="
+vuetifyjs官方提供的方法实际运用当中似乎会存在一些兼容问题，比如使用Font Awesome时有些图标就不会正常显示。">
   
 
   <!-- feed -->
@@ -346,25 +349,12 @@
     <div class='body-wrapper'>
       
 
-
 <div class='l_main'>
   
-    
-      
-  <section class="post-list ">
-    
-      
-        
-          
-        
-      
-    
-    
-      
-        
-          <div class='post-wrapper'>
-            <article class="post white-box shadow reveal ">
+
   
+    <article id="post" class="post white-box reveal shadow article-type-post" itemscope itemprop="blogPost">
+      
 
 
   <section class='meta'>
@@ -374,11 +364,11 @@
       <div class="meta" id="header-meta">
         
           
-  <h2 class="title">
-    <a href="/2020/05/08/mysql%E5%8D%95%E4%B8%AA%E8%A1%A8%E7%9A%84%E6%9D%83%E9%99%90%E6%8E%A7%E5%88%B6/">
-      mysql单个表的权限控制
+  <h1 class="title">
+    <a href="/2020/08/24/vuetifyjs%E5%9B%BE%E6%A0%87%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/">
+      vuetifyjs图标解决方案
     </a>
-  </h2>
+  </h1>
 
 
         
@@ -406,27 +396,9 @@
               <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：May 8, 2020</p>
+    <p>发布于：Aug 24, 2020</p>
   </a>
 </div>
-
-            
-          
-            
-              
-  <div class="new-meta-item wordcount">
-    <a class='notlink'>
-      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>455 words</p>
-    </a>
-  </div>
-  <div class="new-meta-item readtime">
-    <a class='notlink'>
-      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>2 min</p>
-    </a>
-  </div>
-
 
             
           
@@ -444,96 +416,64 @@
   </section>
 
 
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>在系统开发当中有这样的需求，A系统需要读写B系统的数据库数据,但是某些特殊的表数据只允许读操作。这时候就需要做到表级的权限控制。</p>
-</blockquote>
-      
-    </div>
-    
-      
-        <div class="button readmore">
-          <a href="/2020/05/08/mysql%E5%8D%95%E4%B8%AA%E8%A1%A8%E7%9A%84%E6%9D%83%E9%99%90%E6%8E%A7%E5%88%B6/">
-            Read More <i class="fas fa-chevron-right"></i>
-          </a>
-        </div>
-      
-    
-  </section>
-</article>
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          
+          <p><img src="http://img.rc5j.cn/blog20200824102537.png" alt=""></p>
+<p>vuetifyjs官方提供的方法实际运用当中似乎会存在一些兼容问题，比如使用Font Awesome时有些图标就不会正常显示。</p>
+<a id="more"></a>
 
-          </div>
-        
-      
-    
-  </section>
-  
-    
-    <!-- 根据主题中的设置决定是否在archive中针对摘要部分的MathJax公式加载mathjax.js文件 -->
-    
-    
+<h2 id="Font-Awesome"><a href="#Font-Awesome" class="headerlink" title="Font Awesome"></a>Font Awesome</h2><pre><code class="html">    &lt;!-- 官方 --&gt;
+    &lt;v-icon&gt;fas fa-php&lt;/v-icon&gt;
+    &lt;!-- 替代 --&gt;
+    &lt;i class=&quot;fab fa-php v-icon&quot;&gt;&lt;/i&gt;</code></pre>
+<p>有些图标不显示的问题可以使用上述方法替代解决</p>
+<h2 id="使用阿里巴巴字体"><a href="#使用阿里巴巴字体" class="headerlink" title="使用阿里巴巴字体"></a>使用阿里巴巴字体</h2><p>阿里巴巴字体非常多非常庞大，基本想要的都有，而国外的很多不能用。所以可以使用阿里巴巴字体替代。</p>
+<p>第一步：拷贝项目下面生成的fontclass代码：</p>
+<p>可以在public/index.html 下用 link 标签引入</p>
+<p>//at.alicdn.com/t/font_8d5l8fzk5b87iudi.css</p>
+<p>第二步：挑选相应图标并获取类名，应用于页面：</p>
+<pre><code class="html">&lt;i class=&quot;iconfont icon-xxx&quot;&gt;&lt;/i&gt;</code></pre>
 
-  
-
-
-    
-  
-</div>
-<aside class='l_side'>
-  
+          
+            <div class='article_footer'>
+              
+                
   
     
     
 
-<section class="widget blogger shadow desktop mobile">
+
+
+  
+
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
   <div class='content'>
     
-      
-        <a class='avatar flat-box' href='/about/'>
-          <img no-lazy src='http://img.rc5j.cn/blog20200508235943.png'/>
-        </a>
-      
-    
-    
-      <div class='text'>
-        
-        
-        
-          <p><span id="jinrishici-sentence">麦田麦穗</span></p>
-          <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
-        
-      </div>
-    
-    
-      <div class="social-wrapper">
+      <blockquote>
         
           
-            <a href="/atom.xml"
-              class="social fas fa-rss flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
+            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
           
         
           
-            <a href="mailto:visonforcoding@gmail.com"
-              class="social fas fa-envelope flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
+            <p>本文永久链接是：<a href=http://visonforcoding.github.io/2020/08/24/vuetifyjs%E5%9B%BE%E6%A0%87%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/>http://visonforcoding.github.io/2020/08/24/vuetifyjs%E5%9B%BE%E6%A0%87%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/</a></p>
           
         
-          
-            <a href="https://music.163.com/#/user/home?id=63035382"
-              class="social fas fa-headphones-alt flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
-          
-        
-      </div>
+      </blockquote>
     
   </div>
 </section>
@@ -544,29 +484,203 @@
     
     
 
+<section class="widget qrcode  desktop mobile">
+  
+
+  <div class='content article-entry'>
+    
+      
+        <div class='fancybox'><img src='http://img.rc5j.cn/blog20200509000739.png'
+        
+          height='240px'
+        ></div>
+      
+    
+    请我喝杯咖啡
+  </div>
+</section>
+
+  
+
+
+              
+            </div>
+          
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-08-24T10:50:59+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：Aug 24, 2020</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/web%E5%89%8D%E7%AB%AF/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>web前端</p></a></div>
+
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=http://visonforcoding.github.io/2020/08/24/vuetifyjs%E5%9B%BE%E6%A0%87%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/&title=vuetifyjs图标解决方案 - 麦田麦穗&summary=
+vuetifyjs官方提供的方法实际运用当中似乎会存在一些兼容问题，比如使用Font Awesome时有些图标就不会正常显示。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://visonforcoding.github.io/2020/08/24/vuetifyjs%E5%9B%BE%E6%A0%87%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/&title=vuetifyjs图标解决方案 - 麦田麦穗&summary=
+vuetifyjs官方提供的方法实际运用当中似乎会存在一些兼容问题，比如使用Font Awesome时有些图标就不会正常显示。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=http://visonforcoding.github.io/2020/08/24/vuetifyjs%E5%9B%BE%E6%A0%87%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/&title=vuetifyjs图标解决方案 - 麦田麦穗&summary=
+vuetifyjs官方提供的方法实际运用当中似乎会存在一些兼容问题，比如使用Font Awesome时有些图标就不会正常显示。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/weibo.png">
+          
+        </a>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+          <div class="prev-next">
+            
+            
+              <a class='next' href='/2020/08/20/gunicorn-flask-rest%E6%9E%84%E5%BB%BA%E9%83%A8%E7%BD%B2%E8%BD%BB%E9%87%8F%E7%BA%A7api%E6%9C%8D%E5%8A%A1/'>
+                <p class='title'>gunicorn+flask_rest构建部署轻量级api服务<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>
+
+
+flask 结构首先简单看看 flask_rest的目录结构。
+
+入口文件#app.py
+from flask import Flask
+from flask_restful import...</p>
+              </a>
+            
+          </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  <article class="post white-box reveal comments shadow">
+    <section class="article typo">
+      <p ct><i class='fas fa-comments'></i> 评论</p>
+      
+      
+        <section id="comments">
+          <div id="disqus_thread">
+            <div><i class='fas fa-exclamation-triangle'></i>&nbsp;Unable to load Disqus, please make sure your network can access.</div>
+          </div>
+        </section>
+      
+      
+      
+      
+      
+      
+    </section>
+  </article>
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: 'vuetifyjs图标解决方案',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
   
 
   
     
     
-  
 
-  <section class="widget tagcloud shadow desktop mobile">
+
+  <section class="widget toc-wrapper shadow desktop mobile">
     
   <header>
     
-      <a href='/blog/tags/'><i class="fas fa-tags fa-fw" aria-hidden="true"></i><span class='name'>热门标签</span></a>
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
     
   </header>
 
 
     <div class='content'>
-      <a href="/tags/docker/" style="font-size: 14px; color: #999">docker</a> <a href="/tags/java/" style="font-size: 14px; color: #999">java</a> <a href="/tags/java-spring-boot/" style="font-size: 14px; color: #999">java spring-boot</a> <a href="/tags/kafka/" style="font-size: 14px; color: #999">kafka</a> <a href="/tags/mysql/" style="font-size: 14px; color: #999">mysql</a> <a href="/tags/php/" style="font-size: 24px; color: #555">php</a> <a href="/tags/php-linux/" style="font-size: 14px; color: #999">php linux</a> <a href="/tags/python/" style="font-size: 19px; color: #777">python</a> <a href="/tags/web%E5%89%8D%E7%AB%AF/" style="font-size: 14px; color: #999">web前端</a> <a href="/tags/%E6%96%B9%E6%A1%88/" style="font-size: 14px; color: #999">方案</a> <a href="/tags/%E7%A8%8B%E5%BA%8F%E4%BA%BA%E7%94%9F/" style="font-size: 14px; color: #999">程序人生</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/" style="font-size: 14px; color: #999">计算机基础</a> <a href="/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 14px; color: #999">随笔</a>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Font-Awesome"><span class="toc-text">Font Awesome</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用阿里巴巴字体"><span class="toc-text">使用阿里巴巴字体</span></a></li></ol>
     </div>
   </section>
 
-
-  
 
   
 
@@ -740,6 +854,20 @@
 
 
 
+
+  <script>
+    var disqus_shortname = 'visonforcoding-github-io';
+    
+      var disqus_url = 'http://visonforcoding.github.io/2020/08/24/vuetifyjs%E5%9B%BE%E6%A0%87%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/';
+    
+    (function(){
+      var dsq = document.createElement('script');
+      dsq.type = 'text/javascript';
+      dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
 
 
 

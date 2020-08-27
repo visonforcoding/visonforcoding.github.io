@@ -4,6 +4,44 @@
   
     
     <entry>
+      <title>mac下使用openjdk 11</title>
+      <link href="/2020/08/27/mac%E4%B8%8B%E4%BD%BF%E7%94%A8openjdk-11/"/>
+      <url>/2020/08/27/mac%E4%B8%8B%E4%BD%BF%E7%94%A8openjdk-11/</url>
+      
+        <content type="html"><![CDATA[<p>最近似乎java 8以上的版本都不能从oracle官网下载了，于是就尝试使用open jdk11</p><p><img src="http://img.rc5j.cn/blog20200827114344.png" alt=""></p><a id="more"></a><h2 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h2><p>可以从 <a href="https://mirrors.huaweicloud.com/openjdk/" target="_blank" rel="noopener">https://mirrors.huaweicloud.com/openjdk/</a> 下载得到</p><h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><pre><code>sudo mv /Downloads/jdk11 /Library/Java/JavaVirtualMachines/jdk-11.jdk</code></pre>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> java </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>glances+influxdb+granfana打造服务器监控系统</title>
+      <link href="/2020/08/25/glances-influxdb-granfana%E6%89%93%E9%80%A0%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9B%91%E6%8E%A7%E7%B3%BB%E7%BB%9F/"/>
+      <url>/2020/08/25/glances-influxdb-granfana%E6%89%93%E9%80%A0%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9B%91%E6%8E%A7%E7%B3%BB%E7%BB%9F/</url>
+      
+        <content type="html"><![CDATA[<p><img src="http://img.rc5j.cn/blog20200825175740.png" alt=""></p><p>服务监控就是你的眼睛，当你对服务器运行状况一无所知时，你应该感到坐立不安。</p><a id="more"></a><h2 id="glances安装"><a href="#glances安装" class="headerlink" title="glances安装"></a>glances安装</h2><p>glances是由python编写的，因此可以使用pip直接安装</p><pre><code>pip3 install glances</code></pre>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> devops </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>vuetifyjs图标解决方案</title>
       <link href="/2020/08/24/vuetifyjs%E5%9B%BE%E6%A0%87%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/"/>
       <url>/2020/08/24/vuetifyjs%E5%9B%BE%E6%A0%87%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/</url>
@@ -27,7 +65,7 @@
       <link href="/2020/08/20/gunicorn-flask-rest%E6%9E%84%E5%BB%BA%E9%83%A8%E7%BD%B2%E8%BD%BB%E9%87%8F%E7%BA%A7api%E6%9C%8D%E5%8A%A1/"/>
       <url>/2020/08/20/gunicorn-flask-rest%E6%9E%84%E5%BB%BA%E9%83%A8%E7%BD%B2%E8%BD%BB%E9%87%8F%E7%BA%A7api%E6%9C%8D%E5%8A%A1/</url>
       
-        <content type="html"><![CDATA[<p><img src="http://img.rc5j.cn/blog20200820155306.png" alt=""></p><a id="more"></a><h2 id="flask-结构"><a href="#flask-结构" class="headerlink" title="flask 结构"></a>flask 结构</h2><p>首先简单看看 flask_rest的目录结构。</p><p><img src="http://img.rc5j.cn/blog20200820155423.png" alt=""></p><h3 id="入口文件"><a href="#入口文件" class="headerlink" title="入口文件"></a>入口文件</h3><pre><code class="python">#app.pyfrom flask import Flaskfrom flask_restful import Resource, Apifrom resources.bd import Index,Formatfrom flask_cors import CORS# from common import configapp = Flask(__name__)CORS(app)api = Api(app)api.add_resource(Format, &#39;/bd/format&#39;)# if __name__ == &#39;__main__&#39;:#     app.run(debug=True)</code></pre><p>如果使用gunicorn启动，则注释掉app.run</p><h2 id="gunicorn启动配置"><a href="#gunicorn启动配置" class="headerlink" title="gunicorn启动配置"></a>gunicorn启动配置</h2><pre><code class="python"># config.pyimport osimport gevent.monkeygevent.monkey.patch_all()import multiprocessingdebug = Trueloglevel = &#39;debug&#39;bind = &quot;0.0.0.0:5000&quot;pidfile = &quot;logs/gunicorn.pid&quot;accesslog = &quot;logs/access.log&quot;errorlog = &quot;logs/debug.log&quot;daemon = True# 启动的进程数workers = multiprocessing.cpu_count()worker_class = &#39;gevent&#39;x_forwarded_for_header = &#39;X-FORWARDED-FOR&#39;</code></pre><h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><pre><code class="shell">python3 -m venv webpjsource webpj/bin/activatepip install -r requirements.txt -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.compip install xlrd -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.compip install openpyxl -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.comgunicorn -c config.py app:app</code></pre>]]></content>
+        <content type="html"><![CDATA[<p><img src="http://img.rc5j.cn/blog20200820155306.png" alt=""></p><a id="more"></a><h2 id="flask-结构"><a href="#flask-结构" class="headerlink" title="flask 结构"></a>flask 结构</h2><p>首先简单看看 flask_rest的目录结构。</p><p><img src="http://img.rc5j.cn/blog20200820155423.png" alt=""></p><h3 id="入口文件"><a href="#入口文件" class="headerlink" title="入口文件"></a>入口文件</h3><pre><code class="python">#app.pyfrom flask import Flaskfrom flask_restful import Resource, Apifrom resources.bd import Index,Formatfrom flask_cors import CORS# from common import configapp = Flask(__name__)CORS(app)api = Api(app)api.add_resource(Format, &#39;/bd/format&#39;)# if __name__ == &#39;__main__&#39;:#     app.run(debug=True)</code></pre><p>如果使用gunicorn启动，则注释掉app.run</p><h2 id="gunicorn启动配置"><a href="#gunicorn启动配置" class="headerlink" title="gunicorn启动配置"></a>gunicorn启动配置</h2><pre><code class="python"># config.pyimport osimport gevent.monkeygevent.monkey.patch_all()import multiprocessingdebug = Trueloglevel = &#39;debug&#39;bind = &quot;0.0.0.0:5000&quot;pidfile = &quot;logs/gunicorn.pid&quot;accesslog = &quot;logs/access.log&quot;errorlog = &quot;logs/debug.log&quot;daemon = True# 启动的进程数workers = multiprocessing.cpu_count()worker_class = &#39;gevent&#39;x_forwarded_for_header = &#39;X-FORWARDED-FOR&#39;</code></pre><h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><pre><code class="shell">python3 -m venv webpjsource webpj/bin/activatepip install -r requirements.txt -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.compip install xlrd -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.compip install openpyxl -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.comgunicorn -c config.py app:app</code></pre><h2 id="平滑重启"><a href="#平滑重启" class="headerlink" title="平滑重启"></a>平滑重启</h2><pre><code class="shell">cat logs/gunicorn.log | xargs kill -HUP</code></pre>]]></content>
       
       
       

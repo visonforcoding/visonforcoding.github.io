@@ -4,6 +4,25 @@
   
     
     <entry>
+      <title>supervisor使用</title>
+      <link href="/2020/09/02/supervisor%E4%BD%BF%E7%94%A8/"/>
+      <url>/2020/09/02/supervisor%E4%BD%BF%E7%94%A8/</url>
+      
+        <content type="html"><![CDATA[<p>作为一款进程管理工具，supervisor普遍用来管理应用的守护进程</p><a id="more"></a><h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>常规安装的方式有两种,pip安装或发行版安装</p><p>以centos 8为pip安装方式为例。</p><h3 id="pip安装"><a href="#pip安装" class="headerlink" title="pip安装"></a>pip安装</h3><pre><code class="shell">pip install supervisor</code></pre><h2 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h2><h3 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h3><pre><code>echo_supervisord_conf &gt; /etc/supervisord.conf</code></pre><p>生成配置文件</p><h3 id="配置systemd服务"><a href="#配置systemd服务" class="headerlink" title="配置systemd服务"></a>配置systemd服务</h3><p>如果是发行版安装，默认会配置好开机启动服务。如果非发行版安装，可以手动配置。</p><p>There are user-contributed scripts for various operating systems at: <a href="https://github.com/Supervisor/initscripts" target="_blank" rel="noopener">https://github.com/Supervisor/initscripts</a></p><p>注意，事实上github上的脚本有点问题，与实际安装的目录位置不匹配。稍作修改</p><pre><code class="ini"># supervisord service for systemd (CentOS 7.0+)# by ET-CS (https://github.com/ET-CS)[Unit]Description=Supervisor daemon[Service]Type=forkingExecStart=/usr/local/bin/supervisordExecStop=/usr/local/bin/supervisorctl $OPTIONS shutdownExecReload=/usr/local/bin/supervisorctl $OPTIONS reloadKillMode=processRestart=on-failureRestartSec=42s[Install]WantedBy=multi-user.target</code></pre><p>将此文件为 ``</p><h3 id="启动服务"><a href="#启动服务" class="headerlink" title="启动服务"></a>启动服务</h3><p>重新读取所有服务项</p><pre><code>systemctl daemon-reload</code></pre><p>启动服务</p><pre><code>systemctl start supervisord.service</code></pre><p>开机启动</p><pre><code>systemctl enable supervisord.service</code></pre><h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><h3 id="启用子配置目录"><a href="#启用子配置目录" class="headerlink" title="启用子配置目录"></a>启用子配置目录</h3><p><code>vim /etc/supervisord.conf</code><br>最后2行打开注释并编辑为</p><pre><code>[include]files = ./supervisord.d/*.ini</code></pre><p>重启</p><pre><code>systemctl reload supervisord.service# 或者supervisorctl reload</code></pre><h3 id="添加项目"><a href="#添加项目" class="headerlink" title="添加项目"></a>添加项目</h3><p><code>vim /etc/supervisord.d/glances.ini</code></p><pre><code class="ini">[program:glances]command=glances --export influxdb -qprocess_name=%(program_name)snumprocs=1directory=/tmpumask=022priority=999autostart=trueautorestart=unexpectedstartsecs=10startretries=3exitcodes=0stopsignal=TERMstopwaitsecs=10stopasgroup=falsekillasgroup=falseuser=rootredirect_stderr=falsestdout_logfile=/var/log/glances/glances-out.logstdout_logfile_maxbytes=1MBstdout_logfile_backups=10stdout_capture_maxbytes=1MBstdout_events_enabled=falsestderr_logfile=/var/log/glances/glances-err.logstderr_logfile_maxbytes=1MBstderr_logfile_backups=10stderr_capture_maxbytes=1MB</code></pre><p>注意先建好目录 <code>/var/log/glances</code></p><h3 id="重新读取配置并启用"><a href="#重新读取配置并启用" class="headerlink" title="重新读取配置并启用"></a>重新读取配置并启用</h3><pre><code>supervisorctl reloadsupervisorctl start glances</code></pre><h3 id="可查看运行状态"><a href="#可查看运行状态" class="headerlink" title="可查看运行状态"></a>可查看运行状态</h3><pre><code>supervisorctl status</code></pre><p>结果</p><pre><code>glances                          RUNNING   pid 46026, uptime 0:05:05</code></pre>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> 运维 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>mysql字符集问题</title>
       <link href="/2020/09/01/mysql%E5%AD%97%E7%AC%A6%E9%9B%86%E9%97%AE%E9%A2%98/"/>
       <url>/2020/09/01/mysql%E5%AD%97%E7%AC%A6%E9%9B%86%E9%97%AE%E9%A2%98/</url>

@@ -16,7 +16,7 @@
 
   <!-- 页面元数据 -->
   
-    <title>mac下使用openjdk 11 - 麦田麦穗</title>
+    <title>使用openjdk 11 - 麦田麦穗</title>
   
     <meta name="keywords" content="java">
   
@@ -366,7 +366,7 @@
           
   <h1 class="title">
     <a href="/2020/08/27/mac%E4%B8%8B%E4%BD%BF%E7%94%A8openjdk-11/">
-      mac下使用openjdk 11
+      使用openjdk 11
     </a>
   </h1>
 
@@ -425,7 +425,11 @@
 
 
 <h2 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h2><p>可以从 <a href="https://mirrors.huaweicloud.com/openjdk/" target="_blank" rel="noopener">https://mirrors.huaweicloud.com/openjdk/</a> 下载得到</p>
-<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><pre><code>sudo mv /Downloads/jdk11 /Library/Java/JavaVirtualMachines/jdk-11.jdk</code></pre>
+<h2 id="mac安装"><a href="#mac安装" class="headerlink" title="mac安装"></a>mac安装</h2><pre><code>sudo mv /Downloads/jdk11 /Library/Java/JavaVirtualMachines/jdk-11.jdk</code></pre><h2 id="linux"><a href="#linux" class="headerlink" title="linux"></a>linux</h2><p>配置bash_profile</p>
+<p><code>vim ~/.bash_profile</code></p>
+<pre><code>JAVA_HOME=&quot;/usr/local/jdk-11.0.2&quot;
+PATH=$PATH:$HOME/bin:$JAVA_HOME/bin
+export PATH</code></pre>
           
             <div class='article_footer'>
               
@@ -506,10 +510,10 @@
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-08-27T11:45:07+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-08-28T14:07:50+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Aug 27, 2020</p>
+    <p>更新于：Aug 28, 2020</p>
   </a>
 </div>
 
@@ -536,7 +540,7 @@
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://connect.qq.com/widget/shareqq/index.html?url=http://visonforcoding.github.io/2020/08/27/mac%E4%B8%8B%E4%BD%BF%E7%94%A8openjdk-11/&title=mac下使用openjdk 11 - 麦田麦穗&summary=最近似乎java 8以上的版本都不能从oracle官网下载了，于是就尝试使用open jdk11
+          href="http://connect.qq.com/widget/shareqq/index.html?url=http://visonforcoding.github.io/2020/08/27/mac%E4%B8%8B%E4%BD%BF%E7%94%A8openjdk-11/&title=使用openjdk 11 - 麦田麦穗&summary=最近似乎java 8以上的版本都不能从oracle官网下载了，于是就尝试使用open jdk11
 "
           
           >
@@ -549,7 +553,7 @@
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
           
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://visonforcoding.github.io/2020/08/27/mac%E4%B8%8B%E4%BD%BF%E7%94%A8openjdk-11/&title=mac下使用openjdk 11 - 麦田麦穗&summary=最近似乎java 8以上的版本都不能从oracle官网下载了，于是就尝试使用open jdk11
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://visonforcoding.github.io/2020/08/27/mac%E4%B8%8B%E4%BD%BF%E7%94%A8openjdk-11/&title=使用openjdk 11 - 麦田麦穗&summary=最近似乎java 8以上的版本都不能从oracle官网下载了，于是就尝试使用open jdk11
 "
           
           >
@@ -562,7 +566,7 @@
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://service.weibo.com/share/share.php?url=http://visonforcoding.github.io/2020/08/27/mac%E4%B8%8B%E4%BD%BF%E7%94%A8openjdk-11/&title=mac下使用openjdk 11 - 麦田麦穗&summary=最近似乎java 8以上的版本都不能从oracle官网下载了，于是就尝试使用open jdk11
+          href="http://service.weibo.com/share/share.php?url=http://visonforcoding.github.io/2020/08/27/mac%E4%B8%8B%E4%BD%BF%E7%94%A8openjdk-11/&title=使用openjdk 11 - 麦田麦穗&summary=最近似乎java 8以上的版本都不能从oracle官网下载了，于是就尝试使用open jdk11
 "
           
           >
@@ -586,6 +590,14 @@
         
         
           <div class="prev-next">
+            
+              <a class='prev' href='/2020/09/01/mysql%E5%AD%97%E7%AC%A6%E9%9B%86%E9%97%AE%E9%A2%98/'>
+                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>mysql字符集问题</p>
+                <p class='content'>现代产品和国际化产品建议都使用utf8mb4字符集，表情已无处不在🤖🦖。人生苦短建议mb4.
+
+
+mysql 可以设置数据库级别，表级别，列级别 字符集编码；控制粒度依次细化，也就是如果都设...</p>
+              </a>
             
             
               <a class='next' href='/2020/08/25/glances-influxdb-granfana%E6%89%93%E9%80%A0%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9B%91%E6%8E%A7%E7%B3%BB%E7%BB%9F/'>
@@ -640,7 +652,7 @@ pip3 install g...</p>
 
   <script>
     window.subData = {
-      title: 'mac下使用openjdk 11',
+      title: '使用openjdk 11',
       tools: true
     }
   </script>
@@ -666,7 +678,7 @@ pip3 install g...</p>
 
 
     <div class='content'>
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#下载"><span class="toc-text">下载</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装"><span class="toc-text">安装</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#下载"><span class="toc-text">下载</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#mac安装"><span class="toc-text">mac安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#linux"><span class="toc-text">linux</span></a></li></ol>
     </div>
   </section>
 

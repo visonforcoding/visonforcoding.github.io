@@ -5,8 +5,6 @@
   <!-- SEO相关 -->
   
     
-      <meta name="robots" content="noindex,follow">
-    
   
   <!-- 渲染优化 -->
   <meta name="renderer" content="webkit">
@@ -18,8 +16,12 @@
 
   <!-- 页面元数据 -->
   
-    <title>Tag: mysql - 麦田麦穗</title>
+    <title>mysql字符集问题 - 麦田麦穗</title>
   
+    <meta name="keywords" content="mysql">
+  
+  
+    <meta name="description" content="现代产品和国际化产品建议都使用utf8mb4字符集，表情已无处不在🤖🦖。人生苦短建议mb4.">
   
 
   <!-- feed -->
@@ -346,27 +348,12 @@
     <div class='body-wrapper'>
       
 
-
 <div class='l_main'>
   
-    
-      
-  <section class="post-list ">
-    
-      
-        
-          
-        
-          
-        
-      
-    
-    
-      
-        
-          <div class='post-wrapper'>
-            <article class="post white-box shadow reveal ">
+
   
+    <article id="post" class="post white-box reveal shadow article-type-post" itemscope itemprop="blogPost">
+      
 
 
   <section class='meta'>
@@ -376,11 +363,11 @@
       <div class="meta" id="header-meta">
         
           
-  <h2 class="title">
+  <h1 class="title">
     <a href="/2020/09/01/mysql%E5%AD%97%E7%AC%A6%E9%9B%86%E9%97%AE%E9%A2%98/">
       mysql字符集问题
     </a>
-  </h2>
+  </h1>
 
 
         
@@ -416,24 +403,6 @@
           
             
               
-  <div class="new-meta-item wordcount">
-    <a class='notlink'>
-      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>293 words</p>
-    </a>
-  </div>
-  <div class="new-meta-item readtime">
-    <a class='notlink'>
-      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>1 min</p>
-    </a>
-  </div>
-
-
-            
-          
-            
-              
 
             
           
@@ -446,200 +415,77 @@
   </section>
 
 
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>现代产品和国际化产品建议都使用utf8mb4字符集，表情已无处不在🤖🦖。人生苦短建议mb4.</p>
-      
-    </div>
-    
-      
-        <div class="button readmore">
-          <a href="/2020/09/01/mysql%E5%AD%97%E7%AC%A6%E9%9B%86%E9%97%AE%E9%A2%98/">
-            Read More <i class="fas fa-chevron-right"></i>
-          </a>
-        </div>
-      
-    
-  </section>
-</article>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <article class="post white-box shadow reveal ">
-  
-
-
-  <section class='meta'>
-    
-      
-      
-      <div class="meta" id="header-meta">
-        
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
           
-  <h2 class="title">
-    <a href="/2020/05/08/mysql%E5%8D%95%E4%B8%AA%E8%A1%A8%E7%9A%84%E6%9D%83%E9%99%90%E6%8E%A7%E5%88%B6/">
-      mysql单个表的权限控制
-    </a>
-  </h2>
+          <p>现代产品和国际化产品建议都使用utf8mb4字符集，表情已无处不在🤖🦖。人生苦短建议mb4.</p>
+<a id="more"></a>
 
+<p>mysql 可以设置数据库级别，表级别，列级别 字符集编码；控制粒度依次细化，也就是如果都设置了，列级别优先级最高。</p>
+<p>定义数据表结构时建议不要定义列的字符集，以免将来修改变得麻烦。</p>
+<h2 id="修改表的字符集"><a href="#修改表的字符集" class="headerlink" title="修改表的字符集"></a>修改表的字符集</h2><h3 id="修改表的字符集-并刷新之前已存在的数据"><a href="#修改表的字符集-并刷新之前已存在的数据" class="headerlink" title="修改表的字符集 并刷新之前已存在的数据"></a>修改表的字符集 并刷新之前已存在的数据</h3><pre><code>ALTER table table_name CONVERT to CHARACTER set  新的字符集; </code></pre><h3 id="修改表的字符集，但不对之前已存在的数据刷新"><a href="#修改表的字符集，但不对之前已存在的数据刷新" class="headerlink" title="修改表的字符集，但不对之前已存在的数据刷新"></a>修改表的字符集，但不对之前已存在的数据刷新</h3><pre><code>ALTER table table_name DEFAULT to CHARACTER set  新的字符集; </code></pre><h2 id="批量修改"><a href="#批量修改" class="headerlink" title="批量修改"></a>批量修改</h2><pre><code class="sql">SELECT
+    CONCAT(
+        &#39;ALTER TABLE &#39;,
+        TABLE_NAME,
+        &#39; CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;&#39;
+    )
+FROM
+    information_schema.`TABLES`
+WHERE
+    TABLE_SCHEMA = &#39;DATABASE_NAME&#39;;</code></pre>
+<p>得到修改语句，复制出执行语句，进行执行。如果数据库数据较多，将会比较耗时。</p>
+<p>如果只是修改默认字符集不修改数据。</p>
+<pre><code class="sql">SELECT
+    CONCAT(
+        &#39;ALTER TABLE &#39;,
+        TABLE_NAME,
+        &#39; DEFAULT  CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;&#39;
+    )
+FROM
+    information_schema.`TABLES`
+WHERE
+    TABLE_SCHEMA = &#39;DATABASE_NAME&#39;;</code></pre>
+<p>这样执行应该较为安全，也满足一般需求。</p>
 
-        
-        <div class='new-meta-box'>
           
-            
-          
-            
+            <div class='article_footer'>
               
-<div class='new-meta-item author'>
-  <a href="" rel="nofollow">
-    <img src="http://img.rc5j.cn/blog20200508235943.png">
-    <p>vison</p>
-  </a>
-</div>
-
-            
-          
-            
-              
-
-            
-          
-            
-              <div class="new-meta-item date">
-  <a class='notlink'>
-    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：May 8, 2020</p>
-  </a>
-</div>
-
-            
-          
-            
-              
-  <div class="new-meta-item wordcount">
-    <a class='notlink'>
-      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>455 words</p>
-    </a>
-  </div>
-  <div class="new-meta-item readtime">
-    <a class='notlink'>
-      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>2 min</p>
-    </a>
-  </div>
-
-
-            
-          
-            
-              
-
-            
-          
-        </div>
-        
-          <hr>
-        
-      </div>
-    
-  </section>
-
-
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>在系统开发当中有这样的需求，A系统需要读写B系统的数据库数据,但是某些特殊的表数据只允许读操作。这时候就需要做到表级的权限控制。</p>
-</blockquote>
-      
-    </div>
-    
-      
-        <div class="button readmore">
-          <a href="/2020/05/08/mysql%E5%8D%95%E4%B8%AA%E8%A1%A8%E7%9A%84%E6%9D%83%E9%99%90%E6%8E%A7%E5%88%B6/">
-            Read More <i class="fas fa-chevron-right"></i>
-          </a>
-        </div>
-      
-    
-  </section>
-</article>
-
-          </div>
-        
-      
-    
-  </section>
-  
-    
-    <!-- 根据主题中的设置决定是否在archive中针对摘要部分的MathJax公式加载mathjax.js文件 -->
-    
-    
-
-  
-
-
-    
-  
-</div>
-<aside class='l_side'>
-  
+                
   
     
     
 
-<section class="widget blogger shadow desktop mobile">
+
+
+  
+
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
   <div class='content'>
     
-      
-        <a class='avatar flat-box' href='/about/'>
-          <img no-lazy src='http://img.rc5j.cn/blog20200508235943.png'/>
-        </a>
-      
-    
-    
-      <div class='text'>
-        
-        
-        
-          <p><span id="jinrishici-sentence">麦田麦穗</span></p>
-          <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
-        
-      </div>
-    
-    
-      <div class="social-wrapper">
+      <blockquote>
         
           
-            <a href="/atom.xml"
-              class="social fas fa-rss flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
+            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
           
         
           
-            <a href="mailto:visonforcoding@gmail.com"
-              class="social fas fa-envelope flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
+            <p>本文永久链接是：<a href=http://visonforcoding.github.io/2020/09/01/mysql%E5%AD%97%E7%AC%A6%E9%9B%86%E9%97%AE%E9%A2%98/>http://visonforcoding.github.io/2020/09/01/mysql%E5%AD%97%E7%AC%A6%E9%9B%86%E9%97%AE%E9%A2%98/</a></p>
           
         
-          
-            <a href="https://music.163.com/#/user/home?id=63035382"
-              class="social fas fa-headphones-alt flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
-          
-        
-      </div>
+      </blockquote>
     
   </div>
 </section>
@@ -650,29 +496,198 @@
     
     
 
+<section class="widget qrcode  desktop mobile">
+  
+
+  <div class='content article-entry'>
+    
+      
+        <div class='fancybox'><img src='http://img.rc5j.cn/blog20200509000739.png'
+        
+          height='240px'
+        ></div>
+      
+    
+    请我喝杯咖啡
+  </div>
+</section>
+
+  
+
+
+              
+            </div>
+          
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-09-02T09:27:13+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：Sep 2, 2020</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/mysql/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>mysql</p></a></div>
+
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=http://visonforcoding.github.io/2020/09/01/mysql%E5%AD%97%E7%AC%A6%E9%9B%86%E9%97%AE%E9%A2%98/&title=mysql字符集问题 - 麦田麦穗&summary=现代产品和国际化产品建议都使用utf8mb4字符集，表情已无处不在🤖🦖。人生苦短建议mb4."
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://visonforcoding.github.io/2020/09/01/mysql%E5%AD%97%E7%AC%A6%E9%9B%86%E9%97%AE%E9%A2%98/&title=mysql字符集问题 - 麦田麦穗&summary=现代产品和国际化产品建议都使用utf8mb4字符集，表情已无处不在🤖🦖。人生苦短建议mb4."
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=http://visonforcoding.github.io/2020/09/01/mysql%E5%AD%97%E7%AC%A6%E9%9B%86%E9%97%AE%E9%A2%98/&title=mysql字符集问题 - 麦田麦穗&summary=现代产品和国际化产品建议都使用utf8mb4字符集，表情已无处不在🤖🦖。人生苦短建议mb4."
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/weibo.png">
+          
+        </a>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+          <div class="prev-next">
+            
+            
+              <a class='next' href='/2020/08/27/mac%E4%B8%8B%E4%BD%BF%E7%94%A8openjdk-11/'>
+                <p class='title'>使用openjdk 11<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>最近似乎java 8以上的版本都不能从oracle官网下载了，于是就尝试使用open jdk11
+
+
+
+
+下载可以从 https://mirrors.huaweicloud.com/openjd...</p>
+              </a>
+            
+          </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  <article class="post white-box reveal comments shadow">
+    <section class="article typo">
+      <p ct><i class='fas fa-comments'></i> 评论</p>
+      
+      
+        <section id="comments">
+          <div id="disqus_thread">
+            <div><i class='fas fa-exclamation-triangle'></i>&nbsp;Unable to load Disqus, please make sure your network can access.</div>
+          </div>
+        </section>
+      
+      
+      
+      
+      
+      
+    </section>
+  </article>
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: 'mysql字符集问题',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
   
 
   
     
     
-  
 
-  <section class="widget tagcloud shadow desktop mobile">
+
+  <section class="widget toc-wrapper shadow desktop mobile">
     
   <header>
     
-      <a href='/blog/tags/'><i class="fas fa-tags fa-fw" aria-hidden="true"></i><span class='name'>热门标签</span></a>
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
     
   </header>
 
 
     <div class='content'>
-      <a href="/tags/devops/" style="font-size: 14px; color: #999">devops</a> <a href="/tags/docker/" style="font-size: 14px; color: #999">docker</a> <a href="/tags/java/" style="font-size: 17.33px; color: #828282">java</a> <a href="/tags/java-spring-boot/" style="font-size: 14px; color: #999">java spring-boot</a> <a href="/tags/kafka/" style="font-size: 14px; color: #999">kafka</a> <a href="/tags/mysql/" style="font-size: 17.33px; color: #828282">mysql</a> <a href="/tags/php/" style="font-size: 24px; color: #555">php</a> <a href="/tags/php-linux/" style="font-size: 14px; color: #999">php linux</a> <a href="/tags/python/" style="font-size: 20.67px; color: #6c6c6c">python</a> <a href="/tags/web%E5%89%8D%E7%AB%AF/" style="font-size: 14px; color: #999">web前端</a> <a href="/tags/%E6%96%B9%E6%A1%88/" style="font-size: 14px; color: #999">方案</a> <a href="/tags/%E7%A8%8B%E5%BA%8F%E4%BA%BA%E7%94%9F/" style="font-size: 14px; color: #999">程序人生</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/" style="font-size: 14px; color: #999">计算机基础</a> <a href="/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 14px; color: #999">随笔</a>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#修改表的字符集"><span class="toc-text">修改表的字符集</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#修改表的字符集-并刷新之前已存在的数据"><span class="toc-text">修改表的字符集 并刷新之前已存在的数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#修改表的字符集，但不对之前已存在的数据刷新"><span class="toc-text">修改表的字符集，但不对之前已存在的数据刷新</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#批量修改"><span class="toc-text">批量修改</span></a></li></ol>
     </div>
   </section>
 
-
-  
 
   
 
@@ -846,6 +861,20 @@
 
 
 
+
+  <script>
+    var disqus_shortname = 'visonforcoding-github-io';
+    
+      var disqus_url = 'http://visonforcoding.github.io/2020/09/01/mysql%E5%AD%97%E7%AC%A6%E9%9B%86%E9%97%AE%E9%A2%98/';
+    
+    (function(){
+      var dsq = document.createElement('script');
+      dsq.type = 'text/javascript';
+      dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
 
 
 

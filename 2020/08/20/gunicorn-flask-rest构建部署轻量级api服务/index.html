@@ -464,7 +464,7 @@ pip install -r requirements.txt -i http://mirrors.aliyun.com/pypi/simple/ --trus
 pip install xlrd -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com
 pip install openpyxl -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com
 gunicorn -c config.py app:app</code></pre>
-<h2 id="平滑重启"><a href="#平滑重启" class="headerlink" title="平滑重启"></a>平滑重启</h2><pre><code class="shell">cat logs/gunicorn.log | xargs kill -HUP</code></pre>
+<h2 id="平滑重启"><a href="#平滑重启" class="headerlink" title="平滑重启"></a>平滑重启</h2><pre><code class="shell">cat logs/gunicorn.pid | xargs kill -HUP</code></pre>
 
           
             <div class='article_footer'>
@@ -546,10 +546,10 @@ gunicorn -c config.py app:app</code></pre>
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-08-24T15:22:54+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-09-02T09:19:32+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Aug 24, 2020</p>
+    <p>更新于：Sep 2, 2020</p>
   </a>
 </div>
 

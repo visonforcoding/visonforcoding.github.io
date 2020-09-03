@@ -775,8 +775,42 @@ xmlreader
 xmlwriter
 
 [Zend Modules]</code></pre><p>此时你会发现连<code>php-fpm</code>都没有</p>
-<h2 id="常用配置"><a href="#常用配置" class="headerlink" title="常用配置"></a>常用配置</h2><pre><code>./configure --enable-fpm  --enable-bcmath  --with-openssl \
---enable-intl --enable-mbstring --with-mysqli --enable-mysqlnd</code></pre><h3 id="依赖安装"><a href="#依赖安装" class="headerlink" title="依赖安装"></a>依赖安装</h3><pre><code>yum install -y libxml2-devel openssl-devel</code></pre>
+<h2 id="常用配置"><a href="#常用配置" class="headerlink" title="常用配置"></a>常用配置</h2><h3 id="依赖安装"><a href="#依赖安装" class="headerlink" title="依赖安装"></a>依赖安装</h3><pre><code>yum install -y libxml2-devel openssl-devel</code></pre><pre><code>./configure --enable-fpm  --enable-bcmath  --with-openssl \
+--enable-mbstring --with-mysqli --enable-mysqlnd</code></pre><h3 id="编译安装"><a href="#编译安装" class="headerlink" title="编译安装"></a>编译安装</h3><pre><code>make &amp;&amp; make install</code></pre><h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><h3 id="查看ini配置"><a href="#查看ini配置" class="headerlink" title="查看ini配置"></a>查看ini配置</h3><pre><code>php -ini | grep &#39;ini&#39;</code></pre><pre><code>Configuration File (php.ini) Path =&gt; /usr/local/lib
+Loaded Configuration File =&gt; /usr/local/lib/php.ini
+Scan this dir for additional .ini files =&gt; (none)
+Additional .ini files parsed =&gt; (none)
+user_ini.cache_ttl =&gt; 300 =&gt; 300
+user_ini.filename =&gt; .user.ini =&gt; .user.ini
+init_command_executed_count =&gt; 0
+init_command_failed_count =&gt; 0
+com_init_db =&gt; 0</code></pre><p>从源代码目录 复制配置文件到<code>Configuration File (php.ini) Path</code></p>
+<pre><code>cp php.ini-production /usr/local/lib/php.ini</code></pre><h2 id="设置服务-amp-开机启动-centos-7"><a href="#设置服务-amp-开机启动-centos-7" class="headerlink" title="设置服务&amp;开机启动(centos 7+)"></a>设置服务&amp;开机启动(centos 7+)</h2><p>服务服务脚本到systemd</p>
+<pre><code>cp sapi/fpm/php-fpm.service /etc/systemd/system/
+</code></pre><p>查看启动脚本</p>
+<pre><code>cat sapi/fpm/php-fpm.service</code></pre><p>结果</p>
+<pre><code># It&#39;s not recommended to modify this file in-place, because it
+# will be overwritten during upgrades.  If you want to customize,
+# the best way is to use the &quot;systemctl edit&quot; command.
+
+[Unit]
+Description=The PHP FastCGI Process Manager
+After=network.target
+
+[Service]
+Type=simple
+PIDFile=/usr/local/var/run/php-fpm.pid
+ExecStart=/usr/local/sbin/php-fpm --nodaemonize --fpm-config /usr/local/etc/php-fpm.conf
+ExecReload=/bin/kill -USR2 $MAINPID
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target</code></pre><h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><pre><code>cp sapi/fpm/php-fpm.conf /usr/local/etc/php-fpm.conf
+</code></pre><p>修改php-fpm.conf 相应配置使得PIDFile文件位置与php-fpm.service配置的一致。并复制<a href="http://www.conf到对应目录" target="_blank" rel="noopener">www.conf到对应目录</a></p>
+<h3 id="启动-1"><a href="#启动-1" class="headerlink" title="启动"></a>启动</h3><pre><code>systemctl daemon-reload
+systemctl start php-fpm.service
+systemctl status php-fpm.service
+systemctl enable php-fpm.service</code></pre>
           
             <div class='article_footer'>
               
@@ -857,7 +891,7 @@ xmlwriter
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-09-03T10:38:40+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-09-03T14:48:51+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
     <p>更新于：Sep 3, 2020</p>
@@ -1014,7 +1048,7 @@ pip安装pip insta...</p>
 
 
     <div class='content'>
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#help"><span class="toc-text">help</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#默认拓展"><span class="toc-text">默认拓展</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#常用配置"><span class="toc-text">常用配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#依赖安装"><span class="toc-text">依赖安装</span></a></li></ol></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#help"><span class="toc-text">help</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#默认拓展"><span class="toc-text">默认拓展</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#常用配置"><span class="toc-text">常用配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#依赖安装"><span class="toc-text">依赖安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#编译安装"><span class="toc-text">编译安装</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#启动"><span class="toc-text">启动</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#查看ini配置"><span class="toc-text">查看ini配置</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#设置服务-amp-开机启动-centos-7"><span class="toc-text">设置服务&amp;开机启动(centos 7+)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#配置"><span class="toc-text">配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#启动-1"><span class="toc-text">启动</span></a></li></ol></li></ol>
     </div>
   </section>
 

@@ -4,6 +4,25 @@
   
     
     <entry>
+      <title>IOC和spring对它的实现</title>
+      <link href="/2020/09/09/IOC%E5%92%8Cspring%E5%AF%B9%E5%AE%83%E7%9A%84%E5%AE%9E%E7%8E%B0/"/>
+      <url>/2020/09/09/IOC%E5%92%8Cspring%E5%AF%B9%E5%AE%83%E7%9A%84%E5%AE%9E%E7%8E%B0/</url>
+      
+        <content type="html"><![CDATA[<p><img src="http://img.rc5j.cn/blog20200909211506.png" alt=""></p><a id="more"></a><h2 id="IOS概述"><a href="#IOS概述" class="headerlink" title="IOS概述"></a>IOS概述</h2><p><a href="https://www.cnblogs.com/DebugLZQ/archive/2013/06/05/3107957.html" target="_blank" rel="noopener">https://www.cnblogs.com/DebugLZQ/archive/2013/06/05/3107957.html</a> 这篇文章已经讲的很好。</p><p>我做下总结。</p><ul><li>面向对象编程的世界，程序之间的耦合不可避免，而且会使得系统变得难以维护</li><li>IOC就是为了降低这种耦合</li><li>IOS也不是完美的，所有事情都有优缺点</li></ul><p><img src="http://img.rc5j.cn/blog20200909212010.png" alt=""></p><p>IOC就是为了把原本互相之间有耦合在一起，会造成牵一发而动全身的现象。通过容器解耦开,各自能独立运作。</p><p><img src="http://img.rc5j.cn/blog20200909212051.png" alt=""></p><h2 id="spring的实现"><a href="#spring的实现" class="headerlink" title="spring的实现"></a>spring的实现</h2><p>org.springframework.beans 和org.springframework.context 包是Spring Framework 的IoC 容器的基础。</p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> java </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>php编译参数详解</title>
       <link href="/2020/09/03/php%E7%BC%96%E8%AF%91%E5%8F%82%E6%95%B0%E8%AF%A6%E8%A7%A3/"/>
       <url>/2020/09/03/php%E7%BC%96%E8%AF%91%E5%8F%82%E6%95%B0%E8%AF%A6%E8%A7%A3/</url>

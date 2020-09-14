@@ -500,9 +500,162 @@
         
           
         
+          
+        
       
     
     
+      
+        
+          <div class='post-wrapper'>
+            <article class="post white-box shadow reveal ">
+  
+
+
+  <section class='meta'>
+    
+      
+      
+      <div class="meta" id="header-meta">
+        
+          
+  <h2 class="title">
+    <a href="/2020/09/14/spring-boot-validation%E6%95%B0%E6%8D%AE%E9%AA%8C%E8%AF%81/">
+      spring-boot validation数据验证
+    </a>
+  </h2>
+
+
+        
+        <div class='new-meta-box'>
+          
+            
+          
+            
+              
+<div class='new-meta-item author'>
+  <a href="" rel="nofollow">
+    <img src="http://img.rc5j.cn/blog20200508235943.png">
+    <p>vison</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+
+            
+          
+            
+              <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：Sep 14, 2020</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>445 words</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>2 min</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              
+
+            
+          
+        </div>
+        
+          <hr>
+        
+      </div>
+    
+  </section>
+
+
+  <section class="article typo">
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>做业务处理，不可避免的要对参数进行校验，一套完整规范的校验体系可以提高不少的效率。</p>
+<p>在写了PHP、java、python 等编程语言之后，我发现java的优势就是它的规范、它的严谨。在<code>jsr</code>之下建立各种场景的标准，所有人都在这套规范下拓展、迭代、升级。最终这套体系变得越来越完美、符合体系的生态产品也越来越多。 这大概就是java最强之处吧。</p>
+<p>本节介绍下spring-boot的验证，它也是基于<code>jsr</code>的validation之下。</p>
+<h2 id="依赖"><a href="#依赖" class="headerlink" title="依赖"></a>依赖</h2><pre><code class="xml">    &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;
+        &lt;/dependency&gt;
+      &lt;dependency&gt; 
+            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt; 
+            &lt;artifactId&gt;spring-boot-starter-validation&lt;/artifactId&gt; 
+        &lt;/dependency&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;javax.validation&lt;/groupId&gt;
+            &lt;artifactId&gt;validation-api&lt;/artifactId&gt;
+            &lt;version&gt;2.0.1.Final&lt;/version&gt;
+            &lt;type&gt;jar&lt;/type&gt;
+        &lt;/dependency&gt;</code></pre>
+<p>javax.validation 正是 jsr的规范。</p>
+<h2 id="定义验证规则"><a href="#定义验证规则" class="headerlink" title="定义验证规则"></a>定义验证规则</h2><pre><code class="java">    @NotBlank(message = &quot;用户名不可为空&quot;)
+    @NotNull(message = &quot;不可为空&quot;)
+    private String username;
+
+    @NotBlank(message = &quot;密码不可为空&quot;)
+    @NotNull(message = &quot;密码不可为空&quot;)
+    private String pwd;</code></pre>
+<h2 id="controller使用"><a href="#controller使用" class="headerlink" title="controller使用"></a>controller使用</h2><pre><code class="java"> public Response login(@Valid @RequestBody LoginInfo loginInfo, HttpServletRequest request, HttpSession session) {
+
+ }
+
+</code></pre>
+<p>这里要对<code>@Valid</code> 进行使用</p>
+<h2 id="全局处理"><a href="#全局处理" class="headerlink" title="全局处理"></a>全局处理</h2><pre><code class="java">
+@RestControllerAdvice
+public class ControllerAdvice {
+
+    /**
+     * ConstraintViolationException
+     */
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public Response handleConstraintViolationException(MethodArgumentNotValidException ex) {
+        Map&lt;String, String&gt; errors = new HashMap&lt;&gt;();
+        ex.getBindingResult().getAllErrors().forEach((error) -&gt; {
+            String fieldName = ((FieldError) error).getField();
+            System.out.println(fieldName);
+            String errorMessage = error.getDefaultMessage();
+            errors.put(fieldName, errorMessage);
+            System.out.println(errorMessage);
+        });
+        return new Response(ResponseCode.parametrErrror, &quot;参数错误&quot;, errors);
+    }
+
+}</code></pre>
+<p>由于使用<code>@Valid</code>对参数进行校验之后，如果有校验不通过会抛出一个<code>MethodArgumentNotValidException</code>异常。全局进行捕获之后可以全局处理参数不正确的情况。</p>
+
+      
+    </div>
+    
+      
+    
+  </section>
+</article>
+
+          </div>
+        
       
         
           <div class='post-wrapper'>
@@ -560,7 +713,7 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>154 words</p>
+      <p>268 words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
@@ -1441,111 +1594,6 @@
           </div>
         
       
-        
-          <div class='post-wrapper'>
-            <article class="post white-box shadow reveal ">
-  
-
-
-  <section class='meta'>
-    
-      
-      
-      <div class="meta" id="header-meta">
-        
-          
-  <h2 class="title">
-    <a href="/2020/07/31/pandas%E6%95%B0%E6%8D%AE%E5%BF%AB%E9%80%9F%E5%A4%84%E7%90%86/">
-      pandas数据快速处理
-    </a>
-  </h2>
-
-
-        
-        <div class='new-meta-box'>
-          
-            
-          
-            
-              
-<div class='new-meta-item author'>
-  <a href="" rel="nofollow">
-    <img src="http://img.rc5j.cn/blog20200508235943.png">
-    <p>vison</p>
-  </a>
-</div>
-
-            
-          
-            
-              
-
-            
-          
-            
-              <div class="new-meta-item date">
-  <a class='notlink'>
-    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Jul 31, 2020</p>
-  </a>
-</div>
-
-            
-          
-            
-              
-  <div class="new-meta-item wordcount">
-    <a class='notlink'>
-      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>111 words</p>
-    </a>
-  </div>
-  <div class="new-meta-item readtime">
-    <a class='notlink'>
-      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>1 min</p>
-    </a>
-  </div>
-
-
-            
-          
-            
-              
-
-            
-          
-        </div>
-        
-          <hr>
-        
-      </div>
-    
-  </section>
-
-
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><img src="http://img.rc5j.cn/blog20200731122918.png" alt=""></p>
-<p>销售同事拿到一份数据，但是数据导出列是json,我顺手就帮他处理了下。不得不说 pandas在处理这类问题还是非常效率高的.</p>
-      
-    </div>
-    
-      
-        <div class="button readmore">
-          <a href="/2020/07/31/pandas%E6%95%B0%E6%8D%AE%E5%BF%AB%E9%80%9F%E5%A4%84%E7%90%86/">
-            Read More <i class="fas fa-chevron-right"></i>
-          </a>
-        </div>
-      
-    
-  </section>
-</article>
-
-          </div>
-        
-      
     
   </section>
   
@@ -1653,7 +1701,7 @@
 
 
     <div class='content'>
-      <a href="/tags/devops/" style="font-size: 14px; color: #999">devops</a> <a href="/tags/docker/" style="font-size: 14px; color: #999">docker</a> <a href="/tags/java/" style="font-size: 20.67px; color: #6c6c6c">java</a> <a href="/tags/java-spring-boot/" style="font-size: 14px; color: #999">java spring-boot</a> <a href="/tags/kafka/" style="font-size: 14px; color: #999">kafka</a> <a href="/tags/mysql/" style="font-size: 17.33px; color: #828282">mysql</a> <a href="/tags/php/" style="font-size: 24px; color: #555">php</a> <a href="/tags/php-linux/" style="font-size: 14px; color: #999">php linux</a> <a href="/tags/python/" style="font-size: 20.67px; color: #6c6c6c">python</a> <a href="/tags/web%E5%89%8D%E7%AB%AF/" style="font-size: 14px; color: #999">web前端</a> <a href="/tags/%E6%96%B9%E6%A1%88/" style="font-size: 14px; color: #999">方案</a> <a href="/tags/%E7%A8%8B%E5%BA%8F%E4%BA%BA%E7%94%9F/" style="font-size: 14px; color: #999">程序人生</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/" style="font-size: 14px; color: #999">计算机基础</a> <a href="/tags/%E8%BF%90%E7%BB%B4/" style="font-size: 14px; color: #999">运维</a> <a href="/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 14px; color: #999">随笔</a>
+      <a href="/tags/devops/" style="font-size: 14px; color: #999">devops</a> <a href="/tags/docker/" style="font-size: 14px; color: #999">docker</a> <a href="/tags/java/" style="font-size: 20.67px; color: #6c6c6c">java</a> <a href="/tags/java-spring-boot/" style="font-size: 14px; color: #999">java spring-boot</a> <a href="/tags/kafka/" style="font-size: 14px; color: #999">kafka</a> <a href="/tags/mysql/" style="font-size: 17.33px; color: #828282">mysql</a> <a href="/tags/php/" style="font-size: 24px; color: #555">php</a> <a href="/tags/php-linux/" style="font-size: 14px; color: #999">php linux</a> <a href="/tags/python/" style="font-size: 20.67px; color: #6c6c6c">python</a> <a href="/tags/spring-boot/" style="font-size: 14px; color: #999">spring-boot</a> <a href="/tags/web%E5%89%8D%E7%AB%AF/" style="font-size: 14px; color: #999">web前端</a> <a href="/tags/%E6%96%B9%E6%A1%88/" style="font-size: 14px; color: #999">方案</a> <a href="/tags/%E7%A8%8B%E5%BA%8F%E4%BA%BA%E7%94%9F/" style="font-size: 14px; color: #999">程序人生</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/" style="font-size: 14px; color: #999">计算机基础</a> <a href="/tags/%E8%BF%90%E7%BB%B4/" style="font-size: 14px; color: #999">运维</a> <a href="/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 14px; color: #999">随笔</a>
     </div>
   </section>
 

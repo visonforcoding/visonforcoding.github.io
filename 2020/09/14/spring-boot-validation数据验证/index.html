@@ -21,6 +21,10 @@
     <meta name="keywords" content="spring-boot">
   
   
+    <meta name="description" content="
+做业务处理，不可避免的要对参数进行校验，一套完整规范的校验体系可以提高不少的效率。
+在写了PHP、java、python 等编程语言之后，我发现java的优势就是它的规范、它的严谨。在jsr之下建立各种场景的标准，所有人都在这套规范下拓展、迭代、升级。最终这套体系变得越来越完美、符合体系的生态产品也越来越多。 ...">
+  
 
   <!-- feed -->
   
@@ -416,9 +420,12 @@
       <section class="article typo">
         <div class="article-entry" itemprop="articleBody">
           
-          <p>做业务处理，不可避免的要对参数进行校验，一套完整规范的校验体系可以提高不少的效率。</p>
+          <p><img src="http://img.rc5j.cn/blog20200914225941.png" alt=""></p>
+<p>做业务处理，不可避免的要对参数进行校验，一套完整规范的校验体系可以提高不少的效率。</p>
 <p>在写了PHP、java、python 等编程语言之后，我发现java的优势就是它的规范、它的严谨。在<code>jsr</code>之下建立各种场景的标准，所有人都在这套规范下拓展、迭代、升级。最终这套体系变得越来越完美、符合体系的生态产品也越来越多。 这大概就是java最强之处吧。</p>
 <p>本节介绍下spring-boot的验证，它也是基于<code>jsr</code>的validation之下。</p>
+<a id="more"></a>
+
 <h2 id="依赖"><a href="#依赖" class="headerlink" title="依赖"></a>依赖</h2><pre><code class="xml">    &lt;dependency&gt;
             &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
             &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;
@@ -550,7 +557,7 @@ public class ControllerAdvice {
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-09-14T22:55:38+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-09-14T22:59:52+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
     <p>更新于：Sep 14, 2020</p>
@@ -580,7 +587,10 @@ public class ControllerAdvice {
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://connect.qq.com/widget/shareqq/index.html?url=http://visonforcoding.github.io/2020/09/14/spring-boot-validation%E6%95%B0%E6%8D%AE%E9%AA%8C%E8%AF%81/&title=spring-boot validation数据验证 - 麦田麦穗&summary="
+          href="http://connect.qq.com/widget/shareqq/index.html?url=http://visonforcoding.github.io/2020/09/14/spring-boot-validation%E6%95%B0%E6%8D%AE%E9%AA%8C%E8%AF%81/&title=spring-boot validation数据验证 - 麦田麦穗&summary=
+做业务处理，不可避免的要对参数进行校验，一套完整规范的校验体系可以提高不少的效率。
+在写了PHP、java、python 等编程语言之后，我发现java的优势就是它的规范、它的严谨。在jsr之下建立各种场景的标准，所有人都在这套规范下拓展、迭代、升级。最终这套体系变得越来越完美、符合体系的生态产品也越来越多。 这大概就是java最强之处吧。
+本节介绍下spring-boot的验证，它也是基于jsr的validation之下。"
           
           >
           
@@ -592,7 +602,10 @@ public class ControllerAdvice {
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
           
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://visonforcoding.github.io/2020/09/14/spring-boot-validation%E6%95%B0%E6%8D%AE%E9%AA%8C%E8%AF%81/&title=spring-boot validation数据验证 - 麦田麦穗&summary="
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://visonforcoding.github.io/2020/09/14/spring-boot-validation%E6%95%B0%E6%8D%AE%E9%AA%8C%E8%AF%81/&title=spring-boot validation数据验证 - 麦田麦穗&summary=
+做业务处理，不可避免的要对参数进行校验，一套完整规范的校验体系可以提高不少的效率。
+在写了PHP、java、python 等编程语言之后，我发现java的优势就是它的规范、它的严谨。在jsr之下建立各种场景的标准，所有人都在这套规范下拓展、迭代、升级。最终这套体系变得越来越完美、符合体系的生态产品也越来越多。 这大概就是java最强之处吧。
+本节介绍下spring-boot的验证，它也是基于jsr的validation之下。"
           
           >
           
@@ -604,7 +617,10 @@ public class ControllerAdvice {
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://service.weibo.com/share/share.php?url=http://visonforcoding.github.io/2020/09/14/spring-boot-validation%E6%95%B0%E6%8D%AE%E9%AA%8C%E8%AF%81/&title=spring-boot validation数据验证 - 麦田麦穗&summary="
+          href="http://service.weibo.com/share/share.php?url=http://visonforcoding.github.io/2020/09/14/spring-boot-validation%E6%95%B0%E6%8D%AE%E9%AA%8C%E8%AF%81/&title=spring-boot validation数据验证 - 麦田麦穗&summary=
+做业务处理，不可避免的要对参数进行校验，一套完整规范的校验体系可以提高不少的效率。
+在写了PHP、java、python 等编程语言之后，我发现java的优势就是它的规范、它的严谨。在jsr之下建立各种场景的标准，所有人都在这套规范下拓展、迭代、升级。最终这套体系变得越来越完美、符合体系的生态产品也越来越多。 这大概就是java最强之处吧。
+本节介绍下spring-boot的验证，它也是基于jsr的validation之下。"
           
           >
           

@@ -4,6 +4,25 @@
   
     
     <entry>
+      <title>PHP QA之PHPStan</title>
+      <link href="2020/09/17/php/PHP-QA%E4%B9%8BPHPStan/"/>
+      <url>2020/09/17/php/PHP-QA%E4%B9%8BPHPStan/</url>
+      
+        <content type="html"><![CDATA[<p><img src="http://img.rc5j.cn/blog20200917210020.png" alt=""></p><p>写在前面，工作7年，PHP也写了7年了。期间也写一些java和python，也对各语言的特点有一些自己的体会。<br>这次咱们聊聊QA之PHPStan。</p><a id="more"></a><p>来到<code>PHPStan</code>的官网，我看到了一段话。</p><blockquote><p>I really like how much productivity a web developer gains by switching from compiled languages like Java or C# to an interpreted one like PHP. Aside from the dead simple execution model (start, handle one request, and die) and a much shorter feedback loop (no need to wait for the compiler), there’s a healthy ecosystem of open-source frameworks and libraries to help developers with their everyday tasks. Because of these reasons, PHP is the most popular language for web development by far.</p></blockquote><p>大意是作者很乐意看到web开发者们从C#或Java这些编译性语言里切换到解释语言。除了简单的执行模型（启动，处理一个请求和终止）和较短的反馈周期（无需等待编译）之外，还有一个健康的开源框架和库生态系统可帮助开发人员完成日常工作任务。由于这些原因，PHP是迄今为止最流行的Web开发语言。</p><p>这篇文章是作者2016年12月4日写的，说实话对于<code>PHP是迄今为止最流行的Web开发语言</code>这句话我已经开始怀疑了。至少在最近这些年，在国内PHP的市场已经不那么好了。并且我也在趋向从解释性语言向编译语言切换了。但是其中对于解释性语言的优势描述我是非常赞同的，这也是它宝贵的优势。</p><ul><li>简单的执行模型</li><li>较短的反馈周期</li></ul>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> PHP </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>vue+vuex+axios+vant+vue-router简单单页登录态demo</title>
       <link href="2020/09/15/web/vue-vuex-axios-vant-vue-router%E7%AE%80%E5%8D%95%E5%8D%95%E9%A1%B5%E7%99%BB%E5%BD%95%E6%80%81demo/"/>
       <url>2020/09/15/web/vue-vuex-axios-vant-vue-router%E7%AE%80%E5%8D%95%E5%8D%95%E9%A1%B5%E7%99%BB%E5%BD%95%E6%80%81demo/</url>
@@ -43,8 +62,8 @@
     
     <entry>
       <title>IOC和spring对它的实现</title>
-      <link href="2020/09/09/IOC%E5%92%8Cspring%E5%AF%B9%E5%AE%83%E7%9A%84%E5%AE%9E%E7%8E%B0/"/>
-      <url>2020/09/09/IOC%E5%92%8Cspring%E5%AF%B9%E5%AE%83%E7%9A%84%E5%AE%9E%E7%8E%B0/</url>
+      <link href="2020/09/09/java/IOC%E5%92%8Cspring%E5%AF%B9%E5%AE%83%E7%9A%84%E5%AE%9E%E7%8E%B0/"/>
+      <url>2020/09/09/java/IOC%E5%92%8Cspring%E5%AF%B9%E5%AE%83%E7%9A%84%E5%AE%9E%E7%8E%B0/</url>
       
         <content type="html"><![CDATA[<p><img src="http://img.rc5j.cn/blog20200909211506.png" alt=""></p><a id="more"></a><h2 id="IOS概述"><a href="#IOS概述" class="headerlink" title="IOS概述"></a>IOS概述</h2><p><a href="https://www.cnblogs.com/DebugLZQ/archive/2013/06/05/3107957.html" target="_blank" rel="noopener">https://www.cnblogs.com/DebugLZQ/archive/2013/06/05/3107957.html</a> 这篇文章已经讲的很好。</p><p>我做下总结。</p><ul><li>面向对象编程的世界，程序之间的耦合不可避免，而且会使得系统变得难以维护</li><li>IOC就是为了降低这种耦合</li><li>IOS也不是完美的，所有事情都有优缺点</li></ul><p><img src="http://img.rc5j.cn/blog20200909212010.png" alt=""></p><p>IOC就是为了把原本互相之间有耦合在一起，会造成牵一发而动全身的现象。通过容器解耦开,各自能独立运作。</p><p><img src="http://img.rc5j.cn/blog20200909212051.png" alt=""></p><h2 id="spring的实现"><a href="#spring的实现" class="headerlink" title="spring的实现"></a>spring的实现</h2><p>org.springframework.beans 和org.springframework.context 包是Spring Framework 的IoC 容器的基础。</p><p>BeanFactory 接口提供高级的配置机制，可以管理任意类型的对象。</p><ul><li>ApplicationContext 是BeanFactory 的子接口。</li><li>它添加了和Spring 的AOP 特性很简便的整合；</li><li>消息资源处理（用于国际化i18n），事件发布；</li><li>应用层特定的上下文， 比如用于Web 应用程序的WebApplicationContext。</li></ul><p>总之，BeanFactory 提供了配置框架和基本功能，而ApplicationContext 添加了更多企业级开发特定的功能。</p>]]></content>
       
@@ -176,8 +195,8 @@
     
     <entry>
       <title>gunicorn+flask_rest构建部署轻量级api服务</title>
-      <link href="2020/08/20/gunicorn-flask-rest%E6%9E%84%E5%BB%BA%E9%83%A8%E7%BD%B2%E8%BD%BB%E9%87%8F%E7%BA%A7api%E6%9C%8D%E5%8A%A1/"/>
-      <url>2020/08/20/gunicorn-flask-rest%E6%9E%84%E5%BB%BA%E9%83%A8%E7%BD%B2%E8%BD%BB%E9%87%8F%E7%BA%A7api%E6%9C%8D%E5%8A%A1/</url>
+      <link href="2020/08/20/python/gunicorn-flask-rest%E6%9E%84%E5%BB%BA%E9%83%A8%E7%BD%B2%E8%BD%BB%E9%87%8F%E7%BA%A7api%E6%9C%8D%E5%8A%A1/"/>
+      <url>2020/08/20/python/gunicorn-flask-rest%E6%9E%84%E5%BB%BA%E9%83%A8%E7%BD%B2%E8%BD%BB%E9%87%8F%E7%BA%A7api%E6%9C%8D%E5%8A%A1/</url>
       
         <content type="html"><![CDATA[<p><img src="http://img.rc5j.cn/blog20200820155306.png" alt=""></p><a id="more"></a><h2 id="flask-结构"><a href="#flask-结构" class="headerlink" title="flask 结构"></a>flask 结构</h2><p>首先简单看看 flask_rest的目录结构。</p><p><img src="http://img.rc5j.cn/blog20200820155423.png" alt=""></p><h3 id="入口文件"><a href="#入口文件" class="headerlink" title="入口文件"></a>入口文件</h3><pre><code class="python">#app.pyfrom flask import Flaskfrom flask_restful import Resource, Apifrom resources.bd import Index,Formatfrom flask_cors import CORS# from common import configapp = Flask(__name__)CORS(app)api = Api(app)api.add_resource(Format, &#39;/bd/format&#39;)# if __name__ == &#39;__main__&#39;:#     app.run(debug=True)</code></pre><p>如果使用gunicorn启动，则注释掉app.run</p><h2 id="gunicorn启动配置"><a href="#gunicorn启动配置" class="headerlink" title="gunicorn启动配置"></a>gunicorn启动配置</h2><pre><code class="python"># config.pyimport osimport gevent.monkeygevent.monkey.patch_all()import multiprocessingdebug = Trueloglevel = &#39;debug&#39;bind = &quot;0.0.0.0:5000&quot;pidfile = &quot;logs/gunicorn.pid&quot;accesslog = &quot;logs/access.log&quot;errorlog = &quot;logs/debug.log&quot;daemon = True# 启动的进程数workers = multiprocessing.cpu_count()worker_class = &#39;gevent&#39;x_forwarded_for_header = &#39;X-FORWARDED-FOR&#39;</code></pre><h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><pre><code class="shell">python3 -m venv webpjsource webpj/bin/activatepip install -r requirements.txt -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.compip install xlrd -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.compip install openpyxl -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.comgunicorn -c config.py app:app</code></pre><h2 id="平滑重启"><a href="#平滑重启" class="headerlink" title="平滑重启"></a>平滑重启</h2><pre><code class="shell">cat logs/gunicorn.pid | xargs kill -HUP</code></pre>]]></content>
       

@@ -16,9 +16,9 @@
 
   <!-- 页面元数据 -->
   
-    <title>gunicorn+flask_rest构建部署轻量级api服务 - 麦田麦穗</title>
+    <title>IOC和spring对它的实现 - 麦田麦穗</title>
   
-    <meta name="keywords" content="python">
+    <meta name="keywords" content="java">
   
   
 
@@ -362,8 +362,8 @@
         
           
   <h1 class="title">
-    <a href="/2020/08/20/gunicorn-flask-rest%E6%9E%84%E5%BB%BA%E9%83%A8%E7%BD%B2%E8%BD%BB%E9%87%8F%E7%BA%A7api%E6%9C%8D%E5%8A%A1/">
-      gunicorn+flask_rest构建部署轻量级api服务
+    <a href="/2020/09/09/java/IOC%E5%92%8Cspring%E5%AF%B9%E5%AE%83%E7%9A%84%E5%AE%9E%E7%8E%B0/">
+      IOC和spring对它的实现
     </a>
   </h1>
 
@@ -393,7 +393,7 @@
               <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Aug 20, 2020</p>
+    <p>发布于：Sep 9, 2020</p>
   </a>
 </div>
 
@@ -416,55 +416,28 @@
       <section class="article typo">
         <div class="article-entry" itemprop="articleBody">
           
-          <p><img src="http://img.rc5j.cn/blog20200820155306.png" alt=""></p>
+          <p><img src="http://img.rc5j.cn/blog20200909211506.png" alt=""></p>
 <a id="more"></a>
 
-<h2 id="flask-结构"><a href="#flask-结构" class="headerlink" title="flask 结构"></a>flask 结构</h2><p>首先简单看看 flask_rest的目录结构。</p>
-<p><img src="http://img.rc5j.cn/blog20200820155423.png" alt=""></p>
-<h3 id="入口文件"><a href="#入口文件" class="headerlink" title="入口文件"></a>入口文件</h3><pre><code class="python">#app.py
-from flask import Flask
-from flask_restful import Resource, Api
-from resources.bd import Index,Format
-from flask_cors import CORS
-
-# from common import config
-app = Flask(__name__)
-CORS(app)
-api = Api(app)
-
-
-
-api.add_resource(Format, &#39;/bd/format&#39;)
-
-# if __name__ == &#39;__main__&#39;:
-#     app.run(debug=True)</code></pre>
-<p>如果使用gunicorn启动，则注释掉app.run</p>
-<h2 id="gunicorn启动配置"><a href="#gunicorn启动配置" class="headerlink" title="gunicorn启动配置"></a>gunicorn启动配置</h2><pre><code class="python"># config.py
-import os
-import gevent.monkey
-gevent.monkey.patch_all()
-
-import multiprocessing
-
-debug = True
-loglevel = &#39;debug&#39;
-bind = &quot;0.0.0.0:5000&quot;
-pidfile = &quot;logs/gunicorn.pid&quot;
-accesslog = &quot;logs/access.log&quot;
-errorlog = &quot;logs/debug.log&quot;
-daemon = True
-
-# 启动的进程数
-workers = multiprocessing.cpu_count()
-worker_class = &#39;gevent&#39;
-x_forwarded_for_header = &#39;X-FORWARDED-FOR&#39;</code></pre>
-<h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><pre><code class="shell">python3 -m venv webpj
-source webpj/bin/activate
-pip install -r requirements.txt -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com
-pip install xlrd -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com
-pip install openpyxl -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com
-gunicorn -c config.py app:app</code></pre>
-<h2 id="平滑重启"><a href="#平滑重启" class="headerlink" title="平滑重启"></a>平滑重启</h2><pre><code class="shell">cat logs/gunicorn.pid | xargs kill -HUP</code></pre>
+<h2 id="IOS概述"><a href="#IOS概述" class="headerlink" title="IOS概述"></a>IOS概述</h2><p><a href="https://www.cnblogs.com/DebugLZQ/archive/2013/06/05/3107957.html" target="_blank" rel="noopener">https://www.cnblogs.com/DebugLZQ/archive/2013/06/05/3107957.html</a> 这篇文章已经讲的很好。</p>
+<p>我做下总结。</p>
+<ul>
+<li>面向对象编程的世界，程序之间的耦合不可避免，而且会使得系统变得难以维护</li>
+<li>IOC就是为了降低这种耦合</li>
+<li>IOS也不是完美的，所有事情都有优缺点</li>
+</ul>
+<p><img src="http://img.rc5j.cn/blog20200909212010.png" alt=""></p>
+<p>IOC就是为了把原本互相之间有耦合在一起，会造成牵一发而动全身的现象。通过容器解耦开,各自能独立运作。</p>
+<p><img src="http://img.rc5j.cn/blog20200909212051.png" alt=""></p>
+<h2 id="spring的实现"><a href="#spring的实现" class="headerlink" title="spring的实现"></a>spring的实现</h2><p>org.springframework.beans 和org.springframework.context 包是Spring Framework 的IoC 容器的基础。</p>
+<p>BeanFactory 接口提供高级的配置机制，可以管理任意类型的对象。</p>
+<ul>
+<li>ApplicationContext 是BeanFactory 的子接口。</li>
+<li>它添加了和Spring 的AOP 特性很简便的整合；</li>
+<li>消息资源处理（用于国际化i18n），事件发布；</li>
+<li>应用层特定的上下文， 比如用于Web 应用程序的WebApplicationContext。</li>
+</ul>
+<p>总之，BeanFactory 提供了配置框架和基本功能，而ApplicationContext 添加了更多企业级开发特定的功能。</p>
 
           
             <div class='article_footer'>
@@ -501,7 +474,7 @@ gunicorn -c config.py app:app</code></pre>
           
         
           
-            <p>本文永久链接是：<a href=http://visonforcoding.github.io/2020/08/20/gunicorn-flask-rest%E6%9E%84%E5%BB%BA%E9%83%A8%E7%BD%B2%E8%BD%BB%E9%87%8F%E7%BA%A7api%E6%9C%8D%E5%8A%A1/>http://visonforcoding.github.io/2020/08/20/gunicorn-flask-rest%E6%9E%84%E5%BB%BA%E9%83%A8%E7%BD%B2%E8%BD%BB%E9%87%8F%E7%BA%A7api%E6%9C%8D%E5%8A%A1/</a></p>
+            <p>本文永久链接是：<a href=http://visonforcoding.github.io/2020/09/09/java/IOC%E5%92%8Cspring%E5%AF%B9%E5%AE%83%E7%9A%84%E5%AE%9E%E7%8E%B0/>http://visonforcoding.github.io/2020/09/09/java/IOC%E5%92%8Cspring%E5%AF%B9%E5%AE%83%E7%9A%84%E5%AE%9E%E7%8E%B0/</a></p>
           
         
       </blockquote>
@@ -546,10 +519,10 @@ gunicorn -c config.py app:app</code></pre>
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-09-02T09:19:32+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-09-17T20:46:06+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Sep 2, 2020</p>
+    <p>更新于：Sep 17, 2020</p>
   </a>
 </div>
 
@@ -558,7 +531,7 @@ gunicorn -c config.py app:app</code></pre>
         
           
   
-  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/python/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>python</p></a></div>
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/java/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>java</p></a></div>
 
 
         
@@ -576,7 +549,7 @@ gunicorn -c config.py app:app</code></pre>
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://connect.qq.com/widget/shareqq/index.html?url=http://visonforcoding.github.io/2020/08/20/gunicorn-flask-rest%E6%9E%84%E5%BB%BA%E9%83%A8%E7%BD%B2%E8%BD%BB%E9%87%8F%E7%BA%A7api%E6%9C%8D%E5%8A%A1/&title=gunicorn+flask_rest构建部署轻量级api服务 - 麦田麦穗&summary="
+          href="http://connect.qq.com/widget/shareqq/index.html?url=http://visonforcoding.github.io/2020/09/09/java/IOC%E5%92%8Cspring%E5%AF%B9%E5%AE%83%E7%9A%84%E5%AE%9E%E7%8E%B0/&title=IOC和spring对它的实现 - 麦田麦穗&summary="
           
           >
           
@@ -588,7 +561,7 @@ gunicorn -c config.py app:app</code></pre>
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
           
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://visonforcoding.github.io/2020/08/20/gunicorn-flask-rest%E6%9E%84%E5%BB%BA%E9%83%A8%E7%BD%B2%E8%BD%BB%E9%87%8F%E7%BA%A7api%E6%9C%8D%E5%8A%A1/&title=gunicorn+flask_rest构建部署轻量级api服务 - 麦田麦穗&summary="
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://visonforcoding.github.io/2020/09/09/java/IOC%E5%92%8Cspring%E5%AF%B9%E5%AE%83%E7%9A%84%E5%AE%9E%E7%8E%B0/&title=IOC和spring对它的实现 - 麦田麦穗&summary="
           
           >
           
@@ -600,7 +573,7 @@ gunicorn -c config.py app:app</code></pre>
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://service.weibo.com/share/share.php?url=http://visonforcoding.github.io/2020/08/20/gunicorn-flask-rest%E6%9E%84%E5%BB%BA%E9%83%A8%E7%BD%B2%E8%BD%BB%E9%87%8F%E7%BA%A7api%E6%9C%8D%E5%8A%A1/&title=gunicorn+flask_rest构建部署轻量级api服务 - 麦田麦穗&summary="
+          href="http://service.weibo.com/share/share.php?url=http://visonforcoding.github.io/2020/09/09/java/IOC%E5%92%8Cspring%E5%AF%B9%E5%AE%83%E7%9A%84%E5%AE%9E%E7%8E%B0/&title=IOC和spring对它的实现 - 麦田麦穗&summary="
           
           >
           
@@ -624,21 +597,22 @@ gunicorn -c config.py app:app</code></pre>
         
           <div class="prev-next">
             
-              <a class='prev' href='/2020/08/24/vuetifyjs%E5%9B%BE%E6%A0%87%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/'>
-                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>vuetifyjs图标解决方案</p>
+              <a class='prev' href='/2020/09/14/java/spring-boot-validation%E6%95%B0%E6%8D%AE%E9%AA%8C%E8%AF%81/'>
+                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>spring-boot validation数据验证</p>
                 <p class='content'>
-vuetifyjs官方提供的方法实际运用当中似乎会存在一些兼容问题，比如使用Font Awesome时有些图标就不会正常显示。
-
-
-Font Awesome    &lt;!-- 官方 --&...</p>
+做业务处理，不可避免的要对参数进行校验，一套完整规范的校验体系可以提高不少的效率。
+在写了PHP、java、python 等编程语言之后，我发现java的优势就是它的规范、它的严谨。在jsr之...</p>
               </a>
             
             
-              <a class='next' href='/2020/08/11/PHP%E7%9A%84%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86/'>
-                <p class='title'>PHP的错误处理<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
-                <p class='content'>set_error_handler 覆盖前一个注册
-set_error_handler(function(){
-    echo &quot;error hander function 2\n&...</p>
+              <a class='next' href='/2020/09/03/php%E7%BC%96%E8%AF%91%E5%8F%82%E6%95%B0%E8%AF%A6%E8%A7%A3/'>
+                <p class='title'>php编译参数详解<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>尽管经历了N次的手动编译，你可能还是不知道哪些编译参数需要哪些不需要
+
+
+help执行帮助命令查看编译配置帮助
+./configure --help=short得到结果
+Optional Fea...</p>
               </a>
             
           </div>
@@ -683,7 +657,7 @@ set_error_handler(function(){
 
   <script>
     window.subData = {
-      title: 'gunicorn+flask_rest构建部署轻量级api服务',
+      title: 'IOC和spring对它的实现',
       tools: true
     }
   </script>
@@ -709,7 +683,7 @@ set_error_handler(function(){
 
 
     <div class='content'>
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#flask-结构"><span class="toc-text">flask 结构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#入口文件"><span class="toc-text">入口文件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#gunicorn启动配置"><span class="toc-text">gunicorn启动配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#启动"><span class="toc-text">启动</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#平滑重启"><span class="toc-text">平滑重启</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#IOS概述"><span class="toc-text">IOS概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#spring的实现"><span class="toc-text">spring的实现</span></a></li></ol>
     </div>
   </section>
 
@@ -890,7 +864,7 @@ set_error_handler(function(){
   <script>
     var disqus_shortname = 'visonforcoding-github-io';
     
-      var disqus_url = 'http://visonforcoding.github.io/2020/08/20/gunicorn-flask-rest%E6%9E%84%E5%BB%BA%E9%83%A8%E7%BD%B2%E8%BD%BB%E9%87%8F%E7%BA%A7api%E6%9C%8D%E5%8A%A1/';
+      var disqus_url = 'http://visonforcoding.github.io/2020/09/09/java/IOC%E5%92%8Cspring%E5%AF%B9%E5%AE%83%E7%9A%84%E5%AE%9E%E7%8E%B0/';
     
     (function(){
       var dsq = document.createElement('script');

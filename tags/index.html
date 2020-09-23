@@ -16,9 +16,7 @@
 
   <!-- 页面元数据 -->
   
-    <title>vue+vuex+axios+vant+vue-router简单单页登录态demo - 麦田麦穗</title>
-  
-    <meta name="keywords" content="web">
+    <title>所有标签 - 麦田麦穗</title>
   
   
 
@@ -346,443 +344,29 @@
     <div class='body-wrapper'>
       
 
+
 <div class='l_main'>
   
-
-  
-    <article id="post" class="post white-box reveal shadow article-type-post" itemscope itemprop="blogPost">
-      
-
-
-  <section class='meta'>
     
-      
-      
-      <div class="meta" id="header-meta">
-        
-          
-  <h1 class="title">
-    <a href="/2020/09/15/web/vue-vuex-axios-vant-vue-router%E7%AE%80%E5%8D%95%E5%8D%95%E9%A1%B5%E7%99%BB%E5%BD%95%E6%80%81demo/">
-      vue+vuex+axios+vant+vue-router简单单页登录态demo
-    </a>
-  </h1>
-
-
-        
-        <div class='new-meta-box'>
-          
-            
-          
-            
-              
-<div class='new-meta-item author'>
-  <a href="" rel="nofollow">
-    <img src="http://img.rc5j.cn/blog20200508235943.png">
-    <p>vison</p>
-  </a>
-</div>
-
-            
-          
-            
-              
-
-            
-          
-            
-              <div class="new-meta-item date">
-  <a class='notlink'>
-    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Sep 15, 2020</p>
-  </a>
-</div>
-
-            
-          
-            
-              
-
-            
-          
-        </div>
-        
-          <hr>
-        
-      </div>
-    
-  </section>
-
-
-      <section class="article typo">
-        <div class="article-entry" itemprop="articleBody">
-          
-          <p><img src="http://img.rc5j.cn/blog20200915182645.png" alt=""></p>
-<a id="more"></a>
-
-<h2 id="创建vant项目"><a href="#创建vant项目" class="headerlink" title="创建vant项目"></a>创建vant项目</h2><pre><code class="shell"># 安装 Vue Cli
-npm install -g @vue/cli
-
-# 创建一个项目
-vue create hello-world
-
-# 创建完成后，可以通过命令打开图形化界面，如下图所示
-vue ui
-
-# 或者 通过 yarn 安装
-
-yarn add vant</code></pre>
-<p><img src="http://img.rc5j.cn/blog20200915181419.png" alt=""></p>
-<p>在图形化界面中，点击<code>依赖</code> -&gt; <code>安装依赖</code>，然后将 <code>vant</code> 添加到依赖中即可。</p>
-<h2 id="vue-router"><a href="#vue-router" class="headerlink" title="vue-router"></a>vue-router</h2><pre><code class="shell">yarn add vue-router</code></pre>
-<pre><code class="html">&lt;template&gt;
-  &lt;div id=&quot;app&quot;&gt;
-    &lt;van-nav-bar
-    title=&quot;标题&quot;
-    left-text=&quot;返回&quot;
-    right-text=&quot;按钮&quot;
-    left-arrow
-    @click-left=&quot;onClickLeft&quot;
-    @click-right=&quot;onClickRight&quot;
-      /&gt;
-    &lt;router-view&gt;&lt;/router-view&gt;
-    &lt;van-tabbar v-model=&quot;active&quot;&gt;
-      &lt;van-tabbar-item icon=&quot;home-o&quot; to=&quot;/&quot;&gt;主页&lt;/van-tabbar-item&gt;
-      &lt;van-tabbar-item icon=&quot;search&quot;&gt;标签&lt;/van-tabbar-item&gt;
-      &lt;van-tabbar-item icon=&quot;friends-o&quot;&gt;标签&lt;/van-tabbar-item&gt;
-      &lt;van-tabbar-item icon=&quot;user-o&quot; to=&quot;/user/detail&quot;&gt;我的&lt;/van-tabbar-item&gt;
-    &lt;/van-tabbar&gt;
-  &lt;/div&gt;
-&lt;/template&gt;&lt;template&gt;
-  &lt;div id=&quot;app&quot;&gt;
-    &lt;van-nav-bar
-    title=&quot;标题&quot;
-    left-text=&quot;返回&quot;
-    right-text=&quot;按钮&quot;
-    left-arrow
-    @click-left=&quot;onClickLeft&quot;
-    @click-right=&quot;onClickRight&quot;
-      /&gt;
-    &lt;router-view&gt;&lt;/router-view&gt;
-    &lt;van-tabbar v-model=&quot;active&quot;&gt;
-      &lt;van-tabbar-item icon=&quot;home-o&quot; to=&quot;/&quot;&gt;主页&lt;/van-tabbar-item&gt;
-      &lt;van-tabbar-item icon=&quot;search&quot;&gt;标签&lt;/van-tabbar-item&gt;
-      &lt;van-tabbar-item icon=&quot;friends-o&quot;&gt;标签&lt;/van-tabbar-item&gt;
-      &lt;van-tabbar-item icon=&quot;user-o&quot; to=&quot;/user/detail&quot;&gt;我的&lt;/van-tabbar-item&gt;
-    &lt;/van-tabbar&gt;
-  &lt;/div&gt;
-&lt;/template&gt;</code></pre>
-<p>路由配置和登录态控制</p>
-<pre><code class="js">import Vue from &#39;vue&#39;
-import VueRouter from &#39;vue-router&#39;
-// import store from &#39;@/store&#39;
-// import layout from &#39;@/layout/layout&#39;
-
-Vue.use(VueRouter)
-
-const routes = [
-  {
-    path: &#39;/&#39;,
-    name: &#39;home&#39;,
-    component: () =&gt; import(&quot;@/views/Home&quot;)
-  },
-  {
-    path: &#39;/user/detail&#39;,
-    name: &#39;user_detail&#39;,
-    meta:{
-      requireLogin:true
-    },
-    component: () =&gt; import(&quot;@/views/User/detail.vue&quot;)
-  },
-  {
-    path: &#39;/login&#39;,
-    name: &#39;login&#39;,
-    meta:{
-      requireLogin:false
-    },
-    component: () =&gt; import(&quot;@/views/Login/login.vue&quot;)
-  },
-
-]
-
-const router = new VueRouter({
-  mode: &#39;history&#39;,
-  base: process.env.BASE_URL,
-  routes
-})
-
-router.beforeEach((to, from, next) =&gt; {
-  const token = sessionStorage.getItem(&#39;token&#39;);
-  // store.getters(&#39;isLogin&#39;)
-  if (to.meta.requireLogin) {
-    //需要检测登录
-    if (token) {
-      next();
-    } else {
-      console.log(&#39;前往登录...&#39;)
-      next({
-        path: &#39;/login&#39;
-      });
-    }
-  } else {
-
-    next();
-  }
-})
-
-export default router
-
-</code></pre>
-<p><img src="http://img.rc5j.cn/blog20200915181827.png" alt=""></p>
-<h2 id="登录"><a href="#登录" class="headerlink" title="登录"></a>登录</h2><p>引入<code>axios</code></p>
-<pre><code>yarn add axios</code></pre><pre><code class="js">import { login } from &quot;@/api/loginReq&quot;;
-export default {
-    data() {
-    return {
-      loading: false,
-      loginInfo:{
-          username:&quot;&quot;,
-          pwd:&quot;&quot;
-      }
-    };
-  },
-  methods: {
-    onSubmit(values) {
-      this.loading = true;
-      login(this.loginInfo).then((response) =&gt; {
-        console.log(response);
-        if(response.code===0){
-            sessionStorage.setItem(&#39;token&#39;,response.data.username);
-        }
-        this.$router.push(&#39;/&#39;)
-      });
-      this.loading = false;
-    },
-  }
-}</code></pre>
-
-          
-            <div class='article_footer'>
-              
+      <section class="post-list ">
+        <div class='post-wrapper'>
+          <article id="archive-page" class="post article white-box reveal shadow">
+            <section class="archive">
+              <div class="archive-item archive-year mark">
+                <h2>所有标签</h2>
+              </div>
+              <div class="archive-item all-tags">
                 
-  
-    
-    
-
-
-
-  
-
-  
-    
-    
-
-
-
-  
-
-  
-    
-    
-
-<section class="widget copyright  desktop mobile">
-  <div class='content'>
-    
-      <blockquote>
-        
-          
-            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
-
-          
-        
-          
-            <p>本文永久链接是：<a href=http://visonforcoding.github.io/2020/09/15/web/vue-vuex-axios-vant-vue-router%E7%AE%80%E5%8D%95%E5%8D%95%E9%A1%B5%E7%99%BB%E5%BD%95%E6%80%81demo/>http://visonforcoding.github.io/2020/09/15/web/vue-vuex-axios-vant-vue-router%E7%AE%80%E5%8D%95%E5%8D%95%E9%A1%B5%E7%99%BB%E5%BD%95%E6%80%81demo/</a></p>
-          
-        
-      </blockquote>
-    
-  </div>
-</section>
-
-  
-
-  
-    
-    
-
-<section class="widget qrcode  desktop mobile">
-  
-
-  <div class='content article-entry'>
-    
-      
-        <div class='fancybox'><img src='http://img.rc5j.cn/blog20200509000739.png'
-        
-          height='240px'
-        ></div>
-      
-    
-    请我喝杯咖啡
-  </div>
-</section>
-
-  
-
-
+                <a href="/tags/PHP/" style="font-size: 14px; color: #999">PHP</a> <a href="/tags/devops/" style="font-size: 14px; color: #999">devops</a> <a href="/tags/docker/" style="font-size: 14px; color: #999">docker</a> <a href="/tags/java/" style="font-size: 20.67px; color: #6c6c6c">java</a> <a href="/tags/java-spring-boot/" style="font-size: 14px; color: #999">java spring-boot</a> <a href="/tags/kafka/" style="font-size: 14px; color: #999">kafka</a> <a href="/tags/mysql/" style="font-size: 17.33px; color: #828282">mysql</a> <a href="/tags/php/" style="font-size: 24px; color: #555">php</a> <a href="/tags/php-linux/" style="font-size: 14px; color: #999">php linux</a> <a href="/tags/python/" style="font-size: 20.67px; color: #6c6c6c">python</a> <a href="/tags/spring-boot/" style="font-size: 14px; color: #999">spring-boot</a> <a href="/tags/web/" style="font-size: 14px; color: #999">web</a> <a href="/tags/web%E5%89%8D%E7%AB%AF/" style="font-size: 14px; color: #999">web前端</a> <a href="/tags/%E6%96%B9%E6%A1%88/" style="font-size: 14px; color: #999">方案</a> <a href="/tags/%E7%A8%8B%E5%BA%8F%E4%BA%BA%E7%94%9F/" style="font-size: 14px; color: #999">程序人生</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/" style="font-size: 14px; color: #999">计算机基础</a> <a href="/tags/%E8%BF%90%E7%BB%B4/" style="font-size: 14px; color: #999">运维</a> <a href="/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 14px; color: #999">随笔</a>
+              </div>
+              <br>
               
-            </div>
-          
+            </section>
+          </article>
         </div>
-        
-          
-
-
-  <section class='meta' id="footer-meta">
-    <div class='new-meta-box'>
-      
-        
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-09-15T18:26:52+08:00">
-  <a class='notlink'>
-    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Sep 15, 2020</p>
-  </a>
-</div>
-
-        
-      
-        
-          
-  
-  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/web/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>web</p></a></div>
-
-
-        
-      
-        
-          
-
-        
-      
-        
-          
-  <div class="new-meta-item share -mob-share-list">
-  <div class="-mob-share-list share-body">
-    
-      
-        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
-          
-          href="http://connect.qq.com/widget/shareqq/index.html?url=http://visonforcoding.github.io/2020/09/15/web/vue-vuex-axios-vant-vue-router%E7%AE%80%E5%8D%95%E5%8D%95%E9%A1%B5%E7%99%BB%E5%BD%95%E6%80%81demo/&title=vue+vuex+axios+vant+vue-router简单单页登录态demo - 麦田麦穗&summary="
-          
-          >
-          
-            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qq.png">
-          
-        </a>
-      
-    
-      
-        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
-          
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://visonforcoding.github.io/2020/09/15/web/vue-vuex-axios-vant-vue-router%E7%AE%80%E5%8D%95%E5%8D%95%E9%A1%B5%E7%99%BB%E5%BD%95%E6%80%81demo/&title=vue+vuex+axios+vant+vue-router简单单页登录态demo - 麦田麦穗&summary="
-          
-          >
-          
-            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qzone.png">
-          
-        </a>
-      
-    
-      
-        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
-          
-          href="http://service.weibo.com/share/share.php?url=http://visonforcoding.github.io/2020/09/15/web/vue-vuex-axios-vant-vue-router%E7%AE%80%E5%8D%95%E5%8D%95%E9%A1%B5%E7%99%BB%E5%BD%95%E6%80%81demo/&title=vue+vuex+axios+vant+vue-router简单单页登录态demo - 麦田麦穗&summary="
-          
-          >
-          
-            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/weibo.png">
-          
-        </a>
-      
-    
-  </div>
-</div>
-
-
-
-        
-      
-    </div>
-  </section>
-
-
-        
-        
-          <div class="prev-next">
-            
-              <a class='prev' href='/2020/09/17/php/PHP-QA%E4%B9%8BPHPStan/'>
-                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>PHP QA</p>
-                <p class='content'>
-写在前面，工作7年，PHP也写了7年了。期间也写一些java和python，也对各语言的特点有一些自己的体会。这次咱们聊聊QA之余也来聊聊PHP语言本身。
-
-
-来到PHPStan的官网，我看到...</p>
-              </a>
-            
-            
-              <a class='next' href='/2020/09/14/java/spring-boot-validation%E6%95%B0%E6%8D%AE%E9%AA%8C%E8%AF%81/'>
-                <p class='title'>spring-boot validation数据验证<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
-                <p class='content'>
-做业务处理，不可避免的要对参数进行校验，一套完整规范的校验体系可以提高不少的效率。
-在写了PHP、java、python 等编程语言之后，我发现java的优势就是它的规范、它的严谨。在jsr之...</p>
-              </a>
-            
-          </div>
-        
       </section>
-    </article>
+    
   
-
-  
-    <!-- 显示推荐文章和评论 -->
-
-
-
-  <article class="post white-box reveal comments shadow">
-    <section class="article typo">
-      <p ct><i class='fas fa-comments'></i> 评论</p>
-      
-      
-        <section id="comments">
-          <div id="disqus_thread">
-            <div><i class='fas fa-exclamation-triangle'></i>&nbsp;Unable to load Disqus, please make sure your network can access.</div>
-          </div>
-        </section>
-      
-      
-      
-      
-      
-      
-    </section>
-  </article>
-
-
-  
-
-
-
-
-<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
-
-
-
-  <script>
-    window.subData = {
-      title: 'vue+vuex+axios+vant+vue-router简单单页登录态demo',
-      tools: true
-    }
-  </script>
-
-
 </div>
 <aside class='l_side'>
   
@@ -792,20 +376,6 @@ export default {
     
     
 
-
-  <section class="widget toc-wrapper shadow desktop mobile">
-    
-  <header>
-    
-      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
-    
-  </header>
-
-
-    <div class='content'>
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#创建vant项目"><span class="toc-text">创建vant项目</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#vue-router"><span class="toc-text">vue-router</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#登录"><span class="toc-text">登录</span></a></li></ol>
-    </div>
-  </section>
 
 
   
@@ -980,20 +550,6 @@ export default {
 
 
 
-
-  <script>
-    var disqus_shortname = 'visonforcoding-github-io';
-    
-      var disqus_url = 'http://visonforcoding.github.io/2020/09/15/web/vue-vuex-axios-vant-vue-router%E7%AE%80%E5%8D%95%E5%8D%95%E9%A1%B5%E7%99%BB%E5%BD%95%E6%80%81demo/';
-    
-    (function(){
-      var dsq = document.createElement('script');
-      dsq.type = 'text/javascript';
-      dsq.async = true;
-      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    })();
-  </script>
 
 
 

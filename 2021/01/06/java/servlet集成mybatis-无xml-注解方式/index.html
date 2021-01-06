@@ -16,10 +16,14 @@
 
   <!-- 页面元数据 -->
   
-    <title>手撕javaweb开发 - 麦田麦穗</title>
+    <title>servlet集成mybatis-无xml&amp;注解方式 - 麦田麦穗</title>
   
     <meta name="keywords" content="java">
   
+  
+    <meta name="description" content="
+习惯了php项目之后，恐怕非常不喜欢操作xml吧.本章将介绍servlet+mybatis无xml配置模式。
+">
   
 
   <!-- feed -->
@@ -362,8 +366,8 @@
         
           
   <h1 class="title">
-    <a href="/2020/12/22/java/%E6%89%8B%E6%92%95javaweb%E5%BC%80%E5%8F%91/">
-      手撕javaweb开发
+    <a href="/2021/01/06/java/servlet%E9%9B%86%E6%88%90mybatis-%E6%97%A0xml-%E6%B3%A8%E8%A7%A3%E6%96%B9%E5%BC%8F/">
+      servlet集成mybatis-无xml&注解方式
     </a>
   </h1>
 
@@ -393,7 +397,7 @@
               <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Dec 22, 2020</p>
+    <p>发布于：Jan 6, 2021</p>
   </a>
 </div>
 
@@ -416,21 +420,108 @@
       <section class="article typo">
         <div class="article-entry" itemprop="articleBody">
           
-          <p>本系列文章将以几乎0基础javaweb为背景手写一个javaweb框架并进行开发。</p>
-<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><ul>
-<li>0基础javaweb,没有javaweb开发的实际经验</li>
-<li>有多年PHPweb实战经验</li>
-<li>有一定java语法基础</li>
-<li>有5分(满分100)的spring boot知识储备，毕竟用spring boot启动一个hello world还是比较简单的。</li>
-</ul>
-<h2 id="宗旨"><a href="#宗旨" class="headerlink" title="宗旨"></a>宗旨</h2><p>本文宗旨是想通过手写java web框架的方式，让有其他语言web开发经验的同事能由浅入深学会java web开发和理解其中原理。本系列文章将有以下几点原则。</p>
-<ul>
-<li>注重实践，一定会有源代码运行成功案例</li>
-<li>有理有据，一些实现必须有官方或权威文献解释</li>
-</ul>
-<h2 id="更新目录"><a href="#更新目录" class="headerlink" title="更新目录"></a>更新目录</h2><ol>
-<li><a href="https://visonforcoding.github.io/2020/12/18/java/%E6%98%A5%E5%A4%A9%E4%B9%8B%E5%89%8D-http/">手撕javaweb-HTTP前世</a></li>
-</ol>
+          <blockquote>
+<p>习惯了php项目之后，恐怕非常不喜欢操作xml吧.本章将介绍servlet+mybatis无xml配置模式。</p>
+</blockquote>
+<a id="more"></a>
+
+<h2 id="依赖"><a href="#依赖" class="headerlink" title="依赖"></a>依赖</h2><pre><code class="xml">     &lt;dependency&gt;
+            &lt;groupId&gt;mysql&lt;/groupId&gt;
+            &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;
+            &lt;version&gt;5.1.26&lt;/version&gt;
+        &lt;/dependency&gt;
+        &lt;!-- https://mvnrepository.com/artifact/org.mybatis/mybatis --&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.mybatis&lt;/groupId&gt;
+            &lt;artifactId&gt;mybatis&lt;/artifactId&gt;
+            &lt;version&gt;3.5.6&lt;/version&gt;
+        &lt;/dependency&gt;</code></pre>
+<h2 id="引入"><a href="#引入" class="headerlink" title="引入"></a>引入</h2><p>首先定义datasource</p>
+<pre><code class="java">public class DatabaseConfig {
+
+    static String driver = &quot;com.mysql.jdbc.Driver&quot;;
+    static String url = &quot;jdbc:mysql://localhost:3306/db_itdoc?useSSL=false&quot;;
+    static String username = &quot;root&quot;;
+    static String password = &quot;12345678&quot;;
+
+    public static DataSource getDataSource() {
+        Properties properties = new Properties();
+        properties.setProperty(&quot;driver&quot;, driver);
+        properties.setProperty(&quot;url&quot;, url);
+        properties.setProperty(&quot;username&quot;, username);
+        properties.setProperty(&quot;password&quot;, password);
+        UnpooledDataSourceFactory unpooledDataSourceFactory = new UnpooledDataSourceFactory();
+        unpooledDataSourceFactory.setProperties(properties);
+        DataSource dataSource = unpooledDataSourceFactory.getDataSource();
+        return dataSource;
+    }
+}</code></pre>
+<p>获取sessionFactory</p>
+<pre><code class="java">public class MybatisLoader {
+
+    static SqlSessionFactory sqlSessionFactory = null;
+
+    public static SqlSessionFactory getSqlSessionFactory() {
+        if (sqlSessionFactory == null) {
+            DataSource dataSource = DatabaseConfig.getDataSource();
+            TransactionFactory transactionFactory
+                    = new JdbcTransactionFactory();
+            Environment environment
+                    = new Environment(&quot;development&quot;, transactionFactory, dataSource);
+            Configuration configuration = new Configuration(environment);
+            configuration.addMapper(UserMapper.class);
+            sqlSessionFactory
+                    = new SqlSessionFactoryBuilder().build(configuration);
+        }
+        return sqlSessionFactory;
+    }
+
+}</code></pre>
+<h2 id="定义mapper"><a href="#定义mapper" class="headerlink" title="定义mapper"></a>定义mapper</h2><pre><code class="java">public interface UserMapper {
+
+    @Select(&quot;SELECT * FROM user WHERE id = #{id}&quot;)
+    User selectUser(int id);
+
+    @Insert(&quot;INSERT INTO user(name,email) VALUES(#{name}, #{email})&quot;)
+    int insertUser(User user);
+
+}</code></pre>
+<h2 id="查询和插入"><a href="#查询和插入" class="headerlink" title="查询和插入"></a>查询和插入</h2><pre><code class="java">public class UserController {
+
+    public UserController() {
+    }
+
+    @GetMapping(path = &quot;/user/profile&quot;)
+    public String profile(HttpServletRequest request, HttpServletResponse response) {
+        System.out.print(request.getCookies());
+        return &quot;i am user profile&quot;;
+    }
+
+    @GetMapping(path = &quot;/user&quot;)
+    public Response user(HttpServletRequest request, int id) {
+        User user = null;
+        SqlSession session = MybatisLoader.getSqlSessionFactory().openSession();
+        UserMapper mapper = session.getMapper(UserMapper.class);
+        user = mapper.selectUser(id);
+        return new Response(0, &quot;获取成功&quot;, user);
+    }
+
+    @PostMapping(path = &quot;/user/add&quot;)
+    public Response add(User user) {
+        Log.info(&quot;request user&quot;, user);
+        try {
+            SqlSession session = MybatisLoader.getSqlSessionFactory().openSession();
+            UserMapper mapper = session.getMapper(UserMapper.class);
+            int id = mapper.insertUser(user);
+            session.commit();
+            Log.debug(&quot;返回&quot;, id);
+        } catch (Exception e) {
+            Log.error(&quot;保存失败&quot;, e);
+        }
+        return new Response(0, &quot;保存&quot;, user);
+    }
+}
+</code></pre>
 
           
             <div class='article_footer'>
@@ -467,7 +558,7 @@
           
         
           
-            <p>本文永久链接是：<a href=http://visonforcoding.github.io/2020/12/22/java/%E6%89%8B%E6%92%95javaweb%E5%BC%80%E5%8F%91/>http://visonforcoding.github.io/2020/12/22/java/%E6%89%8B%E6%92%95javaweb%E5%BC%80%E5%8F%91/</a></p>
+            <p>本文永久链接是：<a href=http://visonforcoding.github.io/2021/01/06/java/servlet%E9%9B%86%E6%88%90mybatis-%E6%97%A0xml-%E6%B3%A8%E8%A7%A3%E6%96%B9%E5%BC%8F/>http://visonforcoding.github.io/2021/01/06/java/servlet%E9%9B%86%E6%88%90mybatis-%E6%97%A0xml-%E6%B3%A8%E8%A7%A3%E6%96%B9%E5%BC%8F/</a></p>
           
         
       </blockquote>
@@ -512,10 +603,10 @@
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-12-22T14:36:38+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-01-06T16:40:27+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Dec 22, 2020</p>
+    <p>更新于：Jan 6, 2021</p>
   </a>
 </div>
 
@@ -542,7 +633,9 @@
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://connect.qq.com/widget/shareqq/index.html?url=http://visonforcoding.github.io/2020/12/22/java/%E6%89%8B%E6%92%95javaweb%E5%BC%80%E5%8F%91/&title=手撕javaweb开发 - 麦田麦穗&summary="
+          href="http://connect.qq.com/widget/shareqq/index.html?url=http://visonforcoding.github.io/2021/01/06/java/servlet%E9%9B%86%E6%88%90mybatis-%E6%97%A0xml-%E6%B3%A8%E8%A7%A3%E6%96%B9%E5%BC%8F/&title=servlet集成mybatis-无xml&注解方式 - 麦田麦穗&summary=
+习惯了php项目之后，恐怕非常不喜欢操作xml吧.本章将介绍servlet+mybatis无xml配置模式。
+"
           
           >
           
@@ -554,7 +647,9 @@
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
           
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://visonforcoding.github.io/2020/12/22/java/%E6%89%8B%E6%92%95javaweb%E5%BC%80%E5%8F%91/&title=手撕javaweb开发 - 麦田麦穗&summary="
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://visonforcoding.github.io/2021/01/06/java/servlet%E9%9B%86%E6%88%90mybatis-%E6%97%A0xml-%E6%B3%A8%E8%A7%A3%E6%96%B9%E5%BC%8F/&title=servlet集成mybatis-无xml&注解方式 - 麦田麦穗&summary=
+习惯了php项目之后，恐怕非常不喜欢操作xml吧.本章将介绍servlet+mybatis无xml配置模式。
+"
           
           >
           
@@ -566,7 +661,9 @@
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://service.weibo.com/share/share.php?url=http://visonforcoding.github.io/2020/12/22/java/%E6%89%8B%E6%92%95javaweb%E5%BC%80%E5%8F%91/&title=手撕javaweb开发 - 麦田麦穗&summary="
+          href="http://service.weibo.com/share/share.php?url=http://visonforcoding.github.io/2021/01/06/java/servlet%E9%9B%86%E6%88%90mybatis-%E6%97%A0xml-%E6%B3%A8%E8%A7%A3%E6%96%B9%E5%BC%8F/&title=servlet集成mybatis-无xml&注解方式 - 麦田麦穗&summary=
+习惯了php项目之后，恐怕非常不喜欢操作xml吧.本章将介绍servlet+mybatis无xml配置模式。
+"
           
           >
           
@@ -590,25 +687,14 @@
         
           <div class="prev-next">
             
-              <a class='prev' href='/2021/01/06/java/servlet%E9%9B%86%E6%88%90mybatis-%E6%97%A0xml-%E6%B3%A8%E8%A7%A3%E6%96%B9%E5%BC%8F/'>
-                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>servlet集成mybatis-无xml&注解方式</p>
-                <p class='content'>
-习惯了php项目之后，恐怕非常不喜欢操作xml吧.本章将介绍servlet+mybatis无xml配置模式。
-
-
-
-依赖     &lt;dependency&gt;
-            ...</p>
-              </a>
             
-            
-              <a class='next' href='/2020/12/21/java/log4j%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/'>
-                <p class='title'>log4j使用指南<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
-                <p class='content'>对于刚开始接触java的人来说，用什么来打日志似乎快被java的这么多概念搞懵了。log4j、log4j2、slf4j、logback?!!
-
-
-
-log4jApache Log4j 是一个非常...</p>
+              <a class='next' href='/2020/12/22/java/%E6%89%8B%E6%92%95javaweb%E5%BC%80%E5%8F%91/'>
+                <p class='title'>手撕javaweb开发<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>本系列文章将以几乎0基础javaweb为背景手写一个javaweb框架并进行开发。
+背景
+0基础javaweb,没有javaweb开发的实际经验
+有多年PHPweb实战经验
+有一定java语法基...</p>
               </a>
             
           </div>
@@ -653,7 +739,7 @@ log4jApache Log4j 是一个非常...</p>
 
   <script>
     window.subData = {
-      title: '手撕javaweb开发',
+      title: 'servlet集成mybatis-无xml&注解方式',
       tools: true
     }
   </script>
@@ -679,7 +765,7 @@ log4jApache Log4j 是一个非常...</p>
 
 
     <div class='content'>
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#背景"><span class="toc-text">背景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#宗旨"><span class="toc-text">宗旨</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#更新目录"><span class="toc-text">更新目录</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#依赖"><span class="toc-text">依赖</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#引入"><span class="toc-text">引入</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#定义mapper"><span class="toc-text">定义mapper</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#查询和插入"><span class="toc-text">查询和插入</span></a></li></ol>
     </div>
   </section>
 
@@ -860,7 +946,7 @@ log4jApache Log4j 是一个非常...</p>
   <script>
     var disqus_shortname = 'visonforcoding-github-io';
     
-      var disqus_url = 'http://visonforcoding.github.io/2020/12/22/java/%E6%89%8B%E6%92%95javaweb%E5%BC%80%E5%8F%91/';
+      var disqus_url = 'http://visonforcoding.github.io/2021/01/06/java/servlet%E9%9B%86%E6%88%90mybatis-%E6%97%A0xml-%E6%B3%A8%E8%A7%A3%E6%96%B9%E5%BC%8F/';
     
     (function(){
       var dsq = document.createElement('script');

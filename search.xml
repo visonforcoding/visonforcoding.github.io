@@ -8,7 +8,7 @@
       <link href="2021/01/21/%E9%BB%91%E5%90%AF%E5%8A%A8/"/>
       <url>2021/01/21/%E9%BB%91%E5%90%AF%E5%8A%A8/</url>
       
-        <content type="html"><![CDATA[]]></content>
+        <content type="html"><![CDATA[<h2 id="facebook案例"><a href="#facebook案例" class="headerlink" title="facebook案例"></a>facebook案例</h2><p>作为黑启动流程的一部分，每个Facebook 用户会话（在用户端浏览器中运行<br>JavaScript 代码）都加载了测试工具。虽然聊天功能的用户界面元素被隐藏起来，但浏览器<br>还是会向已部署在生产环境中的后台聊天服务器发送用户不可见的聊天测试信息，这使开</p><p>发团队能够在整个项目过程中模拟出类生产负载，从而在发布之前找出并解决性能问题。</p><p><img src="https://vison-blog.oss-cn-beijing.aliyuncs.com/20210121214126.jpeg" alt=""></p><p>老子惊了,这有点牛皮</p>]]></content>
       
       
       

@@ -5,6 +5,8 @@
   <!-- SEO相关 -->
   
     
+      <meta name="robots" content="noindex,follow">
+    
   
   <!-- 渲染优化 -->
   <meta name="renderer" content="webkit">
@@ -16,9 +18,7 @@
 
   <!-- 页面元数据 -->
   
-    <title>docker+compose+nginx+php - 麦田麦穗</title>
-  
-    <meta name="keywords" content="docker">
+    <title>Archive: 2021/2 - 麦田麦穗</title>
   
   
 
@@ -87,7 +87,95 @@
 
 <body>
   
-  <div id="loading-bar-wrapper">
+  <div class="cover-wrapper">
+    
+      <cover class='cover  half'>
+        <div class='cover-body'>
+  <div class='a'>
+    
+    
+      <p class="title">麦田麦穗</p>
+    
+    
+      <p class="subtitle">哥德尔、埃舍尔、巴赫</p>
+    
+  </div>
+  <div class='b'>
+    
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <input type="text" class="input u-search-input" placeholder="" />
+          <i class="icon fas fa-search fa-fw"></i>
+        </form>
+      </div>
+    
+    <div class='menu navigation'>
+      <ul class='cover-list-h'>
+        
+          
+            <li>
+              <a class="nav home"
+                href="https://visonforcoding.github.io/getting-started/"
+                
+                
+                id="https:visonforcodinggithubiogetting-started">
+                <i class='fas fa-book fa-fw'></i>文档
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://visonforcoding.github.io/archives/"
+                
+                
+                id="https:visonforcodinggithubioarchives">
+                <i class='fas fa-rss fa-fw'></i>博文
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://visonforcoding.github.io/examples/"
+                
+                
+                id="https:visonforcodinggithubioexamples">
+                <i class='fas fa-play-circle fa-fw'></i>示例
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://github.com/xaoxuu/hexo-theme-volantis/"
+                
+                  rel="external nofollow noopener noreferrer"
+                
+                
+                  target="_blank"
+                
+                id="https:githubcomxaoxuuhexo-theme-volantis">
+                <i class='fas fa-file-code fa-fw'></i>源码
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://volantis.js.org/contributors/"
+                
+                
+                id="https:volantisjsorgcontributors">
+                <i class='fas fa-handshake fa-fw'></i>鸣谢
+              </a>
+            </li>
+          
+        
+      </ul>
+    </div>
+  </div>
+</div>
+
+      </cover>
+    
+    <div id="loading-bar-wrapper">
   <div id="loading-bar"></div>
 </div>
 <header class="l_header shadow blur">
@@ -340,18 +428,30 @@
 
 <script>setLoadingBarProgress(40);</script>
 
+  </div>
 
 
-  <div class="l_body nocover">
+  <div class="l_body">
     <div class='body-wrapper'>
       
 
 <div class='l_main'>
-  
-
-  
-    <article id="post" class="post white-box reveal shadow article-type-post" itemscope itemprop="blogPost">
+	
+		
+  <section class="post-list ">
+    
       
+        
+          
+        
+      
+    
+    
+      
+        
+          <div class='post-wrapper'>
+            <article class="post white-box shadow reveal ">
+  
 
 
   <section class='meta'>
@@ -361,11 +461,11 @@
       <div class="meta" id="header-meta">
         
           
-  <h1 class="title">
-    <a href="/2018/07/22/docker-compose-nginx-php/">
-      docker+compose+nginx+php
+  <h2 class="title">
+    <a href="/2021/02/22/spring-boot-vue%E7%9A%84%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E9%83%A8%E7%BD%B2/">
+      spring-boot+vue+supervisor+nginx的前后端分离部署
     </a>
-  </h1>
+  </h2>
 
 
         
@@ -393,9 +493,27 @@
               <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Jul 22, 2018</p>
+    <p>发布于：Feb 22, 2021</p>
   </a>
 </div>
+
+            
+          
+            
+              
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>133 words</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>1 min</p>
+    </a>
+  </div>
+
 
             
           
@@ -413,356 +531,150 @@
   </section>
 
 
-      <section class="article typo">
-        <div class="article-entry" itemprop="articleBody">
-          
-          <p><img src="http://img.rc5j.cn/blog20200722165520.png" alt=""></p>
-<a id="more"></a>
-
+  <section class="article typo">
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ul>
+<li>要保证同域部署</li>
+</ul>
 <blockquote>
-<p>Docker 可以让开发者打包他们的应用以及依赖包到一个轻量级、可移植的容器中，然后发布到任何流行的 Linux 机器上，也可以实现虚拟化。</p>
+<p>我采取的思路是，前端请求接口时统一加上api前缀，nginx将api前缀的路由请求代理转发到spring-boot</p>
 </blockquote>
-<h2 id="我用docker做什么？"><a href="#我用docker做什么？" class="headerlink" title="我用docker做什么？"></a>我用docker做什么？</h2><p>快速搭建开发所需环境，测试实验新组件(如rabbitmq,kafka).避免因安装而浪费太多时间，我的目的是快速尝试使用。</p>
-<h2 id="安装docker"><a href="#安装docker" class="headerlink" title="安装docker"></a>安装docker</h2><pre><code class="shell">brew cask install docker</code></pre>
-<h2 id="docker-compose"><a href="#docker-compose" class="headerlink" title="docker-compose"></a>docker-compose</h2><p>Compose 是一个用户定义和运行多个容器的 Docker 应用程序。在 Compose 中你可以使用 YAML 文件来配置你的应用服务。然后，只需要一个简单的命令，就可以创建并启动你配置的所有服务。</p>
-<h2 id="目录结构"><a href="#目录结构" class="headerlink" title="目录结构"></a>目录结构</h2><p><img src="http://upload-images.jianshu.io/upload_images/4033700-1a2d2c681ac9df9c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="2018-08-07-14-17-25"></p>
-<p>一组服务建立一个目录</p>
-<h2 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h2><pre><code class="yaml">version: &#39;2&#39;
-services:
-  php7.2:
-    image: php:7.2-fpm
-    ports:
-      - &quot;9000:9000&quot;
-    volumes: 
-      - ./php:/usr/local/etc/php
-      - /Users/caowenpeng/www:/www
-  nginx:
-    image: nginx
-    ports: 
-      - &quot;80:80&quot;
-    volumes:
-      - /Users/caowenpeng/www:/www
-      - ./nginx:/etc/nginx
-</code></pre>
-<h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><pre><code class="shell">docker-compose up -d</code></pre>
-<h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><table>
-<thead>
-<tr>
-<th>命令</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>up</td>
-<td>创建和启动容器</td>
-</tr>
-<tr>
-<td>ps</td>
-<td>列出所有容器</td>
-</tr>
-<tr>
-<td>down</td>
-<td>停止并删除容器，镜像，挂载</td>
-</tr>
-<tr>
-<td>start</td>
-<td>启动服务</td>
-</tr>
-<tr>
-<td>stop</td>
-<td>停止服务</td>
-</tr>
-<tr>
-<td>restart</td>
-<td>重启服务</td>
-</tr>
-</tbody></table>
-<p><strong>第一次使用up,之后使用start,如果再次使用up将会重新创建容器，一些对容器的修改将会丢失</strong></p>
-<h2 id="其他问题"><a href="#其他问题" class="headerlink" title="其他问题"></a>其他问题</h2><p>进入容器 </p>
-<pre><code class="bash"> docker-compose exec php7.2 bash</code></pre>
-<p>进入容器后会发现只能用少量命令，连ps等都没有，这个时候需要安装一些程序</p>
-<pre><code class="bash">apt-get update  ##更新元
-apt-get install procps  ## 安装 ps</code></pre>
-<p>安装php-rdkafka拓展</p>
-<pre><code class="bash">apt-get install wget
-wget https://github.com/edenhill/librdkafka/archive/master.zip
+<h2 id="nginx配置"><a href="#nginx配置" class="headerlink" title="nginx配置"></a>nginx配置</h2><pre><code class="nginx">
+server {
+    server_name admin.domain.xyz;
+    index index.html;
 
-apt-get install unzip
+    location  / {
+                index index.html;
+                root /home/wwwuser/webroot/itdoc-admin-web/dist/spa;
+        }
 
-unzip master.zip
+    location /api/ {
+              proxy_pass  http://127.0.0.1:8081/;
+        }
+    # optionally disable falling back to PHP script for the asset directories;
+    # nginx will return a 404 error when files are not found instead of passing the
+    # request to Symfony (improves performance but Symfony&#39;s 404 page is not displayed)
+    # location /bundles {
+    #     try_files $uri =404;
+    # }
 
-cd librdkafka
-
-./configure 
-
-make
-
-make install 
-
-pecl install http://pecl.php.net/get/rdkafka-3.0.4.tgz
-
-#在php.ini 配置启用 rdkafka拓展
-
-
+    error_log /var/log/nginx/admin_error.log;
+    access_log /var/log/nginx/admin_access.log;
+}
 </code></pre>
 
-          
-            <div class='article_footer'>
-              
-                
-  
-    
-    
-
-
-
-  
-
-  
-    
-    
-
-
-
-  
-
-  
-    
-    
-
-<section class="widget copyright  desktop mobile">
-  <div class='content'>
-    
-      <blockquote>
-        
-          
-            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
-
-          
-        
-          
-            <p>本文永久链接是：<a href=http://blog.visonforcoding.xyz/2018/07/22/docker-compose-nginx-php/>http://blog.visonforcoding.xyz/2018/07/22/docker-compose-nginx-php/</a></p>
-          
-        
-      </blockquote>
-    
-  </div>
-</section>
-
-  
-
-  
-    
-    
-
-<section class="widget qrcode  desktop mobile">
-  
-
-  <div class='content article-entry'>
-    
-      
-        <div class='fancybox'><img src='http://img.rc5j.cn/blog20200509000739.png'
-        
-          height='240px'
-        ></div>
-      
-    
-    请我喝杯咖啡
-  </div>
-</section>
-
-  
-
-
-              
-            </div>
-          
-        </div>
-        
-          
-
-
-  <section class='meta' id="footer-meta">
-    <div class='new-meta-box'>
-      
-        
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-07-22T16:55:49+08:00">
-  <a class='notlink'>
-    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Jul 22, 2020</p>
-  </a>
-</div>
-
-        
-      
-        
-          
-  
-  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/docker/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>docker</p></a></div>
-
-
-        
-      
-        
-          
-
-        
-      
-        
-          
-  <div class="new-meta-item share -mob-share-list">
-  <div class="-mob-share-list share-body">
-    
-      
-        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
-          
-          href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.visonforcoding.xyz/2018/07/22/docker-compose-nginx-php/&title=docker+compose+nginx+php - 麦田麦穗&summary="
-          
-          >
-          
-            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qq.png">
-          
-        </a>
-      
-    
-      
-        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
-          
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://blog.visonforcoding.xyz/2018/07/22/docker-compose-nginx-php/&title=docker+compose+nginx+php - 麦田麦穗&summary="
-          
-          >
-          
-            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qzone.png">
-          
-        </a>
-      
-    
-      
-        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
-          
-          href="http://service.weibo.com/share/share.php?url=http://blog.visonforcoding.xyz/2018/07/22/docker-compose-nginx-php/&title=docker+compose+nginx+php - 麦田麦穗&summary="
-          
-          >
-          
-            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/weibo.png">
-          
-        </a>
-      
-    
-  </div>
-</div>
-
-
-
-        
       
     </div>
+    
+      
+    
   </section>
+</article>
 
-
-        
-        
-          <div class="prev-next">
-            
-              <a class='prev' href='/2019/04/04/%E5%B7%A5%E6%AC%B2%E5%96%84%E5%85%B6%E4%BA%8B%E5%BF%85%E5%85%88%E5%88%A9%E5%85%B6%E5%99%A8/'>
-                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>工欲善其事必先利其器-程序员工具</p>
-                <p class='content'>
-提高工作效率，首先你得有一套用的顺手的工具
-
-
-图床
-
-PicGo
-
-支持粘贴板，直接上传到云存储。
-我用七牛云，上传之后制动把markdown的格式地址，放到粘贴板直接可以粘贴到markdo...</p>
-              </a>
-            
-            
-              <a class='next' href='/2017/12/01/%E5%9C%B0%E7%90%86%E4%BD%8D%E7%BD%AEgeo%E5%A4%84%E7%90%86%E4%B9%8Bmysql%E5%87%BD%E6%95%B0/'>
-                <p class='title'>地理位置geo处理之mysql函数<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
-                <p class='content'>
-目前越来越多的业务都会基于LBS，附近的人，外卖位置，附近商家等等，现就讨论离我最近这一业务场景的解决方案。
-
-目前已知解决方案有:
-
-mysql 自定义函数计算
-mysql geo索引
-mo...</p>
-              </a>
-            
           </div>
         
-      </section>
-    </article>
+      
+    
+  </section>
   
-
-  
-    <!-- 显示推荐文章和评论 -->
-
-
-
-  <article class="post white-box reveal comments shadow">
-    <section class="article typo">
-      <p ct><i class='fas fa-comments'></i> 评论</p>
-      
-      
-        <section id="comments">
-          <div id="disqus_thread">
-            <div><i class='fas fa-exclamation-triangle'></i>&nbsp;Unable to load Disqus, please make sure your network can access.</div>
-          </div>
-        </section>
-      
-      
-      
-      
-      
-      
-    </section>
-  </article>
-
+    
+    <!-- 根据主题中的设置决定是否在archive中针对摘要部分的MathJax公式加载mathjax.js文件 -->
+    
+    
 
   
 
 
-
-
-<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
-
-
-
-  <script>
-    window.subData = {
-      title: 'docker+compose+nginx+php',
-      tools: true
-    }
-  </script>
-
-
+	
 </div>
 <aside class='l_side'>
   
   
+    
+    
+
+<section class="widget blogger shadow desktop mobile">
+  <div class='content'>
+    
+      
+        <a class='avatar flat-box' href='/about/'>
+          <img no-lazy src='http://img.rc5j.cn/blog20200508235943.png'/>
+        </a>
+      
+    
+    
+      <div class='text'>
+        
+        
+        
+          <p><span id="jinrishici-sentence">麦田麦穗</span></p>
+          <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
+        
+      </div>
+    
+    
+      <div class="social-wrapper">
+        
+          
+            <a href="/atom.xml"
+              class="social fas fa-rss flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+          
+            <a href="mailto:visonforcoding@gmail.com"
+              class="social fas fa-envelope flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+          
+            <a href="https://music.163.com/#/user/home?id=63035382"
+              class="social fas fa-headphones-alt flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+      </div>
+    
+  </div>
+</section>
+
+  
 
   
     
     
 
+  
 
-  <section class="widget toc-wrapper shadow desktop mobile">
+  
+    
+    
+  
+
+  <section class="widget tagcloud shadow desktop mobile">
     
   <header>
     
-      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+      <a href='/blog/tags/'><i class="fas fa-tags fa-fw" aria-hidden="true"></i><span class='name'>热门标签</span></a>
     
   </header>
 
 
     <div class='content'>
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#我用docker做什么？"><span class="toc-text">我用docker做什么？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装docker"><span class="toc-text">安装docker</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#docker-compose"><span class="toc-text">docker-compose</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#目录结构"><span class="toc-text">目录结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#配置文件"><span class="toc-text">配置文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#启动"><span class="toc-text">启动</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#常用命令"><span class="toc-text">常用命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#其他问题"><span class="toc-text">其他问题</span></a></li></ol>
+      <a href="/tags/JAVA/" style="font-size: 14px; color: #999">JAVA</a> <a href="/tags/Java/" style="font-size: 14px; color: #999">Java</a> <a href="/tags/PHP/" style="font-size: 14px; color: #999">PHP</a> <a href="/tags/devops/" style="font-size: 14px; color: #999">devops</a> <a href="/tags/docker/" style="font-size: 14px; color: #999">docker</a> <a href="/tags/java/" style="font-size: 24px; color: #555">java</a> <a href="/tags/java-spring-boot/" style="font-size: 14px; color: #999">java spring-boot</a> <a href="/tags/kafka/" style="font-size: 14px; color: #999">kafka</a> <a href="/tags/mysql/" style="font-size: 16.5px; color: #888">mysql</a> <a href="/tags/php/" style="font-size: 21.5px; color: #666">php</a> <a href="/tags/php-linux/" style="font-size: 14px; color: #999">php linux</a> <a href="/tags/python/" style="font-size: 19px; color: #777">python</a> <a href="/tags/spring-boot/" style="font-size: 14px; color: #999">spring-boot</a> <a href="/tags/web/" style="font-size: 14px; color: #999">web</a> <a href="/tags/web%E5%89%8D%E7%AB%AF/" style="font-size: 14px; color: #999">web前端</a> <a href="/tags/%E6%96%B9%E6%A1%88/" style="font-size: 14px; color: #999">方案</a> <a href="/tags/%E7%A8%8B%E5%BA%8F%E4%BA%BA%E7%94%9F/" style="font-size: 14px; color: #999">程序人生</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/" style="font-size: 14px; color: #999">计算机基础</a> <a href="/tags/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/" style="font-size: 14px; color: #999">软件工程</a> <a href="/tags/%E8%BF%90%E7%BB%B4/" style="font-size: 14px; color: #999">运维</a> <a href="/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 14px; color: #999">随笔</a>
     </div>
   </section>
 
+
+  
 
   
 
@@ -837,6 +749,14 @@ mo...</p>
   </footer>
 
 <script>setLoadingBarProgress(80);</script>
+
+
+
+
+	<!-- 根据主题中的设置决定是否在archive中针对摘要部分的MathJax公式加载mathjax.js文件 -->
+	
+
+	
 
 
       <script>setLoadingBarProgress(60);</script>
@@ -936,20 +856,6 @@ mo...</p>
 
 
 
-
-  <script>
-    var disqus_shortname = 'visonforcoding-github-io';
-    
-      var disqus_url = 'http://blog.visonforcoding.xyz/2018/07/22/docker-compose-nginx-php/';
-    
-    (function(){
-      var dsq = document.createElement('script');
-      dsq.type = 'text/javascript';
-      dsq.async = true;
-      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    })();
-  </script>
 
 
 

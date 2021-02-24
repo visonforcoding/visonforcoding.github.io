@@ -634,6 +634,10 @@ excludecategories=result,resultset,info,debug</code></pre>
 }</code></pre>
 <p>由于事件参数还给出了<code>timeElapsedNanos</code>,最终我们还能统计出所有sql执行的耗时。这样一来我们就能看出一次请求内，最耗时的操作具体是什么。达到类似以下效果：</p>
 <p><img src="https://vison-blog.oss-cn-beijing.aliyuncs.com/20210224141855.png" alt=""></p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="http://knes1.github.io/blog/2015/2015-07-08-counting-queries-per-request-with-hibernate-and-spring.html" target="_blank" rel="noopener">Counting Queries per Request with Hibernate and Spring</a></li>
+<li><a href="https://github.com/p6spy/p6spy/issues/362" target="_blank" rel="noopener">register an event handler</a></li>
+</ul>
 
           
             <div class='article_footer'>
@@ -715,7 +719,7 @@ excludecategories=result,resultset,info,debug</code></pre>
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-02-24T14:25:45+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-02-24T14:42:23+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
     <p>更新于：Feb 24, 2021</p>
@@ -897,7 +901,7 @@ excludecategories=result,resultset,info,debug</code></pre>
 
 
     <div class='content'>
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#spring原生能力"><span class="toc-text">spring原生能力</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#原生log-org-hibernate-EmptyInterceptor"><span class="toc-text">原生log+org.hibernate.EmptyInterceptor</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#log4jdbc"><span class="toc-text">log4jdbc</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#P6Spy"><span class="toc-text">P6Spy</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#自定义事件"><span class="toc-text">自定义事件</span></a></li></ol></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#spring原生能力"><span class="toc-text">spring原生能力</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#原生log-org-hibernate-EmptyInterceptor"><span class="toc-text">原生log+org.hibernate.EmptyInterceptor</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#log4jdbc"><span class="toc-text">log4jdbc</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#P6Spy"><span class="toc-text">P6Spy</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#自定义事件"><span class="toc-text">自定义事件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考"><span class="toc-text">参考</span></a></li></ol>
     </div>
   </section>
 

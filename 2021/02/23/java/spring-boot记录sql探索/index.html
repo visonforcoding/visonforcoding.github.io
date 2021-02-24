@@ -540,7 +540,8 @@ log4jdbc.trim.sql.extrablanklines=true
 <li>✔️ 不能和参数一起显示</li>
 <li>✔️ 不能显示limit参数</li>
 <li>❌ 能计数</li>
-<li>✔️  不能记录耗时</li>
+<li>✔️  能记录单个sql耗时</li>
+<li>❌ 不能统计总耗时</li>
 </ul>
 <p>不足的是，单纯log4jdbc并不能满足所有。理论上log4jdbc+org.hibernate.EmptyInterceptor可以满足需求了</p>
 <h2 id="P6Spy"><a href="#P6Spy" class="headerlink" title="P6Spy"></a>P6Spy</h2><p>测试完毕，发现P6Spy目前最能满足需求：</p>
@@ -714,7 +715,7 @@ excludecategories=result,resultset,info,debug</code></pre>
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-02-24T14:22:42+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-02-24T14:25:45+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
     <p>更新于：Feb 24, 2021</p>

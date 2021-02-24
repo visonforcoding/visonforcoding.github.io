@@ -16,16 +16,21 @@
 
   <!-- 页面元数据 -->
   
-    <title>spring-boot+vue+supervisor+nginx的前后端分离部署 - 麦田麦穗</title>
+    <title>spring-boot记录sql探索 - 麦田麦穗</title>
   
     <meta name="keywords" content="java">
   
   
     <meta name="description" content="
-要保证同域部署,因为跨域会有很多问题要重新解决
+目标记录每次请求内的http、es、mysql耗时，本篇讨论mysql部分
 
-顺便树下，但其实现在互联网产品一般都有多客户端，pc web 、小程序、app。保守的同域session模式保持会话已经满足不了一些需求。比如，单端登录等。
-言归正传，我采取的思路是，前端请求接口时统一加上api前缀，nginx将api前缀的路由请求代理转发到s...">
+为什么说要探索，这不是很简单的事么？但是能满足以下几点么？
+
+能记录limit等参数
+能将参数和sql写一起，能直接使用
+能记录耗时
+能计数累加,统计一次请求中sql执行的总数和总耗时
+">
   
 
   <!-- feed -->
@@ -368,8 +373,8 @@
         
           
   <h1 class="title">
-    <a href="/2021/02/22/spring-boot-vue%E7%9A%84%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E9%83%A8%E7%BD%B2/">
-      spring-boot+vue+supervisor+nginx的前后端分离部署
+    <a href="/2021/02/23/java/spring-boot%E8%AE%B0%E5%BD%95sql%E6%8E%A2%E7%B4%A2/">
+      spring-boot记录sql探索
     </a>
   </h1>
 
@@ -399,7 +404,7 @@
               <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Feb 22, 2021</p>
+    <p>发布于：Feb 23, 2021</p>
   </a>
 </div>
 
@@ -422,67 +427,212 @@
       <section class="article typo">
         <div class="article-entry" itemprop="articleBody">
           
-          <ul>
-<li>要保证同域部署,因为跨域会有很多问题要重新解决</li>
+          <blockquote>
+<p>目标记录每次请求内的http、es、mysql耗时，本篇讨论mysql部分</p>
+</blockquote>
+<p>为什么说要探索，这不是很简单的事么？但是能满足以下几点么？</p>
+<ul>
+<li>能记录limit等参数</li>
+<li>能将参数和sql写一起，能直接使用</li>
+<li>能记录耗时</li>
+<li>能计数累加,统计一次请求中sql执行的总数和总耗时</li>
 </ul>
-<p>顺便树下，但其实现在互联网产品一般都有多客户端，pc web 、小程序、app。保守的同域session模式保持会话已经满足不了一些需求。比如，单端登录等。</p>
-<p>言归正传，我采取的思路是，前端请求接口时统一加上api前缀，nginx将api前缀的路由请求代理转发到spring-boot</p>
 <a id="more"></a>
 
-<h2 id="nginx配置"><a href="#nginx配置" class="headerlink" title="nginx配置"></a>nginx配置</h2><pre><code class="nginx">
-server {
-    server_name admin.domain.xyz;
-    index index.html;
+<h2 id="spring原生能力"><a href="#spring原生能力" class="headerlink" title="spring原生能力"></a>spring原生能力</h2><pre><code class="ini">logging.level.org.hibernate.SQL=debug
+logging.level.org.hibernate.type.descriptor.sql.BasicBinder=trace</code></pre>
+<p>通过上面两条配置。</p>
+<ul>
+<li>✔️可以显示sql.</li>
+<li>❌不能和参数一行显示</li>
+<li>❌不能显示limit参数</li>
+<li>❌不能计数和记录耗时</li>
+</ul>
+<pre><code>2021-02-23 19:35:42.932 DEBUG 97586 --- [  restartedMain] org.hibernate.SQL                        : select admin0_.id as id1_0_, admin0_.create_time as create_t2_0_, admin0_.modify_time as modify_t3_0_, admin0_.email as email4_0_, admin0_.password as password5_0_, admin0_.status as status6_0_, admin0_.username as username7_0_ from admin admin0_ where admin0_.username=?
+2021-02-23 19:35:42.949 TRACE 97586 --- [  restartedMain] o.h.type.descriptor.sql.BasicBinder      : binding parameter [1] as [VARCHAR] - [root]</code></pre><h2 id="原生log-org-hibernate-EmptyInterceptor"><a href="#原生log-org-hibernate-EmptyInterceptor" class="headerlink" title="原生log+org.hibernate.EmptyInterceptor"></a>原生log+org.hibernate.EmptyInterceptor</h2><p><code>org.hibernate.EmptyInterceptor</code>提供钩子，hibernate本身提供entity的curd钩子。重写<code>EmptyInterceptor</code>方法，可以实现计数。但是<code>onPrepareStatement</code>方法只是装配sql前的事件，而且不是完整的sql。</p>
+<ul>
+<li>✔️ 可以显示sql</li>
+<li>❌ 不能和参数一行显示</li>
+<li>❌ 不能显示limit参数</li>
+<li>✔️ 能计数</li>
+<li>❌ 不能记录耗时</li>
+</ul>
+<pre><code class="ini">spring.jpa.properties.hibernate.ejb.interceptor=com.vison.itdoc.config.HibernateInterceptor</code></pre>
+<pre><code class="java">public class HibernateInterceptor extends EmptyInterceptor {
 
-    location  / {
-                index index.html;
-                root /home/wwwuser/webroot/itdoc-admin-web/dist/spa;
-        }
+    @Override
+    public boolean onLoad(Object entity, Serializable id, Object[] state, String[] propertyNames, Type[] types) {
+//        Log.info(&quot;onload...&quot;, entity)
+        return true;
+    }
 
-    location /api/ {
-              proxy_pass  http://127.0.0.1:8081/;
-        }
-    # optionally disable falling back to PHP script for the asset directories;
-    # nginx will return a 404 error when files are not found instead of passing the
-    # request to Symfony (improves performance but Symfony&#39;s 404 page is not displayed)
-    # location /bundles {
-    #     try_files $uri =404;
-    # }
+    @Override
+    public String onPrepareStatement(String string) {
+        // count++
+        return INSTANCE.onPrepareStatement(string);
+    }
 
-    error_log /var/log/nginx/admin_error.log;
-    access_log /var/log/nginx/admin_access.log;
+    @Override
+    public void afterTransactionCompletion(Transaction t) {
+        INSTANCE.afterTransactionCompletion(t);
+        Log.info(&quot;after trans complete&quot;, t);
+    }
+
+}</code></pre>
+<h2 id="log4jdbc"><a href="#log4jdbc" class="headerlink" title="log4jdbc"></a>log4jdbc</h2><p>log4jdbc能很好的解决sql完整显示和记录耗时的问题</p>
+<pre><code>2021-02-23 19:59:13.709  INFO 97586 --- [nio-8081-exec-1] jdbc.sqltiming                           : select posts0_.id as id1_2_, posts0_.create_time as create_t2_2_, posts0_.modify_time as modify_t3_2_, 
+posts0_.content as content4_2_, posts0_.title as title5_2_ from posts posts0_ where 1=1 order 
+by posts0_.id asc limit 10 ;
+ {executed in 1 msec}</code></pre><p>还能够定义超过1定时间的执行sql记录为error类型。</p>
+<pre><code class="xml">        &lt;dependency&gt;
+            &lt;groupId&gt;com.googlecode.log4jdbc&lt;/groupId&gt;
+            &lt;artifactId&gt;log4jdbc&lt;/artifactId&gt;
+            &lt;version&gt;1.2&lt;/version&gt;
+            &lt;scope&gt;runtime&lt;/scope&gt;
+        &lt;/dependency&gt;
+</code></pre>
+<pre><code class="ini">spring.datasource.driver-class-name: net.sf.log4jdbc.DriverSpy
+#使用log4jdbc后mysql的url
+spring.datasource.url=jdbc:log4jdbc:mysql://localhost:3306/xxxx?useUnicode=true&amp;characterEncoding=UTF-8
+#使用log4jdbc后oracle的url
+#spring.datasource.url: jdbc:log4jdbc:oracle:thin:@127.0.0.1:1521:orcl
+</code></pre>
+<p>注意需要添加<code>spring.datasource.driver-class-name</code> 和更改 <code>spring.datasource.url</code> 将jdbc改为 jdbc:log4jdbc</p>
+<p><em>log4jdbc.properties</em>可以定义更多配置</p>
+<pre><code class="ini">#配置为需要记录的包或类匹配路径
+#log4jdbc.debug.stack.prefix=com.drp
+#log4jdbc加载的drivers (驱动名)
+#log4jdbc.drivers=oracle.jdbc.OracleDriver
+log4jdbc.auto.load.popular.drivers=true
+#在日志中显示warn警告
+log4jdbc.statement.warn=true
+#毫秒值.执行时间超过该值的SQL语句将被记录为warn级别.
+log4jdbc.sqltiming.warn.threshold=2000
+#毫秒值.执行时间超过该值的SQL语句将被记录为error级别.
+log4jdbc.sqltiming.error.threshold=3000
+#是把boolean记录为 &#39;true&#39;/&#39;false&#39; 还是 1/0. 默认设置为false,不启用,为了移植性.
+#log4jdbc.dump.booleanastruefalse=true
+#输出的sql,一行最大的字符数，默认90. 以后新版可能为0
+#log4jdbc.dump.sql.maxlinelength=90
+#如果在调试模式下转储，则转储整个堆栈跟踪  默认false
+log4jdbc.dump.fulldebugstacktrace=false
+
+#是否记录某些类型的语句，默认true
+log4jdbc.dump.sql.select=true
+log4jdbc.dump.sql.insert=true
+log4jdbc.dump.sql.delete=true
+log4jdbc.dump.sql.update=true
+log4jdbc.dump.sql.create=true
+
+#输出sql末尾处加入分号，默认false
+log4jdbc.dump.sql.addsemicolon=true
+
+#将此设置为false以不修剪已记录的SQL
+log4jdbc.trim.sql=true
+#将此设置为false不删除额外的空行
+log4jdbc.trim.sql.extrablanklines=true
+
+#log4jdbc.suppress.generated.keys.exception=false
+
+</code></pre>
+<ul>
+<li>✔️ 可以显示sql</li>
+<li>✔️ 不能和参数一起显示</li>
+<li>✔️ 不能显示limit参数</li>
+<li>❌ 能计数</li>
+<li>✔️  不能记录耗时</li>
+</ul>
+<p>不足的是，单纯log4jdbc并不能满足所有。理论上log4jdbc+org.hibernate.EmptyInterceptor可以满足需求了</p>
+<h2 id="P6Spy"><a href="#P6Spy" class="headerlink" title="P6Spy"></a>P6Spy</h2><p>测试完毕，发现P6Spy目前最能满足需求：</p>
+<ul>
+<li>✔️ 可以显示sql</li>
+<li>✔️ 不能和参数一起显示</li>
+<li>✔️ 不能显示limit参数</li>
+<li>✔️ 能计数</li>
+<li>✔️ 不能记录耗时</li>
+<li>✔️ 支持curd事件前后钩子，钩子参数返回sql和执行耗时及异常信息🚀</li>
+</ul>
+<pre><code class="xml">        &lt;dependency&gt;
+            &lt;groupId&gt;p6spy&lt;/groupId&gt;
+            &lt;artifactId&gt;p6spy&lt;/artifactId&gt;
+            &lt;version&gt;3.9.1&lt;/version&gt;
+        &lt;/dependency&gt;
+</code></pre>
+<p>同<code>log4jdbc</code>需要改driver和url</p>
+<pre><code class="ini">spring.datasource.driver-class-name=com.p6spy.engine.spy.P6SpyDriver
+spring.datasource.url=jdbc:p6spy:mysql://localhost:3306/test?useLegacyDatetimeCode=false&amp;serverTimezone=UTC</code></pre>
+<p><em>psy.properties</em>可以定义更多配置</p>
+<pre><code class="ini">#modulelist=com.p6spy.engine.spy.P6SpyFactory,com.p6spy.engine.logging.P6LogFactory,com.p6spy.engine.outage.P6OutageFactory
+modulelist=com.vison.itdoc.config.CustomeP6Factory,com.p6spy.engine.logging.P6LogFactory,com.p6spy.engine.outage.P6OutageFactory
+#moduelist很关键，我这里使用了自定义的Factory，因为我需要自定义event
+appender=com.p6spy.engine.spy.appender.Slf4JLogger
+logMessageFormat=com.p6spy.engine.spy.appender.CustomLineFormat
+customLogMessageFormat=%(executionTime) ms|%(category)|%(sql)
+excludecategories=result,resultset,info,debug</code></pre>
+<p>正常使用默认配置就可以显示出sql和耗时信息</p>
+<pre><code> 4 ms|statement|select admin0_.id as id1_0_, admin0_.create_time as create_t2_0_, admin0_.modify_time as modify_t3_0_, admin0_.email as email4_0_, admin0_.password as password5_0_, admin0_.status as status6_0_, admin0_.username as username7_0_ from admin admin0_ where admin0_.username=&#39;root&#39;</code></pre><p>可以看到，耗时信息和实际参数</p>
+<h3 id="自定义事件"><a href="#自定义事件" class="headerlink" title="自定义事件"></a>自定义事件</h3><p><code>modulelist=com.p6spy.engine.spy.P6SpyFactory</code>改成<code>自定义Factory</code></p>
+<p>自定义Factory</p>
+<pre><code class="java">public class CustomeP6Factory implements com.p6spy.engine.spy.P6Factory {
+
+    @Override
+    public P6LoadableOptions getOptions(P6OptionsRepository optionsRepository) {
+        return new P6SpyOptions(optionsRepository);
+    }
+
+    @Override
+    public JdbcEventListener getJdbcEventListener() {
+        return new P6spyListener(); //使用自定义Listener
+    }
+
 }
 </code></pre>
-<h2 id="supervisor守护java-jar"><a href="#supervisor守护java-jar" class="headerlink" title="supervisor守护java -jar"></a>supervisor守护java -jar</h2><p>我这里采取java -jar模式部署，但是单纯的这种模式并不能保证自启动和进程监控等。因此需要借助supervisor。</p>
-<pre><code class="ini">[program:itdoc]
-command=/usr/local/jdk-11.0.2/bin/java -jar itdoc-0.0.2-SNAPSHOT.jar
-process_name=%(program_name)s
-numprocs=1
-directory=/home/wwwuser/webroot
-umask=022
-priority=999
-autostart=true
-autorestart=unexpected
-startsecs=10
-startretries=3
-exitcodes=0
-stopsignal=TERM
-stopwaitsecs=10
-stopasgroup=false
-killasgroup=false
-user=wwwuser
-redirect_stderr=false
-stdout_logfile=/var/log/webroot/itdoc-out.log
-stdout_logfile_maxbytes=1MB
-stdout_logfile_backups=10
-stdout_capture_maxbytes=1MB
-stdout_events_enabled=false
-stderr_logfile=/var/log/webroot/itdoc-err.log
-stderr_logfile_maxbytes=1MB
-stderr_logfile_backups=10
-stderr_capture_maxbytes=1MB
-</code></pre>
-<p>这里的<code>autostart</code> 和 <code>autorestart</code> 能保证自启动和启动重启</p>
+<p>自定义事件</p>
+<pre><code class="java">public class P6spyListener extends JdbcEventListener {
+
+    @Override
+    public void onAfterExecuteQuery(PreparedStatementInformation statementInformation, long timeElapsedNanos, SQLException e) {
+        App.sqlCount.incrementAndGet();
+        Log.info(&quot;execute query...&quot;, statementInformation.getSqlWithValues());
+    }
+
+    @Override
+    public void onAfterExecuteUpdate(PreparedStatementInformation statementInformation, long timeElapsedNanos, int rowCount, SQLException e) {
+        App.sqlCount.incrementAndGet();
+        Log.info(&quot;execute update..&quot;, statementInformation.getSqlWithValues());
+    }
+
+    @Override
+    public void onAfterExecute(StatementInformation statementInformation, long timeElapsedNanos, String sql, SQLException e) {
+        Log.info(&quot;execute..&quot;, statementInformation.getSqlWithValues());
+    }
+
+}</code></pre>
+<p>可以看到，我在自定义事件中进行了sql计数.于是我可以在请求结束时打印每次请求的总sql执行次数。</p>
+<pre><code class="java">public class RequestInitInterceptor implements HandlerInterceptor {
+
+    public RequestInitInterceptor() {
+    }
+
+    @Override
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
+            throws Exception {
+        App._uniq_req_no = UUID.randomUUID().toString();
+        App.sqlCount = new AtomicInteger(0);
+        Log.setMsgTraceNo(App._uniq_req_no);
+        Log.info(&quot;request start...&quot;, handler);
+        return true;
+    }
+
+    @Override
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
+            throws Exception {
+        Log.info(String.format(&quot;finish request sql执行次数:%s&quot;, App.sqlCount));
+    }
+
+}</code></pre>
+<p>由于事件参数还给出了<code>timeElapsedNanos</code>,最终我们还能统计出所有sql执行的耗时。这样一来我们就能看出一次请求内，最耗时的操作具体是什么。达到类似以下效果：</p>
+<p><img src="https://vison-blog.oss-cn-beijing.aliyuncs.com/20210224141855.png" alt=""></p>
 
           
             <div class='article_footer'>
@@ -519,7 +669,7 @@ stderr_capture_maxbytes=1MB
           
         
           
-            <p>本文永久链接是：<a href=http://blog.visonforcoding.xyz/2021/02/22/spring-boot-vue%E7%9A%84%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E9%83%A8%E7%BD%B2/>http://blog.visonforcoding.xyz/2021/02/22/spring-boot-vue%E7%9A%84%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E9%83%A8%E7%BD%B2/</a></p>
+            <p>本文永久链接是：<a href=http://blog.visonforcoding.xyz/2021/02/23/java/spring-boot%E8%AE%B0%E5%BD%95sql%E6%8E%A2%E7%B4%A2/>http://blog.visonforcoding.xyz/2021/02/23/java/spring-boot%E8%AE%B0%E5%BD%95sql%E6%8E%A2%E7%B4%A2/</a></p>
           
         
       </blockquote>
@@ -564,10 +714,10 @@ stderr_capture_maxbytes=1MB
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-02-22T14:56:04+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-02-24T14:22:42+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Feb 22, 2021</p>
+    <p>更新于：Feb 24, 2021</p>
   </a>
 </div>
 
@@ -594,11 +744,16 @@ stderr_capture_maxbytes=1MB
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.visonforcoding.xyz/2021/02/22/spring-boot-vue%E7%9A%84%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E9%83%A8%E7%BD%B2/&title=spring-boot+vue+supervisor+nginx的前后端分离部署 - 麦田麦穗&summary=
-要保证同域部署,因为跨域会有很多问题要重新解决
+          href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.visonforcoding.xyz/2021/02/23/java/spring-boot%E8%AE%B0%E5%BD%95sql%E6%8E%A2%E7%B4%A2/&title=spring-boot记录sql探索 - 麦田麦穗&summary=
+目标记录每次请求内的http、es、mysql耗时，本篇讨论mysql部分
 
-顺便树下，但其实现在互联网产品一般都有多客户端，pc web 、小程序、app。保守的同域session模式保持会话已经满足不了一些需求。比如，单端登录等。
-言归正传，我采取的思路是，前端请求接口时统一加上api前缀，nginx将api前缀的路由请求代理转发到spring-boot"
+为什么说要探索，这不是很简单的事么？但是能满足以下几点么？
+
+能记录limit等参数
+能将参数和sql写一起，能直接使用
+能记录耗时
+能计数累加,统计一次请求中sql执行的总数和总耗时
+"
           
           >
           
@@ -610,11 +765,16 @@ stderr_capture_maxbytes=1MB
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
           
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://blog.visonforcoding.xyz/2021/02/22/spring-boot-vue%E7%9A%84%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E9%83%A8%E7%BD%B2/&title=spring-boot+vue+supervisor+nginx的前后端分离部署 - 麦田麦穗&summary=
-要保证同域部署,因为跨域会有很多问题要重新解决
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://blog.visonforcoding.xyz/2021/02/23/java/spring-boot%E8%AE%B0%E5%BD%95sql%E6%8E%A2%E7%B4%A2/&title=spring-boot记录sql探索 - 麦田麦穗&summary=
+目标记录每次请求内的http、es、mysql耗时，本篇讨论mysql部分
 
-顺便树下，但其实现在互联网产品一般都有多客户端，pc web 、小程序、app。保守的同域session模式保持会话已经满足不了一些需求。比如，单端登录等。
-言归正传，我采取的思路是，前端请求接口时统一加上api前缀，nginx将api前缀的路由请求代理转发到spring-boot"
+为什么说要探索，这不是很简单的事么？但是能满足以下几点么？
+
+能记录limit等参数
+能将参数和sql写一起，能直接使用
+能记录耗时
+能计数累加,统计一次请求中sql执行的总数和总耗时
+"
           
           >
           
@@ -626,11 +786,16 @@ stderr_capture_maxbytes=1MB
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://service.weibo.com/share/share.php?url=http://blog.visonforcoding.xyz/2021/02/22/spring-boot-vue%E7%9A%84%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E9%83%A8%E7%BD%B2/&title=spring-boot+vue+supervisor+nginx的前后端分离部署 - 麦田麦穗&summary=
-要保证同域部署,因为跨域会有很多问题要重新解决
+          href="http://service.weibo.com/share/share.php?url=http://blog.visonforcoding.xyz/2021/02/23/java/spring-boot%E8%AE%B0%E5%BD%95sql%E6%8E%A2%E7%B4%A2/&title=spring-boot记录sql探索 - 麦田麦穗&summary=
+目标记录每次请求内的http、es、mysql耗时，本篇讨论mysql部分
 
-顺便树下，但其实现在互联网产品一般都有多客户端，pc web 、小程序、app。保守的同域session模式保持会话已经满足不了一些需求。比如，单端登录等。
-言归正传，我采取的思路是，前端请求接口时统一加上api前缀，nginx将api前缀的路由请求代理转发到spring-boot"
+为什么说要探索，这不是很简单的事么？但是能满足以下几点么？
+
+能记录limit等参数
+能将参数和sql写一起，能直接使用
+能记录耗时
+能计数累加,统计一次请求中sql执行的总数和总耗时
+"
           
           >
           
@@ -654,25 +819,13 @@ stderr_capture_maxbytes=1MB
         
           <div class="prev-next">
             
-              <a class='prev' href='/2021/02/23/java/spring-boot%E8%AE%B0%E5%BD%95sql%E6%8E%A2%E7%B4%A2/'>
-                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>spring-boot记录sql探索</p>
+            
+              <a class='next' href='/2021/02/22/spring-boot-vue%E7%9A%84%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E9%83%A8%E7%BD%B2/'>
+                <p class='title'>spring-boot+vue+supervisor+nginx的前后端分离部署<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
                 <p class='content'>
-目标记录每次请求内的http、es、mysql耗时，本篇讨论mysql部分
+要保证同域部署,因为跨域会有很多问题要重新解决
 
-为什么说要探索，这不是很简单的事么？但是能满足以下几点么？
-
-能记录limit等参数
-能将参数和sql写一起，能直...</p>
-              </a>
-            
-            
-              <a class='next' href='/2021/01/23/%E5%88%A9%E7%94%A8Locust%E8%BF%9B%E8%A1%8C%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/'>
-                <p class='title'>利用Locust进行性能测试<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
-                <p class='content'>要看一个项目的最大可用能力是多少，性能测试工作少不了
-
-
-
-安装$ pip3 install locust</p>
+顺便树下，但其实现在互联网产品一般都有多客户端，pc web 、小程序、app。保守的同域session模式保持会话已经满足不了一些需求。比如...</p>
               </a>
             
           </div>
@@ -717,7 +870,7 @@ stderr_capture_maxbytes=1MB
 
   <script>
     window.subData = {
-      title: 'spring-boot+vue+supervisor+nginx的前后端分离部署',
+      title: 'spring-boot记录sql探索',
       tools: true
     }
   </script>
@@ -743,7 +896,7 @@ stderr_capture_maxbytes=1MB
 
 
     <div class='content'>
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#nginx配置"><span class="toc-text">nginx配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#supervisor守护java-jar"><span class="toc-text">supervisor守护java -jar</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#spring原生能力"><span class="toc-text">spring原生能力</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#原生log-org-hibernate-EmptyInterceptor"><span class="toc-text">原生log+org.hibernate.EmptyInterceptor</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#log4jdbc"><span class="toc-text">log4jdbc</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#P6Spy"><span class="toc-text">P6Spy</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#自定义事件"><span class="toc-text">自定义事件</span></a></li></ol></li></ol>
     </div>
   </section>
 
@@ -924,7 +1077,7 @@ stderr_capture_maxbytes=1MB
   <script>
     var disqus_shortname = 'visonforcoding-github-io';
     
-      var disqus_url = 'http://blog.visonforcoding.xyz/2021/02/22/spring-boot-vue%E7%9A%84%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E9%83%A8%E7%BD%B2/';
+      var disqus_url = 'http://blog.visonforcoding.xyz/2021/02/23/java/spring-boot%E8%AE%B0%E5%BD%95sql%E6%8E%A2%E7%B4%A2/';
     
     (function(){
       var dsq = document.createElement('script');

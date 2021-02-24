@@ -5,7 +5,9 @@
   <!-- SEO相关 -->
   
     
-      <meta name="robots" content="noindex,follow">
+      
+        <meta name="robots" content="noindex,follow">
+      
     
   
   <!-- 渲染优化 -->
@@ -18,7 +20,7 @@
 
   <!-- 页面元数据 -->
   
-    <title>Archive: 2021/2 - 麦田麦穗</title>
+    <title>麦田麦穗</title>
   
   
 
@@ -87,95 +89,7 @@
 
 <body>
   
-  <div class="cover-wrapper">
-    
-      <cover class='cover  half'>
-        <div class='cover-body'>
-  <div class='a'>
-    
-    
-      <p class="title">麦田麦穗</p>
-    
-    
-      <p class="subtitle">哥德尔、埃舍尔、巴赫</p>
-    
-  </div>
-  <div class='b'>
-    
-      <div class="m_search">
-        <form name="searchform" class="form u-search-form">
-          <input type="text" class="input u-search-input" placeholder="" />
-          <i class="icon fas fa-search fa-fw"></i>
-        </form>
-      </div>
-    
-    <div class='menu navigation'>
-      <ul class='cover-list-h'>
-        
-          
-            <li>
-              <a class="nav home"
-                href="https://visonforcoding.github.io/getting-started/"
-                
-                
-                id="https:visonforcodinggithubiogetting-started">
-                <i class='fas fa-book fa-fw'></i>文档
-              </a>
-            </li>
-          
-            <li>
-              <a class="nav home"
-                href="https://visonforcoding.github.io/archives/"
-                
-                
-                id="https:visonforcodinggithubioarchives">
-                <i class='fas fa-rss fa-fw'></i>博文
-              </a>
-            </li>
-          
-            <li>
-              <a class="nav home"
-                href="https://visonforcoding.github.io/examples/"
-                
-                
-                id="https:visonforcodinggithubioexamples">
-                <i class='fas fa-play-circle fa-fw'></i>示例
-              </a>
-            </li>
-          
-            <li>
-              <a class="nav home"
-                href="https://github.com/xaoxuu/hexo-theme-volantis/"
-                
-                  rel="external nofollow noopener noreferrer"
-                
-                
-                  target="_blank"
-                
-                id="https:githubcomxaoxuuhexo-theme-volantis">
-                <i class='fas fa-file-code fa-fw'></i>源码
-              </a>
-            </li>
-          
-            <li>
-              <a class="nav home"
-                href="https://volantis.js.org/contributors/"
-                
-                
-                id="https:volantisjsorgcontributors">
-                <i class='fas fa-handshake fa-fw'></i>鸣谢
-              </a>
-            </li>
-          
-        
-      </ul>
-    </div>
-  </div>
-</div>
-
-      </cover>
-    
-    <div id="loading-bar-wrapper">
+  <div id="loading-bar-wrapper">
   <div id="loading-bar"></div>
 </div>
 <header class="l_header shadow blur">
@@ -428,25 +342,15 @@
 
 <script>setLoadingBarProgress(40);</script>
 
-  </div>
 
 
-  <div class="l_body">
+  <div class="l_body nocover">
     <div class='body-wrapper'>
       
 
 <div class='l_main'>
-	
-		
+  
   <section class="post-list ">
-    
-      
-        
-          
-        
-          
-        
-      
     
     
       
@@ -464,8 +368,8 @@
         
           
   <h2 class="title">
-    <a href="/2021/02/23/java/spring-boot%E8%AE%B0%E5%BD%95sql%E6%8E%A2%E7%B4%A2/">
-      spring-boot记录sql探索
+    <a href="/2017/08/05/python/%E7%A8%8B%E5%BA%8F%E5%91%98%E4%BB%A3%E7%A0%81%E4%B8%8B%E7%9A%84%E8%AE%B8%E8%B1%AA%E6%9D%B0-%E6%8A%80%E6%9C%AF%E7%AF%87/">
+      程序员代码下的许豪杰(技术篇)
     </a>
   </h2>
 
@@ -495,7 +399,7 @@
               <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Feb 23, 2021</p>
+    <p>发布于：Aug 5, 2017</p>
   </a>
 </div>
 
@@ -506,13 +410,13 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>1.5k words</p>
+      <p>1.9k words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
     <a class='notlink'>
       <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>7 min</p>
+      <p>8 min</p>
     </a>
   </div>
 
@@ -537,21 +441,15 @@
     <div class="article-entry" itemprop="articleBody">
       
         <blockquote>
-<p>目标记录每次请求内的http、es、mysql耗时，本篇讨论mysql部分</p>
+<p>接上篇，这一篇将从技术层面讲讲是如何实现的。阅读本文您将会了解如何用python爬取微博的评论以及如何用python word_cloud库进行数据可视化。</p>
 </blockquote>
-<p>为什么说要探索，这不是很简单的事么？但是能满足以下几点么？</p>
-<ul>
-<li>能记录limit等参数</li>
-<li>能将参数和sql写一起，能直接使用</li>
-<li>能记录耗时</li>
-<li>能计数累加,统计一次请求中sql执行的总数和总耗时</li>
-</ul>
+<p>上一篇:<a href="http://www.jianshu.com/p/ab49113c1fda" target="_blank" rel="noopener">程序员代码下的许豪杰</a></p>
       
     </div>
     
       
         <div class="button readmore">
-          <a href="/2021/02/23/java/spring-boot%E8%AE%B0%E5%BD%95sql%E6%8E%A2%E7%B4%A2/">
+          <a href="/2017/08/05/python/%E7%A8%8B%E5%BA%8F%E5%91%98%E4%BB%A3%E7%A0%81%E4%B8%8B%E7%9A%84%E8%AE%B8%E8%B1%AA%E6%9D%B0-%E6%8A%80%E6%9C%AF%E7%AF%87/">
             Read More <i class="fas fa-chevron-right"></i>
           </a>
         </div>
@@ -563,117 +461,24 @@
           </div>
         
       
-        
-          <div class='post-wrapper'>
-            <article class="post white-box shadow reveal ">
-  
-
-
-  <section class='meta'>
     
-      
-      
-      <div class="meta" id="header-meta">
+  </section>
+  
+    
+      <br>
+      <div class="prev-next">
         
-          
-  <h2 class="title">
-    <a href="/2021/02/22/spring-boot-vue%E7%9A%84%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E9%83%A8%E7%BD%B2/">
-      spring-boot+vue+supervisor+nginx的前后端分离部署
-    </a>
-  </h2>
-
-
+          <a class="prev" rel="prev" href="/page/4/">
+            <section class="post prev white-box shadow" >
+              <i class="fas fa-chevron-left" aria-hidden="true"></i>&nbsp;Previous&nbsp;
+            </section>
+          </a>
         
-        <div class='new-meta-box'>
-          
-            
-          
-            
-              
-<div class='new-meta-item author'>
-  <a href="" rel="nofollow">
-    <img src="http://img.rc5j.cn/blog20200508235943.png">
-    <p>vison</p>
-  </a>
-</div>
-
-            
-          
-            
-              
-
-            
-          
-            
-              <div class="new-meta-item date">
-  <a class='notlink'>
-    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Feb 22, 2021</p>
-  </a>
-</div>
-
-            
-          
-            
-              
-  <div class="new-meta-item wordcount">
-    <a class='notlink'>
-      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>351 words</p>
-    </a>
-  </div>
-  <div class="new-meta-item readtime">
-    <a class='notlink'>
-      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>1 min</p>
-    </a>
-  </div>
-
-
-            
-          
-            
-              
-
-            
-          
-        </div>
-        
-          <hr>
+        <p class="current">
+          5 / 5
+        </p>
         
       </div>
-    
-  </section>
-
-
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      
-        <ul>
-<li>要保证同域部署,因为跨域会有很多问题要重新解决</li>
-</ul>
-<p>顺便树下，但其实现在互联网产品一般都有多客户端，pc web 、小程序、app。保守的同域session模式保持会话已经满足不了一些需求。比如，单端登录等。</p>
-<p>言归正传，我采取的思路是，前端请求接口时统一加上api前缀，nginx将api前缀的路由请求代理转发到spring-boot</p>
-      
-    </div>
-    
-      
-        <div class="button readmore">
-          <a href="/2021/02/22/spring-boot-vue%E7%9A%84%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E9%83%A8%E7%BD%B2/">
-            Read More <i class="fas fa-chevron-right"></i>
-          </a>
-        </div>
-      
-    
-  </section>
-</article>
-
-          </div>
-        
-      
-    
-  </section>
-  
     
     <!-- 根据主题中的设置决定是否在archive中针对摘要部分的MathJax公式加载mathjax.js文件 -->
     
@@ -682,7 +487,6 @@
   
 
 
-	
 </div>
 <aside class='l_side'>
   
@@ -844,14 +648,6 @@
   </footer>
 
 <script>setLoadingBarProgress(80);</script>
-
-
-
-
-	<!-- 根据主题中的设置决定是否在archive中针对摘要部分的MathJax公式加载mathjax.js文件 -->
-	
-
-	
 
 
       <script>setLoadingBarProgress(60);</script>

@@ -619,49 +619,15 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p><img src="https://vison-blog.oss-cn-beijing.aliyuncs.com/20210303192545.png" alt=""></p>
-<h2 id="计数器"><a href="#计数器" class="headerlink" title="计数器"></a>计数器</h2><pre><code class="java">@WebServlet(name = &quot;HelloServlet&quot;, urlPatterns = {&quot;/hello&quot;})
-public class HelloServlet extends HttpServlet {
-
-    private static final Logger LOG = Logger.getLogger(HelloServlet.class.getName());
-
-    private Integer count = 0;
-
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        ++count;
-        processRequest(request, response);
-        LOG.info(String.format(&quot;计数 %d&quot;, count));
-    }
-}
-</code></pre>
-<p>按常理多少次请求后就会打印出计数多少。</p>
-<pre><code>ab -n300 -c20 http://localhost:8080/servlet-demo/hello</code></pre><p>正常下，执行第一次 计数应为300</p>
-<p><img src="https://vison-blog.oss-cn-beijing.aliyuncs.com/20210303194840.png" alt=""></p>
-<p>事实上得到的却不是</p>
-<p>再执行..</p>
-<p>2 ~ 590<br>3 ~ 879<br>4 ~ 1170</p>
-<p>几乎没有规律，并不是预期的 300的倍数。</p>
-<h2 id="解释"><a href="#解释" class="headerlink" title="解释"></a>解释</h2><p>实际上<code>++count</code>是一个读取-修改-写入的操作。</p>
-<p>假设线程A、B 同时读取到了值是m,同时写入+1后的值m+1。结果count = m+1,则事实上整个计数就少了1,应该为m+2。</p>
-<h2 id="处理"><a href="#处理" class="headerlink" title="处理"></a>处理</h2><p>将<code>count</code>声明为<code>AtomicInter</code></p>
-<pre><code class="java">    private Integer count = 0;
-    private AtomicInteger atomicCount = new AtomicInteger(0);
-
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        ++count;
-        processRequest(request, response);
-        LOG.info(String.format(&quot;计数count %d&quot;, count));
-        LOG.info(String.format(&quot;计数atomicCount %d&quot;, atomicCount.incrementAndGet()));
-    }</code></pre>
-<p><img src="https://vison-blog.oss-cn-beijing.aliyuncs.com/20210303194840.png" alt=""></p>
-<p>可以看到，<code>AtomicInteger</code>统计的是正确的了。</p>
-
       
     </div>
     
+      
+        <div class="button readmore">
+          <a href="/2021/03/03/%E7%BC%96%E5%8F%91%E7%BC%96%E7%A8%8B%E6%97%A5%E8%AE%B0-%E7%BA%BF%E7%A8%8B%E4%B8%8D%E5%AE%89%E5%85%A8%E7%9A%84%E5%8D%B1%E5%AE%B3/">
+            Read More <i class="fas fa-chevron-right"></i>
+          </a>
+        </div>
       
     
   </section>

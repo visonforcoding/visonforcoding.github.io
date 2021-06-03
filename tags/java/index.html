@@ -18,7 +18,7 @@
 
   <!-- 页面元数据 -->
   
-    <title>Tag: Java - 麦田麦穗</title>
+    <title>Tag: java - 麦田麦穗</title>
   
   
 
@@ -357,6 +357,24 @@
         
           
         
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
       
     
     
@@ -375,8 +393,8 @@
         
           
   <h2 class="title">
-    <a href="/2020/09/23/java/Java-JPA%E6%80%9D%E8%80%83/">
-      Java JPA思考
+    <a href="/2021/03/03/%E7%BC%96%E5%8F%91%E7%BC%96%E7%A8%8B%E6%97%A5%E8%AE%B0-%E7%BA%BF%E7%A8%8B%E4%B8%8D%E5%AE%89%E5%85%A8%E7%9A%84%E5%8D%B1%E5%AE%B3/">
+      并发编程日记-线程不安全的危害
     </a>
   </h2>
 
@@ -406,7 +424,7 @@
               <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Sep 23, 2020</p>
+    <p>发布于：Mar 3, 2021</p>
   </a>
 </div>
 
@@ -417,13 +435,13 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>1.1k words</p>
+      <p>268 words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
     <a class='notlink'>
       <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>4 min</p>
+      <p>1 min</p>
     </a>
   </div>
 
@@ -447,15 +465,978 @@
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
       
-        <p><img src="http://img.rc5j.cn/blog20200923170827.png" alt=""></p>
-<p>JPA即Java Persistence API. 2006年5月11号，JPA 1.0 规范作为 JCP JSR 220 的一部分最终被发布。</p>
-<p>在PHP世界当中doctrine、cake ORM 都有JPA的影子。</p>
+        <p><img src="https://vison-blog.oss-cn-beijing.aliyuncs.com/20210303192545.png" alt=""></p>
       
     </div>
     
       
         <div class="button readmore">
-          <a href="/2020/09/23/java/Java-JPA%E6%80%9D%E8%80%83/">
+          <a href="/2021/03/03/%E7%BC%96%E5%8F%91%E7%BC%96%E7%A8%8B%E6%97%A5%E8%AE%B0-%E7%BA%BF%E7%A8%8B%E4%B8%8D%E5%AE%89%E5%85%A8%E7%9A%84%E5%8D%B1%E5%AE%B3/">
+            Read More <i class="fas fa-chevron-right"></i>
+          </a>
+        </div>
+      
+    
+  </section>
+</article>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <article class="post white-box shadow reveal ">
+  
+
+
+  <section class='meta'>
+    
+      
+      
+      <div class="meta" id="header-meta">
+        
+          
+  <h2 class="title">
+    <a href="/2021/02/23/java/spring-boot%E8%AE%B0%E5%BD%95sql%E6%8E%A2%E7%B4%A2/">
+      spring-boot记录sql探索
+    </a>
+  </h2>
+
+
+        
+        <div class='new-meta-box'>
+          
+            
+          
+            
+              
+<div class='new-meta-item author'>
+  <a href="" rel="nofollow">
+    <img src="https://vison-blog.oss-cn-beijing.aliyuncs.com/20210603145600.png">
+    <p>vison</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+
+            
+          
+            
+              <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：Feb 23, 2021</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>1.6k words</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>7 min</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              
+
+            
+          
+        </div>
+        
+          <hr>
+        
+      </div>
+    
+  </section>
+
+
+  <section class="article typo">
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>目标记录每次请求内的http、es、mysql耗时，本篇讨论mysql部分</p>
+</blockquote>
+<p>为什么说要探索，这不是很简单的事么？但是能满足以下几点么？</p>
+<ul>
+<li>能记录limit等参数</li>
+<li>能将参数和sql写一起，能直接使用</li>
+<li>能记录耗时</li>
+<li>能计数累加,统计一次请求中sql执行的总数和总耗时</li>
+</ul>
+      
+    </div>
+    
+      
+        <div class="button readmore">
+          <a href="/2021/02/23/java/spring-boot%E8%AE%B0%E5%BD%95sql%E6%8E%A2%E7%B4%A2/">
+            Read More <i class="fas fa-chevron-right"></i>
+          </a>
+        </div>
+      
+    
+  </section>
+</article>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <article class="post white-box shadow reveal ">
+  
+
+
+  <section class='meta'>
+    
+      
+      
+      <div class="meta" id="header-meta">
+        
+          
+  <h2 class="title">
+    <a href="/2021/02/22/spring-boot-vue%E7%9A%84%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E9%83%A8%E7%BD%B2/">
+      spring-boot+vue+supervisor+nginx的前后端分离部署
+    </a>
+  </h2>
+
+
+        
+        <div class='new-meta-box'>
+          
+            
+          
+            
+              
+<div class='new-meta-item author'>
+  <a href="" rel="nofollow">
+    <img src="https://vison-blog.oss-cn-beijing.aliyuncs.com/20210603145600.png">
+    <p>vison</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+
+            
+          
+            
+              <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：Feb 22, 2021</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>359 words</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>1 min</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              
+
+            
+          
+        </div>
+        
+          <hr>
+        
+      </div>
+    
+  </section>
+
+
+  <section class="article typo">
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ul>
+<li>要保证同域部署,因为跨域会有很多问题要重新解决</li>
+</ul>
+<p>顺便树下，但其实现在互联网产品一般都有多客户端，pc web 、小程序、app。保守的同域session模式保持会话已经满足不了一些需求。比如，单端登录等。</p>
+<p>言归正传，我采取的思路是，前端请求接口时统一加上api前缀，nginx将api前缀的路由请求代理转发到spring-boot</p>
+      
+    </div>
+    
+      
+        <div class="button readmore">
+          <a href="/2021/02/22/spring-boot-vue%E7%9A%84%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E9%83%A8%E7%BD%B2/">
+            Read More <i class="fas fa-chevron-right"></i>
+          </a>
+        </div>
+      
+    
+  </section>
+</article>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <article class="post white-box shadow reveal ">
+  
+
+
+  <section class='meta'>
+    
+      
+      
+      <div class="meta" id="header-meta">
+        
+          
+  <h2 class="title">
+    <a href="/2021/01/06/java/servlet%E9%9B%86%E6%88%90mybatis-%E6%97%A0xml-%E6%B3%A8%E8%A7%A3%E6%96%B9%E5%BC%8F/">
+      servlet集成mybatis-无xml&注解方式
+    </a>
+  </h2>
+
+
+        
+        <div class='new-meta-box'>
+          
+            
+          
+            
+              
+<div class='new-meta-item author'>
+  <a href="" rel="nofollow">
+    <img src="https://vison-blog.oss-cn-beijing.aliyuncs.com/20210603145600.png">
+    <p>vison</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+
+            
+          
+            
+              <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：Jan 6, 2021</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>447 words</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>2 min</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              
+
+            
+          
+        </div>
+        
+          <hr>
+        
+      </div>
+    
+  </section>
+
+
+  <section class="article typo">
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>习惯了php项目之后，恐怕非常不喜欢操作xml吧.本章将介绍servlet+mybatis无xml配置模式。</p>
+</blockquote>
+      
+    </div>
+    
+      
+        <div class="button readmore">
+          <a href="/2021/01/06/java/servlet%E9%9B%86%E6%88%90mybatis-%E6%97%A0xml-%E6%B3%A8%E8%A7%A3%E6%96%B9%E5%BC%8F/">
+            Read More <i class="fas fa-chevron-right"></i>
+          </a>
+        </div>
+      
+    
+  </section>
+</article>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <article class="post white-box shadow reveal ">
+  
+
+
+  <section class='meta'>
+    
+      
+      
+      <div class="meta" id="header-meta">
+        
+          
+  <h2 class="title">
+    <a href="/2020/12/22/java/%E6%89%8B%E6%92%95javaweb%E5%BC%80%E5%8F%91/">
+      手撕javaweb开发
+    </a>
+  </h2>
+
+
+        
+        <div class='new-meta-box'>
+          
+            
+          
+            
+              
+<div class='new-meta-item author'>
+  <a href="" rel="nofollow">
+    <img src="https://vison-blog.oss-cn-beijing.aliyuncs.com/20210603145600.png">
+    <p>vison</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+
+            
+          
+            
+              <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：Dec 22, 2020</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>197 words</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>1 min</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              
+
+            
+          
+        </div>
+        
+          <hr>
+        
+      </div>
+    
+  </section>
+
+
+  <section class="article typo">
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>本系列文章将以几乎0基础javaweb为背景手写一个javaweb框架并进行开发。</p>
+<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><ul>
+<li>0基础javaweb,没有javaweb开发的实际经验</li>
+<li>有多年PHPweb实战经验</li>
+<li>有一定java语法基础</li>
+<li>有5分(满分100)的spring boot知识储备，毕竟用spring boot启动一个hello world还是比较简单的。</li>
+</ul>
+<h2 id="宗旨"><a href="#宗旨" class="headerlink" title="宗旨"></a>宗旨</h2><p>本文宗旨是想通过手写java web框架的方式，让有其他语言web开发经验的同事能由浅入深学会java web开发和理解其中原理。本系列文章将有以下几点原则。</p>
+<ul>
+<li>注重实践，一定会有源代码运行成功案例</li>
+<li>有理有据，一些实现必须有官方或权威文献解释</li>
+</ul>
+<h2 id="更新目录"><a href="#更新目录" class="headerlink" title="更新目录"></a>更新目录</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://visonforcoding.github.io/2020/12/18/java/%E6%98%A5%E5%A4%A9%E4%B9%8B%E5%89%8D-http/">手撕javaweb-HTTP前世</a></li>
+</ol>
+
+      
+    </div>
+    
+      
+    
+  </section>
+</article>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <article class="post white-box shadow reveal ">
+  
+
+
+  <section class='meta'>
+    
+      
+      
+      <div class="meta" id="header-meta">
+        
+          
+  <h2 class="title">
+    <a href="/2020/12/21/java/log4j%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/">
+      log4j使用指南
+    </a>
+  </h2>
+
+
+        
+        <div class='new-meta-box'>
+          
+            
+          
+            
+              
+<div class='new-meta-item author'>
+  <a href="" rel="nofollow">
+    <img src="https://vison-blog.oss-cn-beijing.aliyuncs.com/20210603145600.png">
+    <p>vison</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+
+            
+          
+            
+              <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：Dec 21, 2020</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>474 words</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>1 min</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              
+
+            
+          
+        </div>
+        
+          <hr>
+        
+      </div>
+    
+  </section>
+
+
+  <section class="article typo">
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>对于刚开始接触java的人来说，用什么来打日志似乎快被java的这么多概念搞懵了。log4j、log4j2、slf4j、logback?!!</p>
+      
+    </div>
+    
+      
+        <div class="button readmore">
+          <a href="/2020/12/21/java/log4j%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/">
+            Read More <i class="fas fa-chevron-right"></i>
+          </a>
+        </div>
+      
+    
+  </section>
+</article>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <article class="post white-box shadow reveal ">
+  
+
+
+  <section class='meta'>
+    
+      
+      
+      <div class="meta" id="header-meta">
+        
+          
+  <h2 class="title">
+    <a href="/2020/12/18/java/%E6%98%A5%E5%A4%A9%E4%B9%8B%E5%89%8D-http/">
+      HTTP本质
+    </a>
+  </h2>
+
+
+        
+        <div class='new-meta-box'>
+          
+            
+          
+            
+              
+<div class='new-meta-item author'>
+  <a href="" rel="nofollow">
+    <img src="https://vison-blog.oss-cn-beijing.aliyuncs.com/20210603145600.png">
+    <p>vison</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+
+            
+          
+            
+              <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：Dec 18, 2020</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>837 words</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>3 min</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              
+
+            
+          
+        </div>
+        
+          <hr>
+        
+      </div>
+    
+  </section>
+
+
+  <section class="article typo">
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>试图跳过spring,而学习spring boot是不可能的。学习java web开发，从基础开始学习。就应当了解http、servlet、tomcat</p>
+</blockquote>
+      
+    </div>
+    
+      
+        <div class="button readmore">
+          <a href="/2020/12/18/java/%E6%98%A5%E5%A4%A9%E4%B9%8B%E5%89%8D-http/">
+            Read More <i class="fas fa-chevron-right"></i>
+          </a>
+        </div>
+      
+    
+  </section>
+</article>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <article class="post white-box shadow reveal ">
+  
+
+
+  <section class='meta'>
+    
+      
+      
+      <div class="meta" id="header-meta">
+        
+          
+  <h2 class="title">
+    <a href="/2020/09/09/java/IOC%E5%92%8Cspring%E5%AF%B9%E5%AE%83%E7%9A%84%E5%AE%9E%E7%8E%B0/">
+      IOC和spring对它的实现
+    </a>
+  </h2>
+
+
+        
+        <div class='new-meta-box'>
+          
+            
+          
+            
+              
+<div class='new-meta-item author'>
+  <a href="" rel="nofollow">
+    <img src="https://vison-blog.oss-cn-beijing.aliyuncs.com/20210603145600.png">
+    <p>vison</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+
+            
+          
+            
+              <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：Sep 9, 2020</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>268 words</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>1 min</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              
+
+            
+          
+        </div>
+        
+          <hr>
+        
+      </div>
+    
+  </section>
+
+
+  <section class="article typo">
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="http://img.rc5j.cn/blog20200909211506.png" alt=""></p>
+      
+    </div>
+    
+      
+        <div class="button readmore">
+          <a href="/2020/09/09/java/IOC%E5%92%8Cspring%E5%AF%B9%E5%AE%83%E7%9A%84%E5%AE%9E%E7%8E%B0/">
+            Read More <i class="fas fa-chevron-right"></i>
+          </a>
+        </div>
+      
+    
+  </section>
+</article>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <article class="post white-box shadow reveal ">
+  
+
+
+  <section class='meta'>
+    
+      
+      
+      <div class="meta" id="header-meta">
+        
+          
+  <h2 class="title">
+    <a href="/2020/08/27/mac%E4%B8%8B%E4%BD%BF%E7%94%A8openjdk-11/">
+      使用openjdk 11
+    </a>
+  </h2>
+
+
+        
+        <div class='new-meta-box'>
+          
+            
+          
+            
+              
+<div class='new-meta-item author'>
+  <a href="" rel="nofollow">
+    <img src="https://vison-blog.oss-cn-beijing.aliyuncs.com/20210603145600.png">
+    <p>vison</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+
+            
+          
+            
+              <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：Aug 27, 2020</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>76 words</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>1 min</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              
+
+            
+          
+        </div>
+        
+          <hr>
+        
+      </div>
+    
+  </section>
+
+
+  <section class="article typo">
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近似乎java 8以上的版本都不能从oracle官网下载了，于是就尝试使用open jdk11</p>
+<p><img src="http://img.rc5j.cn/blog20200827114344.png" alt=""></p>
+      
+    </div>
+    
+      
+        <div class="button readmore">
+          <a href="/2020/08/27/mac%E4%B8%8B%E4%BD%BF%E7%94%A8openjdk-11/">
+            Read More <i class="fas fa-chevron-right"></i>
+          </a>
+        </div>
+      
+    
+  </section>
+</article>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <article class="post white-box shadow reveal ">
+  
+
+
+  <section class='meta'>
+    
+      
+      
+      <div class="meta" id="header-meta">
+        
+          
+  <h2 class="title">
+    <a href="/2020/06/01/MyBatis-Dynamic-SQL%E4%BD%BF%E7%94%A8%E5%B0%9D%E8%AF%95/">
+      MyBatis Dynamic SQL使用尝试
+    </a>
+  </h2>
+
+
+        
+        <div class='new-meta-box'>
+          
+            
+          
+            
+              
+<div class='new-meta-item author'>
+  <a href="" rel="nofollow">
+    <img src="https://vison-blog.oss-cn-beijing.aliyuncs.com/20210603145600.png">
+    <p>vison</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+
+            
+          
+            
+              <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：Jun 1, 2020</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>1.1k words</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>6 min</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              
+
+            
+          
+        </div>
+        
+          <hr>
+        
+      </div>
+    
+  </section>
+
+
+  <section class="article typo">
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>首先说明下，我可能是被这个插件的名字给误导了。我原本以为Dynamic SQL是为了解决动态查询场景的。但可能<code>MyBatis Dynamic SQL</code> 并不是来解决这个问题的。</p>
+<p>20.06.04更新</p>
+<p><strong>打脸了</strong>，原来它是支持的，果然是动态sql.并且还真香！</p>
+      
+    </div>
+    
+      
+        <div class="button readmore">
+          <a href="/2020/06/01/MyBatis-Dynamic-SQL%E4%BD%BF%E7%94%A8%E5%B0%9D%E8%AF%95/">
             Read More <i class="fas fa-chevron-right"></i>
           </a>
         </div>
@@ -492,7 +1473,7 @@
     
       
         <a class='avatar flat-box' href='/about/'>
-          <img no-lazy src='http://img.rc5j.cn/blog20200508235943.png'/>
+          <img no-lazy src='https://vison-blog.oss-cn-beijing.aliyuncs.com/20210603145600.png'/>
         </a>
       
     

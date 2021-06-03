@@ -75,7 +75,7 @@
   <div class="article-content">
     <div class="entry">
       
-        <p>首先，我们看下</p>
+        <p>首先，我们来看下</p>
 <pre><code class="shell">show GLOBAL VARIABLES like &#39;%timeout%&#39;;</code></pre>
 <p>默认值为28800s即8小时,我们改为100s</p>
 <pre><code class="ini"># Default Homebrew MySQL server config
@@ -85,7 +85,7 @@ bind-address = 0.0.0.0
 wait_timeout=100
 interactive_timeout=100</code></pre>
 <p>重新查看结果</p>
-<p><img src="https://upload-images.jianshu.io/upload_images/4033700-8b58c117bc70e44a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
+<p><img src="https://vison-blog.oss-cn-beijing.aliyuncs.com/20210603144255.png" alt=""></p>
 <p>查看对守护进程连接的影响</p>
 <pre><code class="php"> public function longT()
     &#123;
@@ -97,7 +97,7 @@ interactive_timeout=100</code></pre>
         &#125;
     &#125;</code></pre>
 <p>发现在100s后的连接已被主动断开</p>
-<p><img src="https://upload-images.jianshu.io/upload_images/4033700-22769213890725a6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
+<p><img src="https://vison-blog.oss-cn-beijing.aliyuncs.com/20210603144315.png" alt=""></p>
 <p>代码中的场景是，<strong>在wait_timeout之内无任何操作会自动关闭</strong></p>
 <h2 id="官方解释"><a href="#官方解释" class="headerlink" title="官方解释"></a>官方解释</h2><p>interactive_timeout 28800</p>
 <blockquote>

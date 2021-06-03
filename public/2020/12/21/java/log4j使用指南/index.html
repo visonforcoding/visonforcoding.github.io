@@ -1,0 +1,145 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>log4j使用指南 | 麦田麦穗</title>
+
+  
+  <meta name="author" content="vison">
+  
+
+  
+  <meta name="description" content="对于刚开始接触java的人来说，用什么来打日志似乎快被java的这么多概念搞懵了。log4j、log4j2、slf4j、logback?!!">
+  
+
+  
+  
+  <meta name="keywords" content="java">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="log4j使用指南"/>
+
+  <meta property="og:site_name" content="麦田麦穗"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="麦田麦穗" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">麦田麦穗</a>
+    </h1>
+    <p class="site-description"></p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>log4j使用指南</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2020/12/21/java/log4j使用指南/" rel="bookmark">
+        <time class="entry-date published" datetime="2020-12-21T06:28:40.445Z">
+          2020-12-21
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>对于刚开始接触java的人来说，用什么来打日志似乎快被java的这么多概念搞懵了。log4j、log4j2、slf4j、logback?!!</p>
+<span id="more"></span>
+
+
+<h2 id="log4j"><a href="#log4j" class="headerlink" title="log4j"></a>log4j</h2><p>Apache Log4j 是一个非常古老的日志框架，并且是多年来最受欢迎的日志框架。 它引入了现代日志框架仍在使用的基本概念，如分层日志级别和记录器。</p>
+<p>2015 年 8 月 5 日，该项目管理委员会宣布 Log4j 1.x 已达到使用寿命。 建议用户使用 Log4j 1 升级到 Apache<br>Log4j 2。</p>
+<h2 id="log4j2"><a href="#log4j2" class="headerlink" title="log4j2"></a>log4j2</h2><p>Apache Log4j 2是对 Log4j 的升级，它比其前身 Log4j 1.x 提供了重大改进，并提供了 Logback 中可用的许多改进，同时修复了 Logback 架构中的一些固有问题。</p>
+<p>与 Logback 一样，Log4j2 提供对 SLF4J 的支持，自动重新加载日志配置，并支持高级过滤选项。 除了这些功能外，它还允许基于 lambda 表达式对日志语句进行延迟评估，为低延迟系统提供异步记录器，并提供无垃圾模式以避免由垃圾收集器操作引起的任何延迟。</p>
+<p>所有这些功能使 Log4j2 成为这三个日志框架中最先进和最快的。</p>
+<h2 id="Logback"><a href="#Logback" class="headerlink" title="Logback"></a>Logback</h2><p>logback 是由 log4j 创始人设计的又一个开源日志组件，作为流行的 log4j 项目的后续版本，从而替代 log4j。</p>
+<p>Logback 的体系结构足够通用，以便在不同情况下应用。 目前，logback 分为三个模块：logback-core，logback-classic和logback-access。</p>
+<p>logback-core：模块为其他两个模块的基础。<br>logback-classic：模块可以被看做是log4j的改进版本。此外，logback-classic 本身实现了 SLF4J API，因此可以在 logback 和其他日志框架（如 log4j 或 java.util.logging（JUL））之间来回切换。<br>logback-access：模块与 Servlet 容器（如 Tomcat 和 Jetty）集成，以提供 HTTP 访问日志功能。</p>
+<p><img src="https://vison-blog.oss-cn-beijing.aliyuncs.com/20201221143239.png" alt=""></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/java/">java</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+  
+
+
+
+
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2021 vison
+    
+  </p>
+</footer>
+    
+    
+  </div>
+</div>
+</body>
+</html>

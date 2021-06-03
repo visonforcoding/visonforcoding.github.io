@@ -1,0 +1,236 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Java JPA思考 | 麦田麦穗</title>
+
+  
+  <meta name="author" content="vison">
+  
+
+  
+  <meta name="description" content="JPA即Java Persistence API. 2006年5月11号，JPA 1.0 规范作为 JCP JSR 220 的一部分最终被发布。
+在PHP世界当中doctrine、cake ORM 都有JPA的影子。">
+  
+
+  
+  
+  <meta name="keywords" content="Java">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="Java JPA思考"/>
+
+  <meta property="og:site_name" content="麦田麦穗"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="麦田麦穗" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">麦田麦穗</a>
+    </h1>
+    <p class="site-description"></p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>Java JPA思考</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2020/09/23/java/Java-JPA思考/" rel="bookmark">
+        <time class="entry-date published" datetime="2020-09-23T08:56:11.000Z">
+          2020-09-23
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p><img src="http://img.rc5j.cn/blog20200923170827.png" alt=""></p>
+<p>JPA即Java Persistence API. 2006年5月11号，JPA 1.0 规范作为 JCP JSR 220 的一部分最终被发布。</p>
+<p>在PHP世界当中doctrine、cake ORM 都有JPA的影子。</p>
+<span id="more"></span>
+
+<h2 id="Entity"><a href="#Entity" class="headerlink" title="Entity"></a>Entity</h2><p>持久化实体是一个轻量级的 Java 类，其状态通常持久地保存到关系数据库的表中。 这种实体的实例对应于表中的各个行。 实体之间通常有关系，这些关系通过对象/关系元数据表示。 可以在实体类文件中直接使用注释来指定这种关系，也可以在随应用程序分发的单独XML描述文件中指定。</p>
+<h2 id="JPQL"><a href="#JPQL" class="headerlink" title="JPQL"></a>JPQL</h2><p>Java持久化查询语言 （JPQL）对存储在关系数据库中的实体进行查询。查询在语法上类似于SQL查询，但是操作的是实体对象而不是直接对数据库表进行操作。</p>
+<h2 id="动机"><a href="#动机" class="headerlink" title="动机"></a>动机</h2><p>在引入EJB 3.0规范之前，许多企业级Java开发人员使用由持久化框架（例如Hibernate）或数据访问对象（DAO）提供的轻量级持久化对象，来代替实体bean（EJB的一种）。 这是因为在以前的EJB规范中，实体bean需要太多复杂的代码和繁重的资源占用，并且由于bean和DAO对象或持久化框架之间的源代码中的互连和依赖性，它们只能在Java EE应用程序服务器中使用。 因此，最初在第三方持久性框架中提供的许多功能都被合并到Java Persistence API中，并且从2006年开始，<code>像Hibernate（版本3.2）和TopLink Essentials这样的项目已经实现Java Persistence API规范。</code></p>
+<h2 id="JPA提供商"><a href="#JPA提供商" class="headerlink" title="JPA提供商"></a>JPA提供商</h2><p>JPA是一个开源API，因此Oracle，Redhat，Eclipse等各种企业供应商通过在其中添加JPA持久性风格来提供新产品。 其中一些产品包括:</p>
+<p>Hibernate, Eclipselink, Toplink, Spring Data JPA, etc.</p>
+<p>JSR定义了标准，众多组织对这个标准进行了实现，这使得开发者几乎可以在不同的实现版本里无缝切换。</p>
+<h2 id="注解-Annotations"><a href="#注解-Annotations" class="headerlink" title="注解 Annotations"></a>注解 Annotations</h2><p>通常，Xml文件用于配置特定组件，或映射两种不同规格的组件。 在我们的例子中，我们必须在框架中单独维护xml。 这意味着在编写映射xml文件时，我们需要将POJO类属性与mapping.xml文件中的实体标记进行比较。</p>
+<p>这是解决方案:在类定义中，我们可以使用注释编写配置部分。 注释用于类，属性和方法。 注释以“@”符号开头。 在声明类，属性或方法之前声明注释。 JPA的所有注释都在javax.persistence包中定义。</p>
+<p>以下是我们的示例中使用的注释列表</p>
+<p>注解    描述</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>@Entity</td>
+<td>此批注指定将类声明为实体或表</td>
+</tr>
+<tr>
+<td>@Table</td>
+<td>此批注指定声明表名。</td>
+</tr>
+<tr>
+<td>@Basic</td>
+<td>此批注明确指定非约束字段</td>
+</tr>
+<tr>
+<td>@Embedded</td>
+<td>此批注指定类或实体的属性，该实体的可嵌入类的值实例。</td>
+</tr>
+<tr>
+<td>@Id</td>
+<td>此批注指定属性，用于类的标识（表的主键）。</td>
+</tr>
+<tr>
+<td>@GeneratedValue</td>
+<td>此批注指定了如何初始化标识属性，例如自动，手动或从序列表中获取的值。</td>
+</tr>
+<tr>
+<td>@Transient</td>
+<td>此批注指定了不持久的属性，即该值永远不会存储到数据库中。</td>
+</tr>
+<tr>
+<td>@Column</td>
+<td>此批注用于指定持久性属性的列或属性。</td>
+</tr>
+<tr>
+<td>@SequenceGenerator</td>
+<td>此批注用于定义@GeneratedValue批注中指定的属性的值。 它创建了一个序列。</td>
+</tr>
+<tr>
+<td>@TableGenerator</td>
+<td>此批注用于指定@GeneratedValue批注中指定的属性的值生成器。 它创建了一个价值生成表。</td>
+</tr>
+<tr>
+<td>@AccessType</td>
+<td>此类注释用于设置访问类型。 如果设置@AccessType（FIELD），则会发生字段访问。 如果设置@AccessType（PROPERTY），则将进行Property wise评估。</td>
+</tr>
+<tr>
+<td>@JoinColumn</td>
+<td>此批注用于指定实体关联或实体集合。 这用于多对一和一对多关联。</td>
+</tr>
+<tr>
+<td>@UniqueConstraint</td>
+<td>此批注用于指定主要或辅助表的字段，唯一约束。</td>
+</tr>
+<tr>
+<td>@ColumnResult</td>
+<td>此批注使用select子句引用SQL查询中的列的名称。</td>
+</tr>
+<tr>
+<td>@ManyToMany</td>
+<td>此批注用于定义连接表之间的多对多关系。</td>
+</tr>
+<tr>
+<td>@ManyToOne</td>
+<td>此批注用于定义连接表之间的多对一关系。</td>
+</tr>
+<tr>
+<td>@OneToMany</td>
+<td>此批注用于定义连接表之间的一对多关系。</td>
+</tr>
+<tr>
+<td>@OneToOne</td>
+<td>此批注用于定义连接表之间的一对一关系。</td>
+</tr>
+<tr>
+<td>@NamedQueries</td>
+<td>此批注用于指定命名查询的列表。</td>
+</tr>
+<tr>
+<td>@NamedQuery</td>
+<td>此批注用于使用静态名称指定查询。</td>
+</tr>
+</tbody></table>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/Java/">Java</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+  
+
+
+
+
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2021 vison
+    
+  </p>
+</footer>
+    
+    
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,275 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>vue+vuex+axios+vant+vue-router简单单页登录态demo | 麦田麦穗</title>
+
+  
+  <meta name="author" content="vison">
+  
+
+  
+  <meta name="description" content="">
+  
+
+  
+  
+  <meta name="keywords" content="web">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="vue+vuex+axios+vant+vue-router简单单页登录态demo"/>
+
+  <meta property="og:site_name" content="麦田麦穗"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="麦田麦穗" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">麦田麦穗</a>
+    </h1>
+    <p class="site-description"></p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>vue+vuex+axios+vant+vue-router简单单页登录态demo</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2020/09/15/web/vue-vuex-axios-vant-vue-router简单单页登录态demo/" rel="bookmark">
+        <time class="entry-date published" datetime="2020-09-15T10:12:12.000Z">
+          2020-09-15
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p><img src="http://img.rc5j.cn/blog20200915182645.png" alt=""></p>
+<span id="more"></span>
+
+<h2 id="创建vant项目"><a href="#创建vant项目" class="headerlink" title="创建vant项目"></a>创建vant项目</h2><pre><code class="shell"># 安装 Vue Cli
+npm install -g @vue/cli
+
+# 创建一个项目
+vue create hello-world
+
+# 创建完成后，可以通过命令打开图形化界面，如下图所示
+vue ui
+
+# 或者 通过 yarn 安装
+
+yarn add vant</code></pre>
+<p><img src="http://img.rc5j.cn/blog20200915181419.png" alt=""></p>
+<p>在图形化界面中，点击<code>依赖</code> -&gt; <code>安装依赖</code>，然后将 <code>vant</code> 添加到依赖中即可。</p>
+<h2 id="vue-router"><a href="#vue-router" class="headerlink" title="vue-router"></a>vue-router</h2><pre><code class="shell">yarn add vue-router</code></pre>
+<pre><code class="html">&lt;template&gt;
+  &lt;div id=&quot;app&quot;&gt;
+    &lt;van-nav-bar
+    title=&quot;标题&quot;
+    left-text=&quot;返回&quot;
+    right-text=&quot;按钮&quot;
+    left-arrow
+    @click-left=&quot;onClickLeft&quot;
+    @click-right=&quot;onClickRight&quot;
+      /&gt;
+    &lt;router-view&gt;&lt;/router-view&gt;
+    &lt;van-tabbar v-model=&quot;active&quot;&gt;
+      &lt;van-tabbar-item icon=&quot;home-o&quot; to=&quot;/&quot;&gt;主页&lt;/van-tabbar-item&gt;
+      &lt;van-tabbar-item icon=&quot;search&quot;&gt;标签&lt;/van-tabbar-item&gt;
+      &lt;van-tabbar-item icon=&quot;friends-o&quot;&gt;标签&lt;/van-tabbar-item&gt;
+      &lt;van-tabbar-item icon=&quot;user-o&quot; to=&quot;/user/detail&quot;&gt;我的&lt;/van-tabbar-item&gt;
+    &lt;/van-tabbar&gt;
+  &lt;/div&gt;
+&lt;/template&gt;&lt;template&gt;
+  &lt;div id=&quot;app&quot;&gt;
+    &lt;van-nav-bar
+    title=&quot;标题&quot;
+    left-text=&quot;返回&quot;
+    right-text=&quot;按钮&quot;
+    left-arrow
+    @click-left=&quot;onClickLeft&quot;
+    @click-right=&quot;onClickRight&quot;
+      /&gt;
+    &lt;router-view&gt;&lt;/router-view&gt;
+    &lt;van-tabbar v-model=&quot;active&quot;&gt;
+      &lt;van-tabbar-item icon=&quot;home-o&quot; to=&quot;/&quot;&gt;主页&lt;/van-tabbar-item&gt;
+      &lt;van-tabbar-item icon=&quot;search&quot;&gt;标签&lt;/van-tabbar-item&gt;
+      &lt;van-tabbar-item icon=&quot;friends-o&quot;&gt;标签&lt;/van-tabbar-item&gt;
+      &lt;van-tabbar-item icon=&quot;user-o&quot; to=&quot;/user/detail&quot;&gt;我的&lt;/van-tabbar-item&gt;
+    &lt;/van-tabbar&gt;
+  &lt;/div&gt;
+&lt;/template&gt;</code></pre>
+<p>路由配置和登录态控制</p>
+<pre><code class="js">import Vue from &#39;vue&#39;
+import VueRouter from &#39;vue-router&#39;
+// import store from &#39;@/store&#39;
+// import layout from &#39;@/layout/layout&#39;
+
+Vue.use(VueRouter)
+
+const routes = [
+  &#123;
+    path: &#39;/&#39;,
+    name: &#39;home&#39;,
+    component: () =&gt; import(&quot;@/views/Home&quot;)
+  &#125;,
+  &#123;
+    path: &#39;/user/detail&#39;,
+    name: &#39;user_detail&#39;,
+    meta:&#123;
+      requireLogin:true
+    &#125;,
+    component: () =&gt; import(&quot;@/views/User/detail.vue&quot;)
+  &#125;,
+  &#123;
+    path: &#39;/login&#39;,
+    name: &#39;login&#39;,
+    meta:&#123;
+      requireLogin:false
+    &#125;,
+    component: () =&gt; import(&quot;@/views/Login/login.vue&quot;)
+  &#125;,
+
+]
+
+const router = new VueRouter(&#123;
+  mode: &#39;history&#39;,
+  base: process.env.BASE_URL,
+  routes
+&#125;)
+
+router.beforeEach((to, from, next) =&gt; &#123;
+  const token = sessionStorage.getItem(&#39;token&#39;);
+  // store.getters(&#39;isLogin&#39;)
+  if (to.meta.requireLogin) &#123;
+    //需要检测登录
+    if (token) &#123;
+      next();
+    &#125; else &#123;
+      console.log(&#39;前往登录...&#39;)
+      next(&#123;
+        path: &#39;/login&#39;
+      &#125;);
+    &#125;
+  &#125; else &#123;
+
+    next();
+  &#125;
+&#125;)
+
+export default router
+
+</code></pre>
+<p><img src="http://img.rc5j.cn/blog20200915181827.png" alt=""></p>
+<h2 id="登录"><a href="#登录" class="headerlink" title="登录"></a>登录</h2><p>引入<code>axios</code></p>
+<pre><code>yarn add axios</code></pre><pre><code class="js">import &#123; login &#125; from &quot;@/api/loginReq&quot;;
+export default &#123;
+    data() &#123;
+    return &#123;
+      loading: false,
+      loginInfo:&#123;
+          username:&quot;&quot;,
+          pwd:&quot;&quot;
+      &#125;
+    &#125;;
+  &#125;,
+  methods: &#123;
+    onSubmit(values) &#123;
+      this.loading = true;
+      login(this.loginInfo).then((response) =&gt; &#123;
+        console.log(response);
+        if(response.code===0)&#123;
+            sessionStorage.setItem(&#39;token&#39;,response.data.username);
+        &#125;
+        this.$router.push(&#39;/&#39;)
+      &#125;);
+      this.loading = false;
+    &#125;,
+  &#125;
+&#125;</code></pre>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/web/">web</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+  
+
+
+
+
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2021 vison
+    
+  </p>
+</footer>
+    
+    
+  </div>
+</div>
+</body>
+</html>

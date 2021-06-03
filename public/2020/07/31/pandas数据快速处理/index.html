@@ -1,0 +1,157 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>pandas数据快速处理 | 麦田麦穗</title>
+
+  
+  <meta name="author" content="vison">
+  
+
+  
+  <meta name="description" content="销售同事拿到一份数据，但是数据导出列是json,我顺手就帮他处理了下。不得不说 pandas在处理这类问题还是非常效率高的.">
+  
+
+  
+  
+  <meta name="keywords" content="python">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="pandas数据快速处理"/>
+
+  <meta property="og:site_name" content="麦田麦穗"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="麦田麦穗" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">麦田麦穗</a>
+    </h1>
+    <p class="site-description"></p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>pandas数据快速处理</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2020/07/31/pandas数据快速处理/" rel="bookmark">
+        <time class="entry-date published" datetime="2020-07-31T04:24:15.000Z">
+          2020-07-31
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p><img src="http://img.rc5j.cn/blog20200731122918.png" alt=""></p>
+<p>销售同事拿到一份数据，但是数据导出列是json,我顺手就帮他处理了下。不得不说 pandas在处理这类问题还是非常效率高的.</p>
+<span id="more"></span>
+
+<pre><code class="python">import pandas
+import json
+data = pandas.read_excel(&#39;data.xlsx&#39;)
+
+address = data[&#39;address&#39;].values.tolist()
+ordertime_list = data[&#39;order_datetime&#39;].values.tolist()
+address_new_list = []
+for ad in address:
+    addressJson = json.loads(ad)
+    address_new_list.append(addressJson[0])
+
+for ad in address_new_list:
+    for t in ordertime_list:
+        ad[&#39;order_time&#39;] = t
+
+df = pandas.DataFrame.from_records(address_new_list)
+df.to_excel(&#39;new_data.xlsx&#39;)
+
+
+
+</code></pre>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/python/">python</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+  
+
+
+
+
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2021 vison
+    
+  </p>
+</footer>
+    
+    
+  </div>
+</div>
+</body>
+</html>

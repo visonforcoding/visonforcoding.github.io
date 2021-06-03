@@ -1,0 +1,181 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>gunicorn+flask_rest构建部署轻量级api服务 | 麦田麦穗</title>
+
+  
+  <meta name="author" content="vison">
+  
+
+  
+  <meta name="description" content="">
+  
+
+  
+  
+  <meta name="keywords" content="python">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="gunicorn+flask_rest构建部署轻量级api服务"/>
+
+  <meta property="og:site_name" content="麦田麦穗"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="麦田麦穗" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">麦田麦穗</a>
+    </h1>
+    <p class="site-description"></p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>gunicorn+flask_rest构建部署轻量级api服务</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2020/08/20/python/gunicorn-flask-rest构建部署轻量级api服务/" rel="bookmark">
+        <time class="entry-date published" datetime="2020-08-20T07:51:30.000Z">
+          2020-08-20
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p><img src="http://img.rc5j.cn/blog20200820155306.png" alt=""></p>
+<span id="more"></span>
+
+<h2 id="flask-结构"><a href="#flask-结构" class="headerlink" title="flask 结构"></a>flask 结构</h2><p>首先简单看看 flask_rest的目录结构。</p>
+<p><img src="http://img.rc5j.cn/blog20200820155423.png" alt=""></p>
+<h3 id="入口文件"><a href="#入口文件" class="headerlink" title="入口文件"></a>入口文件</h3><pre><code class="python">#app.py
+from flask import Flask
+from flask_restful import Resource, Api
+from resources.bd import Index,Format
+from flask_cors import CORS
+
+# from common import config
+app = Flask(__name__)
+CORS(app)
+api = Api(app)
+
+
+
+api.add_resource(Format, &#39;/bd/format&#39;)
+
+# if __name__ == &#39;__main__&#39;:
+#     app.run(debug=True)</code></pre>
+<p>如果使用gunicorn启动，则注释掉app.run</p>
+<h2 id="gunicorn启动配置"><a href="#gunicorn启动配置" class="headerlink" title="gunicorn启动配置"></a>gunicorn启动配置</h2><pre><code class="python"># config.py
+import os
+import gevent.monkey
+gevent.monkey.patch_all()
+
+import multiprocessing
+
+debug = True
+loglevel = &#39;debug&#39;
+bind = &quot;0.0.0.0:5000&quot;
+pidfile = &quot;logs/gunicorn.pid&quot;
+accesslog = &quot;logs/access.log&quot;
+errorlog = &quot;logs/debug.log&quot;
+daemon = True
+
+# 启动的进程数
+workers = multiprocessing.cpu_count()
+worker_class = &#39;gevent&#39;
+x_forwarded_for_header = &#39;X-FORWARDED-FOR&#39;</code></pre>
+<h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><pre><code class="shell">python3 -m venv webpj
+source webpj/bin/activate
+pip install -r requirements.txt -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com
+pip install xlrd -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com
+pip install openpyxl -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com
+gunicorn -c config.py app:app</code></pre>
+<h2 id="平滑重启"><a href="#平滑重启" class="headerlink" title="平滑重启"></a>平滑重启</h2><pre><code class="shell">cat logs/gunicorn.pid | xargs kill -HUP</code></pre>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/python/">python</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+  
+
+
+
+
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2021 vison
+    
+  </p>
+</footer>
+    
+    
+  </div>
+</div>
+</body>
+</html>

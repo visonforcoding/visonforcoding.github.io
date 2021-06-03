@@ -1,0 +1,173 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>mysql的waitimeout | 麦田麦穗</title>
+
+  
+  <meta name="author" content="vison">
+  
+
+  
+  <meta name="description" content="首先，我们看下
+show GLOBAL VARIABLES like &amp;#39;%timeout%&amp;#39;;
+默认值为28800s即8小时,我们改为100s
+# Default Homebrew MySQL server config
+[mysqld]
+# Only allow connectio">
+  
+
+  
+  
+  <meta name="keywords" content="mysql">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="mysql的waitimeout"/>
+
+  <meta property="og:site_name" content="麦田麦穗"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="麦田麦穗" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">麦田麦穗</a>
+    </h1>
+    <p class="site-description"></p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>mysql的waitimeout</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2021/06/02/mysql的waitimeout/" rel="bookmark">
+        <time class="entry-date published" datetime="2021-06-02T12:33:18.000Z">
+          2021-06-02
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>首先，我们看下</p>
+<pre><code class="shell">show GLOBAL VARIABLES like &#39;%timeout%&#39;;</code></pre>
+<p>默认值为28800s即8小时,我们改为100s</p>
+<pre><code class="ini"># Default Homebrew MySQL server config
+[mysqld]
+# Only allow connections from localhost
+bind-address = 0.0.0.0
+wait_timeout=100
+interactive_timeout=100</code></pre>
+<p>重新查看结果</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/4033700-8b58c117bc70e44a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
+<p>查看对守护进程连接的影响</p>
+<pre><code class="php"> public function longT()
+    &#123;
+        $TicketModel = new TicketModel();
+        $this-&gt;success(&#39;开始建立连接...&#39;);
+        while (true) &#123;
+            sleep(120);
+            dump($TicketModel-&gt;select(&#39;t_id&#39;)-&gt;fetch());
+        &#125;
+    &#125;</code></pre>
+<p>发现在100s后的连接已被主动断开</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/4033700-22769213890725a6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
+<p>代码中的场景是，<strong>在wait_timeout之内无任何操作会自动关闭</strong></p>
+<h2 id="官方解释"><a href="#官方解释" class="headerlink" title="官方解释"></a>官方解释</h2><p>interactive_timeout 28800</p>
+<blockquote>
+<p>The number of seconds the server waits for activity on an interactive connection before closing it. An interactive client is defined as a client that uses the <strong>CLIENT_INTERACTIVE</strong> option to mysql_real_connect(). See also wait_timeout.</p>
+</blockquote>
+<p>waitimeout 28800</p>
+<p>The number of seconds the server waits for activity on a noninteractive connection before closing it.</p>
+<p>On thread startup, the session wait_timeout value is initialized from the global wait_timeout value or from the global interactive_timeout value, depending on the type of client (as defined by the CLIENT_INTERACTIVE connect option to mysql_real_connect()). See also interactive_timeout.</p>
+<p>通过MySQL客户端连接db的是交互会话，通过jdbc等程序连接db的是非交互会话。 </p>
+<p>总结：</p>
+<p>如果应用程序长时间的使用一个连接，而有机会长时间不进行任何操作。则会导致连接被关闭。</p>
+<p>参考文献:</p>
+<p>1.<a target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/5.7/en/server-system-variables.html">https://dev.mysql.com/doc/refman/5.7/en/server-system-variables.html</a><br>2.<a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1181515">https://cloud.tencent.com/developer/article/1181515</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/mysql/">mysql</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+  
+
+
+
+
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2021 vison
+    
+  </p>
+</footer>
+    
+    
+  </div>
+</div>
+</body>
+</html>

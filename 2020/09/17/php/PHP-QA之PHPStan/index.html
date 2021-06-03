@@ -1,0 +1,147 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>PHP QA | 麦田麦穗</title>
+
+  
+  <meta name="author" content="vison">
+  
+
+  
+  <meta name="description" content="写在前面，工作7年，PHP也写了7年了。期间也写一些java和python，也对各语言的特点有一些自己的体会。这次咱们聊聊QA之余也来聊聊PHP语言本身。">
+  
+
+  
+  
+  <meta name="keywords" content="PHP">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="PHP QA"/>
+
+  <meta property="og:site_name" content="麦田麦穗"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="麦田麦穗" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">麦田麦穗</a>
+    </h1>
+    <p class="site-description"></p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>PHP QA</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2020/09/17/php/PHP-QA之PHPStan/" rel="bookmark">
+        <time class="entry-date published" datetime="2020-09-17T12:44:41.000Z">
+          2020-09-17
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p><img src="http://img.rc5j.cn/blog20200917210020.png" alt=""></p>
+<p>写在前面，工作7年，PHP也写了7年了。期间也写一些java和python，也对各语言的特点有一些自己的体会。<br>这次咱们聊聊QA之余也来聊聊PHP语言本身。</p>
+<span id="more"></span>
+
+<p>来到<code>PHPStan</code>的官网，我看到了一段话。</p>
+<blockquote>
+<p>I really like how much productivity a web developer gains by switching from compiled languages like Java or C# to an interpreted one like PHP. Aside from the dead simple execution model (start, handle one request, and die) and a much shorter feedback loop (no need to wait for the compiler), there’s a healthy ecosystem of open-source frameworks and libraries to help developers with their everyday tasks. Because of these reasons, PHP is the most popular language for web development by far.</p>
+</blockquote>
+<p>大意是作者很乐意看到web开发者们从C#或Java这些编译性语言里切换到解释语言。除了简单的执行模型（启动，处理一个请求和终止）和较短的反馈周期（无需等待编译）之外，还有一个健康的开源框架和库生态系统可帮助开发人员完成日常工作任务。由于这些原因，PHP是迄今为止最流行的Web开发语言。</p>
+<p>这篇文章是作者2016年12月4日写的，说实话对于<code>PHP是迄今为止最流行的Web开发语言</code>这句话我已经开始怀疑了。至少在最近这些年，在国内PHP的市场已经不那么好了。并且我也在趋向从解释性语言向编译语言切换了。但是其中对于解释性语言的优势描述我是非常赞同的，这也是它宝贵的优势。</p>
+<ul>
+<li>简单的执行模型</li>
+<li>较短的反馈周期</li>
+</ul>
+<h2 id="QA之PHPStan"><a href="#QA之PHPStan" class="headerlink" title="QA之PHPStan"></a>QA之PHPStan</h2><p>言归正传，继续PHPStan</p>
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><pre><code>composer require --dev phpstan/phpstan</code></pre><h3 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h3><pre><code>vendor/bin/phpstan analyse src tests</code></pre><h2 id="PHPmd"><a href="#PHPmd" class="headerlink" title="PHPmd"></a>PHPmd</h2><pre><code>~/vendor/bin/phpmd src/Service/OrderService.php text codesize,unusedcode,naming</code></pre>
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/PHP/">PHP</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+  
+
+
+
+
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2021 vison
+    
+  </p>
+</footer>
+    
+    
+  </div>
+</div>
+</body>
+</html>

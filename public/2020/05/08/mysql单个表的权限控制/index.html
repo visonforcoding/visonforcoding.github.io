@@ -1,0 +1,170 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>mysql单个表的权限控制 | 麦田麦穗</title>
+
+  
+  <meta name="author" content="vison">
+  
+
+  
+  <meta name="description" content="在系统开发当中有这样的需求，A系统需要读写B系统的数据库数据,但是某些特殊的表数据只允许读操作。这时候就需要做到表级的权限控制。">
+  
+
+  
+  
+  <meta name="keywords" content="mysql">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="mysql单个表的权限控制"/>
+
+  <meta property="og:site_name" content="麦田麦穗"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="麦田麦穗" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">麦田麦穗</a>
+    </h1>
+    <p class="site-description"></p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>mysql单个表的权限控制</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2020/05/08/mysql单个表的权限控制/" rel="bookmark">
+        <time class="entry-date published" datetime="2020-05-08T01:43:39.000Z">
+          2020-05-08
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <blockquote>
+<p>在系统开发当中有这样的需求，A系统需要读写B系统的数据库数据,但是某些特殊的表数据只允许读操作。这时候就需要做到表级的权限控制。</p>
+</blockquote>
+<span id="more"></span>
+
+<h2 id="revoke"><a href="#revoke" class="headerlink" title="revoke"></a>revoke</h2><p>Mysql本身是支持用revoke进行权限回收操作的。</p>
+<p><a target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/5.6/en/revoke.html">https://dev.mysql.com/doc/refman/5.6/en/revoke.html</a></p>
+<pre><code>REVOKE
+    priv_type [(column_list)]
+      [, priv_type [(column_list)]] ...
+    ON [object_type] priv_level
+    FROM user [, user] ...
+
+REVOKE ALL [PRIVILEGES], GRANT OPTION
+    FROM user [, user] ...
+
+REVOKE PROXY ON user
+    FROM user [, user] ...</code></pre><p>从语法当中可以看到还可以做到列级别的控制。</p>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><pre><code>mysql&gt; revoke insert,delete,update on db_oms.t_order from &#39;oms_order_ro&#39;@&#39;localhost&#39;;
+ERROR 1147 (42000): There is no such grant defined for user &#39;oms_order_ro&#39; on host &#39;localhost&#39; on table &#39;t_order&#39;</code></pre><p>但是事实上，执行的时候会遇到问题。</p>
+<p><strong>什么原因呢？</strong></p>
+<pre><code>mysql&gt; show grants for oms_order_ro@localhost
+    -&gt; ;
++----------------------------------------------------------------------------------+
+| Grants for oms_order_ro@localhost                                                |
++----------------------------------------------------------------------------------+
+| GRANT USAGE ON *.* TO &#39;oms_order_ro&#39;@&#39;localhost&#39;                                 |
+| GRANT SELECT, INSERT, UPDATE, DELETE ON `db_oms`.* TO &#39;oms_order_ro&#39;@&#39;localhost&#39; |
++----------------------------------------------------------------------------------+</code></pre><p>仔细看下，我们是使用的通配符去进行赋权限。看起来这里mysql还是表现的比较本。认为没有该权限进行回收。</p>
+<p>那么正确的做法应该是怎样的呢？</p>
+<blockquote>
+<p>Managing access in mysql can be quite dificult !!</p>
+</blockquote>
+<p>Once you gave him database.* you cannot revoke access for an object that is in that class. MySQL doesn’t expand the Hotels.* wildcard to the individual tables The permissions tables store the granted permissions. Therefore, since you didn’t actually grant anything on Hotels.AllHotels , there’s nothing for MySQL to revoke. In this case you need to do it granular form the start !</p>
+<p>Remove all privileges on database, table, column levels, etccc.</p>
+<p>Grant privileges to EACH table, except ‘you choose’.<br>Grant privilege to specified fields in table ‘you choose’.</p>
+<p><strong>我们必须要逐个逐个表进行赋权限，然后进行回收。</strong></p>
+<p>实际上这么操作虽然能解决问题，但是会带来跟多问题，如果表增加了。你必须再对这个表进行赋权限和回收权限。</p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/mysql/">mysql</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+  
+
+
+
+
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2021 vison
+    
+  </p>
+</footer>
+    
+    
+  </div>
+</div>
+</body>
+</html>

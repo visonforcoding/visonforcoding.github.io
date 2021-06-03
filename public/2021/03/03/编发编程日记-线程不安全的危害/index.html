@@ -1,0 +1,175 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>并发编程日记-线程不安全的危害 | 麦田麦穗</title>
+
+  
+  <meta name="author" content="vison">
+  
+
+  
+  <meta name="description" content="">
+  
+
+  
+  
+  <meta name="keywords" content="java">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="并发编程日记-线程不安全的危害"/>
+
+  <meta property="og:site_name" content="麦田麦穗"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="麦田麦穗" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">麦田麦穗</a>
+    </h1>
+    <p class="site-description"></p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>并发编程日记-线程不安全的危害</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2021/03/03/编发编程日记-线程不安全的危害/" rel="bookmark">
+        <time class="entry-date published" datetime="2021-03-03T11:16:37.000Z">
+          2021-03-03
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p><img src="https://vison-blog.oss-cn-beijing.aliyuncs.com/20210303192545.png" alt=""></p>
+<span id="more"></span>
+
+
+<h2 id="计数器"><a href="#计数器" class="headerlink" title="计数器"></a>计数器</h2><pre><code class="java">@WebServlet(name = &quot;HelloServlet&quot;, urlPatterns = &#123;&quot;/hello&quot;&#125;)
+public class HelloServlet extends HttpServlet &#123;
+
+    private static final Logger LOG = Logger.getLogger(HelloServlet.class.getName());
+
+    private Integer count = 0;
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException &#123;
+        ++count;
+        processRequest(request, response);
+        LOG.info(String.format(&quot;计数 %d&quot;, count));
+    &#125;
+&#125;
+</code></pre>
+<p>按常理多少次请求后就会打印出计数多少。</p>
+<pre><code>ab -n300 -c20 http://localhost:8080/servlet-demo/hello</code></pre><p>正常下，执行第一次 计数应为300</p>
+<p><img src="https://vison-blog.oss-cn-beijing.aliyuncs.com/20210303194840.png" alt=""></p>
+<p>事实上得到的却不是</p>
+<p>再执行..</p>
+<p>2 ~ 590<br>3 ~ 879<br>4 ~ 1170</p>
+<p>几乎没有规律，并不是预期的 300的倍数。</p>
+<h2 id="解释"><a href="#解释" class="headerlink" title="解释"></a>解释</h2><p>实际上<code>++count</code>是一个读取-修改-写入的操作。</p>
+<p>假设线程A、B 同时读取到了值是m,同时写入+1后的值m+1。结果count = m+1,则事实上整个计数就少了1,应该为m+2。</p>
+<h2 id="处理"><a href="#处理" class="headerlink" title="处理"></a>处理</h2><p>将<code>count</code>声明为<code>AtomicInter</code></p>
+<pre><code class="java">    private Integer count = 0;
+    private AtomicInteger atomicCount = new AtomicInteger(0);
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException &#123;
+        ++count;
+        processRequest(request, response);
+        LOG.info(String.format(&quot;计数count %d&quot;, count));
+        LOG.info(String.format(&quot;计数atomicCount %d&quot;, atomicCount.incrementAndGet()));
+    &#125;</code></pre>
+<p><img src="https://vison-blog.oss-cn-beijing.aliyuncs.com/20210309095018.png" alt=""></p>
+<p>可以看到，<code>AtomicInteger</code>统计的是正确的了。</p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/java/">java</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+  
+
+
+
+
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2021 vison
+    
+  </p>
+</footer>
+    
+    
+  </div>
+</div>
+</body>
+</html>

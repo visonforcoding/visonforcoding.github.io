@@ -1,0 +1,177 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>利用Locust进行性能测试 | 麦田麦穗</title>
+
+  
+  <meta name="author" content="vison">
+  
+
+  
+  <meta name="description" content="要看一个项目的最大可用能力是多少，性能测试工作少不了.
+每一个项目都应该做压测
+多线程并发模型一定要做压测">
+  
+
+  
+  
+  <meta name="keywords" content="软件工程">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="利用Locust进行性能测试"/>
+
+  <meta property="og:site_name" content="麦田麦穗"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="麦田麦穗" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">麦田麦穗</a>
+    </h1>
+    <p class="site-description"></p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>利用Locust进行性能测试</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2021/01/23/利用Locust进行性能测试/" rel="bookmark">
+        <time class="entry-date published" datetime="2021-01-23T02:17:02.000Z">
+          2021-01-23
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <ul>
+<li>要看一个项目的最大可用能力是多少，性能测试工作少不了.</li>
+<li>每一个项目都应该做压测</li>
+<li>多线程并发模型一定要做压测</li>
+</ul>
+<span id="more"></span>
+
+
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><pre><code>$ pip3 install locust</code></pre><h2 id="编写脚本"><a href="#编写脚本" class="headerlink" title="编写脚本"></a>编写脚本</h2><pre><code class="python">import time
+from locust import HttpUser, task, between
+
+class QuickstartUser(HttpUser):
+    wait_time = between(1, 2.5)
+
+    @task
+    def hello_world(self):
+        self.client.get(&quot;/hello&quot;)
+        self.client.get(&quot;/world&quot;)
+
+    @task(3)
+    def view_items(self):
+        for item_id in range(10):
+            self.client.get(f&quot;/item?id=&#123;item_id&#125;&quot;, name=&quot;/item&quot;)
+            time.sleep(1)
+
+    def on_start(self):
+        self.client.post(&quot;/login&quot;, json=&#123;&quot;username&quot;:&quot;foo&quot;, &quot;password&quot;:&quot;bar&quot;&#125;)
+</code></pre>
+<p><code>wait_time = between(1, 2.5)</code></p>
+<p>Our class defines a wait_time that will make the simulated users wait between 1 and 2.5 seconds after each task (see below) is executed. For more info see wait_time attribute.</p>
+<p><code>def hello_world(self):</code></p>
+<pre><code class="python">@task
+def hello_world(self):
+    self.client.get(&quot;/hello&quot;)
+    self.client.get(&quot;/world&quot;)
+
+@task(3)
+def view_items(self):
+...</code></pre>
+<p><code>task(3)</code> 内的参数表示任务执行的权重，<code>view_items</code>的次数将是<code>hello_world</code>次数的3倍。</p>
+<h2 id="执行"><a href="#执行" class="headerlink" title="执行"></a>执行</h2><pre><code>$ locust -f locust_files/my_locust_file.py</code></pre><p><img src="https://vison-blog.oss-cn-beijing.aliyuncs.com/20210330151409.png" alt=""></p>
+<p>任务执行界面和结果</p>
+<p><img src="https://vison-blog.oss-cn-beijing.aliyuncs.com/20210330151426.png" alt=""></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/软件工程/">软件工程</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+  
+
+
+
+
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2021 vison
+    
+  </p>
+</footer>
+    
+    
+  </div>
+</div>
+</body>
+</html>

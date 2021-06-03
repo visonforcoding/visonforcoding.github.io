@@ -1,0 +1,145 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>intl安装的那些事儿 | 麦田麦穗</title>
+
+  
+  <meta name="author" content="vison">
+  
+
+  
+  <meta name="description" content="被intl折磨的还不够么">
+  
+
+  
+  
+  <meta name="keywords" content="php">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="intl安装的那些事儿"/>
+
+  <meta property="og:site_name" content="麦田麦穗"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="麦田麦穗" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">麦田麦穗</a>
+    </h1>
+    <p class="site-description"></p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>intl安装的那些事儿</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2020/06/19/intl安装的那些事儿/" rel="bookmark">
+        <time class="entry-date published" datetime="2020-06-19T02:41:25.000Z">
+          2020-06-19
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>被intl折磨的还不够么</p>
+<span id="more"></span>
+
+<p>To build the extension you need to install the » ICU library, version 4.0.0 or newer is required. As of PHP 7.4.0 ICU 50.1 or newer is required.</p>
+<p>This extension is bundled with PHP as of PHP version 5.3.0. Alternatively, the PECL version of this extension may be used with all PHP versions greater than 5.2.0 (5.2.4+ recommended).</p>
+<h2 id="ICU安装"><a href="#ICU安装" class="headerlink" title="ICU安装"></a>ICU安装</h2><p>现在icu已被放到github，下载建议直接从github下载源码到本地。</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/unicode-org/icu/releases/tag/release-60-3">https://github.com/unicode-org/icu/releases/tag/release-60-3</a></p>
+<p>下载后编译安装</p>
+<h2 id="拓展安装"><a href="#拓展安装" class="headerlink" title="拓展安装"></a>拓展安装</h2><pre><code class="shell">pecl install intl</code></pre>
+<p>总会遇到问题,建议用phpize 源码安装。进入源码ext下的intl目录</p>
+<pre><code>./configure  --enable-intl   --with-php-config=/usr/local/php7/bin/php-config
+make
+make install</code></pre><p>重启php-fpm</p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/php/">php</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+  
+
+
+
+
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2021 vison
+    
+  </p>
+</footer>
+    
+    
+  </div>
+</div>
+</body>
+</html>

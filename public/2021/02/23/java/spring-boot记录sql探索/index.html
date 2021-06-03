@@ -1,0 +1,350 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>spring-boot记录sql探索 | 麦田麦穗</title>
+
+  
+  <meta name="author" content="vison">
+  
+
+  
+  <meta name="description" content="目标记录每次请求内的http、es、mysql耗时，本篇讨论mysql部分
+
+为什么说要探索，这不是很简单的事么？但是能满足以下几点么？
+
+能记录limit等参数
+能将参数和sql写一起，能直接使用
+能记录耗时
+能计数累加,统计一次请求中sql执行的总数和总耗时">
+  
+
+  
+  
+  <meta name="keywords" content="java">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="spring-boot记录sql探索"/>
+
+  <meta property="og:site_name" content="麦田麦穗"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="麦田麦穗" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">麦田麦穗</a>
+    </h1>
+    <p class="site-description"></p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>spring-boot记录sql探索</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2021/02/23/java/spring-boot记录sql探索/" rel="bookmark">
+        <time class="entry-date published" datetime="2021-02-23T11:28:29.000Z">
+          2021-02-23
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <blockquote>
+<p>目标记录每次请求内的http、es、mysql耗时，本篇讨论mysql部分</p>
+</blockquote>
+<p>为什么说要探索，这不是很简单的事么？但是能满足以下几点么？</p>
+<ul>
+<li>能记录limit等参数</li>
+<li>能将参数和sql写一起，能直接使用</li>
+<li>能记录耗时</li>
+<li>能计数累加,统计一次请求中sql执行的总数和总耗时</li>
+</ul>
+<span id="more"></span>
+
+<h2 id="spring原生能力"><a href="#spring原生能力" class="headerlink" title="spring原生能力"></a>spring原生能力</h2><pre><code class="ini">logging.level.org.hibernate.SQL=debug
+logging.level.org.hibernate.type.descriptor.sql.BasicBinder=trace</code></pre>
+<p>通过上面两条配置。</p>
+<ul>
+<li>✔️可以显示sql.</li>
+<li>❌不能和参数一行显示</li>
+<li>❌不能显示limit参数</li>
+<li>❌不能计数和记录耗时</li>
+</ul>
+<pre><code>2021-02-23 19:35:42.932 DEBUG 97586 --- [  restartedMain] org.hibernate.SQL                        : select admin0_.id as id1_0_, admin0_.create_time as create_t2_0_, admin0_.modify_time as modify_t3_0_, admin0_.email as email4_0_, admin0_.password as password5_0_, admin0_.status as status6_0_, admin0_.username as username7_0_ from admin admin0_ where admin0_.username=?
+2021-02-23 19:35:42.949 TRACE 97586 --- [  restartedMain] o.h.type.descriptor.sql.BasicBinder      : binding parameter [1] as [VARCHAR] - [root]</code></pre><h2 id="原生log-org-hibernate-EmptyInterceptor"><a href="#原生log-org-hibernate-EmptyInterceptor" class="headerlink" title="原生log+org.hibernate.EmptyInterceptor"></a>原生log+org.hibernate.EmptyInterceptor</h2><p><code>org.hibernate.EmptyInterceptor</code>提供钩子，hibernate本身提供entity的curd钩子。重写<code>EmptyInterceptor</code>方法，可以实现计数。但是<code>onPrepareStatement</code>方法只是装配sql前的事件，而且不是完整的sql。</p>
+<ul>
+<li>✔️ 可以显示sql</li>
+<li>❌ 不能和参数一行显示</li>
+<li>❌ 不能显示limit参数</li>
+<li>✔️ 能计数</li>
+<li>❌ 不能记录耗时</li>
+</ul>
+<pre><code class="ini">spring.jpa.properties.hibernate.ejb.interceptor=com.vison.itdoc.config.HibernateInterceptor</code></pre>
+<pre><code class="java">public class HibernateInterceptor extends EmptyInterceptor &#123;
+
+    @Override
+    public boolean onLoad(Object entity, Serializable id, Object[] state, String[] propertyNames, Type[] types) &#123;
+//        Log.info(&quot;onload...&quot;, entity)
+        return true;
+    &#125;
+
+    @Override
+    public String onPrepareStatement(String string) &#123;
+        // count++
+        return INSTANCE.onPrepareStatement(string);
+    &#125;
+
+    @Override
+    public void afterTransactionCompletion(Transaction t) &#123;
+        INSTANCE.afterTransactionCompletion(t);
+        Log.info(&quot;after trans complete&quot;, t);
+    &#125;
+
+&#125;</code></pre>
+<h2 id="log4jdbc"><a href="#log4jdbc" class="headerlink" title="log4jdbc"></a>log4jdbc</h2><p>log4jdbc能很好的解决sql完整显示和记录耗时的问题</p>
+<pre><code>2021-02-23 19:59:13.709  INFO 97586 --- [nio-8081-exec-1] jdbc.sqltiming                           : select posts0_.id as id1_2_, posts0_.create_time as create_t2_2_, posts0_.modify_time as modify_t3_2_, 
+posts0_.content as content4_2_, posts0_.title as title5_2_ from posts posts0_ where 1=1 order 
+by posts0_.id asc limit 10 ;
+ &#123;executed in 1 msec&#125;</code></pre><p>还能够定义超过1定时间的执行sql记录为error类型。</p>
+<pre><code class="xml">        &lt;dependency&gt;
+            &lt;groupId&gt;com.googlecode.log4jdbc&lt;/groupId&gt;
+            &lt;artifactId&gt;log4jdbc&lt;/artifactId&gt;
+            &lt;version&gt;1.2&lt;/version&gt;
+            &lt;scope&gt;runtime&lt;/scope&gt;
+        &lt;/dependency&gt;
+</code></pre>
+<pre><code class="ini">spring.datasource.driver-class-name: net.sf.log4jdbc.DriverSpy
+#使用log4jdbc后mysql的url
+spring.datasource.url=jdbc:log4jdbc:mysql://localhost:3306/xxxx?useUnicode=true&amp;characterEncoding=UTF-8
+#使用log4jdbc后oracle的url
+#spring.datasource.url: jdbc:log4jdbc:oracle:thin:@127.0.0.1:1521:orcl
+</code></pre>
+<p>注意需要添加<code>spring.datasource.driver-class-name</code> 和更改 <code>spring.datasource.url</code> 将jdbc改为 jdbc:log4jdbc</p>
+<p><em>log4jdbc.properties</em>可以定义更多配置</p>
+<pre><code class="ini">#配置为需要记录的包或类匹配路径
+#log4jdbc.debug.stack.prefix=com.drp
+#log4jdbc加载的drivers (驱动名)
+#log4jdbc.drivers=oracle.jdbc.OracleDriver
+log4jdbc.auto.load.popular.drivers=true
+#在日志中显示warn警告
+log4jdbc.statement.warn=true
+#毫秒值.执行时间超过该值的SQL语句将被记录为warn级别.
+log4jdbc.sqltiming.warn.threshold=2000
+#毫秒值.执行时间超过该值的SQL语句将被记录为error级别.
+log4jdbc.sqltiming.error.threshold=3000
+#是把boolean记录为 &#39;true&#39;/&#39;false&#39; 还是 1/0. 默认设置为false,不启用,为了移植性.
+#log4jdbc.dump.booleanastruefalse=true
+#输出的sql,一行最大的字符数，默认90. 以后新版可能为0
+#log4jdbc.dump.sql.maxlinelength=90
+#如果在调试模式下转储，则转储整个堆栈跟踪  默认false
+log4jdbc.dump.fulldebugstacktrace=false
+
+#是否记录某些类型的语句，默认true
+log4jdbc.dump.sql.select=true
+log4jdbc.dump.sql.insert=true
+log4jdbc.dump.sql.delete=true
+log4jdbc.dump.sql.update=true
+log4jdbc.dump.sql.create=true
+
+#输出sql末尾处加入分号，默认false
+log4jdbc.dump.sql.addsemicolon=true
+
+#将此设置为false以不修剪已记录的SQL
+log4jdbc.trim.sql=true
+#将此设置为false不删除额外的空行
+log4jdbc.trim.sql.extrablanklines=true
+
+#log4jdbc.suppress.generated.keys.exception=false
+
+</code></pre>
+<ul>
+<li>✔️ 可以显示sql</li>
+<li>✔️ 不能和参数一起显示</li>
+<li>✔️ 不能显示limit参数</li>
+<li>❌ 能计数</li>
+<li>✔️  能记录单个sql耗时</li>
+<li>❌ 不能统计总耗时</li>
+</ul>
+<p>不足的是，单纯log4jdbc并不能满足所有。理论上log4jdbc+org.hibernate.EmptyInterceptor可以满足需求了</p>
+<h2 id="P6Spy"><a href="#P6Spy" class="headerlink" title="P6Spy"></a>P6Spy</h2><p>测试完毕，发现P6Spy目前最能满足需求：</p>
+<ul>
+<li>✔️ 可以显示sql</li>
+<li>✔️ 不能和参数一起显示</li>
+<li>✔️ 不能显示limit参数</li>
+<li>✔️ 能计数</li>
+<li>✔️ 不能记录耗时</li>
+<li>✔️ 支持curd事件前后钩子，钩子参数返回sql和执行耗时及异常信息🚀</li>
+</ul>
+<pre><code class="xml">        &lt;dependency&gt;
+            &lt;groupId&gt;p6spy&lt;/groupId&gt;
+            &lt;artifactId&gt;p6spy&lt;/artifactId&gt;
+            &lt;version&gt;3.9.1&lt;/version&gt;
+        &lt;/dependency&gt;
+</code></pre>
+<p>同<code>log4jdbc</code>需要改driver和url</p>
+<pre><code class="ini">spring.datasource.driver-class-name=com.p6spy.engine.spy.P6SpyDriver
+spring.datasource.url=jdbc:p6spy:mysql://localhost:3306/test?useLegacyDatetimeCode=false&amp;serverTimezone=UTC</code></pre>
+<p><em>psy.properties</em>可以定义更多配置</p>
+<pre><code class="ini">#modulelist=com.p6spy.engine.spy.P6SpyFactory,com.p6spy.engine.logging.P6LogFactory,com.p6spy.engine.outage.P6OutageFactory
+modulelist=com.vison.itdoc.config.CustomeP6Factory,com.p6spy.engine.logging.P6LogFactory,com.p6spy.engine.outage.P6OutageFactory
+#moduelist很关键，我这里使用了自定义的Factory，因为我需要自定义event
+appender=com.p6spy.engine.spy.appender.Slf4JLogger
+logMessageFormat=com.p6spy.engine.spy.appender.CustomLineFormat
+customLogMessageFormat=%(executionTime) ms|%(category)|%(sql)
+excludecategories=result,resultset,info,debug</code></pre>
+<p>正常使用默认配置就可以显示出sql和耗时信息</p>
+<pre><code> 4 ms|statement|select admin0_.id as id1_0_, admin0_.create_time as create_t2_0_, admin0_.modify_time as modify_t3_0_, admin0_.email as email4_0_, admin0_.password as password5_0_, admin0_.status as status6_0_, admin0_.username as username7_0_ from admin admin0_ where admin0_.username=&#39;root&#39;</code></pre><p>可以看到，耗时信息和实际参数</p>
+<h3 id="自定义事件"><a href="#自定义事件" class="headerlink" title="自定义事件"></a>自定义事件</h3><p><code>modulelist=com.p6spy.engine.spy.P6SpyFactory</code>改成<code>自定义Factory</code></p>
+<p>自定义Factory</p>
+<pre><code class="java">public class CustomeP6Factory implements com.p6spy.engine.spy.P6Factory &#123;
+
+    @Override
+    public P6LoadableOptions getOptions(P6OptionsRepository optionsRepository) &#123;
+        return new P6SpyOptions(optionsRepository);
+    &#125;
+
+    @Override
+    public JdbcEventListener getJdbcEventListener() &#123;
+        return new P6spyListener(); //使用自定义Listener
+    &#125;
+
+&#125;
+</code></pre>
+<p>自定义事件</p>
+<pre><code class="java">public class P6spyListener extends JdbcEventListener &#123;
+
+    @Override
+    public void onAfterExecuteQuery(PreparedStatementInformation statementInformation, long timeElapsedNanos, SQLException e) &#123;
+        App.sqlCount.incrementAndGet();
+        Log.info(&quot;execute query...&quot;, statementInformation.getSqlWithValues());
+    &#125;
+
+    @Override
+    public void onAfterExecuteUpdate(PreparedStatementInformation statementInformation, long timeElapsedNanos, int rowCount, SQLException e) &#123;
+        App.sqlCount.incrementAndGet();
+        Log.info(&quot;execute update..&quot;, statementInformation.getSqlWithValues());
+    &#125;
+
+    @Override
+    public void onAfterExecute(StatementInformation statementInformation, long timeElapsedNanos, String sql, SQLException e) &#123;
+        Log.info(&quot;execute..&quot;, statementInformation.getSqlWithValues());
+    &#125;
+
+&#125;</code></pre>
+<p>可以看到，我在自定义事件中进行了sql计数.于是我可以在请求结束时打印每次请求的总sql执行次数。</p>
+<pre><code class="java">public class RequestInitInterceptor implements HandlerInterceptor &#123;
+
+    public RequestInitInterceptor() &#123;
+    &#125;
+
+    @Override
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
+            throws Exception &#123;
+        App._uniq_req_no = UUID.randomUUID().toString();
+        App.sqlCount = new AtomicInteger(0);
+        Log.setMsgTraceNo(App._uniq_req_no);
+        Log.info(&quot;request start...&quot;, handler);
+        return true;
+    &#125;
+
+    @Override
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
+            throws Exception &#123;
+        Log.info(String.format(&quot;finish request sql执行次数:%s&quot;, App.sqlCount));
+    &#125;
+
+&#125;</code></pre>
+<p>由于事件参数还给出了<code>timeElapsedNanos</code>,最终我们还能统计出所有sql执行的耗时。这样一来我们就能看出一次请求内，最耗时的操作具体是什么。达到类似以下效果：</p>
+<p><img src="https://vison-blog.oss-cn-beijing.aliyuncs.com/20210224141855.png" alt=""></p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a target="_blank" rel="noopener" href="http://knes1.github.io/blog/2015/2015-07-08-counting-queries-per-request-with-hibernate-and-spring.html">Counting Queries per Request with Hibernate and Spring</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/p6spy/p6spy/issues/362">register an event handler</a></li>
+</ul>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/java/">java</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+  
+
+
+
+
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2021 vison
+    
+  </p>
+</footer>
+    
+    
+  </div>
+</div>
+</body>
+</html>

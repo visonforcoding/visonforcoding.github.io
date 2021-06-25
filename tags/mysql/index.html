@@ -464,35 +464,15 @@ wait_timeout=100
 interactive_timeout=100</code></pre>
 <p>重新查看结果</p>
 <p><img src="https://vison-blog.oss-cn-beijing.aliyuncs.com/20210603144255.png" alt=""></p>
-<p>查看对守护进程连接的影响</p>
-<pre><code class="php"> public function longT()
-    &#123;
-        $TicketModel = new TicketModel();
-        $this-&gt;success(&#39;开始建立连接...&#39;);
-        while (true) &#123;
-            sleep(120);
-            dump($TicketModel-&gt;select(&#39;t_id&#39;)-&gt;fetch());
-        &#125;
-    &#125;</code></pre>
-<p>发现在100s后的连接已被主动断开</p>
-<p><img src="https://vison-blog.oss-cn-beijing.aliyuncs.com/20210603144315.png" alt=""></p>
-<p>代码中的场景是，<strong>在wait_timeout之内无任何操作会自动关闭</strong></p>
-<h2 id="官方解释"><a href="#官方解释" class="headerlink" title="官方解释"></a>官方解释</h2><p>interactive_timeout 28800</p>
-<blockquote>
-<p>The number of seconds the server waits for activity on an interactive connection before closing it. An interactive client is defined as a client that uses the <strong>CLIENT_INTERACTIVE</strong> option to mysql_real_connect(). See also wait_timeout.</p>
-</blockquote>
-<p>waitimeout 28800</p>
-<p>The number of seconds the server waits for activity on a noninteractive connection before closing it.</p>
-<p>On thread startup, the session wait_timeout value is initialized from the global wait_timeout value or from the global interactive_timeout value, depending on the type of client (as defined by the CLIENT_INTERACTIVE connect option to mysql_real_connect()). See also interactive_timeout.</p>
-<p>通过MySQL客户端连接db的是交互会话，通过jdbc等程序连接db的是非交互会话。 </p>
-<p>总结：</p>
-<p>如果应用程序长时间的使用一个连接，而有机会长时间不进行任何操作。则会导致连接被关闭。</p>
-<p>参考文献:</p>
-<p>1.<a target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/5.7/en/server-system-variables.html">https://dev.mysql.com/doc/refman/5.7/en/server-system-variables.html</a><br>2.<a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1181515">https://cloud.tencent.com/developer/article/1181515</a></p>
-
       
     </div>
     
+      
+        <div class="button readmore">
+          <a href="/2021/06/02/mysql%E7%9A%84waitimeout/">
+            Read More <i class="fas fa-chevron-right"></i>
+          </a>
+        </div>
       
     
   </section>
@@ -921,7 +901,7 @@ interactive_timeout=100</code></pre>
 
 
     <div class='content'>
-      <a href="/tags/JAVA/" style="font-size: 14px; color: #999">JAVA</a> <a href="/tags/Java/" style="font-size: 14px; color: #999">Java</a> <a href="/tags/PHP/" style="font-size: 14px; color: #999">PHP</a> <a href="/tags/devops/" style="font-size: 14px; color: #999">devops</a> <a href="/tags/docker/" style="font-size: 14px; color: #999">docker</a> <a href="/tags/java/" style="font-size: 24px; color: #555">java</a> <a href="/tags/java-spring-boot/" style="font-size: 14px; color: #999">java spring-boot</a> <a href="/tags/kafka/" style="font-size: 14px; color: #999">kafka</a> <a href="/tags/mysql/" style="font-size: 21.5px; color: #666">mysql</a> <a href="/tags/php/" style="font-size: 21.5px; color: #666">php</a> <a href="/tags/php-linux/" style="font-size: 14px; color: #999">php linux</a> <a href="/tags/python/" style="font-size: 19px; color: #777">python</a> <a href="/tags/spring-boot/" style="font-size: 14px; color: #999">spring-boot</a> <a href="/tags/web/" style="font-size: 16.5px; color: #888">web</a> <a href="/tags/web%E5%89%8D%E7%AB%AF/" style="font-size: 14px; color: #999">web前端</a> <a href="/tags/%E6%96%B9%E6%A1%88/" style="font-size: 14px; color: #999">方案</a> <a href="/tags/%E7%A8%8B%E5%BA%8F%E4%BA%BA%E7%94%9F/" style="font-size: 14px; color: #999">程序人生</a> <a href="/tags/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/" style="font-size: 14px; color: #999">软件工程</a> <a href="/tags/%E8%BF%90%E7%BB%B4/" style="font-size: 14px; color: #999">运维</a> <a href="/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 14px; color: #999">随笔</a>
+      <a href="/tags/JAVA/" style="font-size: 14px; color: #999">JAVA</a> <a href="/tags/Java/" style="font-size: 14px; color: #999">Java</a> <a href="/tags/PHP/" style="font-size: 14px; color: #999">PHP</a> <a href="/tags/devops/" style="font-size: 14px; color: #999">devops</a> <a href="/tags/docker/" style="font-size: 14px; color: #999">docker</a> <a href="/tags/java/" style="font-size: 24px; color: #555">java</a> <a href="/tags/java-spring-boot/" style="font-size: 14px; color: #999">java spring-boot</a> <a href="/tags/kafka/" style="font-size: 14px; color: #999">kafka</a> <a href="/tags/mysql/" style="font-size: 21.5px; color: #666">mysql</a> <a href="/tags/php/" style="font-size: 21.5px; color: #666">php</a> <a href="/tags/php-linux/" style="font-size: 14px; color: #999">php linux</a> <a href="/tags/python/" style="font-size: 19px; color: #777">python</a> <a href="/tags/spring-boot/" style="font-size: 14px; color: #999">spring-boot</a> <a href="/tags/web/" style="font-size: 16.5px; color: #888">web</a> <a href="/tags/web%E5%89%8D%E7%AB%AF/" style="font-size: 14px; color: #999">web前端</a> <a href="/tags/%E6%96%B9%E6%A1%88/" style="font-size: 14px; color: #999">方案</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 14px; color: #999">架构</a> <a href="/tags/%E7%A8%8B%E5%BA%8F%E4%BA%BA%E7%94%9F/" style="font-size: 14px; color: #999">程序人生</a> <a href="/tags/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/" style="font-size: 14px; color: #999">软件工程</a> <a href="/tags/%E8%BF%90%E7%BB%B4/" style="font-size: 14px; color: #999">运维</a> <a href="/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 14px; color: #999">随笔</a>
     </div>
   </section>
 

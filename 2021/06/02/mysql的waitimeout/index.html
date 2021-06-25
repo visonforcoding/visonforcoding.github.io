@@ -21,6 +21,13 @@
     <meta name="keywords" content="mysql">
   
   
+    <meta name="description" content="首先，我们来看下
+show GLOBAL VARIABLES like &#39;%timeout%&#39;;
+默认值为28800s即8小时,我们改为100s
+# Default Homebrew MySQL server config
+[mysqld]
+# Only allow connections fro...">
+  
 
   <!-- feed -->
   
@@ -427,6 +434,8 @@ wait_timeout=100
 interactive_timeout=100</code></pre>
 <p>重新查看结果</p>
 <p><img src="https://vison-blog.oss-cn-beijing.aliyuncs.com/20210603144255.png" alt=""></p>
+<span id="more"></span>
+
 <p>查看对守护进程连接的影响</p>
 <pre><code class="php"> public function longT()
     &#123;
@@ -533,10 +542,10 @@ interactive_timeout=100</code></pre>
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-06-03T14:46:04+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-06-25T09:30:20+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Jun 3, 2021</p>
+    <p>更新于：Jun 25, 2021</p>
   </a>
 </div>
 
@@ -563,7 +572,17 @@ interactive_timeout=100</code></pre>
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer noopener"
           
-          target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.visonforcoding.xyz/2021/06/02/mysql%E7%9A%84waitimeout/&title=mysql的waitimeout - 麦田麦穗&summary="
+          target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.visonforcoding.xyz/2021/06/02/mysql%E7%9A%84waitimeout/&title=mysql的waitimeout - 麦田麦穗&summary=首先，我们来看下
+show GLOBAL VARIABLES like &#39;%timeout%&#39;;
+默认值为28800s即8小时,我们改为100s
+# Default Homebrew MySQL server config
+[mysqld]
+# Only allow connections from localhost
+bind-address = 0.0.0.0
+wait_timeout=100
+interactive_timeout=100
+重新查看结果
+"
           
           >
           
@@ -575,7 +594,17 @@ interactive_timeout=100</code></pre>
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer noopener"
           
-          target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://blog.visonforcoding.xyz/2021/06/02/mysql%E7%9A%84waitimeout/&title=mysql的waitimeout - 麦田麦穗&summary="
+          target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://blog.visonforcoding.xyz/2021/06/02/mysql%E7%9A%84waitimeout/&title=mysql的waitimeout - 麦田麦穗&summary=首先，我们来看下
+show GLOBAL VARIABLES like &#39;%timeout%&#39;;
+默认值为28800s即8小时,我们改为100s
+# Default Homebrew MySQL server config
+[mysqld]
+# Only allow connections from localhost
+bind-address = 0.0.0.0
+wait_timeout=100
+interactive_timeout=100
+重新查看结果
+"
           
           >
           
@@ -587,7 +616,17 @@ interactive_timeout=100</code></pre>
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer noopener"
           
-          target="_blank" href="http://service.weibo.com/share/share.php?url=http://blog.visonforcoding.xyz/2021/06/02/mysql%E7%9A%84waitimeout/&title=mysql的waitimeout - 麦田麦穗&summary="
+          target="_blank" href="http://service.weibo.com/share/share.php?url=http://blog.visonforcoding.xyz/2021/06/02/mysql%E7%9A%84waitimeout/&title=mysql的waitimeout - 麦田麦穗&summary=首先，我们来看下
+show GLOBAL VARIABLES like &#39;%timeout%&#39;;
+默认值为28800s即8小时,我们改为100s
+# Default Homebrew MySQL server config
+[mysqld]
+# Only allow connections from localhost
+bind-address = 0.0.0.0
+wait_timeout=100
+interactive_timeout=100
+重新查看结果
+"
           
           >
           
@@ -610,6 +649,15 @@ interactive_timeout=100</code></pre>
         
         
           <div class="prev-next">
+            
+              <a class='prev' href='/2021/06/25/RabbitMQ%E4%BB%8B%E7%BB%8D%E5%92%8C%E5%9C%BA%E6%99%AF%E4%BD%BF%E7%94%A8/'>
+                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>RabbitMQ介绍和场景使用</p>
+                <p class='content'>安装version: &#39;3.1&#39;
+services:
+    rabbitmq-manger:
+        image: rabbitmq:3-management
+    ...</p>
+              </a>
             
             
               <a class='next' href='/2021/04/09/vue-quasar-electron-springboot-mysql%E6%92%B8%E4%B8%80%E4%B8%AATODO-LIST-%E7%9C%8B%E6%9D%BF/'>

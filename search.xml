@@ -4,6 +4,25 @@
   
     
     <entry>
+      <title>学习编写php拓展</title>
+      <link href="2021/07/07/php/%E5%AD%A6%E4%B9%A0%E7%BC%96%E5%86%99php%E6%8B%93%E5%B1%95/"/>
+      <url>2021/07/07/php/%E5%AD%A6%E4%B9%A0%E7%BC%96%E5%86%99php%E6%8B%93%E5%B1%95/</url>
+      
+        <content type="html"><![CDATA[<h2 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h2><p><strong>为什么要学习编写php拓展？</strong></p><p>1.目前市面上有数据库或中间件无php驱动<br>2.有自己的公共组件或函数,虽然可以使用composer，为了提升性能替代composer包<br>3.为了学习php内核原理或其他拓展的内部实现原理</p><h2 id="hello-world"><a href="#hello-world" class="headerlink" title="hello,world"></a>hello,world</h2><p><strong>1.源码下载</strong></p><pre><code class="shell">wget https://www.php.net/distributions/php-7.2.19.tar.bz2tar -xvf php-7.2.19.tar.bz2</code></pre><p><strong>2.增加函数声明</strong></p><pre><code class="shell">vim php_vison.h# 在其中增加 PHP_FUNCTION(vison_print);vim vison.c# 将如下代码中的PHP_FE和PHP_FE_END中加入下面代码（这的代码是将函数指针注册到Zend引擎）PHP_FE(vison_print,  NULL)</code></pre><p><strong>3.函数定义</strong></p><pre><code class="shell">vim vison.c在最后加上创建执行方法vison_print</code></pre><pre><code class="c">PHP_FUNCTION(vison_print)&#123;  php_printf(&quot;Hello vison!\n&quot;);  RETURN_TRUE;&#125;</code></pre><p><strong>4.编译</strong></p><pre><code>phpize./configure &amp;&amp; make &amp;&amp; make install# 然后将生成的vison.so放入配置vim /etc/php.iniextension=vison.so#然后输入php -m查看配置</code></pre><p><strong>4.验证</strong></p><pre><code class="shell">php -r &quot;vison_print();&quot;</code></pre>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> php </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>RabbitMQ介绍和场景使用</title>
       <link href="2021/06/25/RabbitMQ%E4%BB%8B%E7%BB%8D%E5%92%8C%E5%9C%BA%E6%99%AF%E4%BD%BF%E7%94%A8/"/>
       <url>2021/06/25/RabbitMQ%E4%BB%8B%E7%BB%8D%E5%92%8C%E5%9C%BA%E6%99%AF%E4%BD%BF%E7%94%A8/</url>
@@ -169,7 +188,7 @@
     
     
     <entry>
-      <title>手撕javaweb开发</title>
+      <title>javaweb开发</title>
       <link href="2020/12/22/java/%E6%89%8B%E6%92%95javaweb%E5%BC%80%E5%8F%91/"/>
       <url>2020/12/22/java/%E6%89%8B%E6%92%95javaweb%E5%BC%80%E5%8F%91/</url>
       

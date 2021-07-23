@@ -4,6 +4,25 @@
   
     
     <entry>
+      <title>用phpunit进行单元测试</title>
+      <link href="2021/07/23/%E7%94%A8phpunit%E8%BF%9B%E8%A1%8C%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/"/>
+      <url>2021/07/23/%E7%94%A8phpunit%E8%BF%9B%E8%A1%8C%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/</url>
+      
+        <content type="html"><![CDATA[<p>最近读了一本书《clean code》。深有感悟，感觉非常接底气，讲到了日常编码中真正遇到的困扰。大致我总结下就是要做几件事：</p><ul><li>重构，定期重构，保持重构</li><li>clean code,编写整洁、易维护的代码</li><li>单元测试</li></ul><p>本篇我们讲下如何利用phpunit进行单元测试</p><span id="more"></span><h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>这里主要说明下安装的版本问题，最新版phpunit-latest目前依赖php7.4. 但是我们线上版本仍然是php7.2,因此我们需要安装旧的版本.</p><p><a href="https://phpunit.de/announcements/phpunit-8.html">https://phpunit.de/announcements/phpunit-8.html</a>  从这个链接能找到phpunit-8。</p><p>安装的方式有2种，<code>PHAR</code> 和 <code>composer</code>，两种方式都可以全局安装。</p><p><a href="https://phpunit.readthedocs.io/zh_CN/latest/installation.html#installation-requirements">https://phpunit.readthedocs.io/zh_CN/latest/installation.html#installation-requirements</a> 官方的教程文档里不推荐进行全局安装。</p><blockquote><p>请注意，并不推荐全局安装 PHPUnit，比如说放在 /usr/bin/phpunit 或 /usr/local/bin/phpunit。<br>相反，PHPUnit 应该作为项目本地依赖项进行管理。</p></blockquote><p>但是我还是选择全局安装，因为不想将本地太多依赖。</p><h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><h3 id="IDE提示"><a href="#IDE提示" class="headerlink" title="IDE提示"></a>IDE提示</h3><pre><code class="php">&lt;?phpdeclare(strict_types=1);use PHPUnit\Framework\TestCase;final class RedisCacheTest extends TestCase&#123;    public function testSet(): void    &#123;       $res =  \Hll\Cache\Cache::set(&#39;foo&#39;, date(&#39;Y-m-d H:i:s&#39;),10);       $this-&gt;assertTrue($res);    &#125;&#125;</code></pre><p>这是我的一个测试用例脚本，测试脚本类需要继承<code>TestCase</code>.</p><p>由于我的安装方式并不是本地项目安装，所以在ide不会提示TestCase的相关方法。这对于来说是不能容忍的，不过好在IDE能额外的配置引入项目外的文件进行提示。</p><p><img src="https://vison-blog.oss-cn-beijing.aliyuncs.com/20210723100857.png" alt=""></p><h3 id="工程目录"><a href="#工程目录" class="headerlink" title="工程目录"></a>工程目录</h3><p>再来看看工程目录结构</p><p><img src="https://vison-blog.oss-cn-beijing.aliyuncs.com/20210723101019.png" alt=""></p><p>在我编写的一个<code>cache</code>组件库中</p><ul><li><code>src</code>作为源代码目录</li><li><code>tests</code>作为测试用例目录</li><li><code>bootstrap.php</code>是phpunit的启动加载文件，用于做些全局的初始化动作，比如加载autoload.</li></ul><h3 id="执行测试"><a href="#执行测试" class="headerlink" title="执行测试"></a>执行测试</h3><pre><code class="shell">phpunit --bootstrap tests/bootstrap.php --verbose tests/case </code></pre><p>该命令是执行测试 tests/case下的所有测试用例文件，当然你也可以具体到只执行单个文件。</p><p><code>--bootstrap</code></p><p>加载启动文件</p><p><code>--colors</code></p><p>彩色输出</p><p><code>--debug</code></p><p>输出调试信息，例如当一个测试开始执行时输出其名称。</p><p><code>--testtox</code></p><p>以<code>testtox</code>格式显示测试结果</p><p><img src="https://vison-blog.oss-cn-beijing.aliyuncs.com/20210723102912.png" alt=""></p><p><code>--configuration</code>、<code>-c</code></p><p>从 XML 文件中读取配置信息。</p><p>如果<code>phpunit.xml</code> 或 <code>phpunit.xml.dist</code>（按此顺序）存在于当前工作目录并且未使用 <code>--configuration</code>，将自动从此文件中读取配置。</p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> php </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>学习编写php拓展</title>
       <link href="2021/07/07/php/%E5%AD%A6%E4%B9%A0%E7%BC%96%E5%86%99php%E6%8B%93%E5%B1%95/"/>
       <url>2021/07/07/php/%E5%AD%A6%E4%B9%A0%E7%BC%96%E5%86%99php%E6%8B%93%E5%B1%95/</url>

@@ -16,18 +16,20 @@
 
   <!-- 页面元数据 -->
   
-    <title>用phpunit进行单元测试 - 麦田麦穗</title>
+    <title>利用PHPMD让你的php代码更干净更易维护 - 麦田麦穗</title>
   
-    <meta name="keywords" content="php">
+    <meta name="keywords" content="PHP">
   
   
-    <meta name="description" content="最近读了一本书《clean code》。深有感悟，感觉非常接底气，讲到了日常编码中真正遇到的困扰。大致我总结下就是要做几件事：
+    <meta name="description" content="PHPMD - PHP Mess Detector
+等价于java工具PMD，能够对php 源代码进行如下问题检测：
 
-重构，定期重构，保持重构
-clean code,编写整洁、易维护的代码
-单元测试
+可能的bug
+欠佳的代码
+过于复杂的表达式
+未使用的方法、变量、参数、属性
 
-本篇我们讲下如何利用phpunit进行单元测试">
+最新版本发布于 2021/05/11">
   
 
   <!-- feed -->
@@ -370,8 +372,8 @@ clean code,编写整洁、易维护的代码
         
           
   <h1 class="title">
-    <a href="/2021/07/23/%E7%94%A8phpunit%E8%BF%9B%E8%A1%8C%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/">
-      用phpunit进行单元测试
+    <a href="/2021/07/27/%E5%88%A9%E7%94%A8PHPMD%E8%AE%A9%E4%BD%A0%E7%9A%84php%E4%BB%A3%E7%A0%81%E6%9B%B4%E5%B9%B2%E5%87%80%E6%9B%B4%E6%98%93%E7%BB%B4%E6%8A%A4/">
+      利用PHPMD让你的php代码更干净更易维护
     </a>
   </h1>
 
@@ -401,7 +403,7 @@ clean code,编写整洁、易维护的代码
               <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Jul 23, 2021</p>
+    <p>发布于：Jul 27, 2021</p>
   </a>
 </div>
 
@@ -424,63 +426,161 @@ clean code,编写整洁、易维护的代码
       <section class="article typo">
         <div class="article-entry" itemprop="articleBody">
           
-          <p>最近读了一本书《clean code》。深有感悟，感觉非常接底气，讲到了日常编码中真正遇到的困扰。大致我总结下就是要做几件事：</p>
+          <p>PHPMD - PHP Mess Detector</p>
+<p>等价于java工具PMD，能够对php 源代码进行如下问题检测：</p>
 <ul>
-<li>重构，定期重构，保持重构</li>
-<li>clean code,编写整洁、易维护的代码</li>
-<li>单元测试</li>
+<li>可能的bug</li>
+<li>欠佳的代码</li>
+<li>过于复杂的表达式</li>
+<li>未使用的方法、变量、参数、属性</li>
 </ul>
-<p>本篇我们讲下如何利用phpunit进行单元测试</p>
+<p>最新版本发布于 2021/05/11</p>
 <span id="more"></span>
-<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>这里主要说明下安装的版本问题，最新版phpunit-latest目前依赖php7.4. 但是我们线上版本仍然是php7.2,因此我们需要安装旧的版本.</p>
-<p><a target="_blank" rel="noopener" href="https://phpunit.de/announcements/phpunit-8.html">https://phpunit.de/announcements/phpunit-8.html</a>  从这个链接能找到phpunit-8。</p>
-<p>安装的方式有2种，<code>PHAR</code> 和 <code>composer</code>，两种方式都可以全局安装。</p>
-<p><a target="_blank" rel="noopener" href="https://phpunit.readthedocs.io/zh_CN/latest/installation.html#installation-requirements">https://phpunit.readthedocs.io/zh_CN/latest/installation.html#installation-requirements</a> 官方的教程文档里不推荐进行全局安装。</p>
-<blockquote>
-<p>请注意，并不推荐全局安装 PHPUnit，比如说放在 /usr/bin/phpunit 或 /usr/local/bin/phpunit。<br>相反，PHPUnit 应该作为项目本地依赖项进行管理。</p>
-</blockquote>
-<p>但是我还是选择全局安装，因为不想将本地太多依赖。</p>
-<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><h3 id="IDE提示"><a href="#IDE提示" class="headerlink" title="IDE提示"></a>IDE提示</h3><pre><code class="php">&lt;?php
 
-declare(strict_types=1);
+<p><a target="_blank" rel="noopener" href="https://phpmd.org/about.html">https://phpmd.org/about.html</a></p>
+<h2 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h2><pre><code class="shell">phpmd /path/to/source text codesize</code></pre>
+<ul>
+<li>第一个参数 要检测的代码地址</li>
+<li>第二个参数指定输出检测结果的格式</li>
+<li>第三个参数是指定的规则集</li>
+</ul>
+<h2 id="规则集合"><a href="#规则集合" class="headerlink" title="规则集合"></a>规则集合</h2><ul>
+<li><code>Clean Code</code>: 一些包含clean code的规则集合，包括面向对象设计的 SOLID（单一功能、开闭原则、里氏替换、接口隔离以及依赖反转）原则。</li>
+<li><code>Code Size</code> : 有关代码大小的相关问题，例如行数等</li>
+<li><code>Controversial</code> : 具有争议的规则，可以不参考此规则</li>
+<li><code>Design</code> ： 设计规则，包含类依赖数量等等</li>
+<li><code>Naming</code>: 命名规则</li>
+<li><code>Unused Code</code>: 未使用代码规则</li>
+</ul>
+<p>关于<code>clean code</code> 有一本书名就叫 &lt;&lt; Clean Code &gt;&gt;,个人读下来感受颇深。 </p>
+<p>这里主要介绍一些我认为非常有必要注意的规则</p>
+<h2 id="Clean-Code"><a href="#Clean-Code" class="headerlink" title="Clean Code"></a>Clean Code</h2><h3 id="BooleanArgumentFlag"><a href="#BooleanArgumentFlag" class="headerlink" title="BooleanArgumentFlag"></a>BooleanArgumentFlag</h3><p>布尔标志参数违反单一责任原则（SRP）,可以将此类方法一拆为二。</p>
+<pre><code class="php">class Foo &#123;
+    public function drink($thirsty = true) &#123;
+        if($thirsty)&#123;
+            // 喝2杯
+        &#125;else&#123;
+            // 喝一杯
+        &#125;
+    &#125;
+&#125;</code></pre>
+<pre><code class="php">class Foo &#123;
+    public function drinkThirsty() &#123;
 
-use PHPUnit\Framework\TestCase;
+            // 喝2杯
 
-final class RedisCacheTest extends TestCase
-&#123;
-
-    public function testSet(): void
-    &#123;
-       $res =  \Hll\Cache\Cache::set(&#39;foo&#39;, date(&#39;Y-m-d H:i:s&#39;),10);
-       $this-&gt;assertTrue($res);
     &#125;
 
+      public function drinkUnThirsty() &#123;
+
+            // 喝2杯
+
+    &#125;
 &#125;</code></pre>
-<p>这是我的一个测试用例脚本，测试脚本类需要继承<code>TestCase</code>.</p>
-<p>由于我的安装方式并不是本地项目安装，所以在ide不会提示TestCase的相关方法。这对于来说是不能容忍的，不过好在IDE能额外的配置引入项目外的文件进行提示。</p>
-<p><img src="https://vison-blog.oss-cn-beijing.aliyuncs.com/20210723100857.png" alt=""></p>
-<h3 id="工程目录"><a href="#工程目录" class="headerlink" title="工程目录"></a>工程目录</h3><p>再来看看工程目录结构</p>
-<p><img src="https://vison-blog.oss-cn-beijing.aliyuncs.com/20210723101019.png" alt=""></p>
-<p>在我编写的一个<code>cache</code>组件库中</p>
+<h3 id="ElseExpression"><a href="#ElseExpression" class="headerlink" title="ElseExpression"></a>ElseExpression</h3><pre><code class="php">class Foo
+&#123;
+    public function bar($flag)
+    &#123;
+        if ($flag) &#123;
+            // one branch
+        &#125; else &#123;
+            // another branch
+        &#125;
+    &#125;
+&#125;</code></pre>
+<p>像这样的if else的表达式其实是没必要的，可通过三元表达式、拆分方法或者可能的情况下先return来规避这类问题，以将代码简单或增加可读性。</p>
+<pre><code class="php">class Foo
+&#123;
+    public function bar($flag)
+    &#123;
+        if ($flag) &#123;
+            // one branch
+            return
+        &#125; 
+        // another branch
+
+    &#125;
+&#125;</code></pre>
+<h2 id="Code-Size"><a href="#Code-Size" class="headerlink" title="Code Size"></a>Code Size</h2><h3 id="CyclomaticComplexity"><a href="#CyclomaticComplexity" class="headerlink" title="CyclomaticComplexity"></a>CyclomaticComplexity</h3><p>圈复杂度，用来衡量代码复杂度的一个计算规则。复杂度越高代表代码可读性、可维护性越差，易错性更高、集成测试更难。</p>
+<p><img src="https://vison-blog.oss-cn-beijing.aliyuncs.com/20210727111045.png" alt=""></p>
+<h4 id="点边计算法"><a href="#点边计算法" class="headerlink" title="点边计算法"></a>点边计算法</h4><p><img src="https://vison-blog.oss-cn-beijing.aliyuncs.com/20210727110713.png" alt=""></p>
+<p>上述表达式的圈复杂度为 e = 10 n = 8 Cyclomatic Complexity = 10 - 8 + 2 = 4</p>
+<p><img src="https://vison-blog.oss-cn-beijing.aliyuncs.com/20210727111603.png" alt=""></p>
+<p>计算公式为：</p>
+<p>V(G) = E - N + 2</p>
+<p>其中，e表示控制流图中边的数量，n表示控制流图中节点的数量。</p>
+<p>更多可参考 <a target="_blank" rel="noopener" href="http://kaelzhang81.github.io/2017/06/18/%E8%AF%A6%E8%A7%A3%E5%9C%88%E5%A4%8D%E6%9D%82%E5%BA%A6/">http://kaelzhang81.github.io/2017/06/18/详解圈复杂度/</a></p>
+<h3 id="ExcessiveMethodLength"><a href="#ExcessiveMethodLength" class="headerlink" title="ExcessiveMethodLength"></a>ExcessiveMethodLength</h3><p>方法长度，该规则有2个属性</p>
+<p>minimum 最小限定值 默认 100</p>
+<p>ignore-whitespace 是否忽略空白行 默认 false</p>
+<h3 id="ExcessiveClassLength"><a href="#ExcessiveClassLength" class="headerlink" title="ExcessiveClassLength"></a>ExcessiveClassLength</h3><p>类长度</p>
+<p>minimum 最小限定值 默认 1000</p>
+<p>ignore-whitespace 是否忽略空白行 默认 false</p>
+<h3 id="ExcessiveParameterList"><a href="#ExcessiveParameterList" class="headerlink" title="ExcessiveParameterList"></a>ExcessiveParameterList</h3><p>参数个数限定</p>
+<p>minimum 10，根据《clean code》一书的说法，这个值应该限定为3</p>
+<h3 id="ExcessivePublicCount"><a href="#ExcessivePublicCount" class="headerlink" title="ExcessivePublicCount"></a>ExcessivePublicCount</h3><p>公共方法、公共属性</p>
+<p>minimum    45</p>
+<h3 id="TooManyFields"><a href="#TooManyFields" class="headerlink" title="TooManyFields"></a>TooManyFields</h3><p>maxfields    15</p>
+<h3 id="TooManyMethods"><a href="#TooManyMethods" class="headerlink" title="TooManyMethods"></a>TooManyMethods</h3><p>maxmethods    25<br>ignorepattern    (^(set|get))i</p>
+<h3 id="TooManyPublicMethods"><a href="#TooManyPublicMethods" class="headerlink" title="TooManyPublicMethods"></a>TooManyPublicMethods</h3><p>maxmethods    10    The method count reporting threshold<br>ignorepattern    (^(set|get))i</p>
+<h2 id="自定义规则"><a href="#自定义规则" class="headerlink" title="自定义规则"></a>自定义规则</h2><p>有的默认规则也许并不能满足自身需求需做舍弃或修改。例如函数参数数，在《clean code》一书中定义的是最多为3，而phpmd默认指定的是10. 10个确实已经非常难看了，想象你去调用一个有10个参数的函数，你一定会吐槽懵逼的。</p>
+<p>好在phpmd这些都可以修改，如下：</p>
 <ul>
-<li><code>src</code>作为源代码目录</li>
-<li><code>tests</code>作为测试用例目录</li>
-<li><code>bootstrap.php</code>是phpunit的启动加载文件，用于做些全局的初始化动作，比如加载autoload.</li>
+<li>引入unusedcode规则集</li>
+<li>引入codesize,并暂时排除<code>NPathComplexity</code>和<code>CyclomaticComplexity</code>这两个理解起来有一定困难的规则。诚然<code>CyclomaticComplexity</code>在度量复杂度十分有效，但若你的所有函数已经满足<code>ExcessiveMethodLength</code>已经进步很大了，所以一步步来。</li>
+<li>修改ExcessiveParameterList,让限定值为3.</li>
+<li>修改ExcessiveMethodLength和ExcessiveClassLength,忽略空白行</li>
+<li>排除StaticAccess规则</li>
 </ul>
-<h3 id="执行测试"><a href="#执行测试" class="headerlink" title="执行测试"></a>执行测试</h3><pre><code class="shell">phpunit --bootstrap tests/bootstrap.php --verbose tests/case </code></pre>
-<p>该命令是执行测试 tests/case下的所有测试用例文件，当然你也可以具体到只执行单个文件。</p>
-<p><code>--bootstrap</code></p>
-<p>加载启动文件</p>
-<p><code>--colors</code></p>
-<p>彩色输出</p>
-<p><code>--debug</code></p>
-<p>输出调试信息，例如当一个测试开始执行时输出其名称。</p>
-<p><code>--testtox</code></p>
-<p>以<code>testtox</code>格式显示测试结果</p>
-<p><img src="https://vison-blog.oss-cn-beijing.aliyuncs.com/20210723102912.png" alt=""></p>
-<p><code>--configuration</code>、<code>-c</code></p>
-<p>从 XML 文件中读取配置信息。</p>
-<p>如果<code>phpunit.xml</code> 或 <code>phpunit.xml.dist</code>（按此顺序）存在于当前工作目录并且未使用 <code>--configuration</code>，将自动从此文件中读取配置。</p>
+<pre><code class="xml">&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;ruleset name=&quot;My first PHPMD rule set&quot;
+         xmlns=&quot;http://pmd.sf.net/ruleset/1.0.0&quot;
+         xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+         xsi:schemaLocation=&quot;http://pmd.sf.net/ruleset/1.0.0
+                     http://pmd.sf.net/ruleset_xml_schema.xsd&quot;
+         xsi:noNamespaceSchemaLocation=&quot;
+                     http://pmd.sf.net/ruleset_xml_schema.xsd&quot;&gt;
+    &lt;description&gt;
+        My custom rule set that checks my code...
+    &lt;/description&gt;
+
+    &lt;rule ref=&quot;rulesets/unusedcode.xml&quot; /&gt;
+    &lt;rule ref=&quot;rulesets/codesize.xml&quot;&gt;
+        &lt;exclude name=&quot;ExcessiveParameterList&quot; /&gt;
+        &lt;exclude name=&quot;NPathComplexity&quot;/&gt;
+        &lt;exclude name=&quot;CyclomaticComplexity&quot;/&gt;
+    &lt;/rule&gt;
+    &lt;rule ref=&quot;rulesets/codesize.xml/ExcessiveParameterList&quot;&gt;
+        &lt;properties&gt;
+            &lt;property name=&quot;minimum&quot;&gt;
+                &lt;value&gt;
+                    3
+                &lt;/value&gt;
+            &lt;/property&gt;
+        &lt;/properties&gt;
+    &lt;/rule&gt;
+    &lt;rule ref=&quot;rulesets/codesize.xml/ExcessiveClassLength&quot;&gt;
+        &lt;properties&gt;
+            &lt;property name=&quot;ignore-whitespace&quot;&gt;
+                &lt;value&gt;
+                    true
+                &lt;/value&gt;
+            &lt;/property&gt;
+        &lt;/properties&gt;
+    &lt;/rule&gt;
+    &lt;rule ref=&quot;rulesets/codesize.xml/ExcessiveMethodLength&quot;&gt;
+        &lt;properties&gt;
+            &lt;property name=&quot;ignore-whitespace&quot;&gt;
+                &lt;value&gt;
+                    true
+                &lt;/value&gt;
+            &lt;/property&gt;
+        &lt;/properties&gt;
+    &lt;/rule&gt;
+    &lt;rule ref=&quot;rulesets/cleancode.xml&quot;&gt;
+        &lt;exclude name=&quot;StaticAccess&quot; /&gt;
+    &lt;/rule&gt;
+&lt;/ruleset&gt;</code></pre>
 
           
             <div class='article_footer'>
@@ -517,7 +617,7 @@ final class RedisCacheTest extends TestCase
           
         
           
-            <p>本文永久链接是：<a href=http://blog.visonforcoding.xyz/2021/07/23/%E7%94%A8phpunit%E8%BF%9B%E8%A1%8C%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/>http://blog.visonforcoding.xyz/2021/07/23/%E7%94%A8phpunit%E8%BF%9B%E8%A1%8C%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/</a></p>
+            <p>本文永久链接是：<a href=http://blog.visonforcoding.xyz/2021/07/27/%E5%88%A9%E7%94%A8PHPMD%E8%AE%A9%E4%BD%A0%E7%9A%84php%E4%BB%A3%E7%A0%81%E6%9B%B4%E5%B9%B2%E5%87%80%E6%9B%B4%E6%98%93%E7%BB%B4%E6%8A%A4/>http://blog.visonforcoding.xyz/2021/07/27/%E5%88%A9%E7%94%A8PHPMD%E8%AE%A9%E4%BD%A0%E7%9A%84php%E4%BB%A3%E7%A0%81%E6%9B%B4%E5%B9%B2%E5%87%80%E6%9B%B4%E6%98%93%E7%BB%B4%E6%8A%A4/</a></p>
           
         
       </blockquote>
@@ -562,10 +662,10 @@ final class RedisCacheTest extends TestCase
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-07-23T10:40:22+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-07-27T14:03:48+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Jul 23, 2021</p>
+    <p>更新于：Jul 27, 2021</p>
   </a>
 </div>
 
@@ -574,7 +674,7 @@ final class RedisCacheTest extends TestCase
         
           
   
-  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/php/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>php</p></a></div>
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/PHP/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>PHP</p></a></div>
 
 
         
@@ -592,13 +692,15 @@ final class RedisCacheTest extends TestCase
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer noopener"
           
-          target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.visonforcoding.xyz/2021/07/23/%E7%94%A8phpunit%E8%BF%9B%E8%A1%8C%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/&title=用phpunit进行单元测试 - 麦田麦穗&summary=最近读了一本书《clean code》。深有感悟，感觉非常接底气，讲到了日常编码中真正遇到的困扰。大致我总结下就是要做几件事：
+          target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.visonforcoding.xyz/2021/07/27/%E5%88%A9%E7%94%A8PHPMD%E8%AE%A9%E4%BD%A0%E7%9A%84php%E4%BB%A3%E7%A0%81%E6%9B%B4%E5%B9%B2%E5%87%80%E6%9B%B4%E6%98%93%E7%BB%B4%E6%8A%A4/&title=利用PHPMD让你的php代码更干净更易维护 - 麦田麦穗&summary=PHPMD - PHP Mess Detector
+等价于java工具PMD，能够对php 源代码进行如下问题检测：
 
-重构，定期重构，保持重构
-clean code,编写整洁、易维护的代码
-单元测试
+可能的bug
+欠佳的代码
+过于复杂的表达式
+未使用的方法、变量、参数、属性
 
-本篇我们讲下如何利用phpunit进行单元测试"
+最新版本发布于 2021/05/11"
           
           >
           
@@ -610,13 +712,15 @@ clean code,编写整洁、易维护的代码
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer noopener"
           
-          target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://blog.visonforcoding.xyz/2021/07/23/%E7%94%A8phpunit%E8%BF%9B%E8%A1%8C%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/&title=用phpunit进行单元测试 - 麦田麦穗&summary=最近读了一本书《clean code》。深有感悟，感觉非常接底气，讲到了日常编码中真正遇到的困扰。大致我总结下就是要做几件事：
+          target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://blog.visonforcoding.xyz/2021/07/27/%E5%88%A9%E7%94%A8PHPMD%E8%AE%A9%E4%BD%A0%E7%9A%84php%E4%BB%A3%E7%A0%81%E6%9B%B4%E5%B9%B2%E5%87%80%E6%9B%B4%E6%98%93%E7%BB%B4%E6%8A%A4/&title=利用PHPMD让你的php代码更干净更易维护 - 麦田麦穗&summary=PHPMD - PHP Mess Detector
+等价于java工具PMD，能够对php 源代码进行如下问题检测：
 
-重构，定期重构，保持重构
-clean code,编写整洁、易维护的代码
-单元测试
+可能的bug
+欠佳的代码
+过于复杂的表达式
+未使用的方法、变量、参数、属性
 
-本篇我们讲下如何利用phpunit进行单元测试"
+最新版本发布于 2021/05/11"
           
           >
           
@@ -628,13 +732,15 @@ clean code,编写整洁、易维护的代码
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer noopener"
           
-          target="_blank" href="http://service.weibo.com/share/share.php?url=http://blog.visonforcoding.xyz/2021/07/23/%E7%94%A8phpunit%E8%BF%9B%E8%A1%8C%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/&title=用phpunit进行单元测试 - 麦田麦穗&summary=最近读了一本书《clean code》。深有感悟，感觉非常接底气，讲到了日常编码中真正遇到的困扰。大致我总结下就是要做几件事：
+          target="_blank" href="http://service.weibo.com/share/share.php?url=http://blog.visonforcoding.xyz/2021/07/27/%E5%88%A9%E7%94%A8PHPMD%E8%AE%A9%E4%BD%A0%E7%9A%84php%E4%BB%A3%E7%A0%81%E6%9B%B4%E5%B9%B2%E5%87%80%E6%9B%B4%E6%98%93%E7%BB%B4%E6%8A%A4/&title=利用PHPMD让你的php代码更干净更易维护 - 麦田麦穗&summary=PHPMD - PHP Mess Detector
+等价于java工具PMD，能够对php 源代码进行如下问题检测：
 
-重构，定期重构，保持重构
-clean code,编写整洁、易维护的代码
-单元测试
+可能的bug
+欠佳的代码
+过于复杂的表达式
+未使用的方法、变量、参数、属性
 
-本篇我们讲下如何利用phpunit进行单元测试"
+最新版本发布于 2021/05/11"
           
           >
           
@@ -658,22 +764,13 @@ clean code,编写整洁、易维护的代码
         
           <div class="prev-next">
             
-              <a class='prev' href='/2021/07/27/%E5%88%A9%E7%94%A8PHPMD%E8%AE%A9%E4%BD%A0%E7%9A%84php%E4%BB%A3%E7%A0%81%E6%9B%B4%E5%B9%B2%E5%87%80%E6%9B%B4%E6%98%93%E7%BB%B4%E6%8A%A4/'>
-                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>利用PHPMD让你的php代码更干净更易维护</p>
-                <p class='content'>PHPMD - PHP Mess Detector
-等价于java工具PMD，能够对php 源代码进行如下问题检测：
+            
+              <a class='next' href='/2021/07/23/%E7%94%A8phpunit%E8%BF%9B%E8%A1%8C%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/'>
+                <p class='title'>用phpunit进行单元测试<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>最近读了一本书《clean code》。深有感悟，感觉非常接底气，讲到了日常编码中真正遇到的困扰。大致我总结下就是要做几件事：
 
-可能的bug
-欠佳的代码
-过于复杂的表达式
-未使用的方法、变量、参数、属性...</p>
-              </a>
-            
-            
-              <a class='next' href='/2021/07/07/php/%E5%AD%A6%E4%B9%A0%E7%BC%96%E5%86%99php%E6%8B%93%E5%B1%95/'>
-                <p class='title'>学习编写php拓展<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
-                <p class='content'>目的为什么要学习编写php拓展？
-1.目前市面上有数据库或中间件无php驱动2.有自己的公共组件或函数,虽然可以使用composer，为了提升性能替代composer包3.为了学习php内核原理...</p>
+重构，定期重构，保持重构
+clean code,编写整洁、易维护...</p>
               </a>
             
           </div>
@@ -716,7 +813,7 @@ clean code,编写整洁、易维护的代码
 
   <script>
     window.subData = {
-      title: '用phpunit进行单元测试',
+      title: '利用PHPMD让你的php代码更干净更易维护',
       tools: true
     }
   </script>
@@ -742,7 +839,7 @@ clean code,编写整洁、易维护的代码
 
 
     <div class='content'>
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85"><span class="toc-text">安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8"><span class="toc-text">使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#IDE%E6%8F%90%E7%A4%BA"><span class="toc-text">IDE提示</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B7%A5%E7%A8%8B%E7%9B%AE%E5%BD%95"><span class="toc-text">工程目录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%A7%E8%A1%8C%E6%B5%8B%E8%AF%95"><span class="toc-text">执行测试</span></a></li></ol></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8"><span class="toc-text">基本使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%84%E5%88%99%E9%9B%86%E5%90%88"><span class="toc-text">规则集合</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Clean-Code"><span class="toc-text">Clean Code</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#BooleanArgumentFlag"><span class="toc-text">BooleanArgumentFlag</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ElseExpression"><span class="toc-text">ElseExpression</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Code-Size"><span class="toc-text">Code Size</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#CyclomaticComplexity"><span class="toc-text">CyclomaticComplexity</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%82%B9%E8%BE%B9%E8%AE%A1%E7%AE%97%E6%B3%95"><span class="toc-text">点边计算法</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ExcessiveMethodLength"><span class="toc-text">ExcessiveMethodLength</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ExcessiveClassLength"><span class="toc-text">ExcessiveClassLength</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ExcessiveParameterList"><span class="toc-text">ExcessiveParameterList</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ExcessivePublicCount"><span class="toc-text">ExcessivePublicCount</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TooManyFields"><span class="toc-text">TooManyFields</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TooManyMethods"><span class="toc-text">TooManyMethods</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TooManyPublicMethods"><span class="toc-text">TooManyPublicMethods</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E8%A7%84%E5%88%99"><span class="toc-text">自定义规则</span></a></li></ol>
     </div>
   </section>
 

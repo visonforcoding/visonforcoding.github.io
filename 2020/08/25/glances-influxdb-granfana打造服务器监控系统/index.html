@@ -444,6 +444,23 @@ glances --export influxdb</code></pre><p>执行 <code>glances --export influxdb<
 <pre><code>CREATE DATABASE glances  #创建数据
 SHOW DATABASES   # 查看数据库</code></pre><p>再次执行<code>glances --export influxdb</code> ,可显示如下代表目前一切正常</p>
 <p><img src="https://vison-blog.oss-cn-beijing.aliyuncs.com/20210430141339.png" alt=""></p>
+<h2 id="作为服务运行"><a href="#作为服务运行" class="headerlink" title="作为服务运行"></a>作为服务运行</h2><p>此时我们需要编写.service脚本作为服务后台运行</p>
+<pre><code class="service">[Unit]
+Description=glances  daemon
+After=network.target influxdb.service
+
+[Service]
+User=root
+Group=root
+ExecStart=/usr/local/bin/glances --quiet --export influxdb
+Type=simple
+KillMode=process
+
+[Install]
+WantedBy=multi-user.target</code></pre>
+<p>命名该文件为<code>glances.service</code>并放到<code>/usr/lib/systemd/system</code>目录下</p>
+<p><code>systemctl start glances</code> 启动</p>
+<p>更多的 <code>service</code>脚本编写可参考，<a target="_blank" rel="noopener" href="http://www.jinbuguo.com/systemd/systemd.service.html">http://www.jinbuguo.com/systemd/systemd.service.html</a></p>
 <h2 id="granfana安装"><a href="#granfana安装" class="headerlink" title="granfana安装"></a>granfana安装</h2><pre><code>wget https://dl.grafana.com/oss/release/grafana-7.1.5-1.x86_64.rpm
 sudo yum install grafana-7.1.5-1.x86_64.rpm</code></pre><h3 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h3><pre><code class="shell">systemctl daemon-reload
 systemctl start grafana-server
@@ -478,7 +495,9 @@ services:
 <p>docker安装情况应注意docker容器ip 和宿主机ip</p>
 <pre><code class="shell">docker network ls # 查看docker网络
 docker network inspect $networkid # 查看具体网络信息</code></pre>
+<p><img src="https://vison-blog.oss-cn-beijing.aliyuncs.com/20210811145603.png" alt=""></p>
 <p>在配置<code>influxdb</code> 数据源时，如果你是用<code>docker</code>安装，需要保持<code>granfana</code>和<code>influxdb</code>是在同一个网段</p>
+<p><img src="https://vison-blog.oss-cn-beijing.aliyuncs.com/20210811145551.png" alt=""></p>
 <p>grafana 还支持zipkin</p>
 <p><img src="https://vison-blog.oss-cn-beijing.aliyuncs.com/20210430141436.png" alt=""></p>
 
@@ -562,10 +581,10 @@ docker network inspect $networkid # 查看具体网络信息</code></pre>
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-04-30T18:35:04+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-08-11T15:00:57+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Apr 30, 2021</p>
+    <p>更新于：Aug 11, 2021</p>
   </a>
 </div>
 
@@ -729,7 +748,7 @@ Font Awesome    &lt;!-- 官方 --&...</p>
 
 
     <div class='content'>
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#glances%E5%AE%89%E8%A3%85"><span class="toc-text">glances安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#influxdb%E5%AE%89%E8%A3%85"><span class="toc-text">influxdb安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%94%B6%E9%9B%86%E6%95%B0%E6%8D%AE%E5%88%B0influxdb"><span class="toc-text">收集数据到influxdb</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#granfana%E5%AE%89%E8%A3%85"><span class="toc-text">granfana安装</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8"><span class="toc-text">启动</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#docker-granfana%E5%AE%89%E8%A3%85"><span class="toc-text">docker-granfana安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#nginx%E9%85%8D%E7%BD%AE"><span class="toc-text">nginx配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E6%95%B0%E6%8D%AE%E6%BA%90"><span class="toc-text">配置数据源</span></a></li></ol></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#glances%E5%AE%89%E8%A3%85"><span class="toc-text">glances安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#influxdb%E5%AE%89%E8%A3%85"><span class="toc-text">influxdb安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%94%B6%E9%9B%86%E6%95%B0%E6%8D%AE%E5%88%B0influxdb"><span class="toc-text">收集数据到influxdb</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%9C%E4%B8%BA%E6%9C%8D%E5%8A%A1%E8%BF%90%E8%A1%8C"><span class="toc-text">作为服务运行</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#granfana%E5%AE%89%E8%A3%85"><span class="toc-text">granfana安装</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8"><span class="toc-text">启动</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#docker-granfana%E5%AE%89%E8%A3%85"><span class="toc-text">docker-granfana安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#nginx%E9%85%8D%E7%BD%AE"><span class="toc-text">nginx配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E6%95%B0%E6%8D%AE%E6%BA%90"><span class="toc-text">配置数据源</span></a></li></ol></li></ol>
     </div>
   </section>
 

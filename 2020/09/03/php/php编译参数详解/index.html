@@ -1,0 +1,1402 @@
+<!DOCTYPE html>
+<html>
+<head hexo-theme='https://volantis.js.org/#2.6.5'>
+  <meta charset="utf-8">
+  <!-- SEO相关 -->
+  
+    
+  
+  <!-- 渲染优化 -->
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <!-- 页面元数据 -->
+  
+    <title>php编译参数详解 - 麦田麦穗</title>
+  
+    <meta name="keywords" content="php">
+  
+  
+    <meta name="description" content="尽管经历了N次的手动编译，你可能还是不知道哪些编译参数需要哪些不需要">
+  
+
+  <!-- feed -->
+  
+
+  <!-- import meta -->
+  
+
+  <!-- link -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13/css/all.min.css">
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css">
+
+  
+
+  
+
+  
+
+  
+
+  <!-- import link -->
+  
+
+  
+    
+      
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.0.2/styles/monokai-sublime.css">
+
+    
+  
+  
+    
+<link rel="stylesheet" href="/css/style.css">
+
+  
+
+  <script>
+    function setLoadingBarProgress(num) {
+      document.getElementById('loading-bar').style.width=num+"%";
+    }
+  </script>
+
+  
+  
+    <!-- ba -->
+    <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?e99feed4245dcdf8a16ad3d62e236e14";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+  
+    
+</head>
+
+<body>
+  
+  <div id="loading-bar-wrapper">
+  <div id="loading-bar"></div>
+</div>
+<header class="l_header shadow blur">
+  <div class='container'>
+  <div class='wrapper'>
+    <div class='nav-sub'>
+      <p class="title"></p>
+      <ul class='switcher nav-list-h'>
+        <li><a class="s-comment fas fa-comments fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+          <li><a class="s-toc fas fa-list fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+      </ul>
+    </div>
+		<div class="nav-main">
+      
+        
+        <a class="title flat-box" target="_self" href='/'>
+          
+          
+          
+            麦穗
+          
+          
+        </a>
+      
+
+			<div class='menu navigation'>
+				<ul class='nav-list-h'>
+          
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/friends/
+                  
+                  
+                  
+                    id="friends"
+                  >
+                  <i class='fas fa-link fa-fw'></i>友链
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/about/
+                  
+                  
+                  
+                    id="about"
+                  >
+                  <i class='fas fa-info-circle fa-fw'></i>关于
+                </a>
+                
+              </li>
+            
+          
+          
+				</ul>
+			</div>
+
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <i class="icon fas fa-search fa-fw"></i>
+          <input type="text" class="input u-search-input" placeholder="Search..." />
+        </form>
+      </div>
+
+			<ul class='switcher nav-list-h'>
+				
+					<li><a class="s-search fas fa-search fa-fw" target="_self" href='javascript:void(0)'></a></li>
+				
+				<li>
+          <a class="s-menu fas fa-bars fa-fw" target="_self" href='javascript:void(0)'></a>
+          <ul class="menu-phone list-v navigation white-box">
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/friends/
+                  
+                  
+                  
+                    id="friends"
+                  >
+                  <i class='fas fa-link fa-fw'></i>友链
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/about/
+                  
+                  
+                  
+                    id="about"
+                  >
+                  <i class='fas fa-info-circle fa-fw'></i>关于
+                </a>
+                
+              </li>
+            
+          
+            
+          </ul>
+        </li>
+			</ul>
+		</div>
+	</div>
+  </div>
+</header>
+
+<script>setLoadingBarProgress(40);</script>
+
+
+
+  <div class="l_body nocover">
+    <div class='body-wrapper'>
+      
+
+<div class='l_main'>
+  
+
+  
+    <article id="post" class="post white-box reveal shadow article-type-post" itemscope itemprop="blogPost">
+      
+
+
+  <section class='meta'>
+    
+      
+      
+      <div class="meta" id="header-meta">
+        
+          
+  <h1 class="title">
+    <a href="/2020/09/03/php/php%E7%BC%96%E8%AF%91%E5%8F%82%E6%95%B0%E8%AF%A6%E8%A7%A3/">
+      php编译参数详解
+    </a>
+  </h1>
+
+
+        
+        <div class='new-meta-box'>
+          
+            
+          
+            
+              
+<div class='new-meta-item author'>
+  <a href="" rel="nofollow">
+    <img src="https://vison-blog.oss-cn-beijing.aliyuncs.com/20210603145600.png">
+    <p>vison</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+
+            
+          
+            
+              <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：Sep 3, 2020</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+
+            
+          
+        </div>
+        
+          <hr>
+        
+      </div>
+    
+  </section>
+
+
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          
+          <p>尽管经历了N次的手动编译，你可能还是不知道哪些编译参数需要哪些不需要</p>
+<span id="more"></span>
+
+<h2 id="help"><a href="#help" class="headerlink" title="help"></a>help</h2><p>执行帮助命令查看编译配置帮助</p>
+<pre><code>./configure --help=short</code></pre><p>得到结果</p>
+<pre><code>Optional Features and Packages:
+  --disable-option-checking  ignore unrecognized --enable/--with options
+  --disable-FEATURE       do not include FEATURE (same as --enable-FEATURE=no)
+  --enable-FEATURE[=ARG]  include FEATURE [ARG=yes]
+  --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
+  --without-PACKAGE       do not use PACKAGE (same as --with-PACKAGE=no)
+  --with-libdir=NAME      Look for libraries in .../NAME rather than .../lib
+  --disable-rpath         Disable passing additional runtime library
+                          search paths
+  --enable-re2c-cgoto     Enable -g flag to re2c to use computed goto gcc extension
+  --disable-gcc-global-regs
+                          whether to enable GCC global register variables
+
+SAPI modules:
+
+  --with-apxs2=FILE       Build shared Apache 2.0 Handler module. FILE is the optional
+                          pathname to the Apache apxs tool apxs
+  --disable-cli           Disable building CLI version of PHP
+                          (this forces --without-pear)
+  --enable-embed=TYPE     EXPERIMENTAL: Enable building of embedded SAPI library
+                          TYPE is either &#39;shared&#39; or &#39;static&#39;. TYPE=shared
+  --enable-fpm            Enable building of the fpm SAPI executable  fastcgi进程管理,这个应该必不可少
+  --with-fpm-user=USER    Set the user for php-fpm to run as. (default: nobody)
+  --with-fpm-group=GRP    Set the group for php-fpm to run as. For a system user, this
+                          should usually be set to match the fpm username (default: nobody)
+  --with-fpm-systemd      Activate systemd integration
+  --with-fpm-acl          Use POSIX Access Control Lists
+  --with-litespeed        Build PHP as litespeed module
+  --enable-phpdbg            Build phpdbg
+  --enable-phpdbg-webhelper  Build phpdbg web SAPI support
+  --enable-phpdbg-debug      Build phpdbg in debug mode
+  --enable-phpdbg-readline   Enable readline support in phpdbg (depends on static ext/readline)
+  --disable-cgi           Disable building CGI version of PHP   禁用cgi
+  --with-valgrind=DIR     Enable valgrind support
+
+General settings:
+
+  --enable-gcov           Enable GCOV code coverage (requires LTP) - FOR DEVELOPERS ONLY!!
+  --enable-debug          Compile with debugging symbols
+  --with-layout=TYPE      Set how installed files will be laid out.  Type can
+                          be either PHP or GNU [PHP]
+  --with-config-file-path=PATH
+                          Set the path in which to look for php.ini [PREFIX/lib]
+  --with-config-file-scan-dir=PATH
+                          Set the path where to scan for configuration files
+  --enable-sigchild       Enable PHP&#39;s own SIGCHLD handler
+  --enable-libgcc         Enable explicitly linking against libgcc
+  --disable-short-tags    Disable the short-form &lt;? start tag by default
+  --enable-dmalloc        Enable dmalloc
+  --disable-ipv6          Disable IPv6 support
+  --enable-dtrace         Enable DTrace support
+  --enable-fd-setsize     Set size of descriptor sets
+
+Extensions:
+
+  --with-EXTENSION=shared[,PATH]
+
+    NOTE: Not all extensions can be build as &#39;shared&#39;.
+
+    Example: --with-foobar=shared,/usr/local/foobar/
+
+      o Builds the foobar extension as shared extension.
+      o foobar package install prefix is /usr/local/foobar/
+
+
+  --disable-all           Disable all extensions which are enabled by default
+
+  --disable-libxml        Disable LIBXML support
+  --with-libxml-dir=DIR   LIBXML: libxml2 install prefix
+  --with-openssl=DIR      Include OpenSSL support (requires OpenSSL &gt;= 1.0.1)
+  --with-kerberos=DIR     OPENSSL: Include Kerberos support
+  --with-system-ciphers   OPENSSL: Use system default cipher list instead of hardcoded value
+  --with-pcre-regex=DIR   Include Perl Compatible Regular Expressions support.
+                          DIR is the PCRE install prefix BUNDLED
+  --with-pcre-jit         Enable PCRE JIT functionality (BUNDLED only)
+  --with-pcre-valgrind=DIR
+                          Enable PCRE valgrind support. Developers only!
+  --without-sqlite3=DIR   Do not include SQLite3 support. DIR is the prefix to
+                          SQLite3 installation directory.
+  --with-zlib=DIR         Include ZLIB support (requires zlib &gt;= 1.2.0.4)
+  --with-zlib-dir=&lt;DIR&gt;   Define the location of zlib install directory
+  --enable-bcmath         Enable bc style precision math functions
+  --with-bz2=DIR          Include BZip2 support
+  --enable-calendar       Enable support for calendar conversion
+  --disable-ctype         Disable ctype functions
+  --with-curl=DIR         Include cURL support
+  --enable-dba            Build DBA with bundled modules. To build shared DBA
+                          extension use --enable-dba=shared
+  --with-qdbm=DIR         DBA: QDBM support
+  --with-gdbm=DIR         DBA: GDBM support
+  --with-ndbm=DIR         DBA: NDBM support
+  --with-db4=DIR          DBA: Oracle Berkeley DB 4.x or 5.x support
+  --with-db3=DIR          DBA: Oracle Berkeley DB 3.x support
+  --with-db2=DIR          DBA: Oracle Berkeley DB 2.x support
+  --with-db1=DIR          DBA: Oracle Berkeley DB 1.x support/emulation
+  --with-dbm=DIR          DBA: DBM support
+  --with-tcadb=DIR        DBA: Tokyo Cabinet abstract DB support
+  --with-lmdb=DIR        DBA: Lightning memory-mapped database support
+  --without-cdb=DIR       DBA: CDB support (bundled)
+  --disable-inifile       DBA: INI support (bundled)
+  --disable-flatfile      DBA: FlatFile support (bundled)
+  --disable-dom           Disable DOM support
+  --with-libxml-dir=DIR   DOM: libxml2 install prefix
+  --with-enchant=DIR      Include enchant support.
+                          GNU Aspell version 1.1.3 or higher required.
+  --enable-exif           Enable EXIF (metadata from images) support
+  --disable-fileinfo      Disable fileinfo support
+  --disable-filter        Disable input filter support
+  --with-pcre-dir         FILTER: pcre install prefix
+  --enable-ftp            Enable FTP support
+  --with-openssl-dir=DIR  FTP: openssl install prefix
+  --with-gd=DIR           Include GD support.  DIR is the GD library base
+                          install directory BUNDLED
+  --with-webp-dir=DIR      GD: Set the path to libwebp install prefix
+  --with-jpeg-dir=DIR     GD: Set the path to libjpeg install prefix
+  --with-png-dir=DIR      GD: Set the path to libpng install prefix
+  --with-zlib-dir=DIR     GD: Set the path to libz install prefix
+  --with-xpm-dir=DIR      GD: Set the path to libXpm install prefix
+  --with-freetype-dir=DIR GD: Set the path to FreeType 2 install prefix
+  --enable-gd-jis-conv    GD: Enable JIS-mapped Japanese font support
+  --with-gettext=DIR      Include GNU gettext support
+  --with-gmp=DIR          Include GNU MP support
+  --with-mhash=DIR        Include mhash support
+  --disable-hash          Disable hash support
+  --without-iconv=DIR     Exclude iconv support
+  --with-imap=DIR         Include IMAP support. DIR is the c-client install prefix
+  --with-kerberos=DIR     IMAP: Include Kerberos support. DIR is the Kerberos install prefix
+  --with-imap-ssl=DIR     IMAP: Include SSL support. DIR is the OpenSSL install prefix
+  --with-interbase=DIR    Include Firebird support.  DIR is the Firebird base
+                          install directory /opt/firebird
+  --enable-intl           Enable internationalization support
+  --with-icu-dir=DIR      Specify where ICU libraries and headers can be found
+  --disable-json          Disable JavaScript Object Serialization support
+  --with-ldap=DIR         Include LDAP support
+  --with-ldap-sasl=DIR    LDAP: Include Cyrus SASL support
+  --enable-mbstring       Enable multibyte string support
+  --disable-mbregex       MBSTRING: Disable multibyte regex support
+  --disable-mbregex-backtrack
+                          MBSTRING: Disable multibyte regex backtrack check
+  --with-libmbfl=DIR      MBSTRING: Use external libmbfl.  DIR is the libmbfl base
+                          install directory BUNDLED
+  --with-onig=DIR         MBSTRING: Use external oniguruma. DIR is the oniguruma install prefix.
+                          If DIR is not set, the bundled oniguruma will be used
+  --with-mysqli=FILE      Include MySQLi support.  FILE is the path
+                          to mysql_config.  If no value or mysqlnd is passed
+                          as FILE, the MySQL native driver will be used
+  --enable-embedded-mysqli
+                          MYSQLi: Enable embedded support
+                          Note: Does not work with MySQL native driver!
+  --with-mysql-sock=SOCKPATH
+                          MySQLi/PDO_MYSQL: Location of the MySQL unix socket pointer.
+                          If unspecified, the default locations are searched
+  --with-oci8=DIR         Include Oracle Database OCI8 support. DIR defaults to $ORACLE_HOME.
+                          Use --with-oci8=instantclient,/path/to/instant/client/lib
+                          to use an Oracle Instant Client installation
+  --with-odbcver=HEX      Force support for the passed ODBC version. A hex number is expected, default 0x0350.
+                             Use the special value of 0 to prevent an explicit ODBCVER to be defined.
+  --with-adabas=DIR       Include Adabas D support /usr/local
+  --with-sapdb=DIR        Include SAP DB support /usr/local
+  --with-solid=DIR        Include Solid support /usr/local/solid
+  --with-ibm-db2=DIR      Include IBM DB2 support /home/db2inst1/sqllib
+  --with-ODBCRouter=DIR   Include ODBCRouter.com support /usr
+  --with-empress=DIR      Include Empress support \$EMPRESSPATH
+                          (Empress Version &gt;= 8.60 required)
+  --with-empress-bcs=DIR
+                          Include Empress Local Access support \$EMPRESSPATH
+                          (Empress Version &gt;= 8.60 required)
+  --with-birdstep=DIR     Include Birdstep support /usr/local/birdstep
+  --with-custom-odbc=DIR  Include user defined ODBC support. DIR is ODBC install base
+                          directory /usr/local. Make sure to define CUSTOM_ODBC_LIBS and
+                          have some odbc.h in your include dirs. f.e. you should define
+                          following for Sybase SQL Anywhere 5.5.00 on QNX, prior to
+                          running this configure script:
+                            CPPFLAGS=\&quot;-DODBC_QNX -DSQLANY_BUG\&quot;
+                            LDFLAGS=-lunix
+                            CUSTOM_ODBC_LIBS=\&quot;-ldblib -lodbc\&quot;
+  --with-iodbc=DIR        Include iODBC support /usr/local
+  --with-esoob=DIR        Include Easysoft OOB support /usr/local/easysoft/oob/client
+  --with-unixODBC=DIR     Include unixODBC support /usr/local
+  --with-dbmaker=DIR      Include DBMaker support
+  --disable-opcache       Disable Zend OPcache support
+  --disable-opcache-file  Disable file based caching
+  --disable-huge-code-pages
+                          Disable copying PHP CODE pages into HUGE PAGES
+  --enable-pcntl          Enable pcntl support (CLI/CGI only)
+  --disable-pdo           Disable PHP Data Objects support
+  --with-pdo-dblib=DIR    PDO: DBLIB-DB support.  DIR is the FreeTDS home directory
+  --with-pdo-firebird=DIR PDO: Firebird support.  DIR is the Firebird base
+                          install directory /opt/firebird
+  --with-pdo-mysql=DIR    PDO: MySQL support. DIR is the MySQL base directory
+                          If no value or mysqlnd is passed as DIR, the
+                          MySQL native driver will be used
+  --with-zlib-dir=DIR     PDO_MySQL: Set the path to libz install prefix
+  --with-pdo-oci=DIR      PDO: Oracle OCI support. DIR defaults to $ORACLE_HOME.
+                          Use --with-pdo-oci=instantclient,/path/to/instant/client/lib
+                          for an Oracle Instant Client installation.
+  --with-pdo-odbc=flavour,dir
+                          PDO: Support for &#39;flavour&#39; ODBC driver.
+              include and lib dirs are looked for under &#39;dir&#39;.
+
+              &#39;flavour&#39; can be one of:  ibm-db2, iODBC, unixODBC, generic
+              If &#39;,dir&#39; part is omitted, default for the flavour
+              you have selected will be used. e.g.:
+
+                --with-pdo-odbc=unixODBC
+
+              will check for unixODBC under /usr/local. You may attempt
+              to use an otherwise unsupported driver using the \&quot;generic\&quot;
+              flavour.  The syntax for generic ODBC support is:
+
+                --with-pdo-odbc=generic,dir,libname,ldflags,cflags
+
+              When built as &#39;shared&#39; the extension filename is always pdo_odbc.so
+  --with-pdo-pgsql=DIR    PDO: PostgreSQL support.  DIR is the PostgreSQL base
+                          install directory or the path to pg_config
+  --without-pdo-sqlite=DIR
+                          PDO: sqlite 3 support.  DIR is the sqlite base
+                          install directory BUNDLED
+  --with-pgsql=DIR        Include PostgreSQL support.  DIR is the PostgreSQL
+                          base install directory or the path to pg_config
+  --disable-phar          Disable phar support
+  --disable-posix         Disable POSIX-like functions
+  --with-pspell=DIR       Include PSPELL support.
+                          GNU Aspell version 0.50.0 or higher required
+  --with-libedit=DIR      Include libedit readline replacement (CLI/CGI only)
+  --with-readline=DIR     Include readline support (CLI/CGI only)
+  --with-recode=DIR       Include recode support
+  --disable-session       Disable session support
+  --with-mm=DIR           SESSION: Include mm support for session storage
+  --enable-shmop          Enable shmop support
+  --disable-simplexml     Disable SimpleXML support
+  --with-libxml-dir=DIR   SimpleXML: libxml2 install prefix
+  --with-snmp=DIR         Include SNMP support
+  --with-openssl-dir=DIR  SNMP: openssl install prefix
+  --enable-soap           Enable SOAP support
+  --with-libxml-dir=DIR   SOAP: libxml2 install prefix
+  --enable-sockets        Enable sockets support
+  --with-sodium=DIR     Include sodium support
+  --with-password-argon2=DIR           Include Argon2 support in password_*. DIR is the Argon2 shared library path]
+  --enable-sysvmsg        Enable sysvmsg support
+  --enable-sysvsem        Enable System V semaphore support
+  --enable-sysvshm        Enable the System V shared memory support
+  --with-tidy=DIR         Include TIDY support
+  --disable-tokenizer     Disable tokenizer support
+  --enable-wddx           Enable WDDX support
+  --with-libxml-dir=DIR   WDDX: libxml2 install prefix
+  --with-libexpat-dir=DIR WDDX: libexpat dir for XMLRPC-EPI (deprecated)
+  --disable-xml           Disable XML support
+  --with-libxml-dir=DIR   XML: libxml2 install prefix
+  --with-libexpat-dir=DIR XML: libexpat install prefix (deprecated)
+  --disable-xmlreader     Disable XMLReader support
+  --with-libxml-dir=DIR   XMLReader: libxml2 install prefix
+  --with-xmlrpc=DIR       Include XMLRPC-EPI support
+  --with-libxml-dir=DIR   XMLRPC-EPI: libxml2 install prefix
+  --with-libexpat-dir=DIR XMLRPC-EPI: libexpat dir for XMLRPC-EPI (deprecated)
+  --with-iconv-dir=DIR    XMLRPC-EPI: iconv dir for XMLRPC-EPI
+  --disable-xmlwriter     Disable XMLWriter support
+  --with-libxml-dir=DIR   XMLWriter: libxml2 install prefix
+  --with-xsl=DIR          Include XSL support.  DIR is the libxslt base
+                          install directory (libxslt &gt;= 1.1.0 required)
+  --enable-zend-test           Enable zend-test extension
+  --enable-zip            Include Zip read/write support
+  --with-zlib-dir=DIR     ZIP: Set the path to libz install prefix
+  --with-pcre-dir         ZIP: pcre install prefix
+  --with-libzip=DIR       ZIP: use libzip
+  --enable-mysqlnd        Enable mysqlnd explicitly, will be done implicitly
+                          when required by other extensions
+  --disable-mysqlnd-compression-support
+                          Disable support for the MySQL compressed protocol in mysqlnd
+  --with-zlib-dir=DIR     mysqlnd: Set the path to libz install prefix
+
+PEAR:
+
+  --with-pear=DIR         Install PEAR in DIR [PREFIX/lib/php]
+  --without-pear          Do not install PEAR
+
+Zend:
+
+  --enable-maintainer-zts Enable thread safety - for code maintainers only!!
+  --disable-inline-optimization
+                          If building zend_execute.lo fails, try this switch
+  --disable-zend-signals  whether to enable zend signal handling
+
+TSRM:
+
+  --with-tsrm-pth=pth-config
+                          Use GNU Pth
+  --with-tsrm-st          Use SGI&#39;s State Threads
+  --with-tsrm-pthreads    Use POSIX threads (default)
+
+Libtool:
+
+  --enable-shared=PKGS    Build shared libraries default=yes
+  --enable-static=PKGS    Build static libraries default=yes
+  --enable-fast-install=PKGS
+                          Optimize for fast installation default=yes
+  --with-gnu-ld           Assume the C compiler uses GNU ld default=no
+  --disable-libtool-lock  Avoid locking (might break parallel builds)
+  --with-pic              Try to use only PIC/non-PIC objects default=use both
+  --with-tags=TAGS        Include additional configurations automatic
+
+
+Some influential environment variables:
+  CC          C compiler command
+  CFLAGS      C compiler flags
+  LDFLAGS     linker flags, e.g. -L&lt;lib dir&gt; if you have libraries in a
+              nonstandard directory &lt;lib dir&gt;
+  LIBS        libraries to pass to the linker, e.g. -l&lt;library&gt;
+  CPPFLAGS    (Objective) C/C++ preprocessor flags, e.g. -I&lt;include dir&gt; if
+              you have headers in a nonstandard directory &lt;include dir&gt;
+  CPP         C preprocessor
+  YACC        The `Yet Another Compiler Compiler&#39; implementation to use.
+              Defaults to the first program found out of: `bison -y&#39;, `byacc&#39;,
+              `yacc&#39;.
+  YFLAGS      The list of arguments that will be passed by default to $YACC.
+              This script will default YFLAGS to the empty string to avoid a
+              default value of `-d&#39; given by some make applications.
+  CXX         C++ compiler command
+  CXXFLAGS    C++ compiler flags
+  CXXCPP      C++ preprocessor
+
+Use these variables to override the choices made by `configure&#39; or to help
+it to find libraries and programs with nonstandard names/locations.
+</code></pre><h2 id="默认拓展"><a href="#默认拓展" class="headerlink" title="默认拓展"></a>默认拓展</h2><p>当不配置任何参数时，它默认会有哪些拓展呢？</p>
+<pre><code>php -m</code></pre><pre><code>[PHP Modules]
+Core
+ctype
+date
+dom
+fileinfo
+filter
+hash
+iconv
+json
+libxml
+pcre
+PDO
+pdo_sqlite
+Phar
+posix
+Reflection
+session
+SimpleXML
+SPL
+sqlite3
+standard
+tokenizer
+xml
+xmlreader
+xmlwriter
+
+[Zend Modules]</code></pre><p>此时你会发现连<code>php-fpm</code>都没有</p>
+<h2 id="常用配置"><a href="#常用配置" class="headerlink" title="常用配置"></a>常用配置</h2><h3 id="依赖安装"><a href="#依赖安装" class="headerlink" title="依赖安装"></a>依赖安装</h3><pre><code>yum install -y libxml2-devel openssl-devel</code></pre><pre><code>./configure --enable-fpm  --enable-bcmath  --with-openssl \
+--enable-mbstring --with-mysqli --enable-mysqlnd</code></pre><h3 id="编译安装"><a href="#编译安装" class="headerlink" title="编译安装"></a>编译安装</h3><pre><code>make &amp;&amp; make install</code></pre><h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><h3 id="查看ini配置"><a href="#查看ini配置" class="headerlink" title="查看ini配置"></a>查看ini配置</h3><pre><code>php -ini | grep &#39;ini&#39;</code></pre><pre><code>Configuration File (php.ini) Path =&gt; /usr/local/lib
+Loaded Configuration File =&gt; /usr/local/lib/php.ini
+Scan this dir for additional .ini files =&gt; (none)
+Additional .ini files parsed =&gt; (none)
+user_ini.cache_ttl =&gt; 300 =&gt; 300
+user_ini.filename =&gt; .user.ini =&gt; .user.ini
+init_command_executed_count =&gt; 0
+init_command_failed_count =&gt; 0
+com_init_db =&gt; 0</code></pre><p>从源代码目录 复制配置文件到<code>Configuration File (php.ini) Path</code></p>
+<pre><code>cp php.ini-production /usr/local/lib/php.ini</code></pre><h2 id="设置服务-amp-开机启动-centos-7"><a href="#设置服务-amp-开机启动-centos-7" class="headerlink" title="设置服务&amp;开机启动(centos 7+)"></a>设置服务&amp;开机启动(centos 7+)</h2><p>服务服务脚本到systemd</p>
+<pre><code>cp sapi/fpm/php-fpm.service /etc/systemd/system/
+</code></pre><p>查看启动脚本</p>
+<pre><code>cat sapi/fpm/php-fpm.service</code></pre><p>结果</p>
+<pre><code># It&#39;s not recommended to modify this file in-place, because it
+# will be overwritten during upgrades.  If you want to customize,
+# the best way is to use the &quot;systemctl edit&quot; command.
+
+[Unit]
+Description=The PHP FastCGI Process Manager
+After=network.target
+
+[Service]
+Type=simple
+PIDFile=/usr/local/var/run/php-fpm.pid
+ExecStart=/usr/local/sbin/php-fpm --nodaemonize --fpm-config /usr/local/etc/php-fpm.conf
+ExecReload=/bin/kill -USR2 $MAINPID
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target</code></pre><h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><pre><code>cp sapi/fpm/php-fpm.conf /usr/local/etc/php-fpm.conf
+</code></pre><p>修改php-fpm.conf 相应配置使得PIDFile文件位置与php-fpm.service配置的一致。并复制<a target="_blank" rel="noopener" href="http://www.conf到对应目录">www.conf到对应目录</a></p>
+<h3 id="启动-1"><a href="#启动-1" class="headerlink" title="启动"></a>启动</h3><pre><code>systemctl daemon-reload
+systemctl start php-fpm.service
+systemctl status php-fpm.service
+systemctl enable php-fpm.service</code></pre>
+          
+            <div class='article_footer'>
+              
+                
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
+  <div class='content'>
+    
+      <blockquote>
+        
+          
+            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
+          
+        
+          
+            <p>本文永久链接是：<a href=http://blog.visonforcoding.xyz/2020/09/03/php/php%E7%BC%96%E8%AF%91%E5%8F%82%E6%95%B0%E8%AF%A6%E8%A7%A3/>http://blog.visonforcoding.xyz/2020/09/03/php/php%E7%BC%96%E8%AF%91%E5%8F%82%E6%95%B0%E8%AF%A6%E8%A7%A3/</a></p>
+          
+        
+      </blockquote>
+    
+  </div>
+</section>
+
+  
+
+  
+    
+    
+
+<section class="widget qrcode  desktop mobile">
+  
+
+  <div class='content article-entry'>
+    
+      
+        <div class='fancybox'><img src='https://vison-blog.oss-cn-beijing.aliyuncs.com/20210430145030.png'
+        
+          height='240px'
+        ></div>
+      
+    
+    请我喝杯咖啡
+  </div>
+</section>
+
+  
+
+
+              
+            </div>
+          
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-08-23T16:57:53+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：Aug 23, 2021</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/php/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>php</p></a></div>
+
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.visonforcoding.xyz/2020/09/03/php/php%E7%BC%96%E8%AF%91%E5%8F%82%E6%95%B0%E8%AF%A6%E8%A7%A3/&title=php编译参数详解 - 麦田麦穗&summary=尽管经历了N次的手动编译，你可能还是不知道哪些编译参数需要哪些不需要"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://blog.visonforcoding.xyz/2020/09/03/php/php%E7%BC%96%E8%AF%91%E5%8F%82%E6%95%B0%E8%AF%A6%E8%A7%A3/&title=php编译参数详解 - 麦田麦穗&summary=尽管经历了N次的手动编译，你可能还是不知道哪些编译参数需要哪些不需要"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="http://service.weibo.com/share/share.php?url=http://blog.visonforcoding.xyz/2020/09/03/php/php%E7%BC%96%E8%AF%91%E5%8F%82%E6%95%B0%E8%AF%A6%E8%A7%A3/&title=php编译参数详解 - 麦田麦穗&summary=尽管经历了N次的手动编译，你可能还是不知道哪些编译参数需要哪些不需要"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/weibo.png">
+          
+        </a>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+          <div class="prev-next">
+            
+              <a class='prev' href='/2020/09/09/java/IOC%E5%92%8Cspring%E5%AF%B9%E5%AE%83%E7%9A%84%E5%AE%9E%E7%8E%B0/'>
+                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>IOC和spring对它的实现</p>
+                <p class='content'>
+
+
+IOS概述https://www.cnblogs.com/DebugLZQ/archive/2013/06/05/3107957.html 这篇文章已经讲的很好。
+我做下总结。
+
+面向对象...</p>
+              </a>
+            
+            
+              <a class='next' href='/2020/09/02/supervisor%E4%BD%BF%E7%94%A8/'>
+                <p class='title'>supervisor使用<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>作为一款进程管理工具，supervisor普遍用来管理应用的守护进程
+
+
+安装常规安装的方式有两种,pip安装或发行版安装
+以centos 8为pip安装方式为例。
+pip安装pip insta...</p>
+              </a>
+            
+          </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  <article class="post white-box reveal comments shadow">
+    <section class="article typo">
+      <p ct><i class='fas fa-comments'></i> 评论</p>
+      
+      
+      
+      
+        <section id="comments">
+          <div id="gitalk-container"></div>
+        </section>
+      
+      
+      
+      
+    </section>
+  </article>
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: 'php编译参数详解',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+  
+
+  
+    
+    
+
+
+  <section class="widget toc-wrapper shadow desktop mobile">
+    
+  <header>
+    
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#help"><span class="toc-text">help</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%BB%98%E8%AE%A4%E6%8B%93%E5%B1%95"><span class="toc-text">默认拓展</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE"><span class="toc-text">常用配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BE%9D%E8%B5%96%E5%AE%89%E8%A3%85"><span class="toc-text">依赖安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85"><span class="toc-text">编译安装</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8"><span class="toc-text">启动</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8Bini%E9%85%8D%E7%BD%AE"><span class="toc-text">查看ini配置</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE%E6%9C%8D%E5%8A%A1-amp-%E5%BC%80%E6%9C%BA%E5%90%AF%E5%8A%A8-centos-7"><span class="toc-text">设置服务&amp;开机启动(centos 7+)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE"><span class="toc-text">配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8-1"><span class="toc-text">启动</span></a></li></ol></li></ol>
+    </div>
+  </section>
+
+
+  
+
+
+</aside>
+
+
+  
+  <footer class="clearfix">
+    <br><br>
+    
+      
+        <div class="aplayer-container">
+          
+
+
+        </div>
+      
+    
+      
+        <br>
+        <div class="social-wrapper">
+          
+            
+              <a href="/atom.xml"
+                class="social fas fa-rss flat-btn"
+                target="_blank"
+                rel="external nofollow noopener noreferrer">
+              </a>
+            
+          
+            
+              <a href="mailto:visonforcoding@gmail.com"
+                class="social fas fa-envelope flat-btn"
+                target="_blank"
+                rel="external nofollow noopener noreferrer">
+              </a>
+            
+          
+            
+              <a href="https://music.163.com/#/user/home?id=63035382"
+                class="social fas fa-headphones-alt flat-btn"
+                target="_blank"
+                rel="external nofollow noopener noreferrer">
+              </a>
+            
+          
+        </div>
+      
+    
+      
+        <div><p>Blog content follows the <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en">Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) License</a></p>
+</div>
+      
+    
+      
+        Use
+        <a href="https://volantis.js.org/" target="_blank" class="codename">Volantis</a>
+        as theme, total visits
+          <span id="busuanzi_value_site_pv"><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
+          times
+        
+      
+    
+      
+        <div class='copyright'>
+        <p><a target="_blank" rel="noopener" href="https://visonforcoding.github.io">Copyright © 2017-2020 Vison</a></p>
+
+        </div>
+      
+    
+  </footer>
+
+<script>setLoadingBarProgress(80);</script>
+
+
+      <script>setLoadingBarProgress(60);</script>
+    </div>
+    <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+  </div>
+  
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4/dist/jquery.min.js"></script>
+
+
+  <script>
+    
+    var SEARCH_SERVICE = "hexo" || "hexo";
+    var ROOT = "/" || "/";
+    if (!ROOT.endsWith('/')) ROOT += '/';
+  </script>
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/instant_page.js" type="module" defer integrity="sha384-OeDn4XE77tdHo8pGtE1apMPmAipjoxUQ++eeJa6EtJCfHlvijigWiJpD7VDPWXV1"></script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/scrollreveal@4.0.6/dist/scrollreveal.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      ScrollReveal().reveal('.l_main .reveal', {
+        distance: '8px',
+        duration: '800',
+        interval: '100',
+        scale: '1'
+      });
+    });
+  </script>
+
+
+  
+<script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script>
+
+  <script type="text/javascript">
+    $(function() {
+      Waves.attach('.flat-btn', ['waves-button']);
+      Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+      Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+      Waves.attach('.flat-box', ['waves-block']);
+      Waves.attach('.float-box', ['waves-block', 'waves-float']);
+      Waves.attach('.waves-image');
+      Waves.init();
+    });
+  </script>
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js"></script>
+
+
+
+  
+  
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/jquery-backstretch@2.1.18/jquery.backstretch.min.js"></script>
+
+    <script type="text/javascript">
+      $(function(){
+        var imgs=["https://cdn.jsdelivr.net/gh/xaoxuu/cdn-wallpaper/abstract/41F215B9-261F-48B4-80B5-4E86E165259E.jpeg"];
+        if ('true' == 'true') {
+          function shuffle(arr){
+            /*From countercurrent-time*/
+            var n = arr.length;
+            while(n--) {
+              var index = Math.floor(Math.random() * n);
+              var temp = arr[index];
+              arr[index] = arr[n];
+              arr[n] = temp;
+            }
+          }
+          shuffle(imgs);
+        }
+        if ('.cover') {
+          $('.cover').backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        } else {
+          $.backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        }
+      });
+    </script>
+  
+
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+  <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+  <script type="text/javascript">
+    var gitalk = new Gitalk({
+      clientID: "bd4d3e0f680affe497d0",
+      clientSecret: "a31430007d9952541a4322ebf7219a0d127cc57d",
+      repo: "visonforcoding.github.io",
+      owner: "visonforcoding",
+      admin: "visonforcoding",
+      
+        id: (location.pathname.split("/").slice(-2)[0]).substring(0,49),      // Ensure uniqueness and length less than 50
+      
+      distractionFreeMode: false  // Facebook-like distraction free mode
+    });
+    gitalk.render('gitalk-container');
+  </script>
+
+
+
+
+
+
+
+
+  
+<script src="/js/app.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.6.5/js/search.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/comment_typing.js"></script>
+
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.1/build/highlight.min.js"></script>
+
+    <script>hljs.initHighlightingOnLoad();</script>
+  
+
+
+
+<!-- 复制 -->
+
+  <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="fas fa-copy"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-check-circle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('fa-check-circle');
+          $icon.addClass('fa-copy');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-times-circle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('fa-times-circle');
+          $icon.addClass('fa-copy');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+
+
+<!-- fancybox -->
+
+  <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script>
+  function pjax_fancybox() {
+    let LAZY_LOAD_IMAGE = "";
+    $(".article-entry").find("img").not('.inline').not('a img').each(function () { //渲染 fancybox
+      var element = document.createElement("a"); // a 标签
+      $(element).attr("pjax-fancybox", "");  // 过滤 pjax
+      if (LAZY_LOAD_IMAGE) {
+        $(element).attr("href", $(this).attr("data-original"));
+      }
+      $(element).attr("data-fancybox", "images");
+      var caption = "";   // 描述信息
+      if ($(this).attr('alt')) {  // 标准 markdown 描述信息
+        $(element).attr('data-caption', $(this).attr('alt'));
+        caption = $(this).attr('alt');
+      }
+      var div = document.createElement("div");
+      $(div).addClass("fancybox");
+      $(this).wrap(div); // 最外层套 div ，其实主要作用还是 class 样式
+      var span = document.createElement("span");
+      $(span).addClass("image-caption");
+      $(span).text(caption); // 加描述
+      $(this).after(span);  // 再套一层描述
+      $(this).wrap(element);  // 最后套 a 标签
+    })
+    $(".article-entry").find("img").fancybox({
+      selector: '[data-fancybox="images"]',
+      hash: false,
+      loop: false,
+      closeClick: true,
+      helpers: {
+        overlay: {closeClick: true}
+      },
+      buttons: [
+        "zoom",
+        "close"
+      ]
+    });
+  };
+  $(function () {
+    pjax_fancybox();
+  });
+</script>
+
+
+
+
+
+
+  <script>setLoadingBarProgress(100);</script>  
+</body>
+</html>

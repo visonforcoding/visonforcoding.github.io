@@ -458,6 +458,53 @@ Application calls Foo
     Bar does something</code></pre><p>依赖被集中创建和注入</p>
 <p><em>这样的好处是什么？举个例子吧</em></p>
 <p>如何你的一个Library X 使用了 Logger Y， 你想使用你自己定义的logger Z? 使用DI的话, 就不需要改变 Library X的代码了.</p>
+<h2 id="代码实例"><a href="#代码实例" class="headerlink" title="代码实例"></a>代码实例</h2><p>再来看看实例代码版本</p>
+<h3 id="非DI"><a href="#非DI" class="headerlink" title="非DI"></a>非DI</h3><pre><code class="php">class GoogleMaps
+&#123;
+    public function getCoordinatesFromAddress($address) &#123;
+        // calls Google Maps webservice
+    &#125;
+&#125;
+class OpenStreetMap
+&#123;
+    public function getCoordinatesFromAddress($address) &#123;
+        // calls OpenStreetMap webservice
+    &#125;
+&#125;</code></pre>
+<pre><code class="php">class StoreService
+&#123;
+    public function getStoreCoordinates($store) &#123;
+        $geolocationService = new GoogleMaps();
+        // or $geolocationService = GoogleMaps::getInstance() if you use singletons
+
+        return $geolocationService-&gt;getCoordinatesFromAddress($store-&gt;getAddress());
+    &#125;
+&#125;</code></pre>
+<p>业务场景很简单，就是获取店铺的坐标，情况是可以有2个或多个地图服务。</p>
+<h3 id="DI"><a href="#DI" class="headerlink" title="DI"></a>DI</h3><pre><code class="php">class StoreService &#123;
+    private $geolocationService;
+
+    public function __construct(GeolocationService $geolocationService) &#123;
+        $this-&gt;geolocationService = $geolocationService;
+    &#125;
+
+    public function getStoreCoordinates($store) &#123;
+        return $this-&gt;geolocationService-&gt;getCoordinatesFromAddress($store-&gt;getAddress());
+    &#125;
+&#125;</code></pre>
+<pre><code class="php">interface GeolocationService &#123;
+    public function getCoordinatesFromAddress($address);
+&#125;
+
+class GoogleMaps implements GeolocationService &#123; ...
+
+class OpenStreetMap implements GeolocationService &#123; ...</code></pre>
+<p>通过构造函数传入地图服务实例，不用对<code>StoreService</code>进行更改。<code>StoreService</code>不用关心是哪个地图服务，与依赖解耦开。</p>
+<h3 id="PHP-DI"><a href="#PHP-DI" class="headerlink" title="PHP-DI"></a>PHP-DI</h3><p>用PHP-DI进行实现，不用通过构造函数的方式进行传递地图服务。</p>
+<pre><code class="php">$storeService = $container-&gt;get(&#39;StoreService&#39;);</code></pre>
+<p>注入改为容器统一注入。</p>
+<pre><code class="php7">$container-&gt;set(&#39;GeolocationService&#39;, \DI\create(&#39;GoogleMaps&#39;));</code></pre>
+<p>引入了容器的概念的好处是，如果让容器在整个workflow里，则可以轻易的全局更改任何的依赖。</p>
 
           
             <div class='article_footer'>
@@ -539,7 +586,7 @@ Application calls Foo
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-09-09T11:50:50+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-09-09T14:49:35+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
     <p>更新于：Sep 9, 2021</p>
@@ -687,7 +734,7 @@ Application calls Foo
 
 
     <div class='content'>
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%83%8C%E6%99%AF"><span class="toc-text">背景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#what%E5%92%8Cwhy"><span class="toc-text">what和why</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%83%8C%E6%99%AF"><span class="toc-text">背景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#what%E5%92%8Cwhy"><span class="toc-text">what和why</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E4%BE%8B"><span class="toc-text">代码实例</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9D%9EDI"><span class="toc-text">非DI</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DI"><span class="toc-text">DI</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#PHP-DI"><span class="toc-text">PHP-DI</span></a></li></ol></li></ol>
     </div>
   </section>
 

@@ -5,8 +5,6 @@
   <!-- SEO相关 -->
   
     
-      <meta name="robots" content="noindex,follow">
-    
   
   <!-- 渲染优化 -->
   <meta name="renderer" content="webkit">
@@ -18,7 +16,7 @@
 
   <!-- 页面元数据 -->
   
-    <title>Tag: 技术工程 - 麦田麦穗</title>
+    <title>写好代码的七种武器之依赖注入 - 麦田麦穗</title>
   
   
 
@@ -346,25 +344,12 @@
     <div class='body-wrapper'>
       
 
-
 <div class='l_main'>
   
-    
-      
-  <section class="post-list ">
-    
-      
-        
-          
-        
-      
-    
-    
-      
-        
-          <div class='post-wrapper'>
-            <article class="post white-box shadow reveal ">
+
   
+    <article id="post" class="post white-box reveal shadow article-type-post" itemscope itemprop="blogPost">
+      
 
 
   <section class='meta'>
@@ -374,11 +359,11 @@
       <div class="meta" id="header-meta">
         
           
-  <h2 class="title">
-    <a href="/2021/07/30/%E4%BB%A3%E7%A0%81%E6%95%B4%E6%B4%81%E4%B9%8B%E9%81%93/">
-      代码整洁之道
+  <h1 class="title">
+    <a href="/2021/09/09/%E5%86%99%E5%A5%BD%E4%BB%A3%E7%A0%81%E7%9A%84%E4%B8%83%E7%A7%8D%E6%AD%A6%E5%99%A8%E4%B9%8B%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5/">
+      写好代码的七种武器之依赖注入
     </a>
-  </h2>
+  </h1>
 
 
         
@@ -406,27 +391,9 @@
               <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Jul 30, 2021</p>
+    <p>发布于：Sep 9, 2021</p>
   </a>
 </div>
-
-            
-          
-            
-              
-  <div class="new-meta-item wordcount">
-    <a class='notlink'>
-      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>1.8k words</p>
-    </a>
-  </div>
-  <div class="new-meta-item readtime">
-    <a class='notlink'>
-      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>6 min</p>
-    </a>
-  </div>
-
 
             
           
@@ -444,104 +411,93 @@
   </section>
 
 
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>软件质量不但依赖于架构及项目管理，还与代码质量紧密相关。</p>
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          
+          <p><img src="https://vison-blog.oss-cn-beijing.aliyuncs.com/20210909111628.png" alt=""></p>
+<p>在之前的文章中有说到，写好代码的原则。其中提到了<code>SOLID</code></p>
+<p>那么什么是<code>SOLID</code></p>
+<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>SOLID 原则首先由著名的计算机科学家 Robert C·Martin （著名的Bob大叔）由 2000 年在他的论文中提出。但是 SOLID 缩略词是稍晚由 Michael Feathers 先使用的。</p>
+<p>Bob大叔也是畅销书《代码整洁之道》和《架构整洁之道》的作者，也是 “Agile Alliance” 的成员。</p>
+<p>他们达成的目标是一致的：</p>
 <blockquote>
-<p>代码质量与整洁度成正比，干净的代码即在质量上较为可靠，也为后期维护、升级奠定良好基础。</p>
+<p>“创建可多人协作的、易于理解的、易读的以及可测试的代码。”</p>
 </blockquote>
-<p>另一种概念叫做<code>极限编程</code></p>
-<h2 id="原则"><a href="#原则" class="headerlink" title="原则"></a>原则</h2><ul>
-<li>SOLID</li>
-<li>DRY</li>
-<li>KISS</li>
+<p>现在依次看一下各个原则，SOLID 是以下是原则的缩写：</p>
+<ul>
+<li>S 单一职责原则</li>
+<li>O 开闭原则</li>
+<li>L 里氏替换原则</li>
+<li>I 接口隔离原则</li>
+<li>D 依赖反转原则</li>
 </ul>
-<h3 id="童子军军规"><a href="#童子军军规" class="headerlink" title="童子军军规"></a>童子军军规</h3><p><strong>让营地比你来时更干净</strong></p>
-      
-    </div>
-    
-      
-        <div class="button readmore">
-          <a href="/2021/07/30/%E4%BB%A3%E7%A0%81%E6%95%B4%E6%B4%81%E4%B9%8B%E9%81%93/">
-            Read More <i class="fas fa-chevron-right"></i>
-          </a>
-        </div>
-      
-    
-  </section>
-</article>
+<p>本文主要讲D 依赖反转原则</p>
+<h2 id="what和why"><a href="#what和why" class="headerlink" title="what和why"></a>what和why</h2><ol>
+<li>什么是依赖反转</li>
+<li>为什么需要依赖反转</li>
+</ol>
+<p>依赖注入DI是依赖反转的一种实现方式，<br>我看了很多定义描述我觉得都不如来一个实例对比更能解释清楚。</p>
+<p><em>先来看看不使用DI的案例</em></p>
+<pre><code>Application needs Foo (e.g. a controller), so:
+Application creates Foo
+Application calls Foo
+    Foo needs Bar (e.g. a service), so:
+    Foo creates Bar
+    Foo calls Bar
+        Bar needs Bim (a service, a repository, …), so:
+        Bar creates Bim
+        Bar does something</code></pre><p>可以看到的问题是:<code>依赖被分散层层创建</code></p>
+<p><em>再来看看使用DI的情况</em></p>
+<pre><code>Application needs Foo so:
+Application gets Foo from the Container, so:
+    Container creates Bim
+    Container creates Bar and gives it Bim
+    Container creates Foo and gives it Bar
+Application calls Foo
+    Foo calls Bar
+    Bar does something</code></pre><p>依赖被集中创建和注入</p>
+<p><em>这样的好处是什么？举个例子吧</em></p>
+<p>如何你的一个Library X 使用了 Logger Y， 你想使用你自己定义的logger Z? 使用DI的话, 就不需要改变 Library X的代码了.</p>
 
-          </div>
-        
-      
-    
-  </section>
-  
-    
-    <!-- 根据主题中的设置决定是否在archive中针对摘要部分的MathJax公式加载mathjax.js文件 -->
-    
-    
-
-  
-
-
-    
-  
-</div>
-<aside class='l_side'>
-  
+          
+            <div class='article_footer'>
+              
+                
   
     
     
 
-<section class="widget blogger shadow desktop mobile">
+
+
+  
+
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
   <div class='content'>
     
-      
-        <a class='avatar flat-box' href='/about/'>
-          <img no-lazy src='https://vison-blog.oss-cn-beijing.aliyuncs.com/20210603145600.png'/>
-        </a>
-      
-    
-    
-      <div class='text'>
-        
-        
-        
-          <p><span id="jinrishici-sentence">麦田麦穗</span></p>
-          <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
-        
-      </div>
-    
-    
-      <div class="social-wrapper">
+      <blockquote>
         
           
-            <a href="/atom.xml"
-              class="social fas fa-rss flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
+            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
           
         
           
-            <a href="mailto:visonforcoding@gmail.com"
-              class="social fas fa-envelope flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
+            <p>本文永久链接是：<a href=http://visonforcoding.xyz/2021/09/09/%E5%86%99%E5%A5%BD%E4%BB%A3%E7%A0%81%E7%9A%84%E4%B8%83%E7%A7%8D%E6%AD%A6%E5%99%A8%E4%B9%8B%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5/>http://visonforcoding.xyz/2021/09/09/%E5%86%99%E5%A5%BD%E4%BB%A3%E7%A0%81%E7%9A%84%E4%B8%83%E7%A7%8D%E6%AD%A6%E5%99%A8%E4%B9%8B%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5/</a></p>
           
         
-          
-            <a href="https://music.163.com/#/user/home?id=63035382"
-              class="social fas fa-headphones-alt flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
-          
-        
-      </div>
+      </blockquote>
     
   </div>
 </section>
@@ -552,29 +508,189 @@
     
     
 
+<section class="widget qrcode  desktop mobile">
+  
+
+  <div class='content article-entry'>
+    
+      
+        <div class='fancybox'><img src='https://vison-blog.oss-cn-beijing.aliyuncs.com/20210430145030.png'
+        
+          height='240px'
+        ></div>
+      
+    
+    请我喝杯咖啡
+  </div>
+</section>
+
+  
+
+
+              
+            </div>
+          
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-09-09T11:50:50+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：Sep 9, 2021</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://visonforcoding.xyz/2021/09/09/%E5%86%99%E5%A5%BD%E4%BB%A3%E7%A0%81%E7%9A%84%E4%B8%83%E7%A7%8D%E6%AD%A6%E5%99%A8%E4%B9%8B%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5/&title=写好代码的七种武器之依赖注入 - 麦田麦穗&summary="
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://visonforcoding.xyz/2021/09/09/%E5%86%99%E5%A5%BD%E4%BB%A3%E7%A0%81%E7%9A%84%E4%B8%83%E7%A7%8D%E6%AD%A6%E5%99%A8%E4%B9%8B%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5/&title=写好代码的七种武器之依赖注入 - 麦田麦穗&summary="
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="http://service.weibo.com/share/share.php?url=http://visonforcoding.xyz/2021/09/09/%E5%86%99%E5%A5%BD%E4%BB%A3%E7%A0%81%E7%9A%84%E4%B8%83%E7%A7%8D%E6%AD%A6%E5%99%A8%E4%B9%8B%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5/&title=写好代码的七种武器之依赖注入 - 麦田麦穗&summary="
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/weibo.png">
+          
+        </a>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+          <div class="prev-next">
+            
+            
+              <a class='next' href='/2021/09/06/%E5%85%B3%E4%BA%8EOKR%E7%9A%84%E6%80%9D%E8%80%83/'>
+                <p class='title'>关于OKR的思考<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>起因是由于我的老板在月初的时候又布置任务要求写下本月的关键目标Top3。也就是OKR Top3,并且要求用SMART原则。
+在此之前领导一直告诉我们KPI和OKR是分别用来管理销售团队和职能团队...</p>
+              </a>
+            
+          </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  <article class="post white-box reveal comments shadow">
+    <section class="article typo">
+      <p ct><i class='fas fa-comments'></i> 评论</p>
+      
+      
+      
+      
+        <section id="comments">
+          <div id="gitalk-container"></div>
+        </section>
+      
+      
+      
+      
+    </section>
+  </article>
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: '写好代码的七种武器之依赖注入',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
   
 
   
     
     
-  
 
-  <section class="widget tagcloud shadow desktop mobile">
+
+  <section class="widget toc-wrapper shadow desktop mobile">
     
   <header>
     
-      <a href='/blog/tags/'><i class="fas fa-tags fa-fw" aria-hidden="true"></i><span class='name'>热门标签</span></a>
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
     
   </header>
 
 
     <div class='content'>
-      <a href="/tags/JAVA/" style="font-size: 14px; color: #999">JAVA</a> <a href="/tags/Java/" style="font-size: 14px; color: #999">Java</a> <a href="/tags/PHP/" style="font-size: 16px; color: #8b8b8b">PHP</a> <a href="/tags/devops/" style="font-size: 14px; color: #999">devops</a> <a href="/tags/docker/" style="font-size: 14px; color: #999">docker</a> <a href="/tags/java/" style="font-size: 24px; color: #555">java</a> <a href="/tags/java-spring-boot/" style="font-size: 14px; color: #999">java spring-boot</a> <a href="/tags/kafka/" style="font-size: 14px; color: #999">kafka</a> <a href="/tags/mysql/" style="font-size: 20px; color: #707070">mysql</a> <a href="/tags/php/" style="font-size: 22px; color: #636363">php</a> <a href="/tags/php-linux/" style="font-size: 14px; color: #999">php linux</a> <a href="/tags/python/" style="font-size: 18px; color: #7e7e7e">python</a> <a href="/tags/spring-boot/" style="font-size: 14px; color: #999">spring-boot</a> <a href="/tags/web/" style="font-size: 16px; color: #8b8b8b">web</a> <a href="/tags/web%E5%89%8D%E7%AB%AF/" style="font-size: 14px; color: #999">web前端</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E5%B7%A5%E7%A8%8B/" style="font-size: 14px; color: #999">技术工程</a> <a href="/tags/%E6%96%B9%E6%A1%88/" style="font-size: 14px; color: #999">方案</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 14px; color: #999">架构</a> <a href="/tags/%E7%A8%8B%E5%BA%8F%E4%BA%BA%E7%94%9F/" style="font-size: 14px; color: #999">程序人生</a> <a href="/tags/%E7%AE%A1%E7%90%86/" style="font-size: 14px; color: #999">管理</a> <a href="/tags/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/" style="font-size: 14px; color: #999">软件工程</a> <a href="/tags/%E8%BF%90%E7%BB%B4/" style="font-size: 14px; color: #999">运维</a> <a href="/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 14px; color: #999">随笔</a>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%83%8C%E6%99%AF"><span class="toc-text">背景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#what%E5%92%8Cwhy"><span class="toc-text">what和why</span></a></li></ol>
     </div>
   </section>
 
-
-  
 
   
 
@@ -750,6 +866,23 @@
 
 
 
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+  <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+  <script type="text/javascript">
+    var gitalk = new Gitalk({
+      clientID: "bd4d3e0f680affe497d0",
+      clientSecret: "a31430007d9952541a4322ebf7219a0d127cc57d",
+      repo: "visonforcoding.github.io",
+      owner: "visonforcoding",
+      admin: "visonforcoding",
+      
+        id: (location.pathname.split("/").slice(-2)[0]).substring(0,49),      // Ensure uniqueness and length less than 50
+      
+      distractionFreeMode: false  // Facebook-like distraction free mode
+    });
+    gitalk.render('gitalk-container');
+  </script>
 
 
 

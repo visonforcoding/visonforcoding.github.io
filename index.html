@@ -540,9 +540,153 @@
         
           
         
+          
+        
       
     
     
+      
+        
+          <div class='post-wrapper'>
+            <article class="post white-box shadow reveal ">
+  
+
+
+  <section class='meta'>
+    
+      
+      
+      <div class="meta" id="header-meta">
+        
+          
+  <h2 class="title">
+    <a href="/2021/09/09/%E5%86%99%E5%A5%BD%E4%BB%A3%E7%A0%81%E7%9A%84%E4%B8%83%E7%A7%8D%E6%AD%A6%E5%99%A8%E4%B9%8B%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5/">
+      写好代码的七种武器之依赖注入
+    </a>
+  </h2>
+
+
+        
+        <div class='new-meta-box'>
+          
+            
+          
+            
+              
+<div class='new-meta-item author'>
+  <a href="" rel="nofollow">
+    <img src="https://vison-blog.oss-cn-beijing.aliyuncs.com/20210603145600.png">
+    <p>vison</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+
+            
+          
+            
+              <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：Sep 9, 2021</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>459 words</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>1 min</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              
+
+            
+          
+        </div>
+        
+          <hr>
+        
+      </div>
+    
+  </section>
+
+
+  <section class="article typo">
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="https://vison-blog.oss-cn-beijing.aliyuncs.com/20210909111628.png" alt=""></p>
+<p>在之前的文章中有说到，写好代码的原则。其中提到了<code>SOLID</code></p>
+<p>那么什么是<code>SOLID</code></p>
+<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>SOLID 原则首先由著名的计算机科学家 Robert C·Martin （著名的Bob大叔）由 2000 年在他的论文中提出。但是 SOLID 缩略词是稍晚由 Michael Feathers 先使用的。</p>
+<p>Bob大叔也是畅销书《代码整洁之道》和《架构整洁之道》的作者，也是 “Agile Alliance” 的成员。</p>
+<p>他们达成的目标是一致的：</p>
+<blockquote>
+<p>“创建可多人协作的、易于理解的、易读的以及可测试的代码。”</p>
+</blockquote>
+<p>现在依次看一下各个原则，SOLID 是以下是原则的缩写：</p>
+<ul>
+<li>S 单一职责原则</li>
+<li>O 开闭原则</li>
+<li>L 里氏替换原则</li>
+<li>I 接口隔离原则</li>
+<li>D 依赖反转原则</li>
+</ul>
+<p>本文主要讲D 依赖反转原则</p>
+<h2 id="what和why"><a href="#what和why" class="headerlink" title="what和why"></a>what和why</h2><ol>
+<li>什么是依赖反转</li>
+<li>为什么需要依赖反转</li>
+</ol>
+<p>依赖注入DI是依赖反转的一种实现方式，<br>我看了很多定义描述我觉得都不如来一个实例对比更能解释清楚。</p>
+<p><em>先来看看不使用DI的案例</em></p>
+<pre><code>Application needs Foo (e.g. a controller), so:
+Application creates Foo
+Application calls Foo
+    Foo needs Bar (e.g. a service), so:
+    Foo creates Bar
+    Foo calls Bar
+        Bar needs Bim (a service, a repository, …), so:
+        Bar creates Bim
+        Bar does something</code></pre><p>可以看到的问题是:<code>依赖被分散层层创建</code></p>
+<p><em>再来看看使用DI的情况</em></p>
+<pre><code>Application needs Foo so:
+Application gets Foo from the Container, so:
+    Container creates Bim
+    Container creates Bar and gives it Bim
+    Container creates Foo and gives it Bar
+Application calls Foo
+    Foo calls Bar
+    Bar does something</code></pre><p>依赖被集中创建和注入</p>
+<p><em>这样的好处是什么？举个例子吧</em></p>
+<p>如何你的一个Library X 使用了 Logger Y， 你想使用你自己定义的logger Z? 使用DI的话, 就不需要改变 Library X的代码了.</p>
+
+      
+    </div>
+    
+      
+    
+  </section>
+</article>
+
+          </div>
+        
       
         
           <div class='post-wrapper'>
@@ -741,6 +885,11 @@
 <p>代码质量与整洁度成正比，干净的代码即在质量上较为可靠，也为后期维护、升级奠定良好基础。</p>
 </blockquote>
 <p>另一种概念叫做<code>极限编程</code></p>
+<h2 id="原则"><a href="#原则" class="headerlink" title="原则"></a>原则</h2><ul>
+<li>SOLID</li>
+<li>DRY</li>
+<li>KISS</li>
+</ul>
 <h3 id="童子军军规"><a href="#童子军军规" class="headerlink" title="童子军军规"></a>童子军军规</h3><p><strong>让营地比你来时更干净</strong></p>
       
     </div>
@@ -1550,119 +1699,6 @@ interactive_timeout=100</code></pre>
       
         <div class="button readmore">
           <a href="/2021/03/03/%E7%BC%96%E5%8F%91%E7%BC%96%E7%A8%8B%E6%97%A5%E8%AE%B0-%E7%BA%BF%E7%A8%8B%E4%B8%8D%E5%AE%89%E5%85%A8%E7%9A%84%E5%8D%B1%E5%AE%B3/">
-            Read More <i class="fas fa-chevron-right"></i>
-          </a>
-        </div>
-      
-    
-  </section>
-</article>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <article class="post white-box shadow reveal ">
-  
-
-
-  <section class='meta'>
-    
-      
-      
-      <div class="meta" id="header-meta">
-        
-          
-  <h2 class="title">
-    <a href="/2021/02/23/java/spring-boot%E8%AE%B0%E5%BD%95sql%E6%8E%A2%E7%B4%A2/">
-      spring-boot记录sql探索
-    </a>
-  </h2>
-
-
-        
-        <div class='new-meta-box'>
-          
-            
-          
-            
-              
-<div class='new-meta-item author'>
-  <a href="" rel="nofollow">
-    <img src="https://vison-blog.oss-cn-beijing.aliyuncs.com/20210603145600.png">
-    <p>vison</p>
-  </a>
-</div>
-
-            
-          
-            
-              
-
-            
-          
-            
-              <div class="new-meta-item date">
-  <a class='notlink'>
-    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Feb 23, 2021</p>
-  </a>
-</div>
-
-            
-          
-            
-              
-  <div class="new-meta-item wordcount">
-    <a class='notlink'>
-      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>1.6k words</p>
-    </a>
-  </div>
-  <div class="new-meta-item readtime">
-    <a class='notlink'>
-      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>7 min</p>
-    </a>
-  </div>
-
-
-            
-          
-            
-              
-
-            
-          
-        </div>
-        
-          <hr>
-        
-      </div>
-    
-  </section>
-
-
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>目标记录每次请求内的http、es、mysql耗时，本篇讨论mysql部分</p>
-</blockquote>
-<p>为什么说要探索，这不是很简单的事么？但是能满足以下几点么？</p>
-<ul>
-<li>能记录limit等参数</li>
-<li>能将参数和sql写一起，能直接使用</li>
-<li>能记录耗时</li>
-<li>能计数累加,统计一次请求中sql执行的总数和总耗时</li>
-</ul>
-      
-    </div>
-    
-      
-        <div class="button readmore">
-          <a href="/2021/02/23/java/spring-boot%E8%AE%B0%E5%BD%95sql%E6%8E%A2%E7%B4%A2/">
             Read More <i class="fas fa-chevron-right"></i>
           </a>
         </div>

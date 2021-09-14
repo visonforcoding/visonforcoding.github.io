@@ -19,6 +19,10 @@
     <title>写好代码的七种武器之依赖注入 - 麦田麦穗</title>
   
   
+    <meta name="description" content="
+在之前的文章中有说到，写好代码的原则。其中提到了SOLID
+那么什么是SOLID">
+  
 
   <!-- feed -->
   
@@ -417,6 +421,8 @@
           <p><img src="https://vison-blog.oss-cn-beijing.aliyuncs.com/20210909111628.png" alt=""></p>
 <p>在之前的文章中有说到，写好代码的原则。其中提到了<code>SOLID</code></p>
 <p>那么什么是<code>SOLID</code></p>
+<span id="more"></span>
+
 <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>SOLID 原则首先由著名的计算机科学家 Robert C·Martin （著名的Bob大叔）由 2000 年在他的论文中提出。但是 SOLID 缩略词是稍晚由 Michael Feathers 先使用的。</p>
 <p>Bob大叔也是畅销书《代码整洁之道》和《架构整洁之道》的作者，也是 “Agile Alliance” 的成员。</p>
 <p>他们达成的目标是一致的：</p>
@@ -586,10 +592,10 @@ class OpenStreetMap implements GeolocationService &#123; ...</code></pre>
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-09-09T14:49:35+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-09-14T16:56:02+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Sep 9, 2021</p>
+    <p>更新于：Sep 14, 2021</p>
   </a>
 </div>
 
@@ -613,7 +619,9 @@ class OpenStreetMap implements GeolocationService &#123; ...</code></pre>
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer noopener"
           
-          target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://visonforcoding.xyz/2021/09/09/%E5%86%99%E5%A5%BD%E4%BB%A3%E7%A0%81%E7%9A%84%E4%B8%83%E7%A7%8D%E6%AD%A6%E5%99%A8%E4%B9%8B%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5/&title=写好代码的七种武器之依赖注入 - 麦田麦穗&summary="
+          target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://visonforcoding.xyz/2021/09/09/%E5%86%99%E5%A5%BD%E4%BB%A3%E7%A0%81%E7%9A%84%E4%B8%83%E7%A7%8D%E6%AD%A6%E5%99%A8%E4%B9%8B%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5/&title=写好代码的七种武器之依赖注入 - 麦田麦穗&summary=
+在之前的文章中有说到，写好代码的原则。其中提到了SOLID
+那么什么是SOLID"
           
           >
           
@@ -625,7 +633,9 @@ class OpenStreetMap implements GeolocationService &#123; ...</code></pre>
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer noopener"
           
-          target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://visonforcoding.xyz/2021/09/09/%E5%86%99%E5%A5%BD%E4%BB%A3%E7%A0%81%E7%9A%84%E4%B8%83%E7%A7%8D%E6%AD%A6%E5%99%A8%E4%B9%8B%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5/&title=写好代码的七种武器之依赖注入 - 麦田麦穗&summary="
+          target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://visonforcoding.xyz/2021/09/09/%E5%86%99%E5%A5%BD%E4%BB%A3%E7%A0%81%E7%9A%84%E4%B8%83%E7%A7%8D%E6%AD%A6%E5%99%A8%E4%B9%8B%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5/&title=写好代码的七种武器之依赖注入 - 麦田麦穗&summary=
+在之前的文章中有说到，写好代码的原则。其中提到了SOLID
+那么什么是SOLID"
           
           >
           
@@ -637,7 +647,9 @@ class OpenStreetMap implements GeolocationService &#123; ...</code></pre>
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer noopener"
           
-          target="_blank" href="http://service.weibo.com/share/share.php?url=http://visonforcoding.xyz/2021/09/09/%E5%86%99%E5%A5%BD%E4%BB%A3%E7%A0%81%E7%9A%84%E4%B8%83%E7%A7%8D%E6%AD%A6%E5%99%A8%E4%B9%8B%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5/&title=写好代码的七种武器之依赖注入 - 麦田麦穗&summary="
+          target="_blank" href="http://service.weibo.com/share/share.php?url=http://visonforcoding.xyz/2021/09/09/%E5%86%99%E5%A5%BD%E4%BB%A3%E7%A0%81%E7%9A%84%E4%B8%83%E7%A7%8D%E6%AD%A6%E5%99%A8%E4%B9%8B%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5/&title=写好代码的七种武器之依赖注入 - 麦田麦穗&summary=
+在之前的文章中有说到，写好代码的原则。其中提到了SOLID
+那么什么是SOLID"
           
           >
           

@@ -539,98 +539,15 @@
         <p><img src="https://vison-blog.oss-cn-beijing.aliyuncs.com/20210909111628.png" alt=""></p>
 <p>在之前的文章中有说到，写好代码的原则。其中提到了<code>SOLID</code></p>
 <p>那么什么是<code>SOLID</code></p>
-<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>SOLID 原则首先由著名的计算机科学家 Robert C·Martin （著名的Bob大叔）由 2000 年在他的论文中提出。但是 SOLID 缩略词是稍晚由 Michael Feathers 先使用的。</p>
-<p>Bob大叔也是畅销书《代码整洁之道》和《架构整洁之道》的作者，也是 “Agile Alliance” 的成员。</p>
-<p>他们达成的目标是一致的：</p>
-<blockquote>
-<p>“创建可多人协作的、易于理解的、易读的以及可测试的代码。”</p>
-</blockquote>
-<p>现在依次看一下各个原则，SOLID 是以下是原则的缩写：</p>
-<ul>
-<li>S 单一职责原则</li>
-<li>O 开闭原则</li>
-<li>L 里氏替换原则</li>
-<li>I 接口隔离原则</li>
-<li>D 依赖反转原则</li>
-</ul>
-<p>本文主要讲D 依赖反转原则</p>
-<h2 id="what和why"><a href="#what和why" class="headerlink" title="what和why"></a>what和why</h2><ol>
-<li>什么是依赖反转</li>
-<li>为什么需要依赖反转</li>
-</ol>
-<p>依赖注入DI是依赖反转的一种实现方式，<br>我看了很多定义描述我觉得都不如来一个实例对比更能解释清楚。</p>
-<p><em>先来看看不使用DI的案例</em></p>
-<pre><code>Application needs Foo (e.g. a controller), so:
-Application creates Foo
-Application calls Foo
-    Foo needs Bar (e.g. a service), so:
-    Foo creates Bar
-    Foo calls Bar
-        Bar needs Bim (a service, a repository, …), so:
-        Bar creates Bim
-        Bar does something</code></pre><p>可以看到的问题是:<code>依赖被分散层层创建</code></p>
-<p><em>再来看看使用DI的情况</em></p>
-<pre><code>Application needs Foo so:
-Application gets Foo from the Container, so:
-    Container creates Bim
-    Container creates Bar and gives it Bim
-    Container creates Foo and gives it Bar
-Application calls Foo
-    Foo calls Bar
-    Bar does something</code></pre><p>依赖被集中创建和注入</p>
-<p><em>这样的好处是什么？举个例子吧</em></p>
-<p>如何你的一个Library X 使用了 Logger Y， 你想使用你自己定义的logger Z? 使用DI的话, 就不需要改变 Library X的代码了.</p>
-<h2 id="代码实例"><a href="#代码实例" class="headerlink" title="代码实例"></a>代码实例</h2><p>再来看看实例代码版本</p>
-<h3 id="非DI"><a href="#非DI" class="headerlink" title="非DI"></a>非DI</h3><pre><code class="php">class GoogleMaps
-&#123;
-    public function getCoordinatesFromAddress($address) &#123;
-        // calls Google Maps webservice
-    &#125;
-&#125;
-class OpenStreetMap
-&#123;
-    public function getCoordinatesFromAddress($address) &#123;
-        // calls OpenStreetMap webservice
-    &#125;
-&#125;</code></pre>
-<pre><code class="php">class StoreService
-&#123;
-    public function getStoreCoordinates($store) &#123;
-        $geolocationService = new GoogleMaps();
-        // or $geolocationService = GoogleMaps::getInstance() if you use singletons
-
-        return $geolocationService-&gt;getCoordinatesFromAddress($store-&gt;getAddress());
-    &#125;
-&#125;</code></pre>
-<p>业务场景很简单，就是获取店铺的坐标，情况是可以有2个或多个地图服务。</p>
-<h3 id="DI"><a href="#DI" class="headerlink" title="DI"></a>DI</h3><pre><code class="php">class StoreService &#123;
-    private $geolocationService;
-
-    public function __construct(GeolocationService $geolocationService) &#123;
-        $this-&gt;geolocationService = $geolocationService;
-    &#125;
-
-    public function getStoreCoordinates($store) &#123;
-        return $this-&gt;geolocationService-&gt;getCoordinatesFromAddress($store-&gt;getAddress());
-    &#125;
-&#125;</code></pre>
-<pre><code class="php">interface GeolocationService &#123;
-    public function getCoordinatesFromAddress($address);
-&#125;
-
-class GoogleMaps implements GeolocationService &#123; ...
-
-class OpenStreetMap implements GeolocationService &#123; ...</code></pre>
-<p>通过构造函数传入地图服务实例，不用对<code>StoreService</code>进行更改。<code>StoreService</code>不用关心是哪个地图服务，与依赖解耦开。</p>
-<h3 id="PHP-DI"><a href="#PHP-DI" class="headerlink" title="PHP-DI"></a>PHP-DI</h3><p>用PHP-DI进行实现，不用通过构造函数的方式进行传递地图服务。</p>
-<pre><code class="php">$storeService = $container-&gt;get(&#39;StoreService&#39;);</code></pre>
-<p>注入改为容器统一注入。</p>
-<pre><code class="php7">$container-&gt;set(&#39;GeolocationService&#39;, \DI\create(&#39;GoogleMaps&#39;));</code></pre>
-<p>引入了容器的概念的好处是，如果让容器在整个workflow里，则可以轻易的全局更改任何的依赖。</p>
-
       
     </div>
     
+      
+        <div class="button readmore">
+          <a href="/2021/09/09/%E5%86%99%E5%A5%BD%E4%BB%A3%E7%A0%81%E7%9A%84%E4%B8%83%E7%A7%8D%E6%AD%A6%E5%99%A8%E4%B9%8B%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5/">
+            Read More <i class="fas fa-chevron-right"></i>
+          </a>
+        </div>
       
     
   </section>

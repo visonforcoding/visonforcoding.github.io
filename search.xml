@@ -4,6 +4,19 @@
   
     
     <entry>
+      <title>PHPStorm使用配置</title>
+      <link href="2021/09/24/PHPStorm%E4%BD%BF%E7%94%A8%E9%85%8D%E7%BD%AE/"/>
+      <url>2021/09/24/PHPStorm%E4%BD%BF%E7%94%A8%E9%85%8D%E7%BD%AE/</url>
+      
+        <content type="html"><![CDATA[<p>最近又开始使用PHPStorm了，为什么是”又”？因为断断续续使用过几次，都中断过。要破解感觉还是麻烦，一直使用netbeans也感觉没什么问题。</p><p>由于最近在考虑<code>doctrine\annotation</code>,netbeans的支持能力还是不足，所以又开始体验<code>phpstorm</code>.<br>几个在netbeans里喜欢的功能，千方百计开始在phpstorm找回来。以下是记录。</p><span id="more"></span><h2 id="项目名显示git分支"><a href="#项目名显示git分支" class="headerlink" title="项目名显示git分支"></a>项目名显示git分支</h2><p><img src="https://vison-blog.oss-cn-beijing.aliyuncs.com/20210924174001.png" alt=""></p><p>如图，由于经常切换分支。有时候可能会在错误的分支上进行开发，项目名后面标上分支名这个功能我很喜欢。</p><p>发现phpstorm使用<code>GitToolBox</code>可以解决。</p><h2 id="关闭显示项目路径"><a href="#关闭显示项目路径" class="headerlink" title="关闭显示项目路径"></a>关闭显示项目路径</h2><p>但是还有个问题是，项目名会显示项目地址，这点很烦。可以通过自定义phpstorm属性办到。</p><p>打开 Help/Edit Custom Properties…</p><p>新建 idea.properties file</p><pre><code class="ini">project.tree.structure.show.url=falseide.tree.horizontal.default.autoscrolling=false</code></pre>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>写好代码的七种武器之依赖注入</title>
       <link href="2021/09/09/%E5%86%99%E5%A5%BD%E4%BB%A3%E7%A0%81%E7%9A%84%E4%B8%83%E7%A7%8D%E6%AD%A6%E5%99%A8%E4%B9%8B%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5/"/>
       <url>2021/09/09/%E5%86%99%E5%A5%BD%E4%BB%A3%E7%A0%81%E7%9A%84%E4%B8%83%E7%A7%8D%E6%AD%A6%E5%99%A8%E4%B9%8B%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5/</url>

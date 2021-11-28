@@ -4,6 +4,63 @@
   
     
     <entry>
+      <title>servlet | servlet学习笔记</title>
+      <link href="2021/11/28/java/servlet%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
+      <url>2021/11/28/java/servlet%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</url>
+      
+        <content type="html"><![CDATA[<h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p><img src="https://vison-blog.oss-cn-beijing.aliyuncs.com/20211128120653.png" alt=""></p><p>简单而言，Servlet是一个API，本质上的实现是由承载的Servlet容器去处理。通过Java多线程处理并响应客户端的Http Request。</p><span id="more"></span><h2 id="历史"><a href="#历史" class="headerlink" title="历史"></a>历史</h2><p><img src="https://vison-blog.oss-cn-beijing.aliyuncs.com/20211128105759.png" alt=""></p><p>截止目前，最新版本规范为6.0。</p><h2 id="过滤器-Filter"><a href="#过滤器-Filter" class="headerlink" title="过滤器 Filter"></a>过滤器 Filter</h2><p>在HTTP请求到达Servlet之前，可以被一个或多个Filter预处理，类似打印日志、登录检查等逻辑，完全可以放到Filter中。</p><p><img src="https://vison-blog.oss-cn-beijing.aliyuncs.com/20211128110826.png" alt=""></p><p>Filter不光能拦截请求，对请求进行预处理，还能够修改返回。</p><p><img src="https://vison-blog.oss-cn-beijing.aliyuncs.com/20211128111038.png" alt=""></p><h2 id="事件监听器-Listener"><a href="#事件监听器-Listener" class="headerlink" title="事件监听器 Listener"></a>事件监听器 Listener</h2><p>Servlet 侦听器用于侦听 Web 容器中的事件，例如，当您创建会话时，或在会话中放置属性时，或者如果您在另一个容器中被动化并激活时，要订阅这些事件，</p><p><img src="https://vison-blog.oss-cn-beijing.aliyuncs.com/20211128111619.png" alt=""></p><h3 id="事件类型"><a href="#事件类型" class="headerlink" title="事件类型"></a>事件类型</h3><ol><li><p><strong>javax.servlet.AsyncEvent</strong> – 在 ServletRequest 上启动的异步操作（通过调用 ServletRequest#startAsync 或ServletRequest#startAsync（ServletRequest， ServletResponse））完成、超时或产生错误时触发的事件。</p></li><li><p><strong>javax.servlet.http.HttpSessionBindingEvent</strong> – 当会话绑定或取消绑定 HttpSessionListener 时，这种类型的事件要么发送到实现 HttpSessionBindingListener 的对象，要么发送到在 Web 中配置的 </p></li><li><p><strong>HttpSessionAttributeListener</strong>当任何属性在会话中被绑定、取消绑定或替换时。会话通过调用 HttpSession.setAttribute 绑定对象，并通过调用 HttpSession.removeAttribute 解除绑定对象。<br>当对象从会话中删除时，我们可以将此事件用于清理活动。</p></li><li><p><strong>javax.servlet.http.HttpSessionEvent</strong> – 这是一个类，表示 Web 应用程序中会话更改的事件通知。</p></li><li><p><strong>javax.servlet.ServletContextAttributeEvent</strong> – 事件类，用于通知有关 Web 应用程序 ServletContext 属性的更改。</p></li><li><p><strong>javax.servlet.ServletContextEvent</strong>– 这是有关 Web 应用程序 servlet 上下文更改的通知的事件类。</p></li><li><p><strong>javax.servlet.ServletRequestEvent</strong> – 此类事件表示 ServletRequest 的生命周期事件。该事件的源是此 Web 应用程序的 ServletContext。</p></li><li><p><strong>javax.servlet.ServletRequestAttributeEvent</strong>– 这是一个事件类，用于通知应用程序中 servlet 请求的属性的更改。</p></li></ol><h2 id="注解"><a href="#注解" class="headerlink" title="注解"></a>注解</h2><p>在2005年的servlet 2.5中引入了注解能力，可以不再配置太多xml。</p><p><code>@WebServlet</code> </p><p>声明java类为servlet</p><p><code>@WebInitParam</code> </p><p>作为<code>WebServlet</code>参数注解。初始化serverl参数。</p><pre><code class="java">@WebServlet(  name = &quot;BankAccountServlet&quot;,   description = &quot;Represents a Bank Account and it&#39;s transactions&quot;,   urlPatterns = &#123;&quot;/account&quot;, &quot;/bankAccount&quot; &#125;,   initParams = &#123; @WebInitParam(name = &quot;type&quot;, value = &quot;savings&quot;)&#125;)public class AccountServlet extends javax.servlet.http.HttpServlet &#123;    String accountType = null;    public void init(ServletConfig config) throws ServletException &#123;        accountType = config.getInitParameter(&quot;type&quot;);    &#125;    public void doPost(HttpServletRequest request, HttpServletResponse response)       throws IOException &#123;        // ...    &#125;&#125;</code></pre><p><code>@WebFilter</code></p><p>声明过滤器，如果要对请求进行拦截、修改而不影响逻辑代码。</p><pre><code class="java">@WebFilter(  urlPatterns = &quot;/account/*&quot;,  filterName = &quot;LoggingFilter&quot;,  description = &quot;Filter all account transaction URLs&quot;)public class LogInFilter implements javax.servlet.Filter &#123;    public void init(FilterConfig filterConfig) throws ServletException &#123;    &#125;    public void doFilter(        ServletRequest request, ServletResponse response, FilterChain chain)           throws IOException, ServletException &#123;        HttpServletRequest req = (HttpServletRequest) request;        HttpServletResponse res = (HttpServletResponse) response;        res.sendRedirect(req.getContextPath() + &quot;/login.jsp&quot;);        chain.doFilter(request, response);    &#125;    public void destroy() &#123;    &#125;&#125;</code></pre><p><code>@WebListener</code></p><p>声明事件监听器。</p><pre><code class="java">@WebListenerpublic class BankAppServletContextListener   implements ServletContextListener &#123;    public void contextInitialized(ServletContextEvent sce) &#123;         sce.getServletContext().setAttribute(&quot;ATTR_DEFAULT_LANGUAGE&quot;, &quot;english&quot;);     &#125;     public void contextDestroyed(ServletContextEvent sce) &#123;         // ...     &#125; &#125;</code></pre><p><code>@ServletSecurity</code>、<code>@HttpConstraint</code>、<code>@HttpMethodConstraint</code></p><p>类似nginx认证功能</p><p><code>@MultipartConfig</code></p><p>处理文件上传配置</p><pre><code class="java">@WebServlet(urlPatterns = &#123; &quot;/uploadCustDocs&quot; &#125;)@MultipartConfig(  fileSizeThreshold = 1024 * 1024 * 20,  maxFileSize = 1024 * 1024 * 20,  maxRequestSize = 1024 * 1024 * 25,  location = &quot;./custDocs&quot;)public class UploadCustomerDocumentsServlet extends HttpServlet &#123;    protected void doPost(HttpServletRequest request, HttpServletResponse response)       throws ServletException, IOException &#123;        for (Part part : request.getParts()) &#123;            part.write(&quot;myFile&quot;);        &#125;    &#125;&#125;</code></pre><h2 id="参考阅读"><a href="#参考阅读" class="headerlink" title="参考阅读"></a>参考阅读</h2><ol><li><a href="https://o7planning.org/10395/java-servlet-filter">https://o7planning.org/10395/java-servlet-filter</a></li><li><a href="https://www.codejava.net/java-ee/servlet/how-to-modify-http-response-using-java-filter">https://www.codejava.net/java-ee/servlet/how-to-modify-http-response-using-java-filter 如何使用filter修改response</a></li><li><a href="https://en.wikipedia.org/wiki/Jakarta_Servlet">https://en.wikipedia.org/wiki/Jakarta_Servlet 维基servlet</a></li><li><a href="https://www.baeldung.com/javaee-web-annotations">Java-web-注解 www.baeldung.com</a></li><li><a href="https://www.simplilearn.com/tutorials/java-tutorial/java-servlets">Java-servlets</a></li></ol>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> java </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>HTTP本质</title>
+      <link href="2021/10/30/java/%E6%98%A5%E5%A4%A9%E4%B9%8B%E5%89%8D-http/"/>
+      <url>2021/10/30/java/%E6%98%A5%E5%A4%A9%E4%B9%8B%E5%89%8D-http/</url>
+      
+        <content type="html"><![CDATA[<blockquote><p>试图跳过spring,而学习spring boot是不可能的。学习java web开发，从基础开始学习。就应当了解http、servlet、tomcat</p></blockquote><span id="more"></span><ul><li>起源</li><li>它解决什么问题</li><li>实现原理</li></ul><h1 id="起源"><a href="#起源" class="headerlink" title="起源"></a>起源</h1><p>1980年6月至12月间，伯纳斯-李在的CERN（欧洲核子研究组织）担任工作。实验室的研究人员需要大量的信息查阅或沟通。在那段时间里，他提出了个构想：创建一个以超文本系统为基础的项目，方便研究人员分享及更新讯息。</p><p><img src="https://vison-blog.oss-cn-beijing.aliyuncs.com/20201222144257.png" alt=""></p><p>1989年3月，他写下了他的初步构想，并在1990年重新配置。然后被他的经理麦克·森德尔（Mike Sendall）所接受。他使用与ENQUIRE系统相似的概念来创建万维网，为此他设计并构建了第一个网页浏览器。</p><p>世界上第一个网站在CERN搭建，而CERN则位于法国边境。网站在1991年8月6日上线。</p><p>上线 的第一个网址，<a href="http://info.cern.ch/hypertext/WWW/TheProject.html">http://info.cern.ch/hypertext/WWW/TheProject.html</a> 告诉人们万维网是什么，用户如何使用浏览器，如何创建网页服务器。</p><h1 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h1><p>设计HTTP最初的目的是为了提供一种发布和接收HTML页面的方法。</p><p><img src="https://vison-blog.oss-cn-beijing.aliyuncs.com/20201218163846.png" alt=""></p><h1 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h1><p>一个连接是由传输层来控制的，这从根本上不属于HTTP的范围。HTTP并不需要其底层的传输层协议是面向连接的，只需要它是可靠的，或不丢失消息的（至少返回错误）。在互联网中，有两个最常用的传输层协议：TCP是可靠的，而UDP不是。因此，HTTP依赖于面向连接的TCP进行消息传递，但连接并不是必须的。因此通过socket编程就能实现http协议。</p><pre><code class="java">public class Server &#123;    private static int port = 8081;    public static void main(String[] args) throws IOException &#123;        ServerSocket ss = new ServerSocket(port); // 监听指定端口        System.out.println(&quot;server is running...&quot;);        for (;;) &#123;            Socket sock = ss.accept();            System.out.println(&quot;connected from &quot; + sock.getRemoteSocketAddress());            Thread t = new Handler(sock);            t.start();        &#125;    &#125;&#125;public class Handler extends Thread &#123;    Socket sock;    public Handler(Socket sock) &#123;        this.sock = sock;    &#125;    public void run() &#123;        try ( InputStream input = this.sock.getInputStream()) &#123;            try ( OutputStream output = this.sock.getOutputStream()) &#123;                handle(input, output);            &#125;        &#125; catch (Exception e) &#123;            try &#123;                this.sock.close();            &#125; catch (IOException ioe) &#123;            &#125;            System.out.println(&quot;client disconnected.&quot;);        &#125;    &#125;    private void handle(InputStream input, OutputStream output) throws IOException &#123;        System.out.println(&quot;Process new http request...&quot;);        var reader = new BufferedReader(new InputStreamReader(input, StandardCharsets.UTF_8));        var writer = new BufferedWriter(new OutputStreamWriter(output, StandardCharsets.UTF_8));        // 读取HTTP请求:        boolean requestOk = false;        String first = reader.readLine();        if (first.startsWith(&quot;GET / HTTP/1.&quot;)) &#123;            requestOk = true;        &#125;        for (;;) &#123;            String header = reader.readLine();            if (header.isEmpty()) &#123; // 读取到空行时, HTTP Header读取完毕                break;            &#125;            System.out.println(header);        &#125;        System.out.println(requestOk ? &quot;Response OK&quot; : &quot;Response Error&quot;);        if (!requestOk) &#123;            // 发送错误响应:            writer.write(&quot;HTTP/1.0 404 Not Found\r\n&quot;);            writer.write(&quot;Content-Length: 0\r\n&quot;);            writer.write(&quot;\r\n&quot;);            writer.flush();        &#125; else &#123;            // 发送成功响应:            String data = &quot;&lt;html&gt;&lt;body&gt;&lt;h1&gt;Hello, world!&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;&quot;;            int length = data.getBytes(StandardCharsets.UTF_8).length;            writer.write(&quot;HTTP/1.0 200 OK\r\n&quot;);            writer.write(&quot;Connection: close\r\n&quot;);            writer.write(&quot;Content-Type: text/html\r\n&quot;);            writer.write(&quot;Content-Length: &quot; + length + &quot;\r\n&quot;);            writer.write(&quot;\r\n&quot;); // 空行标识Header和Body的分隔            writer.write(data);            writer.flush();        &#125;        // TODO: 处理HTTP请求    &#125;&#125;</code></pre><h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul><li><p><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP">https://developer.mozilla.org/zh-CN/docs/Web/HTTP</a></p></li><li><p><a href="https://www.liaoxuefeng.com/wiki/1252599548343744/1304265903570978">廖雪峰-web基础</a></p></li></ul>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> java </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>log4j使用指南</title>
+      <link href="2021/10/30/java/log4j%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/"/>
+      <url>2021/10/30/java/log4j%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/</url>
+      
+        <content type="html"><![CDATA[<p>对于刚开始接触java的人来说，用什么来打日志似乎快被java的这么多概念搞懵了。log4j、log4j2、slf4j、logback?!!</p><span id="more"></span><h2 id="盘点"><a href="#盘点" class="headerlink" title="盘点"></a>盘点</h2><p>盘点下我们遇到过哪些日志</p><ul><li><code>java.util.logging</code></li><li><code>org.apache.commons.logging.Log</code></li><li><code>Log4j</code>和<code>Log4j2</code></li><li><code>SLF4J</code> 和 <code>Logback</code></li></ul><p>简单概括 <code>Log4j</code>和<code>Log4j2</code>是<code>commons.logging</code></p><h2 id="log4j"><a href="#log4j" class="headerlink" title="log4j"></a>log4j</h2><p>Apache Log4j 是一个非常古老的日志框架，并且是多年来最受欢迎的日志框架。 它引入了现代日志框架仍在使用的基本概念，如分层日志级别和记录器。</p><p>2015 年 8 月 5 日，该项目管理委员会宣布 Log4j 1.x 已达到使用寿命。 建议用户使用 Log4j 1 升级到 Apache<br>Log4j 2。</p><h2 id="log4j2"><a href="#log4j2" class="headerlink" title="log4j2"></a>log4j2</h2><p>Apache Log4j 2是对 Log4j 的升级，它比其前身 Log4j 1.x 提供了重大改进，并提供了 Logback 中可用的许多改进，同时修复了 Logback 架构中的一些固有问题。</p><p>与 Logback 一样，Log4j2 提供对 SLF4J 的支持，自动重新加载日志配置，并支持高级过滤选项。 除了这些功能外，它还允许基于 lambda 表达式对日志语句进行延迟评估，为低延迟系统提供异步记录器，并提供无垃圾模式以避免由垃圾收集器操作引起的任何延迟。</p><p>所有这些功能使 Log4j2 成为这三个日志框架中最先进和最快的。</p><h2 id="Logback"><a href="#Logback" class="headerlink" title="Logback"></a>Logback</h2><p>logback 是由 log4j 创始人设计的又一个开源日志组件，作为流行的 log4j 项目的后续版本，从而替代 log4j。</p><p>Logback 的体系结构足够通用，以便在不同情况下应用。 目前，logback 分为三个模块：logback-core，logback-classic和logback-access。</p><p>logback-core：模块为其他两个模块的基础。<br>logback-classic：模块可以被看做是log4j的改进版本。此外，logback-classic 本身实现了 SLF4J API，因此可以在 logback 和其他日志框架（如 log4j 或 java.util.logging（JUL））之间来回切换。<br>logback-access：模块与 Servlet 容器（如 Tomcat 和 Jetty）集成，以提供 HTTP 访问日志功能。</p><p><img src="https://vison-blog.oss-cn-beijing.aliyuncs.com/20201221143239.png" alt=""></p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> java </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>PHPStorm使用配置</title>
       <link href="2021/09/24/PHPStorm%E4%BD%BF%E7%94%A8%E9%85%8D%E7%BD%AE/"/>
       <url>2021/09/24/PHPStorm%E4%BD%BF%E7%94%A8%E9%85%8D%E7%BD%AE/</url>
@@ -271,68 +328,11 @@
     
     
     <entry>
-      <title>servlet集成mybatis-无xml&amp;注解方式</title>
+      <title>servlet | servlet集成mybatis-无xml&amp;注解方式</title>
       <link href="2021/01/06/java/servlet%E9%9B%86%E6%88%90mybatis-%E6%97%A0xml-%E6%B3%A8%E8%A7%A3%E6%96%B9%E5%BC%8F/"/>
       <url>2021/01/06/java/servlet%E9%9B%86%E6%88%90mybatis-%E6%97%A0xml-%E6%B3%A8%E8%A7%A3%E6%96%B9%E5%BC%8F/</url>
       
         <content type="html"><![CDATA[<blockquote><p>习惯了php项目之后，恐怕非常不喜欢操作xml吧.本章将介绍servlet+mybatis无xml配置模式。</p></blockquote><span id="more"></span><h2 id="依赖"><a href="#依赖" class="headerlink" title="依赖"></a>依赖</h2><pre><code class="xml">     &lt;dependency&gt;            &lt;groupId&gt;mysql&lt;/groupId&gt;            &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;            &lt;version&gt;5.1.26&lt;/version&gt;        &lt;/dependency&gt;        &lt;!-- https://mvnrepository.com/artifact/org.mybatis/mybatis --&gt;        &lt;dependency&gt;            &lt;groupId&gt;org.mybatis&lt;/groupId&gt;            &lt;artifactId&gt;mybatis&lt;/artifactId&gt;            &lt;version&gt;3.5.6&lt;/version&gt;        &lt;/dependency&gt;</code></pre><h2 id="引入"><a href="#引入" class="headerlink" title="引入"></a>引入</h2><p>首先定义datasource</p><pre><code class="java">public class DatabaseConfig &#123;    static String driver = &quot;com.mysql.jdbc.Driver&quot;;    static String url = &quot;jdbc:mysql://localhost:3306/db_itdoc?useSSL=false&quot;;    static String username = &quot;root&quot;;    static String password = &quot;12345678&quot;;    public static DataSource getDataSource() &#123;        Properties properties = new Properties();        properties.setProperty(&quot;driver&quot;, driver);        properties.setProperty(&quot;url&quot;, url);        properties.setProperty(&quot;username&quot;, username);        properties.setProperty(&quot;password&quot;, password);        UnpooledDataSourceFactory unpooledDataSourceFactory = new UnpooledDataSourceFactory();        unpooledDataSourceFactory.setProperties(properties);        DataSource dataSource = unpooledDataSourceFactory.getDataSource();        return dataSource;    &#125;&#125;</code></pre><p>获取sessionFactory</p><pre><code class="java">public class MybatisLoader &#123;    static SqlSessionFactory sqlSessionFactory = null;    public static SqlSessionFactory getSqlSessionFactory() &#123;        if (sqlSessionFactory == null) &#123;            DataSource dataSource = DatabaseConfig.getDataSource();            TransactionFactory transactionFactory                    = new JdbcTransactionFactory();            Environment environment                    = new Environment(&quot;development&quot;, transactionFactory, dataSource);            Configuration configuration = new Configuration(environment);            configuration.addMapper(UserMapper.class);            sqlSessionFactory                    = new SqlSessionFactoryBuilder().build(configuration);        &#125;        return sqlSessionFactory;    &#125;&#125;</code></pre><h2 id="定义mapper"><a href="#定义mapper" class="headerlink" title="定义mapper"></a>定义mapper</h2><pre><code class="java">public interface UserMapper &#123;    @Select(&quot;SELECT * FROM user WHERE id = #&#123;id&#125;&quot;)    User selectUser(int id);    @Insert(&quot;INSERT INTO user(name,email) VALUES(#&#123;name&#125;, #&#123;email&#125;)&quot;)    int insertUser(User user);&#125;</code></pre><h2 id="查询和插入"><a href="#查询和插入" class="headerlink" title="查询和插入"></a>查询和插入</h2><pre><code class="java">public class UserController &#123;    public UserController() &#123;    &#125;    @GetMapping(path = &quot;/user/profile&quot;)    public String profile(HttpServletRequest request, HttpServletResponse response) &#123;        System.out.print(request.getCookies());        return &quot;i am user profile&quot;;    &#125;    @GetMapping(path = &quot;/user&quot;)    public Response user(HttpServletRequest request, int id) &#123;        User user = null;        SqlSession session = MybatisLoader.getSqlSessionFactory().openSession();        UserMapper mapper = session.getMapper(UserMapper.class);        user = mapper.selectUser(id);        return new Response(0, &quot;获取成功&quot;, user);    &#125;    @PostMapping(path = &quot;/user/add&quot;)    public Response add(User user) &#123;        Log.info(&quot;request user&quot;, user);        try &#123;            SqlSession session = MybatisLoader.getSqlSessionFactory().openSession();            UserMapper mapper = session.getMapper(UserMapper.class);            int id = mapper.insertUser(user);            session.commit();            Log.debug(&quot;返回&quot;, id);        &#125; catch (Exception e) &#123;            Log.error(&quot;保存失败&quot;, e);        &#125;        return new Response(0, &quot;保存&quot;, user);    &#125;&#125;</code></pre>]]></content>
-      
-      
-      
-        <tags>
-            
-            <tag> java </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>javaweb开发</title>
-      <link href="2020/12/22/java/%E6%89%8B%E6%92%95javaweb%E5%BC%80%E5%8F%91/"/>
-      <url>2020/12/22/java/%E6%89%8B%E6%92%95javaweb%E5%BC%80%E5%8F%91/</url>
-      
-        <content type="html"><![CDATA[<p>本系列文章将以几乎0基础javaweb为背景手写一个javaweb框架并进行开发。</p><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><ul><li>0基础javaweb,没有javaweb开发的实际经验</li><li>有多年PHPweb实战经验</li><li>有一定java语法基础</li><li>有5分(满分100)的spring boot知识储备，毕竟用spring boot启动一个hello world还是比较简单的。</li></ul><h2 id="宗旨"><a href="#宗旨" class="headerlink" title="宗旨"></a>宗旨</h2><p>本文宗旨是想通过手写java web框架的方式，让有其他语言web开发经验的同事能由浅入深学会java web开发和理解其中原理。本系列文章将有以下几点原则。</p><ul><li>注重实践，一定会有源代码运行成功案例</li><li>有理有据，一些实现必须有官方或权威文献解释</li></ul><h2 id="更新目录"><a href="#更新目录" class="headerlink" title="更新目录"></a>更新目录</h2><ol><li><a href="https://visonforcoding.github.io/2020/12/18/java/%E6%98%A5%E5%A4%A9%E4%B9%8B%E5%89%8D-http/">手撕javaweb-HTTP前世</a></li></ol>]]></content>
-      
-      
-      
-        <tags>
-            
-            <tag> java </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>log4j使用指南</title>
-      <link href="2020/12/21/java/log4j%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/"/>
-      <url>2020/12/21/java/log4j%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/</url>
-      
-        <content type="html"><![CDATA[<p>对于刚开始接触java的人来说，用什么来打日志似乎快被java的这么多概念搞懵了。log4j、log4j2、slf4j、logback?!!</p><span id="more"></span><h2 id="盘点"><a href="#盘点" class="headerlink" title="盘点"></a>盘点</h2><p>盘点下我们遇到过哪些日志</p><ul><li><code>java.util.logging</code></li><li><code>org.apache.commons.logging.Log</code></li><li><code>Log4j</code>和<code>Log4j2</code></li><li><code>SLF4J</code> 和 <code>Logback</code></li></ul><p>简单概括 <code>Log4j</code>和<code>Log4j2</code>是<code>commons.logging</code></p><h2 id="log4j"><a href="#log4j" class="headerlink" title="log4j"></a>log4j</h2><p>Apache Log4j 是一个非常古老的日志框架，并且是多年来最受欢迎的日志框架。 它引入了现代日志框架仍在使用的基本概念，如分层日志级别和记录器。</p><p>2015 年 8 月 5 日，该项目管理委员会宣布 Log4j 1.x 已达到使用寿命。 建议用户使用 Log4j 1 升级到 Apache<br>Log4j 2。</p><h2 id="log4j2"><a href="#log4j2" class="headerlink" title="log4j2"></a>log4j2</h2><p>Apache Log4j 2是对 Log4j 的升级，它比其前身 Log4j 1.x 提供了重大改进，并提供了 Logback 中可用的许多改进，同时修复了 Logback 架构中的一些固有问题。</p><p>与 Logback 一样，Log4j2 提供对 SLF4J 的支持，自动重新加载日志配置，并支持高级过滤选项。 除了这些功能外，它还允许基于 lambda 表达式对日志语句进行延迟评估，为低延迟系统提供异步记录器，并提供无垃圾模式以避免由垃圾收集器操作引起的任何延迟。</p><p>所有这些功能使 Log4j2 成为这三个日志框架中最先进和最快的。</p><h2 id="Logback"><a href="#Logback" class="headerlink" title="Logback"></a>Logback</h2><p>logback 是由 log4j 创始人设计的又一个开源日志组件，作为流行的 log4j 项目的后续版本，从而替代 log4j。</p><p>Logback 的体系结构足够通用，以便在不同情况下应用。 目前，logback 分为三个模块：logback-core，logback-classic和logback-access。</p><p>logback-core：模块为其他两个模块的基础。<br>logback-classic：模块可以被看做是log4j的改进版本。此外，logback-classic 本身实现了 SLF4J API，因此可以在 logback 和其他日志框架（如 log4j 或 java.util.logging（JUL））之间来回切换。<br>logback-access：模块与 Servlet 容器（如 Tomcat 和 Jetty）集成，以提供 HTTP 访问日志功能。</p><p><img src="https://vison-blog.oss-cn-beijing.aliyuncs.com/20201221143239.png" alt=""></p>]]></content>
-      
-      
-      
-        <tags>
-            
-            <tag> java </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>HTTP本质</title>
-      <link href="2020/12/18/java/%E6%98%A5%E5%A4%A9%E4%B9%8B%E5%89%8D-http/"/>
-      <url>2020/12/18/java/%E6%98%A5%E5%A4%A9%E4%B9%8B%E5%89%8D-http/</url>
-      
-        <content type="html"><![CDATA[<blockquote><p>试图跳过spring,而学习spring boot是不可能的。学习java web开发，从基础开始学习。就应当了解http、servlet、tomcat</p></blockquote><span id="more"></span><ul><li>起源</li><li>它解决什么问题</li><li>实现原理</li></ul><h1 id="起源"><a href="#起源" class="headerlink" title="起源"></a>起源</h1><p>1980年6月至12月间，伯纳斯-李在的CERN（欧洲核子研究组织）担任工作。实验室的研究人员需要大量的信息查阅或沟通。在那段时间里，他提出了个构想：创建一个以超文本系统为基础的项目，方便研究人员分享及更新讯息。</p><p><img src="https://vison-blog.oss-cn-beijing.aliyuncs.com/20201222144257.png" alt=""></p><p>1989年3月，他写下了他的初步构想，并在1990年重新配置。然后被他的经理麦克·森德尔（Mike Sendall）所接受。他使用与ENQUIRE系统相似的概念来创建万维网，为此他设计并构建了第一个网页浏览器。</p><p>世界上第一个网站在CERN搭建，而CERN则位于法国边境。网站在1991年8月6日上线。</p><p>上线 的第一个网址，<a href="http://info.cern.ch/hypertext/WWW/TheProject.html">http://info.cern.ch/hypertext/WWW/TheProject.html</a> 告诉人们万维网是什么，用户如何使用浏览器，如何创建网页服务器。</p><h1 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h1><p>设计HTTP最初的目的是为了提供一种发布和接收HTML页面的方法。</p><p><img src="https://vison-blog.oss-cn-beijing.aliyuncs.com/20201218163846.png" alt=""></p><h1 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h1><p>一个连接是由传输层来控制的，这从根本上不属于HTTP的范围。HTTP并不需要其底层的传输层协议是面向连接的，只需要它是可靠的，或不丢失消息的（至少返回错误）。在互联网中，有两个最常用的传输层协议：TCP是可靠的，而UDP不是。因此，HTTP依赖于面向连接的TCP进行消息传递，但连接并不是必须的。因此通过socket编程就能实现http协议。</p><pre><code class="java">public class Server &#123;    private static int port = 8081;    public static void main(String[] args) throws IOException &#123;        ServerSocket ss = new ServerSocket(port); // 监听指定端口        System.out.println(&quot;server is running...&quot;);        for (;;) &#123;            Socket sock = ss.accept();            System.out.println(&quot;connected from &quot; + sock.getRemoteSocketAddress());            Thread t = new Handler(sock);            t.start();        &#125;    &#125;&#125;public class Handler extends Thread &#123;    Socket sock;    public Handler(Socket sock) &#123;        this.sock = sock;    &#125;    public void run() &#123;        try ( InputStream input = this.sock.getInputStream()) &#123;            try ( OutputStream output = this.sock.getOutputStream()) &#123;                handle(input, output);            &#125;        &#125; catch (Exception e) &#123;            try &#123;                this.sock.close();            &#125; catch (IOException ioe) &#123;            &#125;            System.out.println(&quot;client disconnected.&quot;);        &#125;    &#125;    private void handle(InputStream input, OutputStream output) throws IOException &#123;        System.out.println(&quot;Process new http request...&quot;);        var reader = new BufferedReader(new InputStreamReader(input, StandardCharsets.UTF_8));        var writer = new BufferedWriter(new OutputStreamWriter(output, StandardCharsets.UTF_8));        // 读取HTTP请求:        boolean requestOk = false;        String first = reader.readLine();        if (first.startsWith(&quot;GET / HTTP/1.&quot;)) &#123;            requestOk = true;        &#125;        for (;;) &#123;            String header = reader.readLine();            if (header.isEmpty()) &#123; // 读取到空行时, HTTP Header读取完毕                break;            &#125;            System.out.println(header);        &#125;        System.out.println(requestOk ? &quot;Response OK&quot; : &quot;Response Error&quot;);        if (!requestOk) &#123;            // 发送错误响应:            writer.write(&quot;HTTP/1.0 404 Not Found\r\n&quot;);            writer.write(&quot;Content-Length: 0\r\n&quot;);            writer.write(&quot;\r\n&quot;);            writer.flush();        &#125; else &#123;            // 发送成功响应:            String data = &quot;&lt;html&gt;&lt;body&gt;&lt;h1&gt;Hello, world!&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;&quot;;            int length = data.getBytes(StandardCharsets.UTF_8).length;            writer.write(&quot;HTTP/1.0 200 OK\r\n&quot;);            writer.write(&quot;Connection: close\r\n&quot;);            writer.write(&quot;Content-Type: text/html\r\n&quot;);            writer.write(&quot;Content-Length: &quot; + length + &quot;\r\n&quot;);            writer.write(&quot;\r\n&quot;); // 空行标识Header和Body的分隔            writer.write(data);            writer.flush();        &#125;        // TODO: 处理HTTP请求    &#125;&#125;</code></pre><h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul><li><p><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP">https://developer.mozilla.org/zh-CN/docs/Web/HTTP</a></p></li><li><p><a href="https://www.liaoxuefeng.com/wiki/1252599548343744/1304265903570978">廖雪峰-web基础</a></p></li></ul>]]></content>
       
       
       
@@ -518,11 +518,11 @@
     
     
     <entry>
-      <title>使用openjdk 11</title>
+      <title>java开发环境准备</title>
       <link href="2020/08/27/java/mac%E4%B8%8B%E4%BD%BF%E7%94%A8openjdk-11/"/>
       <url>2020/08/27/java/mac%E4%B8%8B%E4%BD%BF%E7%94%A8openjdk-11/</url>
       
-        <content type="html"><![CDATA[<p>最近似乎java 8以上的版本都不能从oracle官网下载了，于是就尝试使用open jdk11</p><p><img src="http://img.rc5j.cn/blog20200827114344.png" alt=""></p><span id="more"></span><h2 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h2><p>可以从 <a href="https://mirrors.huaweicloud.com/openjdk/">https://mirrors.huaweicloud.com/openjdk/</a> 下载得到</p><h2 id="mac安装"><a href="#mac安装" class="headerlink" title="mac安装"></a>mac安装</h2><pre><code>sudo mv /Downloads/jdk11 /Library/Java/JavaVirtualMachines/jdk-11.jdk</code></pre><h2 id="linux"><a href="#linux" class="headerlink" title="linux"></a>linux</h2><p>配置bash_profile</p><p><code>vim ~/.bash_profile</code></p><pre><code>JAVA_HOME=&quot;/usr/local/jdk-11.0.2&quot;PATH=$PATH:$HOME/bin:$JAVA_HOME/binexport PATH</code></pre>]]></content>
+        <content type="html"><![CDATA[<h2 id="JDK"><a href="#JDK" class="headerlink" title="JDK"></a>JDK</h2><p>最近似乎java 8以上的版本都不能从oracle官网下载了，于是就尝试使用open jdk11</p><p><img src="http://img.rc5j.cn/blog20200827114344.png" alt=""></p><span id="more"></span><h3 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h3><p>可以从 <a href="https://mirrors.huaweicloud.com/openjdk/">https://mirrors.huaweicloud.com/openjdk/</a> 下载得到</p><h3 id="mac安装"><a href="#mac安装" class="headerlink" title="mac安装"></a>mac安装</h3><pre><code>sudo mv /Downloads/jdk11 /Library/Java/JavaVirtualMachines/jdk-11.jdk</code></pre><h3 id="linux"><a href="#linux" class="headerlink" title="linux"></a>linux</h3><p>配置bash_profile</p><p><code>vim ~/.bash_profile</code></p><pre><code>JAVA_HOME=&quot;/usr/local/jdk-11.0.2&quot;PATH=$PATH:$HOME/bin:$JAVA_HOME/binexport PATH</code></pre><h2 id="maven"><a href="#maven" class="headerlink" title="maven"></a>maven</h2><h3 id="源码安装"><a href="#源码安装" class="headerlink" title="源码安装"></a>源码安装</h3><p>Maven 下载地址：<a href="http://maven.apache.org/download.cgi">http://maven.apache.org/download.cgi</a></p><h3 id="mac-brew-安装"><a href="#mac-brew-安装" class="headerlink" title="mac brew 安装"></a>mac brew 安装</h3><pre><code class="shell">brew install maven</code></pre>]]></content>
       
       
       

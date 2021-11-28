@@ -13,8 +13,10 @@
 
 
 
-安装$ pip3 install locust编写脚本import time
-from locust import Htt">
+安装$ pip3 install locust
+
+编写脚本import time
+from locust import H">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -487,39 +489,44 @@ from locust import Htt">
 <span id="more"></span>
 
 
-<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><pre><code>$ pip3 install locust</code></pre><h2 id="编写脚本"><a href="#编写脚本" class="headerlink" title="编写脚本"></a>编写脚本</h2><pre><code class="python">import time
-from locust import HttpUser, task, between
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><pre class="language-none"><code class="language-none">$ pip3 install locust</code></pre>
 
-class QuickstartUser(HttpUser):
-    wait_time = between(1, 2.5)
+<h2 id="编写脚本"><a href="#编写脚本" class="headerlink" title="编写脚本"></a>编写脚本</h2><pre class="language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> time
+<span class="token keyword">from</span> locust <span class="token keyword">import</span> HttpUser<span class="token punctuation">,</span> task<span class="token punctuation">,</span> between
 
-    @task
-    def hello_world(self):
-        self.client.get(&quot;/hello&quot;)
-        self.client.get(&quot;/world&quot;)
+<span class="token keyword">class</span> <span class="token class-name">QuickstartUser</span><span class="token punctuation">(</span>HttpUser<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    wait_time <span class="token operator">=</span> between<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2.5</span><span class="token punctuation">)</span>
 
-    @task(3)
-    def view_items(self):
-        for item_id in range(10):
-            self.client.get(f&quot;/item?id=&#123;item_id&#125;&quot;, name=&quot;/item&quot;)
-            time.sleep(1)
+    <span class="token decorator annotation punctuation">@task</span>
+    <span class="token keyword">def</span> <span class="token function">hello_world</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>client<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string">"/hello"</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>client<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string">"/world"</span><span class="token punctuation">)</span>
 
-    def on_start(self):
-        self.client.post(&quot;/login&quot;, json=&#123;&quot;username&quot;:&quot;foo&quot;, &quot;password&quot;:&quot;bar&quot;&#125;)
+    <span class="token decorator annotation punctuation">@task</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span>
+    <span class="token keyword">def</span> <span class="token function">view_items</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">for</span> item_id <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+            self<span class="token punctuation">.</span>client<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"/item?id=</span><span class="token interpolation"><span class="token punctuation">&#123;</span>item_id<span class="token punctuation">&#125;</span></span><span class="token string">"</span></span><span class="token punctuation">,</span> name<span class="token operator">=</span><span class="token string">"/item"</span><span class="token punctuation">)</span>
+            time<span class="token punctuation">.</span>sleep<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
+
+    <span class="token keyword">def</span> <span class="token function">on_start</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>client<span class="token punctuation">.</span>post<span class="token punctuation">(</span><span class="token string">"/login"</span><span class="token punctuation">,</span> json<span class="token operator">=</span><span class="token punctuation">&#123;</span><span class="token string">"username"</span><span class="token punctuation">:</span><span class="token string">"foo"</span><span class="token punctuation">,</span> <span class="token string">"password"</span><span class="token punctuation">:</span><span class="token string">"bar"</span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
 </code></pre>
+
 <p><code>wait_time = between(1, 2.5)</code></p>
 <p>Our class defines a wait_time that will make the simulated users wait between 1 and 2.5 seconds after each task (see below) is executed. For more info see wait_time attribute.</p>
 <p><code>def hello_world(self):</code></p>
-<pre><code class="python">@task
-def hello_world(self):
-    self.client.get(&quot;/hello&quot;)
-    self.client.get(&quot;/world&quot;)
+<pre class="language-python" data-language="python"><code class="language-python"><span class="token decorator annotation punctuation">@task</span>
+<span class="token keyword">def</span> <span class="token function">hello_world</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    self<span class="token punctuation">.</span>client<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string">"/hello"</span><span class="token punctuation">)</span>
+    self<span class="token punctuation">.</span>client<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string">"/world"</span><span class="token punctuation">)</span>
 
-@task(3)
-def view_items(self):
-...</code></pre>
+<span class="token decorator annotation punctuation">@task</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span>
+<span class="token keyword">def</span> <span class="token function">view_items</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span></code></pre>
 <p><code>task(3)</code> 内的参数表示任务执行的权重，<code>view_items</code>的次数将是<code>hello_world</code>次数的3倍。</p>
-<h2 id="执行"><a href="#执行" class="headerlink" title="执行"></a>执行</h2><pre><code>$ locust -f locust_files/my_locust_file.py</code></pre><p><img src="https://vison-blog.oss-cn-beijing.aliyuncs.com/20210330151409.png" alt=""></p>
+<h2 id="执行"><a href="#执行" class="headerlink" title="执行"></a>执行</h2><pre class="language-none"><code class="language-none">$ locust -f locust_files&#x2F;my_locust_file.py</code></pre>
+
+<p><img src="https://vison-blog.oss-cn-beijing.aliyuncs.com/20210330151409.png" alt=""></p>
 <p>任务执行界面和结果</p>
 <p><img src="https://vison-blog.oss-cn-beijing.aliyuncs.com/20210330151426.png" alt=""></p>
 

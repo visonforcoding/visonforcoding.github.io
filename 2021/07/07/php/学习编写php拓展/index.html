@@ -475,39 +475,51 @@ hello,worl">
                 <h2 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h2><p><strong>为什么要学习编写php拓展？</strong></p>
 <p>1.目前市面上有数据库或中间件无php驱动<br>2.有自己的公共组件或函数,虽然可以使用composer，为了提升性能替代composer包<br>3.为了学习php内核原理或其他拓展的内部实现原理</p>
 <h2 id="hello-world"><a href="#hello-world" class="headerlink" title="hello,world"></a>hello,world</h2><p><strong>1.源码下载</strong></p>
-<pre><code class="shell">wget https://www.php.net/distributions/php-7.2.19.tar.bz2
-tar -xvf php-7.2.19.tar.bz2</code></pre>
+<pre class="language-shell" data-language="shell"><code class="language-shell"><span class="token function">wget</span> https://www.php.net/distributions/php-7.2.19.tar.bz2
+<span class="token function">tar</span> -xvf php-7.2.19.tar.bz2</code></pre>
+
+
 <p><strong>2.增加函数声明</strong></p>
-<pre><code class="shell">vim php_vison.h
-# 在其中增加 PHP_FUNCTION(vison_print);
-vim vison.c
+<pre class="language-shell" data-language="shell"><code class="language-shell"><span class="token function">vim</span> php_vison.h
+<span class="token comment"># 在其中增加 PHP_FUNCTION(vison_print);</span>
+<span class="token function">vim</span> vison.c
 
-# 将如下代码中的PHP_FE和PHP_FE_END中加入下面代码（这的代码是将函数指针注册到Zend引擎）
-PHP_FE(vison_print,  NULL)
+<span class="token comment"># 将如下代码中的PHP_FE和PHP_FE_END中加入下面代码（这的代码是将函数指针注册到Zend引擎）</span>
+PHP_FE<span class="token punctuation">(</span>vison_print,  NULL<span class="token punctuation">)</span>
 </code></pre>
+
+
 <p><strong>3.函数定义</strong></p>
-<pre><code class="shell">vim vison.c
+<pre class="language-shell" data-language="shell"><code class="language-shell"><span class="token function">vim</span> vison.c
 在最后加上创建执行方法vison_print</code></pre>
-<pre><code class="c">PHP_FUNCTION(vison_print)
-&#123;
-  php_printf(&quot;Hello vison!\n&quot;);
-  RETURN_TRUE;
 
-&#125;</code></pre>
+<pre class="language-c" data-language="c"><code class="language-c"><span class="token function">PHP_FUNCTION</span><span class="token punctuation">(</span>vison_print<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+  <span class="token function">php_printf</span><span class="token punctuation">(</span><span class="token string">"Hello vison!\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  RETURN_TRUE<span class="token punctuation">;</span>
+
+<span class="token punctuation">&#125;</span></code></pre>
+
+
 <p><strong>4.编译</strong></p>
-<pre><code>phpize
+<pre class="language-none"><code class="language-none">phpize
 
-./configure &amp;&amp; make &amp;&amp; make install
+.&#x2F;configure &amp;&amp; make &amp;&amp; make install
 
 # 然后将生成的vison.so放入配置
 
-vim /etc/php.ini
+vim &#x2F;etc&#x2F;php.ini
 
-extension=vison.so
+extension&#x3D;vison.so
 
 #然后输入php -m查看配置
-</code></pre><p><strong>4.验证</strong></p>
-<pre><code class="shell">php -r &quot;vison_print();&quot;</code></pre>
+</code></pre>
+
+
+<p><strong>4.验证</strong></p>
+<pre class="language-shell" data-language="shell"><code class="language-shell">php -r <span class="token string">"vison_print();"</span></code></pre>
+
+
 
                 
             </div>
@@ -812,12 +824,12 @@ clean code,编写整洁、易维护的代码
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            安装version: &#39;3.1&#39;
+                            安装version: '3.1'
 services:
     rabbitmq-manger:
         image: rabbitmq:3-management
         restart: always
-   
+        por
                         
                     </div>
                     <div class="publish-info">

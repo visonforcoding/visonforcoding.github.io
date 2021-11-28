@@ -9,9 +9,10 @@
 
 
 help执行帮助命令查看编译配置帮助
-./configure --help=short得到结果
-Optional Features and Packages:
-  -">
+.&amp;#x2F;configure --help&amp;#x3D;short
+
+得到结果
+Optional Features and P">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -480,14 +481,16 @@ Optional Features and Packages:
 <span id="more"></span>
 
 <h2 id="help"><a href="#help" class="headerlink" title="help"></a>help</h2><p>执行帮助命令查看编译配置帮助</p>
-<pre><code>./configure --help=short</code></pre><p>得到结果</p>
-<pre><code>Optional Features and Packages:
-  --disable-option-checking  ignore unrecognized --enable/--with options
-  --disable-FEATURE       do not include FEATURE (same as --enable-FEATURE=no)
-  --enable-FEATURE[=ARG]  include FEATURE [ARG=yes]
-  --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
-  --without-PACKAGE       do not use PACKAGE (same as --with-PACKAGE=no)
-  --with-libdir=NAME      Look for libraries in .../NAME rather than .../lib
+<pre class="language-none"><code class="language-none">.&#x2F;configure --help&#x3D;short</code></pre>
+
+<p>得到结果</p>
+<pre class="language-none"><code class="language-none">Optional Features and Packages:
+  --disable-option-checking  ignore unrecognized --enable&#x2F;--with options
+  --disable-FEATURE       do not include FEATURE (same as --enable-FEATURE&#x3D;no)
+  --enable-FEATURE[&#x3D;ARG]  include FEATURE [ARG&#x3D;yes]
+  --with-PACKAGE[&#x3D;ARG]    use PACKAGE [ARG&#x3D;yes]
+  --without-PACKAGE       do not use PACKAGE (same as --with-PACKAGE&#x3D;no)
+  --with-libdir&#x3D;NAME      Look for libraries in ...&#x2F;NAME rather than ...&#x2F;lib
   --disable-rpath         Disable passing additional runtime library
                           search paths
   --enable-re2c-cgoto     Enable -g flag to re2c to use computed goto gcc extension
@@ -496,15 +499,15 @@ Optional Features and Packages:
 
 SAPI modules:
 
-  --with-apxs2=FILE       Build shared Apache 2.0 Handler module. FILE is the optional
+  --with-apxs2&#x3D;FILE       Build shared Apache 2.0 Handler module. FILE is the optional
                           pathname to the Apache apxs tool apxs
   --disable-cli           Disable building CLI version of PHP
                           (this forces --without-pear)
-  --enable-embed=TYPE     EXPERIMENTAL: Enable building of embedded SAPI library
-                          TYPE is either &#39;shared&#39; or &#39;static&#39;. TYPE=shared
+  --enable-embed&#x3D;TYPE     EXPERIMENTAL: Enable building of embedded SAPI library
+                          TYPE is either &#39;shared&#39; or &#39;static&#39;. TYPE&#x3D;shared
   --enable-fpm            Enable building of the fpm SAPI executable  fastcgi进程管理,这个应该必不可少
-  --with-fpm-user=USER    Set the user for php-fpm to run as. (default: nobody)
-  --with-fpm-group=GRP    Set the group for php-fpm to run as. For a system user, this
+  --with-fpm-user&#x3D;USER    Set the user for php-fpm to run as. (default: nobody)
+  --with-fpm-group&#x3D;GRP    Set the group for php-fpm to run as. For a system user, this
                           should usually be set to match the fpm username (default: nobody)
   --with-fpm-systemd      Activate systemd integration
   --with-fpm-acl          Use POSIX Access Control Lists
@@ -512,19 +515,19 @@ SAPI modules:
   --enable-phpdbg            Build phpdbg
   --enable-phpdbg-webhelper  Build phpdbg web SAPI support
   --enable-phpdbg-debug      Build phpdbg in debug mode
-  --enable-phpdbg-readline   Enable readline support in phpdbg (depends on static ext/readline)
+  --enable-phpdbg-readline   Enable readline support in phpdbg (depends on static ext&#x2F;readline)
   --disable-cgi           Disable building CGI version of PHP   禁用cgi
-  --with-valgrind=DIR     Enable valgrind support
+  --with-valgrind&#x3D;DIR     Enable valgrind support
 
 General settings:
 
   --enable-gcov           Enable GCOV code coverage (requires LTP) - FOR DEVELOPERS ONLY!!
   --enable-debug          Compile with debugging symbols
-  --with-layout=TYPE      Set how installed files will be laid out.  Type can
+  --with-layout&#x3D;TYPE      Set how installed files will be laid out.  Type can
                           be either PHP or GNU [PHP]
-  --with-config-file-path=PATH
-                          Set the path in which to look for php.ini [PREFIX/lib]
-  --with-config-file-scan-dir=PATH
+  --with-config-file-path&#x3D;PATH
+                          Set the path in which to look for php.ini [PREFIX&#x2F;lib]
+  --with-config-file-scan-dir&#x3D;PATH
                           Set the path where to scan for configuration files
   --enable-sigchild       Enable PHP&#39;s own SIGCHLD handler
   --enable-libgcc         Enable explicitly linking against libgcc
@@ -536,225 +539,225 @@ General settings:
 
 Extensions:
 
-  --with-EXTENSION=shared[,PATH]
+  --with-EXTENSION&#x3D;shared[,PATH]
 
     NOTE: Not all extensions can be build as &#39;shared&#39;.
 
-    Example: --with-foobar=shared,/usr/local/foobar/
+    Example: --with-foobar&#x3D;shared,&#x2F;usr&#x2F;local&#x2F;foobar&#x2F;
 
       o Builds the foobar extension as shared extension.
-      o foobar package install prefix is /usr/local/foobar/
+      o foobar package install prefix is &#x2F;usr&#x2F;local&#x2F;foobar&#x2F;
 
 
   --disable-all           Disable all extensions which are enabled by default
 
   --disable-libxml        Disable LIBXML support
-  --with-libxml-dir=DIR   LIBXML: libxml2 install prefix
-  --with-openssl=DIR      Include OpenSSL support (requires OpenSSL &gt;= 1.0.1)
-  --with-kerberos=DIR     OPENSSL: Include Kerberos support
+  --with-libxml-dir&#x3D;DIR   LIBXML: libxml2 install prefix
+  --with-openssl&#x3D;DIR      Include OpenSSL support (requires OpenSSL &gt;&#x3D; 1.0.1)
+  --with-kerberos&#x3D;DIR     OPENSSL: Include Kerberos support
   --with-system-ciphers   OPENSSL: Use system default cipher list instead of hardcoded value
-  --with-pcre-regex=DIR   Include Perl Compatible Regular Expressions support.
+  --with-pcre-regex&#x3D;DIR   Include Perl Compatible Regular Expressions support.
                           DIR is the PCRE install prefix BUNDLED
   --with-pcre-jit         Enable PCRE JIT functionality (BUNDLED only)
-  --with-pcre-valgrind=DIR
+  --with-pcre-valgrind&#x3D;DIR
                           Enable PCRE valgrind support. Developers only!
-  --without-sqlite3=DIR   Do not include SQLite3 support. DIR is the prefix to
+  --without-sqlite3&#x3D;DIR   Do not include SQLite3 support. DIR is the prefix to
                           SQLite3 installation directory.
-  --with-zlib=DIR         Include ZLIB support (requires zlib &gt;= 1.2.0.4)
-  --with-zlib-dir=&lt;DIR&gt;   Define the location of zlib install directory
+  --with-zlib&#x3D;DIR         Include ZLIB support (requires zlib &gt;&#x3D; 1.2.0.4)
+  --with-zlib-dir&#x3D;&lt;DIR&gt;   Define the location of zlib install directory
   --enable-bcmath         Enable bc style precision math functions
-  --with-bz2=DIR          Include BZip2 support
+  --with-bz2&#x3D;DIR          Include BZip2 support
   --enable-calendar       Enable support for calendar conversion
   --disable-ctype         Disable ctype functions
-  --with-curl=DIR         Include cURL support
+  --with-curl&#x3D;DIR         Include cURL support
   --enable-dba            Build DBA with bundled modules. To build shared DBA
-                          extension use --enable-dba=shared
-  --with-qdbm=DIR         DBA: QDBM support
-  --with-gdbm=DIR         DBA: GDBM support
-  --with-ndbm=DIR         DBA: NDBM support
-  --with-db4=DIR          DBA: Oracle Berkeley DB 4.x or 5.x support
-  --with-db3=DIR          DBA: Oracle Berkeley DB 3.x support
-  --with-db2=DIR          DBA: Oracle Berkeley DB 2.x support
-  --with-db1=DIR          DBA: Oracle Berkeley DB 1.x support/emulation
-  --with-dbm=DIR          DBA: DBM support
-  --with-tcadb=DIR        DBA: Tokyo Cabinet abstract DB support
-  --with-lmdb=DIR        DBA: Lightning memory-mapped database support
-  --without-cdb=DIR       DBA: CDB support (bundled)
+                          extension use --enable-dba&#x3D;shared
+  --with-qdbm&#x3D;DIR         DBA: QDBM support
+  --with-gdbm&#x3D;DIR         DBA: GDBM support
+  --with-ndbm&#x3D;DIR         DBA: NDBM support
+  --with-db4&#x3D;DIR          DBA: Oracle Berkeley DB 4.x or 5.x support
+  --with-db3&#x3D;DIR          DBA: Oracle Berkeley DB 3.x support
+  --with-db2&#x3D;DIR          DBA: Oracle Berkeley DB 2.x support
+  --with-db1&#x3D;DIR          DBA: Oracle Berkeley DB 1.x support&#x2F;emulation
+  --with-dbm&#x3D;DIR          DBA: DBM support
+  --with-tcadb&#x3D;DIR        DBA: Tokyo Cabinet abstract DB support
+  --with-lmdb&#x3D;DIR        DBA: Lightning memory-mapped database support
+  --without-cdb&#x3D;DIR       DBA: CDB support (bundled)
   --disable-inifile       DBA: INI support (bundled)
   --disable-flatfile      DBA: FlatFile support (bundled)
   --disable-dom           Disable DOM support
-  --with-libxml-dir=DIR   DOM: libxml2 install prefix
-  --with-enchant=DIR      Include enchant support.
+  --with-libxml-dir&#x3D;DIR   DOM: libxml2 install prefix
+  --with-enchant&#x3D;DIR      Include enchant support.
                           GNU Aspell version 1.1.3 or higher required.
   --enable-exif           Enable EXIF (metadata from images) support
   --disable-fileinfo      Disable fileinfo support
   --disable-filter        Disable input filter support
   --with-pcre-dir         FILTER: pcre install prefix
   --enable-ftp            Enable FTP support
-  --with-openssl-dir=DIR  FTP: openssl install prefix
-  --with-gd=DIR           Include GD support.  DIR is the GD library base
+  --with-openssl-dir&#x3D;DIR  FTP: openssl install prefix
+  --with-gd&#x3D;DIR           Include GD support.  DIR is the GD library base
                           install directory BUNDLED
-  --with-webp-dir=DIR      GD: Set the path to libwebp install prefix
-  --with-jpeg-dir=DIR     GD: Set the path to libjpeg install prefix
-  --with-png-dir=DIR      GD: Set the path to libpng install prefix
-  --with-zlib-dir=DIR     GD: Set the path to libz install prefix
-  --with-xpm-dir=DIR      GD: Set the path to libXpm install prefix
-  --with-freetype-dir=DIR GD: Set the path to FreeType 2 install prefix
+  --with-webp-dir&#x3D;DIR      GD: Set the path to libwebp install prefix
+  --with-jpeg-dir&#x3D;DIR     GD: Set the path to libjpeg install prefix
+  --with-png-dir&#x3D;DIR      GD: Set the path to libpng install prefix
+  --with-zlib-dir&#x3D;DIR     GD: Set the path to libz install prefix
+  --with-xpm-dir&#x3D;DIR      GD: Set the path to libXpm install prefix
+  --with-freetype-dir&#x3D;DIR GD: Set the path to FreeType 2 install prefix
   --enable-gd-jis-conv    GD: Enable JIS-mapped Japanese font support
-  --with-gettext=DIR      Include GNU gettext support
-  --with-gmp=DIR          Include GNU MP support
-  --with-mhash=DIR        Include mhash support
+  --with-gettext&#x3D;DIR      Include GNU gettext support
+  --with-gmp&#x3D;DIR          Include GNU MP support
+  --with-mhash&#x3D;DIR        Include mhash support
   --disable-hash          Disable hash support
-  --without-iconv=DIR     Exclude iconv support
-  --with-imap=DIR         Include IMAP support. DIR is the c-client install prefix
-  --with-kerberos=DIR     IMAP: Include Kerberos support. DIR is the Kerberos install prefix
-  --with-imap-ssl=DIR     IMAP: Include SSL support. DIR is the OpenSSL install prefix
-  --with-interbase=DIR    Include Firebird support.  DIR is the Firebird base
-                          install directory /opt/firebird
+  --without-iconv&#x3D;DIR     Exclude iconv support
+  --with-imap&#x3D;DIR         Include IMAP support. DIR is the c-client install prefix
+  --with-kerberos&#x3D;DIR     IMAP: Include Kerberos support. DIR is the Kerberos install prefix
+  --with-imap-ssl&#x3D;DIR     IMAP: Include SSL support. DIR is the OpenSSL install prefix
+  --with-interbase&#x3D;DIR    Include Firebird support.  DIR is the Firebird base
+                          install directory &#x2F;opt&#x2F;firebird
   --enable-intl           Enable internationalization support
-  --with-icu-dir=DIR      Specify where ICU libraries and headers can be found
+  --with-icu-dir&#x3D;DIR      Specify where ICU libraries and headers can be found
   --disable-json          Disable JavaScript Object Serialization support
-  --with-ldap=DIR         Include LDAP support
-  --with-ldap-sasl=DIR    LDAP: Include Cyrus SASL support
+  --with-ldap&#x3D;DIR         Include LDAP support
+  --with-ldap-sasl&#x3D;DIR    LDAP: Include Cyrus SASL support
   --enable-mbstring       Enable multibyte string support
   --disable-mbregex       MBSTRING: Disable multibyte regex support
   --disable-mbregex-backtrack
                           MBSTRING: Disable multibyte regex backtrack check
-  --with-libmbfl=DIR      MBSTRING: Use external libmbfl.  DIR is the libmbfl base
+  --with-libmbfl&#x3D;DIR      MBSTRING: Use external libmbfl.  DIR is the libmbfl base
                           install directory BUNDLED
-  --with-onig=DIR         MBSTRING: Use external oniguruma. DIR is the oniguruma install prefix.
+  --with-onig&#x3D;DIR         MBSTRING: Use external oniguruma. DIR is the oniguruma install prefix.
                           If DIR is not set, the bundled oniguruma will be used
-  --with-mysqli=FILE      Include MySQLi support.  FILE is the path
+  --with-mysqli&#x3D;FILE      Include MySQLi support.  FILE is the path
                           to mysql_config.  If no value or mysqlnd is passed
                           as FILE, the MySQL native driver will be used
   --enable-embedded-mysqli
                           MYSQLi: Enable embedded support
                           Note: Does not work with MySQL native driver!
-  --with-mysql-sock=SOCKPATH
-                          MySQLi/PDO_MYSQL: Location of the MySQL unix socket pointer.
+  --with-mysql-sock&#x3D;SOCKPATH
+                          MySQLi&#x2F;PDO_MYSQL: Location of the MySQL unix socket pointer.
                           If unspecified, the default locations are searched
-  --with-oci8=DIR         Include Oracle Database OCI8 support. DIR defaults to $ORACLE_HOME.
-                          Use --with-oci8=instantclient,/path/to/instant/client/lib
+  --with-oci8&#x3D;DIR         Include Oracle Database OCI8 support. DIR defaults to $ORACLE_HOME.
+                          Use --with-oci8&#x3D;instantclient,&#x2F;path&#x2F;to&#x2F;instant&#x2F;client&#x2F;lib
                           to use an Oracle Instant Client installation
-  --with-odbcver=HEX      Force support for the passed ODBC version. A hex number is expected, default 0x0350.
+  --with-odbcver&#x3D;HEX      Force support for the passed ODBC version. A hex number is expected, default 0x0350.
                              Use the special value of 0 to prevent an explicit ODBCVER to be defined.
-  --with-adabas=DIR       Include Adabas D support /usr/local
-  --with-sapdb=DIR        Include SAP DB support /usr/local
-  --with-solid=DIR        Include Solid support /usr/local/solid
-  --with-ibm-db2=DIR      Include IBM DB2 support /home/db2inst1/sqllib
-  --with-ODBCRouter=DIR   Include ODBCRouter.com support /usr
-  --with-empress=DIR      Include Empress support \$EMPRESSPATH
-                          (Empress Version &gt;= 8.60 required)
-  --with-empress-bcs=DIR
+  --with-adabas&#x3D;DIR       Include Adabas D support &#x2F;usr&#x2F;local
+  --with-sapdb&#x3D;DIR        Include SAP DB support &#x2F;usr&#x2F;local
+  --with-solid&#x3D;DIR        Include Solid support &#x2F;usr&#x2F;local&#x2F;solid
+  --with-ibm-db2&#x3D;DIR      Include IBM DB2 support &#x2F;home&#x2F;db2inst1&#x2F;sqllib
+  --with-ODBCRouter&#x3D;DIR   Include ODBCRouter.com support &#x2F;usr
+  --with-empress&#x3D;DIR      Include Empress support \$EMPRESSPATH
+                          (Empress Version &gt;&#x3D; 8.60 required)
+  --with-empress-bcs&#x3D;DIR
                           Include Empress Local Access support \$EMPRESSPATH
-                          (Empress Version &gt;= 8.60 required)
-  --with-birdstep=DIR     Include Birdstep support /usr/local/birdstep
-  --with-custom-odbc=DIR  Include user defined ODBC support. DIR is ODBC install base
-                          directory /usr/local. Make sure to define CUSTOM_ODBC_LIBS and
+                          (Empress Version &gt;&#x3D; 8.60 required)
+  --with-birdstep&#x3D;DIR     Include Birdstep support &#x2F;usr&#x2F;local&#x2F;birdstep
+  --with-custom-odbc&#x3D;DIR  Include user defined ODBC support. DIR is ODBC install base
+                          directory &#x2F;usr&#x2F;local. Make sure to define CUSTOM_ODBC_LIBS and
                           have some odbc.h in your include dirs. f.e. you should define
                           following for Sybase SQL Anywhere 5.5.00 on QNX, prior to
                           running this configure script:
-                            CPPFLAGS=\&quot;-DODBC_QNX -DSQLANY_BUG\&quot;
-                            LDFLAGS=-lunix
-                            CUSTOM_ODBC_LIBS=\&quot;-ldblib -lodbc\&quot;
-  --with-iodbc=DIR        Include iODBC support /usr/local
-  --with-esoob=DIR        Include Easysoft OOB support /usr/local/easysoft/oob/client
-  --with-unixODBC=DIR     Include unixODBC support /usr/local
-  --with-dbmaker=DIR      Include DBMaker support
+                            CPPFLAGS&#x3D;\&quot;-DODBC_QNX -DSQLANY_BUG\&quot;
+                            LDFLAGS&#x3D;-lunix
+                            CUSTOM_ODBC_LIBS&#x3D;\&quot;-ldblib -lodbc\&quot;
+  --with-iodbc&#x3D;DIR        Include iODBC support &#x2F;usr&#x2F;local
+  --with-esoob&#x3D;DIR        Include Easysoft OOB support &#x2F;usr&#x2F;local&#x2F;easysoft&#x2F;oob&#x2F;client
+  --with-unixODBC&#x3D;DIR     Include unixODBC support &#x2F;usr&#x2F;local
+  --with-dbmaker&#x3D;DIR      Include DBMaker support
   --disable-opcache       Disable Zend OPcache support
   --disable-opcache-file  Disable file based caching
   --disable-huge-code-pages
                           Disable copying PHP CODE pages into HUGE PAGES
-  --enable-pcntl          Enable pcntl support (CLI/CGI only)
+  --enable-pcntl          Enable pcntl support (CLI&#x2F;CGI only)
   --disable-pdo           Disable PHP Data Objects support
-  --with-pdo-dblib=DIR    PDO: DBLIB-DB support.  DIR is the FreeTDS home directory
-  --with-pdo-firebird=DIR PDO: Firebird support.  DIR is the Firebird base
-                          install directory /opt/firebird
-  --with-pdo-mysql=DIR    PDO: MySQL support. DIR is the MySQL base directory
+  --with-pdo-dblib&#x3D;DIR    PDO: DBLIB-DB support.  DIR is the FreeTDS home directory
+  --with-pdo-firebird&#x3D;DIR PDO: Firebird support.  DIR is the Firebird base
+                          install directory &#x2F;opt&#x2F;firebird
+  --with-pdo-mysql&#x3D;DIR    PDO: MySQL support. DIR is the MySQL base directory
                           If no value or mysqlnd is passed as DIR, the
                           MySQL native driver will be used
-  --with-zlib-dir=DIR     PDO_MySQL: Set the path to libz install prefix
-  --with-pdo-oci=DIR      PDO: Oracle OCI support. DIR defaults to $ORACLE_HOME.
-                          Use --with-pdo-oci=instantclient,/path/to/instant/client/lib
+  --with-zlib-dir&#x3D;DIR     PDO_MySQL: Set the path to libz install prefix
+  --with-pdo-oci&#x3D;DIR      PDO: Oracle OCI support. DIR defaults to $ORACLE_HOME.
+                          Use --with-pdo-oci&#x3D;instantclient,&#x2F;path&#x2F;to&#x2F;instant&#x2F;client&#x2F;lib
                           for an Oracle Instant Client installation.
-  --with-pdo-odbc=flavour,dir
+  --with-pdo-odbc&#x3D;flavour,dir
                           PDO: Support for &#39;flavour&#39; ODBC driver.
-              include and lib dirs are looked for under &#39;dir&#39;.
+			  include and lib dirs are looked for under &#39;dir&#39;.
 
-              &#39;flavour&#39; can be one of:  ibm-db2, iODBC, unixODBC, generic
-              If &#39;,dir&#39; part is omitted, default for the flavour
-              you have selected will be used. e.g.:
+			  &#39;flavour&#39; can be one of:  ibm-db2, iODBC, unixODBC, generic
+			  If &#39;,dir&#39; part is omitted, default for the flavour
+			  you have selected will be used. e.g.:
 
-                --with-pdo-odbc=unixODBC
+			    --with-pdo-odbc&#x3D;unixODBC
 
-              will check for unixODBC under /usr/local. You may attempt
-              to use an otherwise unsupported driver using the \&quot;generic\&quot;
-              flavour.  The syntax for generic ODBC support is:
+			  will check for unixODBC under &#x2F;usr&#x2F;local. You may attempt
+			  to use an otherwise unsupported driver using the \&quot;generic\&quot;
+			  flavour.  The syntax for generic ODBC support is:
 
-                --with-pdo-odbc=generic,dir,libname,ldflags,cflags
+			    --with-pdo-odbc&#x3D;generic,dir,libname,ldflags,cflags
 
-              When built as &#39;shared&#39; the extension filename is always pdo_odbc.so
-  --with-pdo-pgsql=DIR    PDO: PostgreSQL support.  DIR is the PostgreSQL base
+			  When built as &#39;shared&#39; the extension filename is always pdo_odbc.so
+  --with-pdo-pgsql&#x3D;DIR    PDO: PostgreSQL support.  DIR is the PostgreSQL base
                           install directory or the path to pg_config
-  --without-pdo-sqlite=DIR
+  --without-pdo-sqlite&#x3D;DIR
                           PDO: sqlite 3 support.  DIR is the sqlite base
                           install directory BUNDLED
-  --with-pgsql=DIR        Include PostgreSQL support.  DIR is the PostgreSQL
+  --with-pgsql&#x3D;DIR        Include PostgreSQL support.  DIR is the PostgreSQL
                           base install directory or the path to pg_config
   --disable-phar          Disable phar support
   --disable-posix         Disable POSIX-like functions
-  --with-pspell=DIR       Include PSPELL support.
+  --with-pspell&#x3D;DIR       Include PSPELL support.
                           GNU Aspell version 0.50.0 or higher required
-  --with-libedit=DIR      Include libedit readline replacement (CLI/CGI only)
-  --with-readline=DIR     Include readline support (CLI/CGI only)
-  --with-recode=DIR       Include recode support
+  --with-libedit&#x3D;DIR      Include libedit readline replacement (CLI&#x2F;CGI only)
+  --with-readline&#x3D;DIR     Include readline support (CLI&#x2F;CGI only)
+  --with-recode&#x3D;DIR       Include recode support
   --disable-session       Disable session support
-  --with-mm=DIR           SESSION: Include mm support for session storage
+  --with-mm&#x3D;DIR           SESSION: Include mm support for session storage
   --enable-shmop          Enable shmop support
   --disable-simplexml     Disable SimpleXML support
-  --with-libxml-dir=DIR   SimpleXML: libxml2 install prefix
-  --with-snmp=DIR         Include SNMP support
-  --with-openssl-dir=DIR  SNMP: openssl install prefix
+  --with-libxml-dir&#x3D;DIR   SimpleXML: libxml2 install prefix
+  --with-snmp&#x3D;DIR         Include SNMP support
+  --with-openssl-dir&#x3D;DIR  SNMP: openssl install prefix
   --enable-soap           Enable SOAP support
-  --with-libxml-dir=DIR   SOAP: libxml2 install prefix
+  --with-libxml-dir&#x3D;DIR   SOAP: libxml2 install prefix
   --enable-sockets        Enable sockets support
-  --with-sodium=DIR     Include sodium support
-  --with-password-argon2=DIR           Include Argon2 support in password_*. DIR is the Argon2 shared library path]
+  --with-sodium&#x3D;DIR     Include sodium support
+  --with-password-argon2&#x3D;DIR           Include Argon2 support in password_*. DIR is the Argon2 shared library path]
   --enable-sysvmsg        Enable sysvmsg support
   --enable-sysvsem        Enable System V semaphore support
   --enable-sysvshm        Enable the System V shared memory support
-  --with-tidy=DIR         Include TIDY support
+  --with-tidy&#x3D;DIR         Include TIDY support
   --disable-tokenizer     Disable tokenizer support
   --enable-wddx           Enable WDDX support
-  --with-libxml-dir=DIR   WDDX: libxml2 install prefix
-  --with-libexpat-dir=DIR WDDX: libexpat dir for XMLRPC-EPI (deprecated)
+  --with-libxml-dir&#x3D;DIR   WDDX: libxml2 install prefix
+  --with-libexpat-dir&#x3D;DIR WDDX: libexpat dir for XMLRPC-EPI (deprecated)
   --disable-xml           Disable XML support
-  --with-libxml-dir=DIR   XML: libxml2 install prefix
-  --with-libexpat-dir=DIR XML: libexpat install prefix (deprecated)
+  --with-libxml-dir&#x3D;DIR   XML: libxml2 install prefix
+  --with-libexpat-dir&#x3D;DIR XML: libexpat install prefix (deprecated)
   --disable-xmlreader     Disable XMLReader support
-  --with-libxml-dir=DIR   XMLReader: libxml2 install prefix
-  --with-xmlrpc=DIR       Include XMLRPC-EPI support
-  --with-libxml-dir=DIR   XMLRPC-EPI: libxml2 install prefix
-  --with-libexpat-dir=DIR XMLRPC-EPI: libexpat dir for XMLRPC-EPI (deprecated)
-  --with-iconv-dir=DIR    XMLRPC-EPI: iconv dir for XMLRPC-EPI
+  --with-libxml-dir&#x3D;DIR   XMLReader: libxml2 install prefix
+  --with-xmlrpc&#x3D;DIR       Include XMLRPC-EPI support
+  --with-libxml-dir&#x3D;DIR   XMLRPC-EPI: libxml2 install prefix
+  --with-libexpat-dir&#x3D;DIR XMLRPC-EPI: libexpat dir for XMLRPC-EPI (deprecated)
+  --with-iconv-dir&#x3D;DIR    XMLRPC-EPI: iconv dir for XMLRPC-EPI
   --disable-xmlwriter     Disable XMLWriter support
-  --with-libxml-dir=DIR   XMLWriter: libxml2 install prefix
-  --with-xsl=DIR          Include XSL support.  DIR is the libxslt base
-                          install directory (libxslt &gt;= 1.1.0 required)
+  --with-libxml-dir&#x3D;DIR   XMLWriter: libxml2 install prefix
+  --with-xsl&#x3D;DIR          Include XSL support.  DIR is the libxslt base
+                          install directory (libxslt &gt;&#x3D; 1.1.0 required)
   --enable-zend-test           Enable zend-test extension
-  --enable-zip            Include Zip read/write support
-  --with-zlib-dir=DIR     ZIP: Set the path to libz install prefix
+  --enable-zip            Include Zip read&#x2F;write support
+  --with-zlib-dir&#x3D;DIR     ZIP: Set the path to libz install prefix
   --with-pcre-dir         ZIP: pcre install prefix
-  --with-libzip=DIR       ZIP: use libzip
+  --with-libzip&#x3D;DIR       ZIP: use libzip
   --enable-mysqlnd        Enable mysqlnd explicitly, will be done implicitly
                           when required by other extensions
   --disable-mysqlnd-compression-support
                           Disable support for the MySQL compressed protocol in mysqlnd
-  --with-zlib-dir=DIR     mysqlnd: Set the path to libz install prefix
+  --with-zlib-dir&#x3D;DIR     mysqlnd: Set the path to libz install prefix
 
 PEAR:
 
-  --with-pear=DIR         Install PEAR in DIR [PREFIX/lib/php]
+  --with-pear&#x3D;DIR         Install PEAR in DIR [PREFIX&#x2F;lib&#x2F;php]
   --without-pear          Do not install PEAR
 
 Zend:
@@ -766,21 +769,21 @@ Zend:
 
 TSRM:
 
-  --with-tsrm-pth=pth-config
+  --with-tsrm-pth&#x3D;pth-config
                           Use GNU Pth
   --with-tsrm-st          Use SGI&#39;s State Threads
   --with-tsrm-pthreads    Use POSIX threads (default)
 
 Libtool:
 
-  --enable-shared=PKGS    Build shared libraries default=yes
-  --enable-static=PKGS    Build static libraries default=yes
-  --enable-fast-install=PKGS
-                          Optimize for fast installation default=yes
-  --with-gnu-ld           Assume the C compiler uses GNU ld default=no
+  --enable-shared&#x3D;PKGS    Build shared libraries default&#x3D;yes
+  --enable-static&#x3D;PKGS    Build static libraries default&#x3D;yes
+  --enable-fast-install&#x3D;PKGS
+                          Optimize for fast installation default&#x3D;yes
+  --with-gnu-ld           Assume the C compiler uses GNU ld default&#x3D;no
   --disable-libtool-lock  Avoid locking (might break parallel builds)
-  --with-pic              Try to use only PIC/non-PIC objects default=use both
-  --with-tags=TAGS        Include additional configurations automatic
+  --with-pic              Try to use only PIC&#x2F;non-PIC objects default&#x3D;use both
+  --with-tags&#x3D;TAGS        Include additional configurations automatic
 
 
 Some influential environment variables:
@@ -789,23 +792,27 @@ Some influential environment variables:
   LDFLAGS     linker flags, e.g. -L&lt;lib dir&gt; if you have libraries in a
               nonstandard directory &lt;lib dir&gt;
   LIBS        libraries to pass to the linker, e.g. -l&lt;library&gt;
-  CPPFLAGS    (Objective) C/C++ preprocessor flags, e.g. -I&lt;include dir&gt; if
+  CPPFLAGS    (Objective) C&#x2F;C++ preprocessor flags, e.g. -I&lt;include dir&gt; if
               you have headers in a nonstandard directory &lt;include dir&gt;
   CPP         C preprocessor
-  YACC        The `Yet Another Compiler Compiler&#39; implementation to use.
-              Defaults to the first program found out of: `bison -y&#39;, `byacc&#39;,
-              `yacc&#39;.
+  YACC        The &#96;Yet Another Compiler Compiler&#39; implementation to use.
+              Defaults to the first program found out of: &#96;bison -y&#39;, &#96;byacc&#39;,
+              &#96;yacc&#39;.
   YFLAGS      The list of arguments that will be passed by default to $YACC.
               This script will default YFLAGS to the empty string to avoid a
-              default value of `-d&#39; given by some make applications.
+              default value of &#96;-d&#39; given by some make applications.
   CXX         C++ compiler command
   CXXFLAGS    C++ compiler flags
   CXXCPP      C++ preprocessor
 
-Use these variables to override the choices made by `configure&#39; or to help
-it to find libraries and programs with nonstandard names/locations.
-</code></pre><h2 id="默认拓展"><a href="#默认拓展" class="headerlink" title="默认拓展"></a>默认拓展</h2><p>当不配置任何参数时，它默认会有哪些拓展呢？</p>
-<pre><code>php -m</code></pre><pre><code>[PHP Modules]
+Use these variables to override the choices made by &#96;configure&#39; or to help
+it to find libraries and programs with nonstandard names&#x2F;locations.
+</code></pre>
+
+<h2 id="默认拓展"><a href="#默认拓展" class="headerlink" title="默认拓展"></a>默认拓展</h2><p>当不配置任何参数时，它默认会有哪些拓展呢？</p>
+<pre class="language-none"><code class="language-none">php -m</code></pre>
+
+<pre class="language-none"><code class="language-none">[PHP Modules]
 Core
 ctype
 date
@@ -832,43 +839,69 @@ xml
 xmlreader
 xmlwriter
 
-[Zend Modules]</code></pre><p>此时你会发现连<code>php-fpm</code>都没有</p>
-<h2 id="常用配置"><a href="#常用配置" class="headerlink" title="常用配置"></a>常用配置</h2><h3 id="依赖安装"><a href="#依赖安装" class="headerlink" title="依赖安装"></a>依赖安装</h3><pre><code>yum install -y libxml2-devel openssl-devel</code></pre><pre><code>./configure --enable-fpm  --enable-bcmath  --with-openssl \
---enable-mbstring --with-mysqli --enable-mysqlnd</code></pre><h3 id="编译安装"><a href="#编译安装" class="headerlink" title="编译安装"></a>编译安装</h3><pre><code>make &amp;&amp; make install</code></pre><h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><h3 id="查看ini配置"><a href="#查看ini配置" class="headerlink" title="查看ini配置"></a>查看ini配置</h3><pre><code>php -ini | grep &#39;ini&#39;</code></pre><pre><code>Configuration File (php.ini) Path =&gt; /usr/local/lib
-Loaded Configuration File =&gt; /usr/local/lib/php.ini
-Scan this dir for additional .ini files =&gt; (none)
-Additional .ini files parsed =&gt; (none)
-user_ini.cache_ttl =&gt; 300 =&gt; 300
-user_ini.filename =&gt; .user.ini =&gt; .user.ini
-init_command_executed_count =&gt; 0
-init_command_failed_count =&gt; 0
-com_init_db =&gt; 0</code></pre><p>从源代码目录 复制配置文件到<code>Configuration File (php.ini) Path</code></p>
-<pre><code>cp php.ini-production /usr/local/lib/php.ini</code></pre><h2 id="设置服务-amp-开机启动-centos-7"><a href="#设置服务-amp-开机启动-centos-7" class="headerlink" title="设置服务&amp;开机启动(centos 7+)"></a>设置服务&amp;开机启动(centos 7+)</h2><p>服务服务脚本到systemd</p>
-<pre><code>cp sapi/fpm/php-fpm.service /etc/systemd/system/
-</code></pre><p>查看启动脚本</p>
-<pre><code>cat sapi/fpm/php-fpm.service</code></pre><p>结果</p>
-<pre><code># It&#39;s not recommended to modify this file in-place, because it
+[Zend Modules]</code></pre>
+<p>此时你会发现连<code>php-fpm</code>都没有</p>
+<h2 id="常用配置"><a href="#常用配置" class="headerlink" title="常用配置"></a>常用配置</h2><h3 id="依赖安装"><a href="#依赖安装" class="headerlink" title="依赖安装"></a>依赖安装</h3><pre class="language-none"><code class="language-none">yum install -y libxml2-devel openssl-devel</code></pre>
+
+<pre class="language-none"><code class="language-none">.&#x2F;configure --enable-fpm  --enable-bcmath  --with-openssl \
+--enable-mbstring --with-mysqli --enable-mysqlnd</code></pre>
+
+
+
+<h3 id="编译安装"><a href="#编译安装" class="headerlink" title="编译安装"></a>编译安装</h3><pre class="language-none"><code class="language-none">make &amp;&amp; make install</code></pre>
+
+<h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><h3 id="查看ini配置"><a href="#查看ini配置" class="headerlink" title="查看ini配置"></a>查看ini配置</h3><pre class="language-none"><code class="language-none">php -ini | grep &#39;ini&#39;</code></pre>
+
+<pre class="language-none"><code class="language-none">Configuration File (php.ini) Path &#x3D;&gt; &#x2F;usr&#x2F;local&#x2F;lib
+Loaded Configuration File &#x3D;&gt; &#x2F;usr&#x2F;local&#x2F;lib&#x2F;php.ini
+Scan this dir for additional .ini files &#x3D;&gt; (none)
+Additional .ini files parsed &#x3D;&gt; (none)
+user_ini.cache_ttl &#x3D;&gt; 300 &#x3D;&gt; 300
+user_ini.filename &#x3D;&gt; .user.ini &#x3D;&gt; .user.ini
+init_command_executed_count &#x3D;&gt; 0
+init_command_failed_count &#x3D;&gt; 0
+com_init_db &#x3D;&gt; 0</code></pre>
+<p>从源代码目录 复制配置文件到<code>Configuration File (php.ini) Path</code></p>
+<pre class="language-none"><code class="language-none">cp php.ini-production &#x2F;usr&#x2F;local&#x2F;lib&#x2F;php.ini</code></pre>
+
+<h2 id="设置服务-amp-开机启动-centos-7"><a href="#设置服务-amp-开机启动-centos-7" class="headerlink" title="设置服务&amp;开机启动(centos 7+)"></a>设置服务&amp;开机启动(centos 7+)</h2><p>服务服务脚本到systemd</p>
+<pre class="language-none"><code class="language-none">cp sapi&#x2F;fpm&#x2F;php-fpm.service &#x2F;etc&#x2F;systemd&#x2F;system&#x2F;
+</code></pre>
+<p>查看启动脚本</p>
+<pre class="language-none"><code class="language-none">cat sapi&#x2F;fpm&#x2F;php-fpm.service</code></pre>
+
+<p>结果</p>
+<pre class="language-none"><code class="language-none"># It&#39;s not recommended to modify this file in-place, because it
 # will be overwritten during upgrades.  If you want to customize,
 # the best way is to use the &quot;systemctl edit&quot; command.
 
 [Unit]
-Description=The PHP FastCGI Process Manager
-After=network.target
+Description&#x3D;The PHP FastCGI Process Manager
+After&#x3D;network.target
 
 [Service]
-Type=simple
-PIDFile=/usr/local/var/run/php-fpm.pid
-ExecStart=/usr/local/sbin/php-fpm --nodaemonize --fpm-config /usr/local/etc/php-fpm.conf
-ExecReload=/bin/kill -USR2 $MAINPID
-PrivateTmp=true
+Type&#x3D;simple
+PIDFile&#x3D;&#x2F;usr&#x2F;local&#x2F;var&#x2F;run&#x2F;php-fpm.pid
+ExecStart&#x3D;&#x2F;usr&#x2F;local&#x2F;sbin&#x2F;php-fpm --nodaemonize --fpm-config &#x2F;usr&#x2F;local&#x2F;etc&#x2F;php-fpm.conf
+ExecReload&#x3D;&#x2F;bin&#x2F;kill -USR2 $MAINPID
+PrivateTmp&#x3D;true
 
 [Install]
-WantedBy=multi-user.target</code></pre><h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><pre><code>cp sapi/fpm/php-fpm.conf /usr/local/etc/php-fpm.conf
-</code></pre><p>修改php-fpm.conf 相应配置使得PIDFile文件位置与php-fpm.service配置的一致。并复制<a target="_blank" rel="noopener" href="http://www.conf到对应目录">www.conf到对应目录</a></p>
-<h3 id="启动-1"><a href="#启动-1" class="headerlink" title="启动"></a>启动</h3><pre><code>systemctl daemon-reload
+WantedBy&#x3D;multi-user.target</code></pre>
+
+<h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><pre class="language-none"><code class="language-none">cp sapi&#x2F;fpm&#x2F;php-fpm.conf &#x2F;usr&#x2F;local&#x2F;etc&#x2F;php-fpm.conf
+</code></pre>
+<p>修改php-fpm.conf 相应配置使得PIDFile文件位置与php-fpm.service配置的一致。并复制<a target="_blank" rel="noopener" href="http://www.conf到对应目录">www.conf到对应目录</a></p>
+<h3 id="启动-1"><a href="#启动-1" class="headerlink" title="启动"></a>启动</h3><pre class="language-none"><code class="language-none">systemctl daemon-reload
 systemctl start php-fpm.service
 systemctl status php-fpm.service
 systemctl enable php-fpm.service</code></pre>
+
+
+
+
+
+
                 
             </div>
             <hr/>

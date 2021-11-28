@@ -9,8 +9,8 @@
 
 
 
-计数器@WebServlet(name = &amp;quot;HelloServlet&amp;quot;, urlPatterns = &amp;#123;&amp;quot;/hello&amp;quot;&amp;#125;)
-public class HelloServ">
+计数器@WebServlet(name = &#34;HelloServlet&#34;, urlPatterns = &amp;#123;&#34;/hello&#34;&amp;#125;)
+public class HelloServlet extends HttpServ">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -479,24 +479,26 @@ public class HelloServ">
 <span id="more"></span>
 
 
-<h2 id="计数器"><a href="#计数器" class="headerlink" title="计数器"></a>计数器</h2><pre><code class="java">@WebServlet(name = &quot;HelloServlet&quot;, urlPatterns = &#123;&quot;/hello&quot;&#125;)
-public class HelloServlet extends HttpServlet &#123;
+<h2 id="计数器"><a href="#计数器" class="headerlink" title="计数器"></a>计数器</h2><pre class="language-java" data-language="java"><code class="language-java"><span class="token annotation punctuation">@WebServlet</span><span class="token punctuation">(</span>name <span class="token operator">=</span> <span class="token string">"HelloServlet"</span><span class="token punctuation">,</span> urlPatterns <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token string">"/hello"</span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">HelloServlet</span> <span class="token keyword">extends</span> <span class="token class-name">HttpServlet</span> <span class="token punctuation">&#123;</span>
 
-    private static final Logger LOG = Logger.getLogger(HelloServlet.class.getName());
+    <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token class-name">Logger</span> LOG <span class="token operator">=</span> <span class="token class-name">Logger</span><span class="token punctuation">.</span><span class="token function">getLogger</span><span class="token punctuation">(</span><span class="token class-name">HelloServlet</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">.</span><span class="token function">getName</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-    private Integer count = 0;
+    <span class="token keyword">private</span> <span class="token class-name">Integer</span> count <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
 
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException &#123;
-        ++count;
-        processRequest(request, response);
-        LOG.info(String.format(&quot;计数 %d&quot;, count));
-    &#125;
-&#125;
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">protected</span> <span class="token keyword">void</span> <span class="token function">doGet</span><span class="token punctuation">(</span><span class="token class-name">HttpServletRequest</span> request<span class="token punctuation">,</span> <span class="token class-name">HttpServletResponse</span> response<span class="token punctuation">)</span>
+            <span class="token keyword">throws</span> <span class="token class-name">ServletException</span><span class="token punctuation">,</span> <span class="token class-name">IOException</span> <span class="token punctuation">&#123;</span>
+        <span class="token operator">++</span>count<span class="token punctuation">;</span>
+        <span class="token function">processRequest</span><span class="token punctuation">(</span>request<span class="token punctuation">,</span> response<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        LOG<span class="token punctuation">.</span><span class="token function">info</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">.</span><span class="token function">format</span><span class="token punctuation">(</span><span class="token string">"计数 %d"</span><span class="token punctuation">,</span> count<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
 </code></pre>
 <p>按常理多少次请求后就会打印出计数多少。</p>
-<pre><code>ab -n300 -c20 http://localhost:8080/servlet-demo/hello</code></pre><p>正常下，执行第一次 计数应为300</p>
+<pre class="language-none"><code class="language-none">ab -n300 -c20 http:&#x2F;&#x2F;localhost:8080&#x2F;servlet-demo&#x2F;hello</code></pre>
+
+<p>正常下，执行第一次 计数应为300</p>
 <p><img src="https://vison-blog.oss-cn-beijing.aliyuncs.com/20210303194840.png" alt=""></p>
 <p>事实上得到的却不是</p>
 <p>再执行..</p>
@@ -505,17 +507,18 @@ public class HelloServlet extends HttpServlet &#123;
 <h2 id="解释"><a href="#解释" class="headerlink" title="解释"></a>解释</h2><p>实际上<code>++count</code>是一个读取-修改-写入的操作。</p>
 <p>假设线程A、B 同时读取到了值是m,同时写入+1后的值m+1。结果count = m+1,则事实上整个计数就少了1,应该为m+2。</p>
 <h2 id="处理"><a href="#处理" class="headerlink" title="处理"></a>处理</h2><p>将<code>count</code>声明为<code>AtomicInter</code></p>
-<pre><code class="java">    private Integer count = 0;
-    private AtomicInteger atomicCount = new AtomicInteger(0);
+<pre class="language-java" data-language="java"><code class="language-java"><span class="token keyword">private</span> <span class="token class-name">Integer</span> count <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token keyword">private</span> <span class="token class-name">AtomicInteger</span> atomicCount <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">AtomicInteger</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException &#123;
-        ++count;
-        processRequest(request, response);
-        LOG.info(String.format(&quot;计数count %d&quot;, count));
-        LOG.info(String.format(&quot;计数atomicCount %d&quot;, atomicCount.incrementAndGet()));
-    &#125;</code></pre>
+<span class="token annotation punctuation">@Override</span>
+<span class="token keyword">protected</span> <span class="token keyword">void</span> <span class="token function">doGet</span><span class="token punctuation">(</span><span class="token class-name">HttpServletRequest</span> request<span class="token punctuation">,</span> <span class="token class-name">HttpServletResponse</span> response<span class="token punctuation">)</span>
+        <span class="token keyword">throws</span> <span class="token class-name">ServletException</span><span class="token punctuation">,</span> <span class="token class-name">IOException</span> <span class="token punctuation">&#123;</span>
+    <span class="token operator">++</span>count<span class="token punctuation">;</span>
+    <span class="token function">processRequest</span><span class="token punctuation">(</span>request<span class="token punctuation">,</span> response<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    LOG<span class="token punctuation">.</span><span class="token function">info</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">.</span><span class="token function">format</span><span class="token punctuation">(</span><span class="token string">"计数count %d"</span><span class="token punctuation">,</span> count<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    LOG<span class="token punctuation">.</span><span class="token function">info</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">.</span><span class="token function">format</span><span class="token punctuation">(</span><span class="token string">"计数atomicCount %d"</span><span class="token punctuation">,</span> atomicCount<span class="token punctuation">.</span><span class="token function">incrementAndGet</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span></code></pre>
+
 <p><img src="https://vison-blog.oss-cn-beijing.aliyuncs.com/20210309095018.png" alt=""></p>
 <p>可以看到，<code>AtomicInteger</code>统计的是正确的了。</p>
 

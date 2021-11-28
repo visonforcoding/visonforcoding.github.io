@@ -11,7 +11,8 @@
 安装常规安装的方式有两种,pip安装或发行版安装
 以centos 8为pip安装方式为例。
 pip安装pip install supervisor
-运行配置文件ech">
+
+运行配置文件ec">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -481,68 +482,82 @@ pip安装pip install supervisor
 
 <h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>常规安装的方式有两种,pip安装或发行版安装</p>
 <p>以centos 8为pip安装方式为例。</p>
-<h3 id="pip安装"><a href="#pip安装" class="headerlink" title="pip安装"></a>pip安装</h3><pre><code class="shell">pip install supervisor</code></pre>
-<h2 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h2><h3 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h3><pre><code>echo_supervisord_conf &gt; /etc/supervisord.conf</code></pre><p>生成配置文件</p>
+<h3 id="pip安装"><a href="#pip安装" class="headerlink" title="pip安装"></a>pip安装</h3><pre class="language-shell" data-language="shell"><code class="language-shell">pip <span class="token function">install</span> supervisor</code></pre>
+
+<h2 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h2><h3 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h3><pre class="language-none"><code class="language-none">echo_supervisord_conf &gt; &#x2F;etc&#x2F;supervisord.conf</code></pre>
+<p>生成配置文件</p>
 <h3 id="配置systemd服务"><a href="#配置systemd服务" class="headerlink" title="配置systemd服务"></a>配置systemd服务</h3><p>如果是发行版安装，默认会配置好开机启动服务。如果非发行版安装，可以手动配置。</p>
 <p>There are user-contributed scripts for various operating systems at: <a target="_blank" rel="noopener" href="https://github.com/Supervisor/initscripts">https://github.com/Supervisor/initscripts</a></p>
 <p>注意，事实上github上的脚本有点问题，与实际安装的目录位置不匹配。稍作修改</p>
-<pre><code class="ini"># supervisord service for systemd (CentOS 7.0+)
-# by ET-CS (https://github.com/ET-CS)
-[Unit]
-Description=Supervisor daemon
+<pre class="language-ini" data-language="ini"><code class="language-ini"><span class="token comment"># supervisord service for systemd (CentOS 7.0+)</span>
+<span class="token comment"># by ET-CS (https://github.com/ET-CS)</span>
+<span class="token header"><span class="token punctuation">[</span><span class="token section-name selector">Unit</span><span class="token punctuation">]</span></span>
+<span class="token key attr-name">Description</span><span class="token punctuation">=</span><span class="token value attr-value">Supervisor daemon</span>
 
-[Service]
-Type=forking
-ExecStart=/usr/local/bin/supervisord
-ExecStop=/usr/local/bin/supervisorctl $OPTIONS shutdown
-ExecReload=/usr/local/bin/supervisorctl $OPTIONS reload
-KillMode=process
-Restart=on-failure
-RestartSec=42s
+<span class="token header"><span class="token punctuation">[</span><span class="token section-name selector">Service</span><span class="token punctuation">]</span></span>
+<span class="token key attr-name">Type</span><span class="token punctuation">=</span><span class="token value attr-value">forking</span>
+<span class="token key attr-name">ExecStart</span><span class="token punctuation">=</span><span class="token value attr-value">/usr/local/bin/supervisord</span>
+<span class="token key attr-name">ExecStop</span><span class="token punctuation">=</span><span class="token value attr-value">/usr/local/bin/supervisorctl $OPTIONS shutdown</span>
+<span class="token key attr-name">ExecReload</span><span class="token punctuation">=</span><span class="token value attr-value">/usr/local/bin/supervisorctl $OPTIONS reload</span>
+<span class="token key attr-name">KillMode</span><span class="token punctuation">=</span><span class="token value attr-value">process</span>
+<span class="token key attr-name">Restart</span><span class="token punctuation">=</span><span class="token value attr-value">on-failure</span>
+<span class="token key attr-name">RestartSec</span><span class="token punctuation">=</span><span class="token value attr-value">42s</span>
 
-[Install]
-WantedBy=multi-user.target</code></pre>
+<span class="token header"><span class="token punctuation">[</span><span class="token section-name selector">Install</span><span class="token punctuation">]</span></span>
+<span class="token key attr-name">WantedBy</span><span class="token punctuation">=</span><span class="token value attr-value">multi-user.target</span></code></pre>
 <p>将此文件为保存为 <code>vim /etc/systemd/system/supervisord.service</code></p>
 <h3 id="启动服务"><a href="#启动服务" class="headerlink" title="启动服务"></a>启动服务</h3><p>重新读取所有服务项</p>
-<pre><code>systemctl daemon-reload</code></pre><p>启动服务</p>
-<pre><code>systemctl start supervisord.service</code></pre><p>开机启动</p>
-<pre><code>systemctl enable supervisord.service</code></pre><h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><h3 id="启用子配置目录"><a href="#启用子配置目录" class="headerlink" title="启用子配置目录"></a>启用子配置目录</h3><p><code>vim /etc/supervisord.conf</code><br>最后2行打开注释并编辑为</p>
-<pre><code>[include]
-files = ./supervisord.d/*.ini</code></pre><p>重启</p>
-<pre><code>systemctl reload supervisord.service
+<pre class="language-none"><code class="language-none">systemctl daemon-reload</code></pre>
+<p>启动服务</p>
+<pre class="language-none"><code class="language-none">systemctl start supervisord.service</code></pre>
+<p>开机启动</p>
+<pre class="language-none"><code class="language-none">systemctl enable supervisord.service</code></pre>
+
+<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><h3 id="启用子配置目录"><a href="#启用子配置目录" class="headerlink" title="启用子配置目录"></a>启用子配置目录</h3><p><code>vim /etc/supervisord.conf</code><br>最后2行打开注释并编辑为</p>
+<pre class="language-none"><code class="language-none">[include]
+files &#x3D; .&#x2F;supervisord.d&#x2F;*.ini</code></pre>
+
+<p>重启</p>
+<pre class="language-none"><code class="language-none">systemctl reload supervisord.service
 # 或者
-supervisorctl reload</code></pre><h3 id="添加项目"><a href="#添加项目" class="headerlink" title="添加项目"></a>添加项目</h3><p><code>vim /etc/supervisord.d/glances.ini</code></p>
-<pre><code class="ini">[program:glances]
-command=glances --export influxdb -q
-process_name=%(program_name)s
-numprocs=1
-directory=/tmp
-umask=022
-priority=999
-autostart=true
-autorestart=unexpected
-startsecs=10
-startretries=3
-exitcodes=0
-stopsignal=TERM
-stopwaitsecs=10
-stopasgroup=false
-killasgroup=false
-user=root
-redirect_stderr=false
-stdout_logfile=/var/log/glances/glances-out.log
-stdout_logfile_maxbytes=1MB
-stdout_logfile_backups=10
-stdout_capture_maxbytes=1MB
-stdout_events_enabled=false
-stderr_logfile=/var/log/glances/glances-err.log
-stderr_logfile_maxbytes=1MB
-stderr_logfile_backups=10
-stderr_capture_maxbytes=1MB</code></pre>
+supervisorctl reload</code></pre>
+
+<h3 id="添加项目"><a href="#添加项目" class="headerlink" title="添加项目"></a>添加项目</h3><p><code>vim /etc/supervisord.d/glances.ini</code></p>
+<pre class="language-ini" data-language="ini"><code class="language-ini"><span class="token header"><span class="token punctuation">[</span><span class="token section-name selector">program:glances</span><span class="token punctuation">]</span></span>
+<span class="token key attr-name">command</span><span class="token punctuation">=</span><span class="token value attr-value">glances --export influxdb -q</span>
+<span class="token key attr-name">process_name</span><span class="token punctuation">=</span><span class="token value attr-value">%(program_name)s</span>
+<span class="token key attr-name">numprocs</span><span class="token punctuation">=</span><span class="token value attr-value">1</span>
+<span class="token key attr-name">directory</span><span class="token punctuation">=</span><span class="token value attr-value">/tmp</span>
+<span class="token key attr-name">umask</span><span class="token punctuation">=</span><span class="token value attr-value">022</span>
+<span class="token key attr-name">priority</span><span class="token punctuation">=</span><span class="token value attr-value">999</span>
+<span class="token key attr-name">autostart</span><span class="token punctuation">=</span><span class="token value attr-value">true</span>
+<span class="token key attr-name">autorestart</span><span class="token punctuation">=</span><span class="token value attr-value">unexpected</span>
+<span class="token key attr-name">startsecs</span><span class="token punctuation">=</span><span class="token value attr-value">10</span>
+<span class="token key attr-name">startretries</span><span class="token punctuation">=</span><span class="token value attr-value">3</span>
+<span class="token key attr-name">exitcodes</span><span class="token punctuation">=</span><span class="token value attr-value">0</span>
+<span class="token key attr-name">stopsignal</span><span class="token punctuation">=</span><span class="token value attr-value">TERM</span>
+<span class="token key attr-name">stopwaitsecs</span><span class="token punctuation">=</span><span class="token value attr-value">10</span>
+<span class="token key attr-name">stopasgroup</span><span class="token punctuation">=</span><span class="token value attr-value">false</span>
+<span class="token key attr-name">killasgroup</span><span class="token punctuation">=</span><span class="token value attr-value">false</span>
+<span class="token key attr-name">user</span><span class="token punctuation">=</span><span class="token value attr-value">root</span>
+<span class="token key attr-name">redirect_stderr</span><span class="token punctuation">=</span><span class="token value attr-value">false</span>
+<span class="token key attr-name">stdout_logfile</span><span class="token punctuation">=</span><span class="token value attr-value">/var/log/glances/glances-out.log</span>
+<span class="token key attr-name">stdout_logfile_maxbytes</span><span class="token punctuation">=</span><span class="token value attr-value">1MB</span>
+<span class="token key attr-name">stdout_logfile_backups</span><span class="token punctuation">=</span><span class="token value attr-value">10</span>
+<span class="token key attr-name">stdout_capture_maxbytes</span><span class="token punctuation">=</span><span class="token value attr-value">1MB</span>
+<span class="token key attr-name">stdout_events_enabled</span><span class="token punctuation">=</span><span class="token value attr-value">false</span>
+<span class="token key attr-name">stderr_logfile</span><span class="token punctuation">=</span><span class="token value attr-value">/var/log/glances/glances-err.log</span>
+<span class="token key attr-name">stderr_logfile_maxbytes</span><span class="token punctuation">=</span><span class="token value attr-value">1MB</span>
+<span class="token key attr-name">stderr_logfile_backups</span><span class="token punctuation">=</span><span class="token value attr-value">10</span>
+<span class="token key attr-name">stderr_capture_maxbytes</span><span class="token punctuation">=</span><span class="token value attr-value">1MB</span></code></pre>
 <p>注意先建好目录 <code>/var/log/glances</code></p>
-<h3 id="重新读取配置并启用"><a href="#重新读取配置并启用" class="headerlink" title="重新读取配置并启用"></a>重新读取配置并启用</h3><pre><code>supervisorctl reload
-supervisorctl start glances</code></pre><h3 id="可查看运行状态"><a href="#可查看运行状态" class="headerlink" title="可查看运行状态"></a>可查看运行状态</h3><pre><code>supervisorctl status</code></pre><p>结果</p>
-<pre><code>glances                          RUNNING   pid 46026, uptime 0:05:05</code></pre>
+<h3 id="重新读取配置并启用"><a href="#重新读取配置并启用" class="headerlink" title="重新读取配置并启用"></a>重新读取配置并启用</h3><pre class="language-none"><code class="language-none">supervisorctl reload
+supervisorctl start glances</code></pre>
+
+<h3 id="可查看运行状态"><a href="#可查看运行状态" class="headerlink" title="可查看运行状态"></a>可查看运行状态</h3><pre class="language-none"><code class="language-none">supervisorctl status</code></pre>
+
+<p>结果</p>
+<pre class="language-none"><code class="language-none">glances                          RUNNING   pid 46026, uptime 0:05:05</code></pre>
                 
             </div>
             <hr/>

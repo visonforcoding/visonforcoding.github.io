@@ -9,8 +9,8 @@
 vuetifyjs官方提供的方法实际运用当中似乎会存在一些兼容问题，比如使用Font Awesome时有些图标就不会正常显示。
 
 
-Font Awesome    &amp;lt;!-- 官方 --&amp;gt;
-    &amp;lt;v-icon&amp;gt;f">
+Font Awesome&amp;lt;!-- 官方 --&gt;
+&amp;lt;v-icon&gt;fas fa-php&amp;lt;/">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -479,18 +479,17 @@ Font Awesome    &amp;lt;!-- 官方 --&amp;gt;
 <p>vuetifyjs官方提供的方法实际运用当中似乎会存在一些兼容问题，比如使用Font Awesome时有些图标就不会正常显示。</p>
 <span id="more"></span>
 
-<h2 id="Font-Awesome"><a href="#Font-Awesome" class="headerlink" title="Font Awesome"></a>Font Awesome</h2><pre><code class="html">    &lt;!-- 官方 --&gt;
-    &lt;v-icon&gt;fas fa-php&lt;/v-icon&gt;
-    &lt;!-- 替代 --&gt;
-    &lt;i class=&quot;fab fa-php v-icon&quot;&gt;&lt;/i&gt;</code></pre>
+<h2 id="Font-Awesome"><a href="#Font-Awesome" class="headerlink" title="Font Awesome"></a>Font Awesome</h2><pre class="language-html" data-language="html"><code class="language-html"><span class="token comment">&lt;!-- 官方 --></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>v-icon</span><span class="token punctuation">></span></span>fas fa-php<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>v-icon</span><span class="token punctuation">></span></span>
+<span class="token comment">&lt;!-- 替代 --></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>i</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>fab fa-php v-icon<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>i</span><span class="token punctuation">></span></span></code></pre>
 <p>有些图标不显示的问题可以使用上述方法替代解决</p>
 <h2 id="使用阿里巴巴字体"><a href="#使用阿里巴巴字体" class="headerlink" title="使用阿里巴巴字体"></a>使用阿里巴巴字体</h2><p>阿里巴巴字体非常多非常庞大，基本想要的都有，而国外的很多不能用。所以可以使用阿里巴巴字体替代。</p>
 <p>第一步：拷贝项目下面生成的fontclass代码：</p>
 <p>可以在public/index.html 下用 link 标签引入</p>
 <p>//at.alicdn.com/t/font_8d5l8fzk5b87iudi.css</p>
 <p>第二步：挑选相应图标并获取类名，应用于页面：</p>
-<pre><code class="html">&lt;i class=&quot;iconfont icon-xxx&quot;&gt;&lt;/i&gt;</code></pre>
-
+<pre class="language-html" data-language="html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>i</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>iconfont icon-xxx<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>i</span><span class="token punctuation">></span></span></code></pre>
                 
             </div>
             <hr/>

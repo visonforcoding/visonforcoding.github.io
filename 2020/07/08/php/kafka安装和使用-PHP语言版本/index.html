@@ -10,10 +10,10 @@
 
 
 docker搭建kafka## docker-compose.yml
-version: &amp;#39;3.1&amp;#39;
+version: &#39;3.1&#39;
 services:
     zookeeper:
-">
+        ">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -482,85 +482,86 @@ services:
 <p>首先,安装确实是一个费时费力的事情。这里我们使用docker安装。</p>
 <span id="more"></span>
 
-<h2 id="docker搭建kafka"><a href="#docker搭建kafka" class="headerlink" title="docker搭建kafka"></a>docker搭建kafka</h2><pre><code class="yml">## docker-compose.yml
-version: &#39;3.1&#39;
-services:
-    zookeeper:
-        image: wurstmeister/zookeeper
-        ports:
-          - &quot;2181:2181&quot;
-    kafka:
-        image: wurstmeister/kafka
-        ports:
-          - &quot;9092:9092&quot;
-        environment:
-           KAFKA_ADVERTISED_HOST_NAME: 172.17.0.1
-           KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-           KAFKA_ADVERTISED_PORT: 9092</code></pre>
+<h2 id="docker搭建kafka"><a href="#docker搭建kafka" class="headerlink" title="docker搭建kafka"></a>docker搭建kafka</h2><pre class="language-yml" data-language="yml"><code class="language-yml"><span class="token comment">## docker-compose.yml</span>
+<span class="token key atrule">version</span><span class="token punctuation">:</span> <span class="token string">'3.1'</span>
+<span class="token key atrule">services</span><span class="token punctuation">:</span>
+    <span class="token key atrule">zookeeper</span><span class="token punctuation">:</span>
+        <span class="token key atrule">image</span><span class="token punctuation">:</span> wurstmeister/zookeeper
+        <span class="token key atrule">ports</span><span class="token punctuation">:</span>
+          <span class="token punctuation">-</span> <span class="token string">"2181:2181"</span>
+    <span class="token key atrule">kafka</span><span class="token punctuation">:</span>
+        <span class="token key atrule">image</span><span class="token punctuation">:</span> wurstmeister/kafka
+        <span class="token key atrule">ports</span><span class="token punctuation">:</span>
+          <span class="token punctuation">-</span> <span class="token string">"9092:9092"</span>
+        <span class="token key atrule">environment</span><span class="token punctuation">:</span>
+           <span class="token key atrule">KAFKA_ADVERTISED_HOST_NAME</span><span class="token punctuation">:</span> 172.17.0.1
+           <span class="token key atrule">KAFKA_ZOOKEEPER_CONNECT</span><span class="token punctuation">:</span> zookeeper<span class="token punctuation">:</span><span class="token number">2181</span>
+           <span class="token key atrule">KAFKA_ADVERTISED_PORT</span><span class="token punctuation">:</span> <span class="token number">9092</span></code></pre>
 <p>更多细节建议访问官方文档查阅。</p>
-<h2 id="PHP实现"><a href="#PHP实现" class="headerlink" title="PHP实现"></a>PHP实现</h2><h3 id="生产者"><a href="#生产者" class="headerlink" title="生产者"></a>生产者</h3><pre><code class="PHP"> public function kafka(Request $request)
+<h2 id="PHP实现"><a href="#PHP实现" class="headerlink" title="PHP实现"></a>PHP实现</h2><h3 id="生产者"><a href="#生产者" class="headerlink" title="生产者"></a>生产者</h3><pre class="language-PHP" data-language="PHP"><code class="language-PHP">public function kafka(Request $request)
+   &#123;
+       $faker &#x3D; Factory::create(&#39;zh_CN&#39;);
+       $message &#x3D; $faker-&gt;name();
+       Log::debug(&#39;消息&#39;, [&#39;message&#39; &#x3D;&gt; $message]);
+
+       $conf &#x3D; new Conf();
+       $conf-&gt;set(&#39;log_level&#39;, (string) LOG_DEBUG);
+       $conf-&gt;set(&#39;debug&#39;, &#39;all&#39;);
+       $conf-&gt;set(&#39;metadata.broker.list&#39;, &#39;127.0.0.1:9092&#39;);
+       $conf-&gt;setDrMsgCb(function ($kafka, $message) &#123;
+           Log::debug(&quot;kafka信息&quot;, [&#39;message&#39; &#x3D;&gt; var_export($message, true)]);
+       &#125;);
+       $conf-&gt;setErrorCb(function ($kafka, $err, $reason) &#123;
+           Log::debug(&quot;kafka错误&quot;, [&#39;err&#39; &#x3D;&gt; $err, &#39;reason&#39; &#x3D;&gt; $reason]);
+       &#125;);
+
+       $conf-&gt;setLogCb(function ($kafka, $level, $facility, $message) &#123;
+           Log::debug(vsprintf(&quot;Kafka %s: %s (level: %d)\n&quot;, [$facility, $message, $level]));
+       &#125;);
+
+       &#x2F;&#x2F;If you need to produce exactly once and want to keep the original produce order, uncomment the line below
+       &#x2F;&#x2F;$conf-&gt;set(&#39;enable.idempotence&#39;, &#39;true&#39;);
+
+       $producer &#x3D; new Producer($conf);
+
+       $topic &#x3D; $producer-&gt;newTopic(&quot;test&quot;);
+       $topic-&gt;produce(RD_KAFKA_PARTITION_UA, 0, $faker-&gt;name());
+       $producer-&gt;poll(0);
+
+       $result &#x3D; $producer-&gt;flush(10000);
+       if (RD_KAFKA_RESP_ERR_NO_ERROR !&#x3D;&#x3D; $result) &#123;
+           throw new \RuntimeException(&#39;Was unable to flush, messages might be lost!&#39;);
+       &#125;
+
+       return new ActionResponse($result);
+   &#125;</code></pre>
+
+<h3 id="消费者"><a href="#消费者" class="headerlink" title="消费者"></a>消费者</h3><pre class="language-PHP" data-language="PHP"><code class="language-PHP">public function consume()
     &#123;
-        $faker = Factory::create(&#39;zh_CN&#39;);
-        $message = $faker-&gt;name();
-        Log::debug(&#39;消息&#39;, [&#39;message&#39; =&gt; $message]);
+        $conf &#x3D; new Conf();
 
-        $conf = new Conf();
-        $conf-&gt;set(&#39;log_level&#39;, (string) LOG_DEBUG);
-        $conf-&gt;set(&#39;debug&#39;, &#39;all&#39;);
-        $conf-&gt;set(&#39;metadata.broker.list&#39;, &#39;127.0.0.1:9092&#39;);
-        $conf-&gt;setDrMsgCb(function ($kafka, $message) &#123;
-            Log::debug(&quot;kafka信息&quot;, [&#39;message&#39; =&gt; var_export($message, true)]);
-        &#125;);
-        $conf-&gt;setErrorCb(function ($kafka, $err, $reason) &#123;
-            Log::debug(&quot;kafka错误&quot;, [&#39;err&#39; =&gt; $err, &#39;reason&#39; =&gt; $reason]);
-        &#125;);
-
-        $conf-&gt;setLogCb(function ($kafka, $level, $facility, $message) &#123;
-            Log::debug(vsprintf(&quot;Kafka %s: %s (level: %d)\n&quot;, [$facility, $message, $level]));
-        &#125;);
-
-        //If you need to produce exactly once and want to keep the original produce order, uncomment the line below
-        //$conf-&gt;set(&#39;enable.idempotence&#39;, &#39;true&#39;);
-
-        $producer = new Producer($conf);
-
-        $topic = $producer-&gt;newTopic(&quot;test&quot;);
-        $topic-&gt;produce(RD_KAFKA_PARTITION_UA, 0, $faker-&gt;name());
-        $producer-&gt;poll(0);
-
-        $result = $producer-&gt;flush(10000);
-        if (RD_KAFKA_RESP_ERR_NO_ERROR !== $result) &#123;
-            throw new \RuntimeException(&#39;Was unable to flush, messages might be lost!&#39;);
-        &#125;
-
-        return new ActionResponse($result);
-    &#125;</code></pre>
-<h3 id="消费者"><a href="#消费者" class="headerlink" title="消费者"></a>消费者</h3><pre><code class="PHP">public function consume()
-    &#123;
-        $conf = new Conf();
-
-// Configure the group.id. All consumer with the same group.id will consume
-// different partitions.
+&#x2F;&#x2F; Configure the group.id. All consumer with the same group.id will consume
+&#x2F;&#x2F; different partitions.
         $conf-&gt;set(&#39;group.id&#39;, &#39;myConsumerGroup&#39;);
 
-// Initial list of Kafka brokers
+&#x2F;&#x2F; Initial list of Kafka brokers
         $conf-&gt;set(&#39;metadata.broker.list&#39;, &#39;127.0.0.1&#39;);
 
-// Set where to start consuming messages when there is no initial offset in
-// offset store or the desired offset is out of range.
-// &#39;smallest&#39;: start from the beginning
+&#x2F;&#x2F; Set where to start consuming messages when there is no initial offset in
+&#x2F;&#x2F; offset store or the desired offset is out of range.
+&#x2F;&#x2F; &#39;smallest&#39;: start from the beginning
         $conf-&gt;set(&#39;auto.offset.reset&#39;, &#39;smallest&#39;);
 
-        $consumer = new KafkaConsumer($conf);
+        $consumer &#x3D; new KafkaConsumer($conf);
 
-// Subscribe to topic &#39;test&#39;
+&#x2F;&#x2F; Subscribe to topic &#39;test&#39;
         $consumer-&gt;subscribe([&#39;test&#39;]);
 
         echo &quot;Waiting for partition assignment... (make take some time when\n&quot;;
         echo &quot;quickly re-joining the group after leaving it.)\n&quot;;
 
         while (true) &#123;
-            $message = $consumer-&gt;consume(120 * 1000);
+            $message &#x3D; $consumer-&gt;consume(120 * 1000);
             switch ($message-&gt;err) &#123;
                 case RD_KAFKA_RESP_ERR_NO_ERROR:
                     $this-&gt;info($message-&gt;payload);
@@ -577,9 +578,11 @@ services:
             &#125;
         &#125;
     &#125;</code></pre>
+
 <h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><p>生产者是一个restful的api，直接调用会往kafka里写入1个中文姓名的消息。</p>
 <p>消费者是一个PHP脚本进程，启动会开始消费kafka消息</p>
-<pre><code class="shell">php bin/cli.php kafka consume</code></pre>
+<pre class="language-shell" data-language="shell"><code class="language-shell">php bin/cli.php kafka consume</code></pre>
+
 <p><img src="http://img.rc5j.cn/blog20200709115956.png" alt=""></p>
 <h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>虽然已经搭建了kafka<code>消息中间件</code>,和编写了<code>生产者</code>和<code>消费者</code>.但是关于其中的许多细节还要搞清除。包括:</p>
 <ul>

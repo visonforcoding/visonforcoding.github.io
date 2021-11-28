@@ -10,8 +10,9 @@
 
 
 
-依赖     &amp;lt;dependency&amp;gt;
-            &amp;lt;groupId&amp;gt;mysql&amp;lt">
+依赖&amp;lt;dependency&gt;
+       &amp;lt;groupId&gt;mysql&amp;lt;/groupId&gt;
+     ">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -481,104 +482,107 @@
 </blockquote>
 <span id="more"></span>
 
-<h2 id="依赖"><a href="#依赖" class="headerlink" title="依赖"></a>依赖</h2><pre><code class="xml">     &lt;dependency&gt;
-            &lt;groupId&gt;mysql&lt;/groupId&gt;
-            &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;
-            &lt;version&gt;5.1.26&lt;/version&gt;
-        &lt;/dependency&gt;
-        &lt;!-- https://mvnrepository.com/artifact/org.mybatis/mybatis --&gt;
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.mybatis&lt;/groupId&gt;
-            &lt;artifactId&gt;mybatis&lt;/artifactId&gt;
-            &lt;version&gt;3.5.6&lt;/version&gt;
-        &lt;/dependency&gt;</code></pre>
+<h2 id="依赖"><a href="#依赖" class="headerlink" title="依赖"></a>依赖</h2><pre class="language-xml" data-language="xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">></span></span>
+       <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">></span></span>mysql<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">></span></span>
+       <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">></span></span>mysql-connector-java<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">></span></span>
+       <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>version</span><span class="token punctuation">></span></span>5.1.26<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>version</span><span class="token punctuation">></span></span>
+   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">></span></span>
+   <span class="token comment">&lt;!-- https://mvnrepository.com/artifact/org.mybatis/mybatis --></span>
+   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">></span></span>
+       <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">></span></span>org.mybatis<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">></span></span>
+       <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">></span></span>mybatis<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">></span></span>
+       <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>version</span><span class="token punctuation">></span></span>3.5.6<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>version</span><span class="token punctuation">></span></span>
+   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">></span></span></code></pre>
+
 <h2 id="引入"><a href="#引入" class="headerlink" title="引入"></a>引入</h2><p>首先定义datasource</p>
-<pre><code class="java">public class DatabaseConfig &#123;
+<pre class="language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">DatabaseConfig</span> <span class="token punctuation">&#123;</span>
 
-    static String driver = &quot;com.mysql.jdbc.Driver&quot;;
-    static String url = &quot;jdbc:mysql://localhost:3306/db_itdoc?useSSL=false&quot;;
-    static String username = &quot;root&quot;;
-    static String password = &quot;12345678&quot;;
+    <span class="token keyword">static</span> <span class="token class-name">String</span> driver <span class="token operator">=</span> <span class="token string">"com.mysql.jdbc.Driver"</span><span class="token punctuation">;</span>
+    <span class="token keyword">static</span> <span class="token class-name">String</span> url <span class="token operator">=</span> <span class="token string">"jdbc:mysql://localhost:3306/db_itdoc?useSSL=false"</span><span class="token punctuation">;</span>
+    <span class="token keyword">static</span> <span class="token class-name">String</span> username <span class="token operator">=</span> <span class="token string">"root"</span><span class="token punctuation">;</span>
+    <span class="token keyword">static</span> <span class="token class-name">String</span> password <span class="token operator">=</span> <span class="token string">"12345678"</span><span class="token punctuation">;</span>
 
-    public static DataSource getDataSource() &#123;
-        Properties properties = new Properties();
-        properties.setProperty(&quot;driver&quot;, driver);
-        properties.setProperty(&quot;url&quot;, url);
-        properties.setProperty(&quot;username&quot;, username);
-        properties.setProperty(&quot;password&quot;, password);
-        UnpooledDataSourceFactory unpooledDataSourceFactory = new UnpooledDataSourceFactory();
-        unpooledDataSourceFactory.setProperties(properties);
-        DataSource dataSource = unpooledDataSourceFactory.getDataSource();
-        return dataSource;
-    &#125;
-&#125;</code></pre>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token class-name">DataSource</span> <span class="token function">getDataSource</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token class-name">Properties</span> properties <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Properties</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        properties<span class="token punctuation">.</span><span class="token function">setProperty</span><span class="token punctuation">(</span><span class="token string">"driver"</span><span class="token punctuation">,</span> driver<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        properties<span class="token punctuation">.</span><span class="token function">setProperty</span><span class="token punctuation">(</span><span class="token string">"url"</span><span class="token punctuation">,</span> url<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        properties<span class="token punctuation">.</span><span class="token function">setProperty</span><span class="token punctuation">(</span><span class="token string">"username"</span><span class="token punctuation">,</span> username<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        properties<span class="token punctuation">.</span><span class="token function">setProperty</span><span class="token punctuation">(</span><span class="token string">"password"</span><span class="token punctuation">,</span> password<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">UnpooledDataSourceFactory</span> unpooledDataSourceFactory <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">UnpooledDataSourceFactory</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        unpooledDataSourceFactory<span class="token punctuation">.</span><span class="token function">setProperties</span><span class="token punctuation">(</span>properties<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">DataSource</span> dataSource <span class="token operator">=</span> unpooledDataSourceFactory<span class="token punctuation">.</span><span class="token function">getDataSource</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> dataSource<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span></code></pre>
+
 <p>获取sessionFactory</p>
-<pre><code class="java">public class MybatisLoader &#123;
+<pre class="language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">MybatisLoader</span> <span class="token punctuation">&#123;</span>
 
-    static SqlSessionFactory sqlSessionFactory = null;
+    <span class="token keyword">static</span> <span class="token class-name">SqlSessionFactory</span> sqlSessionFactory <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
 
-    public static SqlSessionFactory getSqlSessionFactory() &#123;
-        if (sqlSessionFactory == null) &#123;
-            DataSource dataSource = DatabaseConfig.getDataSource();
-            TransactionFactory transactionFactory
-                    = new JdbcTransactionFactory();
-            Environment environment
-                    = new Environment(&quot;development&quot;, transactionFactory, dataSource);
-            Configuration configuration = new Configuration(environment);
-            configuration.addMapper(UserMapper.class);
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token class-name">SqlSessionFactory</span> <span class="token function">getSqlSessionFactory</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>sqlSessionFactory <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token class-name">DataSource</span> dataSource <span class="token operator">=</span> <span class="token class-name">DatabaseConfig</span><span class="token punctuation">.</span><span class="token function">getDataSource</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token class-name">TransactionFactory</span> transactionFactory
+                    <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">JdbcTransactionFactory</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token class-name">Environment</span> environment
+                    <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Environment</span><span class="token punctuation">(</span><span class="token string">"development"</span><span class="token punctuation">,</span> transactionFactory<span class="token punctuation">,</span> dataSource<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token class-name">Configuration</span> configuration <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Configuration</span><span class="token punctuation">(</span>environment<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            configuration<span class="token punctuation">.</span><span class="token function">addMapper</span><span class="token punctuation">(</span><span class="token class-name">UserMapper</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
             sqlSessionFactory
-                    = new SqlSessionFactoryBuilder().build(configuration);
-        &#125;
-        return sqlSessionFactory;
-    &#125;
+                    <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">SqlSessionFactoryBuilder</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">build</span><span class="token punctuation">(</span>configuration<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token keyword">return</span> sqlSessionFactory<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
 
-&#125;</code></pre>
-<h2 id="定义mapper"><a href="#定义mapper" class="headerlink" title="定义mapper"></a>定义mapper</h2><pre><code class="java">public interface UserMapper &#123;
+<span class="token punctuation">&#125;</span></code></pre>
 
-    @Select(&quot;SELECT * FROM user WHERE id = #&#123;id&#125;&quot;)
-    User selectUser(int id);
+<h2 id="定义mapper"><a href="#定义mapper" class="headerlink" title="定义mapper"></a>定义mapper</h2><pre class="language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">interface</span> <span class="token class-name">UserMapper</span> <span class="token punctuation">&#123;</span>
 
-    @Insert(&quot;INSERT INTO user(name,email) VALUES(#&#123;name&#125;, #&#123;email&#125;)&quot;)
-    int insertUser(User user);
+    <span class="token annotation punctuation">@Select</span><span class="token punctuation">(</span><span class="token string">"SELECT * FROM user WHERE id = #&#123;id&#125;"</span><span class="token punctuation">)</span>
+    <span class="token class-name">User</span> <span class="token function">selectUser</span><span class="token punctuation">(</span><span class="token keyword">int</span> id<span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-&#125;</code></pre>
-<h2 id="查询和插入"><a href="#查询和插入" class="headerlink" title="查询和插入"></a>查询和插入</h2><pre><code class="java">public class UserController &#123;
+    <span class="token annotation punctuation">@Insert</span><span class="token punctuation">(</span><span class="token string">"INSERT INTO user(name,email) VALUES(#&#123;name&#125;, #&#123;email&#125;)"</span><span class="token punctuation">)</span>
+    <span class="token keyword">int</span> <span class="token function">insertUser</span><span class="token punctuation">(</span><span class="token class-name">User</span> user<span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-    public UserController() &#123;
-    &#125;
+<span class="token punctuation">&#125;</span></code></pre>
 
-    @GetMapping(path = &quot;/user/profile&quot;)
-    public String profile(HttpServletRequest request, HttpServletResponse response) &#123;
-        System.out.print(request.getCookies());
-        return &quot;i am user profile&quot;;
-    &#125;
+<h2 id="查询和插入"><a href="#查询和插入" class="headerlink" title="查询和插入"></a>查询和插入</h2><pre class="language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">UserController</span> <span class="token punctuation">&#123;</span>
 
-    @GetMapping(path = &quot;/user&quot;)
-    public Response user(HttpServletRequest request, int id) &#123;
-        User user = null;
-        SqlSession session = MybatisLoader.getSqlSessionFactory().openSession();
-        UserMapper mapper = session.getMapper(UserMapper.class);
-        user = mapper.selectUser(id);
-        return new Response(0, &quot;获取成功&quot;, user);
-    &#125;
+    <span class="token keyword">public</span> <span class="token class-name">UserController</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token punctuation">&#125;</span>
 
-    @PostMapping(path = &quot;/user/add&quot;)
-    public Response add(User user) &#123;
-        Log.info(&quot;request user&quot;, user);
-        try &#123;
-            SqlSession session = MybatisLoader.getSqlSessionFactory().openSession();
-            UserMapper mapper = session.getMapper(UserMapper.class);
-            int id = mapper.insertUser(user);
-            session.commit();
-            Log.debug(&quot;返回&quot;, id);
-        &#125; catch (Exception e) &#123;
-            Log.error(&quot;保存失败&quot;, e);
-        &#125;
-        return new Response(0, &quot;保存&quot;, user);
-    &#125;
-&#125;
+    <span class="token annotation punctuation">@GetMapping</span><span class="token punctuation">(</span>path <span class="token operator">=</span> <span class="token string">"/user/profile"</span><span class="token punctuation">)</span>
+    <span class="token keyword">public</span> <span class="token class-name">String</span> <span class="token function">profile</span><span class="token punctuation">(</span><span class="token class-name">HttpServletRequest</span> request<span class="token punctuation">,</span> <span class="token class-name">HttpServletResponse</span> response<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">print</span><span class="token punctuation">(</span>request<span class="token punctuation">.</span><span class="token function">getCookies</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token string">"i am user profile"</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token annotation punctuation">@GetMapping</span><span class="token punctuation">(</span>path <span class="token operator">=</span> <span class="token string">"/user"</span><span class="token punctuation">)</span>
+    <span class="token keyword">public</span> <span class="token class-name">Response</span> <span class="token function">user</span><span class="token punctuation">(</span><span class="token class-name">HttpServletRequest</span> request<span class="token punctuation">,</span> <span class="token keyword">int</span> id<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token class-name">User</span> user <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+        <span class="token class-name">SqlSession</span> session <span class="token operator">=</span> <span class="token class-name">MybatisLoader</span><span class="token punctuation">.</span><span class="token function">getSqlSessionFactory</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">openSession</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">UserMapper</span> mapper <span class="token operator">=</span> session<span class="token punctuation">.</span><span class="token function">getMapper</span><span class="token punctuation">(</span><span class="token class-name">UserMapper</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        user <span class="token operator">=</span> mapper<span class="token punctuation">.</span><span class="token function">selectUser</span><span class="token punctuation">(</span>id<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">Response</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token string">"获取成功"</span><span class="token punctuation">,</span> user<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token annotation punctuation">@PostMapping</span><span class="token punctuation">(</span>path <span class="token operator">=</span> <span class="token string">"/user/add"</span><span class="token punctuation">)</span>
+    <span class="token keyword">public</span> <span class="token class-name">Response</span> <span class="token function">add</span><span class="token punctuation">(</span><span class="token class-name">User</span> user<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token class-name">Log</span><span class="token punctuation">.</span><span class="token function">info</span><span class="token punctuation">(</span><span class="token string">"request user"</span><span class="token punctuation">,</span> user<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">try</span> <span class="token punctuation">&#123;</span>
+            <span class="token class-name">SqlSession</span> session <span class="token operator">=</span> <span class="token class-name">MybatisLoader</span><span class="token punctuation">.</span><span class="token function">getSqlSessionFactory</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">openSession</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token class-name">UserMapper</span> mapper <span class="token operator">=</span> session<span class="token punctuation">.</span><span class="token function">getMapper</span><span class="token punctuation">(</span><span class="token class-name">UserMapper</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">int</span> id <span class="token operator">=</span> mapper<span class="token punctuation">.</span><span class="token function">insertUser</span><span class="token punctuation">(</span>user<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            session<span class="token punctuation">.</span><span class="token function">commit</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token class-name">Log</span><span class="token punctuation">.</span><span class="token function">debug</span><span class="token punctuation">(</span><span class="token string">"返回"</span><span class="token punctuation">,</span> id<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Exception</span> e<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token class-name">Log</span><span class="token punctuation">.</span><span class="token function">error</span><span class="token punctuation">(</span><span class="token string">"保存失败"</span><span class="token punctuation">,</span> e<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">Response</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token string">"保存"</span><span class="token punctuation">,</span> user<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
 </code></pre>
-
                 
             </div>
             <hr/>

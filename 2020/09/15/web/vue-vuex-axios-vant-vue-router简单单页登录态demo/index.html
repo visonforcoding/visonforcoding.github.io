@@ -485,146 +485,151 @@ vue ui
                 <p><img src="http://img.rc5j.cn/blog20200915182645.png" alt=""></p>
 <span id="more"></span>
 
-<h2 id="创建vant项目"><a href="#创建vant项目" class="headerlink" title="创建vant项目"></a>创建vant项目</h2><pre><code class="shell"># 安装 Vue Cli
-npm install -g @vue/cli
+<h2 id="创建vant项目"><a href="#创建vant项目" class="headerlink" title="创建vant项目"></a>创建vant项目</h2><pre class="language-shell" data-language="shell"><code class="language-shell"><span class="token comment"># 安装 Vue Cli</span>
+<span class="token function">npm</span> <span class="token function">install</span> -g @vue/cli
 
-# 创建一个项目
+<span class="token comment"># 创建一个项目</span>
 vue create hello-world
 
-# 创建完成后，可以通过命令打开图形化界面，如下图所示
+<span class="token comment"># 创建完成后，可以通过命令打开图形化界面，如下图所示</span>
 vue ui
 
-# 或者 通过 yarn 安装
+<span class="token comment"># 或者 通过 yarn 安装</span>
 
-yarn add vant</code></pre>
+<span class="token function">yarn</span> <span class="token function">add</span> vant</code></pre>
 <p><img src="http://img.rc5j.cn/blog20200915181419.png" alt=""></p>
 <p>在图形化界面中，点击<code>依赖</code> -&gt; <code>安装依赖</code>，然后将 <code>vant</code> 添加到依赖中即可。</p>
-<h2 id="vue-router"><a href="#vue-router" class="headerlink" title="vue-router"></a>vue-router</h2><pre><code class="shell">yarn add vue-router</code></pre>
-<pre><code class="html">&lt;template&gt;
-  &lt;div id=&quot;app&quot;&gt;
-    &lt;van-nav-bar
-    title=&quot;标题&quot;
-    left-text=&quot;返回&quot;
-    right-text=&quot;按钮&quot;
-    left-arrow
-    @click-left=&quot;onClickLeft&quot;
-    @click-right=&quot;onClickRight&quot;
-      /&gt;
-    &lt;router-view&gt;&lt;/router-view&gt;
-    &lt;van-tabbar v-model=&quot;active&quot;&gt;
-      &lt;van-tabbar-item icon=&quot;home-o&quot; to=&quot;/&quot;&gt;主页&lt;/van-tabbar-item&gt;
-      &lt;van-tabbar-item icon=&quot;search&quot;&gt;标签&lt;/van-tabbar-item&gt;
-      &lt;van-tabbar-item icon=&quot;friends-o&quot;&gt;标签&lt;/van-tabbar-item&gt;
-      &lt;van-tabbar-item icon=&quot;user-o&quot; to=&quot;/user/detail&quot;&gt;我的&lt;/van-tabbar-item&gt;
-    &lt;/van-tabbar&gt;
-  &lt;/div&gt;
-&lt;/template&gt;&lt;template&gt;
-  &lt;div id=&quot;app&quot;&gt;
-    &lt;van-nav-bar
-    title=&quot;标题&quot;
-    left-text=&quot;返回&quot;
-    right-text=&quot;按钮&quot;
-    left-arrow
-    @click-left=&quot;onClickLeft&quot;
-    @click-right=&quot;onClickRight&quot;
-      /&gt;
-    &lt;router-view&gt;&lt;/router-view&gt;
-    &lt;van-tabbar v-model=&quot;active&quot;&gt;
-      &lt;van-tabbar-item icon=&quot;home-o&quot; to=&quot;/&quot;&gt;主页&lt;/van-tabbar-item&gt;
-      &lt;van-tabbar-item icon=&quot;search&quot;&gt;标签&lt;/van-tabbar-item&gt;
-      &lt;van-tabbar-item icon=&quot;friends-o&quot;&gt;标签&lt;/van-tabbar-item&gt;
-      &lt;van-tabbar-item icon=&quot;user-o&quot; to=&quot;/user/detail&quot;&gt;我的&lt;/van-tabbar-item&gt;
-    &lt;/van-tabbar&gt;
-  &lt;/div&gt;
-&lt;/template&gt;</code></pre>
+<h2 id="vue-router"><a href="#vue-router" class="headerlink" title="vue-router"></a>vue-router</h2><pre class="language-shell" data-language="shell"><code class="language-shell"><span class="token function">yarn</span> <span class="token function">add</span> vue-router</code></pre>
+
+<pre class="language-html" data-language="html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>template</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>app<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>van-nav-bar</span>
+    <span class="token attr-name">title</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>标题<span class="token punctuation">"</span></span>
+    <span class="token attr-name">left-text</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>返回<span class="token punctuation">"</span></span>
+    <span class="token attr-name">right-text</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>按钮<span class="token punctuation">"</span></span>
+    <span class="token attr-name">left-arrow</span>
+    <span class="token attr-name">@click-left</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>onClickLeft<span class="token punctuation">"</span></span>
+    <span class="token attr-name">@click-right</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>onClickRight<span class="token punctuation">"</span></span>
+      <span class="token punctuation">/></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>router-view</span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>router-view</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>van-tabbar</span> <span class="token attr-name">v-model</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>active<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>van-tabbar-item</span> <span class="token attr-name">icon</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>home-o<span class="token punctuation">"</span></span> <span class="token attr-name">to</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>/<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>主页<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>van-tabbar-item</span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>van-tabbar-item</span> <span class="token attr-name">icon</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>search<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>标签<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>van-tabbar-item</span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>van-tabbar-item</span> <span class="token attr-name">icon</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>friends-o<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>标签<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>van-tabbar-item</span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>van-tabbar-item</span> <span class="token attr-name">icon</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>user-o<span class="token punctuation">"</span></span> <span class="token attr-name">to</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>/user/detail<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>我的<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>van-tabbar-item</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>van-tabbar</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>template</span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>template</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>app<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>van-nav-bar</span>
+    <span class="token attr-name">title</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>标题<span class="token punctuation">"</span></span>
+    <span class="token attr-name">left-text</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>返回<span class="token punctuation">"</span></span>
+    <span class="token attr-name">right-text</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>按钮<span class="token punctuation">"</span></span>
+    <span class="token attr-name">left-arrow</span>
+    <span class="token attr-name">@click-left</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>onClickLeft<span class="token punctuation">"</span></span>
+    <span class="token attr-name">@click-right</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>onClickRight<span class="token punctuation">"</span></span>
+      <span class="token punctuation">/></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>router-view</span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>router-view</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>van-tabbar</span> <span class="token attr-name">v-model</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>active<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>van-tabbar-item</span> <span class="token attr-name">icon</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>home-o<span class="token punctuation">"</span></span> <span class="token attr-name">to</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>/<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>主页<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>van-tabbar-item</span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>van-tabbar-item</span> <span class="token attr-name">icon</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>search<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>标签<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>van-tabbar-item</span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>van-tabbar-item</span> <span class="token attr-name">icon</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>friends-o<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>标签<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>van-tabbar-item</span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>van-tabbar-item</span> <span class="token attr-name">icon</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>user-o<span class="token punctuation">"</span></span> <span class="token attr-name">to</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>/user/detail<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>我的<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>van-tabbar-item</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>van-tabbar</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>template</span><span class="token punctuation">></span></span></code></pre>
+
 <p>路由配置和登录态控制</p>
-<pre><code class="js">import Vue from &#39;vue&#39;
-import VueRouter from &#39;vue-router&#39;
-// import store from &#39;@/store&#39;
-// import layout from &#39;@/layout/layout&#39;
+<pre class="language-js" data-language="js"><code class="language-js"><span class="token keyword">import</span> Vue <span class="token keyword">from</span> <span class="token string">'vue'</span>
+<span class="token keyword">import</span> VueRouter <span class="token keyword">from</span> <span class="token string">'vue-router'</span>
+<span class="token comment">// import store from '@/store'</span>
+<span class="token comment">// import layout from '@/layout/layout'</span>
 
-Vue.use(VueRouter)
+Vue<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span>VueRouter<span class="token punctuation">)</span>
 
-const routes = [
-  &#123;
-    path: &#39;/&#39;,
-    name: &#39;home&#39;,
-    component: () =&gt; import(&quot;@/views/Home&quot;)
-  &#125;,
-  &#123;
-    path: &#39;/user/detail&#39;,
-    name: &#39;user_detail&#39;,
-    meta:&#123;
-      requireLogin:true
-    &#125;,
-    component: () =&gt; import(&quot;@/views/User/detail.vue&quot;)
-  &#125;,
-  &#123;
-    path: &#39;/login&#39;,
-    name: &#39;login&#39;,
-    meta:&#123;
-      requireLogin:false
-    &#125;,
-    component: () =&gt; import(&quot;@/views/Login/login.vue&quot;)
-  &#125;,
+<span class="token keyword">const</span> routes <span class="token operator">=</span> <span class="token punctuation">[</span>
+  <span class="token punctuation">&#123;</span>
+    path<span class="token operator">:</span> <span class="token string">'/'</span><span class="token punctuation">,</span>
+    name<span class="token operator">:</span> <span class="token string">'home'</span><span class="token punctuation">,</span>
+    <span class="token function-variable function">component</span><span class="token operator">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">import</span><span class="token punctuation">(</span><span class="token string">"@/views/Home"</span><span class="token punctuation">)</span>
+  <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+  <span class="token punctuation">&#123;</span>
+    path<span class="token operator">:</span> <span class="token string">'/user/detail'</span><span class="token punctuation">,</span>
+    name<span class="token operator">:</span> <span class="token string">'user_detail'</span><span class="token punctuation">,</span>
+    meta<span class="token operator">:</span><span class="token punctuation">&#123;</span>
+      requireLogin<span class="token operator">:</span><span class="token boolean">true</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+    <span class="token function-variable function">component</span><span class="token operator">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">import</span><span class="token punctuation">(</span><span class="token string">"@/views/User/detail.vue"</span><span class="token punctuation">)</span>
+  <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+  <span class="token punctuation">&#123;</span>
+    path<span class="token operator">:</span> <span class="token string">'/login'</span><span class="token punctuation">,</span>
+    name<span class="token operator">:</span> <span class="token string">'login'</span><span class="token punctuation">,</span>
+    meta<span class="token operator">:</span><span class="token punctuation">&#123;</span>
+      requireLogin<span class="token operator">:</span><span class="token boolean">false</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+    <span class="token function-variable function">component</span><span class="token operator">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">import</span><span class="token punctuation">(</span><span class="token string">"@/views/Login/login.vue"</span><span class="token punctuation">)</span>
+  <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
 
-]
+<span class="token punctuation">]</span>
 
-const router = new VueRouter(&#123;
-  mode: &#39;history&#39;,
-  base: process.env.BASE_URL,
+<span class="token keyword">const</span> router <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">VueRouter</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span>
+  mode<span class="token operator">:</span> <span class="token string">'history'</span><span class="token punctuation">,</span>
+  base<span class="token operator">:</span> process<span class="token punctuation">.</span>env<span class="token punctuation">.</span><span class="token constant">BASE_URL</span><span class="token punctuation">,</span>
   routes
-&#125;)
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
 
-router.beforeEach((to, from, next) =&gt; &#123;
-  const token = sessionStorage.getItem(&#39;token&#39;);
-  // store.getters(&#39;isLogin&#39;)
-  if (to.meta.requireLogin) &#123;
-    //需要检测登录
-    if (token) &#123;
-      next();
-    &#125; else &#123;
-      console.log(&#39;前往登录...&#39;)
-      next(&#123;
-        path: &#39;/login&#39;
-      &#125;);
-    &#125;
-  &#125; else &#123;
+router<span class="token punctuation">.</span><span class="token function">beforeEach</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">to<span class="token punctuation">,</span> from<span class="token punctuation">,</span> next</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">&#123;</span>
+  <span class="token keyword">const</span> token <span class="token operator">=</span> sessionStorage<span class="token punctuation">.</span><span class="token function">getItem</span><span class="token punctuation">(</span><span class="token string">'token'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token comment">// store.getters('isLogin')</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>to<span class="token punctuation">.</span>meta<span class="token punctuation">.</span>requireLogin<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token comment">//需要检测登录</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>token<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+      <span class="token function">next</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span> <span class="token keyword">else</span> <span class="token punctuation">&#123;</span>
+      console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'前往登录...'</span><span class="token punctuation">)</span>
+      <span class="token function">next</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span>
+        path<span class="token operator">:</span> <span class="token string">'/login'</span>
+      <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+  <span class="token punctuation">&#125;</span> <span class="token keyword">else</span> <span class="token punctuation">&#123;</span>
+ 
+    <span class="token function">next</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
 
-    next();
-  &#125;
-&#125;)
-
-export default router
+<span class="token keyword">export</span> <span class="token keyword">default</span> router
 
 </code></pre>
 <p><img src="http://img.rc5j.cn/blog20200915181827.png" alt=""></p>
 <h2 id="登录"><a href="#登录" class="headerlink" title="登录"></a>登录</h2><p>引入<code>axios</code></p>
-<pre><code>yarn add axios</code></pre><pre><code class="js">import &#123; login &#125; from &quot;@/api/loginReq&quot;;
-export default &#123;
-    data() &#123;
-    return &#123;
-      loading: false,
-      loginInfo:&#123;
-          username:&quot;&quot;,
-          pwd:&quot;&quot;
-      &#125;
-    &#125;;
-  &#125;,
-  methods: &#123;
-    onSubmit(values) &#123;
-      this.loading = true;
-      login(this.loginInfo).then((response) =&gt; &#123;
-        console.log(response);
-        if(response.code===0)&#123;
-            sessionStorage.setItem(&#39;token&#39;,response.data.username);
-        &#125;
-        this.$router.push(&#39;/&#39;)
-      &#125;);
-      this.loading = false;
-    &#125;,
-  &#125;
-&#125;</code></pre>
+<pre class="language-none"><code class="language-none">yarn add axios</code></pre>
+
+<pre class="language-js" data-language="js"><code class="language-js"><span class="token keyword">import</span> <span class="token punctuation">&#123;</span> login <span class="token punctuation">&#125;</span> <span class="token keyword">from</span> <span class="token string">"@/api/loginReq"</span><span class="token punctuation">;</span>
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token punctuation">&#123;</span>
+    <span class="token function">data</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">return</span> <span class="token punctuation">&#123;</span>
+      loading<span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
+      loginInfo<span class="token operator">:</span><span class="token punctuation">&#123;</span>
+          username<span class="token operator">:</span><span class="token string">""</span><span class="token punctuation">,</span>
+          pwd<span class="token operator">:</span><span class="token string">""</span>
+      <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+  methods<span class="token operator">:</span> <span class="token punctuation">&#123;</span>
+    <span class="token function">onSubmit</span><span class="token punctuation">(</span><span class="token parameter">values</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+      <span class="token keyword">this</span><span class="token punctuation">.</span>loading <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+      <span class="token function">login</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>loginInfo<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">response</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">&#123;</span>
+        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>response<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span>code<span class="token operator">===</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+            sessionStorage<span class="token punctuation">.</span><span class="token function">setItem</span><span class="token punctuation">(</span><span class="token string">'token'</span><span class="token punctuation">,</span>response<span class="token punctuation">.</span>data<span class="token punctuation">.</span>username<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>$router<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span><span class="token string">'/'</span><span class="token punctuation">)</span>
+      <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token keyword">this</span><span class="token punctuation">.</span>loading <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+  <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span></code></pre>
+
 
                 
             </div>

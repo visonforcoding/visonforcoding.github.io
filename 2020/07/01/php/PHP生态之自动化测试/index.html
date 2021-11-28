@@ -488,72 +488,86 @@
 </ul>
 <p>其中UI测试和数据测试的自动化可能是最不容易做且效益最小的。这部分可能最好是人为的进行测试效果最好。</p>
 <p>在体验了java 的junit之后特别觉得junit的强大,其实PHP也可以做。接下来我们来了解下PHP的测试框架<code>codeception</code></p>
-<h2 id="安装使用"><a href="#安装使用" class="headerlink" title="安装使用"></a>安装使用</h2><h3 id="install"><a href="#install" class="headerlink" title="install"></a>install</h3><pre><code>composer require &quot;codeception/codeception&quot; --dev</code></pre><h3 id="setup"><a href="#setup" class="headerlink" title="setup"></a>setup</h3><pre><code>php vendor/bin/codecept bootstrap</code></pre><p>该命令会初始化配置文件和目录</p>
+<h2 id="安装使用"><a href="#安装使用" class="headerlink" title="安装使用"></a>安装使用</h2><h3 id="install"><a href="#install" class="headerlink" title="install"></a>install</h3><pre class="language-none"><code class="language-none">composer require &quot;codeception&#x2F;codeception&quot; --dev</code></pre>
+
+<h3 id="setup"><a href="#setup" class="headerlink" title="setup"></a>setup</h3><pre class="language-none"><code class="language-none">php vendor&#x2F;bin&#x2F;codecept bootstrap</code></pre>
+<p>该命令会初始化配置文件和目录</p>
 <h3 id="轻量安装"><a href="#轻量安装" class="headerlink" title="轻量安装"></a>轻量安装</h3><p>Use predefined installation templates for common use cases. Run them instead of bootstrap command.</p>
 <p><code>bootstrap</code>会默认初始化所有测试类型所需要的组件，有些你不会用到的类库也会安装。推荐使用轻量安装所用能到的测试类型。</p>
 <p>例如你只需要单元测试，则可以</p>
-<pre><code>php vendor/bin/codecept init unit</code></pre><p><strong>suite配置</strong></p>
-<p>初始化之后还要对测试类型进行相应的配置,在tests目录下新建unit的配置</p>
-<pre><code class="yml"># unit.suite.yml
-# Codeception Test Suite Configuration
-#
-# Suite for unit or integration tests.
+<pre class="language-none"><code class="language-none">php vendor&#x2F;bin&#x2F;codecept init unit</code></pre>
 
-actor: UnitTester
-modules:
-    enabled:
-        - Asserts
-        - \Helper\Unit
-    step_decorators: ~        </code></pre>
+<p><strong>suite配置</strong></p>
+<p>初始化之后还要对测试类型进行相应的配置,在tests目录下新建unit的配置</p>
+<pre class="language-yml" data-language="yml"><code class="language-yml"><span class="token comment"># unit.suite.yml</span>
+<span class="token comment"># Codeception Test Suite Configuration</span>
+<span class="token comment">#</span>
+<span class="token comment"># Suite for unit or integration tests.</span>
+
+<span class="token key atrule">actor</span><span class="token punctuation">:</span> UnitTester
+<span class="token key atrule">modules</span><span class="token punctuation">:</span>
+    <span class="token key atrule">enabled</span><span class="token punctuation">:</span>
+        <span class="token punctuation">-</span> Asserts
+        <span class="token punctuation">-</span> \Helper\Unit
+    <span class="token key atrule">step_decorators</span><span class="token punctuation">:</span> <span class="token null important">~</span>        </code></pre>
+
 <p><img src="http://img.rc5j.cn/blog20200702152857.png" alt=""></p>
 <h2 id="codeception单元测试"><a href="#codeception单元测试" class="headerlink" title="codeception单元测试"></a>codeception单元测试</h2><p><img src="http://img.rc5j.cn/blog20200702143824.png" alt=""></p>
 <p>codeception的单元测试其实也是基于phpunit之上构建的。phpunit的单元测试用例可以之前在codeception上执行。</p>
-<h3 id="创建单元测试"><a href="#创建单元测试" class="headerlink" title="创建单元测试"></a>创建单元测试</h3><pre><code>php vendor/bin/codecept generate:test unit Example</code></pre><p>执行完会在tests/unit目录里创建测试用例文件 </p>
-<pre><code class="php">
-class ExampleTest extends \Codeception\Test\Unit
-&#123;
-    /**
+<h3 id="创建单元测试"><a href="#创建单元测试" class="headerlink" title="创建单元测试"></a>创建单元测试</h3><pre class="language-none"><code class="language-none">php vendor&#x2F;bin&#x2F;codecept generate:test unit Example</code></pre>
+<p>执行完会在tests/unit目录里创建测试用例文件 </p>
+<pre class="language-php" data-language="php"><code class="language-php">
+<span class="token keyword">class</span> <span class="token class-name-definition class-name">ExampleTest</span> <span class="token keyword">extends</span> <span class="token class-name class-name-fully-qualified"><span class="token punctuation">\</span>Codeception<span class="token punctuation">\</span>Test<span class="token punctuation">\</span>Unit</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token comment">/**
      * @var \UnitTester
-     */
-    protected $tester;
+     */</span>
+    <span class="token keyword">protected</span> <span class="token variable">$tester</span><span class="token punctuation">;</span>
 
-    protected function _before()
-    &#123;
-    &#125;
+    <span class="token keyword">protected</span> <span class="token keyword">function</span> <span class="token function-definition function">_before</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+    <span class="token punctuation">&#125;</span>
 
-    protected function _after()
-    &#123;
-    &#125;
+    <span class="token keyword">protected</span> <span class="token keyword">function</span> <span class="token function-definition function">_after</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+    <span class="token punctuation">&#125;</span>
 
-    // tests
-    public function testMe()
-    &#123;
+    <span class="token comment">// tests</span>
+    <span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function-definition function">testMe</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
 
-    &#125;
-&#125;</code></pre>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span></code></pre>
+
 <ul>
 <li>all public methods with test prefix are tests</li>
 <li>_before method is executed before each test (like setUp in PHPUnit)</li>
 <li>_after method is executed after each test (like tearDown in PHPUnit)</li>
 </ul>
-<h3 id="运行用例"><a href="#运行用例" class="headerlink" title="运行用例"></a>运行用例</h3><pre><code>php vendor/bin/codecept run unit ExampleTest</code></pre><p>如果有目录可以执行到文件</p>
-<pre><code>php bin/codecept run unit tests/unit/src/Service/InvoiceServiceTest.php       </code></pre><p>运行所有单元测试用例</p>
-<pre><code>php vendor/bin/codecept run unit</code></pre><pre><code class="php">class UserTest extends \Codeception\Test\Unit
-&#123;
-    public function testValidation()
-    &#123;
-        $user = new User();
+<h3 id="运行用例"><a href="#运行用例" class="headerlink" title="运行用例"></a>运行用例</h3><pre class="language-none"><code class="language-none">php vendor&#x2F;bin&#x2F;codecept run unit ExampleTest</code></pre>
+<p>如果有目录可以执行到文件</p>
+<pre class="language-none"><code class="language-none">php bin&#x2F;codecept run unit tests&#x2F;unit&#x2F;src&#x2F;Service&#x2F;InvoiceServiceTest.php       </code></pre>
 
-        $user-&gt;setName(null);
-        $this-&gt;assertFalse($user-&gt;validate([&#39;username&#39;]));
+<p>运行所有单元测试用例</p>
+<pre class="language-none"><code class="language-none">php vendor&#x2F;bin&#x2F;codecept run unit</code></pre>
 
-        $user-&gt;setName(&#39;toolooooongnaaaaaaameeee&#39;);
-        $this-&gt;assertFalse($user-&gt;validate([&#39;username&#39;]));
+<pre class="language-php" data-language="php"><code class="language-php"><span class="token keyword">class</span> <span class="token class-name-definition class-name">UserTest</span> <span class="token keyword">extends</span> <span class="token class-name class-name-fully-qualified"><span class="token punctuation">\</span>Codeception<span class="token punctuation">\</span>Test<span class="token punctuation">\</span>Unit</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function-definition function">testValidation</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token variable">$user</span> <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">User</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-        $user-&gt;setName(&#39;davert&#39;);
-        $this-&gt;assertTrue($user-&gt;validate([&#39;username&#39;]));
-    &#125;
-&#125;</code></pre>
+        <span class="token variable">$user</span><span class="token operator">-></span><span class="token function">setName</span><span class="token punctuation">(</span><span class="token constant">null</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token variable">$this</span><span class="token operator">-></span><span class="token function">assertFalse</span><span class="token punctuation">(</span><span class="token variable">$user</span><span class="token operator">-></span><span class="token function">validate</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string single-quoted-string">'username'</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token variable">$user</span><span class="token operator">-></span><span class="token function">setName</span><span class="token punctuation">(</span><span class="token string single-quoted-string">'toolooooongnaaaaaaameeee'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token variable">$this</span><span class="token operator">-></span><span class="token function">assertFalse</span><span class="token punctuation">(</span><span class="token variable">$user</span><span class="token operator">-></span><span class="token function">validate</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string single-quoted-string">'username'</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token variable">$user</span><span class="token operator">-></span><span class="token function">setName</span><span class="token punctuation">(</span><span class="token string single-quoted-string">'davert'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token variable">$this</span><span class="token operator">-></span><span class="token function">assertTrue</span><span class="token punctuation">(</span><span class="token variable">$user</span><span class="token operator">-></span><span class="token function">validate</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string single-quoted-string">'username'</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span></code></pre>
+
 <h3 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h3><p><img src="http://img.rc5j.cn/blog20200723093255.png" alt=""></p>
 <p><img src="http://img.rc5j.cn/blog20200723093429.png" alt=""></p>
 <p>可以统计到所有文件的覆盖率和用例测试结果。</p>

@@ -478,55 +478,56 @@
 <p>本节介绍下spring-boot的验证，它也是基于<code>jsr</code>的validation之下。</p>
 <span id="more"></span>
 
-<h2 id="依赖"><a href="#依赖" class="headerlink" title="依赖"></a>依赖</h2><pre><code class="xml">    &lt;dependency&gt;
-            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-            &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;
-        &lt;/dependency&gt;
-      &lt;dependency&gt; 
-            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt; 
-            &lt;artifactId&gt;spring-boot-starter-validation&lt;/artifactId&gt; 
-        &lt;/dependency&gt;
-        &lt;dependency&gt;
-            &lt;groupId&gt;javax.validation&lt;/groupId&gt;
-            &lt;artifactId&gt;validation-api&lt;/artifactId&gt;
-            &lt;version&gt;2.0.1.Final&lt;/version&gt;
-            &lt;type&gt;jar&lt;/type&gt;
-        &lt;/dependency&gt;</code></pre>
+<h2 id="依赖"><a href="#依赖" class="headerlink" title="依赖"></a>依赖</h2><pre class="language-xml" data-language="xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">></span></span>org.springframework.boot<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">></span></span>spring-boot-starter-web<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">></span></span> 
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">></span></span>org.springframework.boot<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">></span></span> 
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">></span></span>spring-boot-starter-validation<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">></span></span> 
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">></span></span>javax.validation<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">></span></span>validation-api<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>version</span><span class="token punctuation">></span></span>2.0.1.Final<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>version</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>type</span><span class="token punctuation">></span></span>jar<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>type</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">></span></span></code></pre>
 <p>javax.validation 正是 jsr的规范。</p>
-<h2 id="定义验证规则"><a href="#定义验证规则" class="headerlink" title="定义验证规则"></a>定义验证规则</h2><pre><code class="java">    @NotBlank(message = &quot;用户名不可为空&quot;)
-    @NotNull(message = &quot;不可为空&quot;)
-    private String username;
+<h2 id="定义验证规则"><a href="#定义验证规则" class="headerlink" title="定义验证规则"></a>定义验证规则</h2><pre class="language-java" data-language="java"><code class="language-java"><span class="token annotation punctuation">@NotBlank</span><span class="token punctuation">(</span>message <span class="token operator">=</span> <span class="token string">"用户名不可为空"</span><span class="token punctuation">)</span>
+<span class="token annotation punctuation">@NotNull</span><span class="token punctuation">(</span>message <span class="token operator">=</span> <span class="token string">"不可为空"</span><span class="token punctuation">)</span>
+<span class="token keyword">private</span> <span class="token class-name">String</span> username<span class="token punctuation">;</span>
 
-    @NotBlank(message = &quot;密码不可为空&quot;)
-    @NotNull(message = &quot;密码不可为空&quot;)
-    private String pwd;</code></pre>
-<h2 id="controller使用"><a href="#controller使用" class="headerlink" title="controller使用"></a>controller使用</h2><pre><code class="java"> public Response login(@Valid @RequestBody LoginInfo loginInfo, HttpServletRequest request, HttpSession session) &#123;
+<span class="token annotation punctuation">@NotBlank</span><span class="token punctuation">(</span>message <span class="token operator">=</span> <span class="token string">"密码不可为空"</span><span class="token punctuation">)</span>
+<span class="token annotation punctuation">@NotNull</span><span class="token punctuation">(</span>message <span class="token operator">=</span> <span class="token string">"密码不可为空"</span><span class="token punctuation">)</span>
+<span class="token keyword">private</span> <span class="token class-name">String</span> pwd<span class="token punctuation">;</span></code></pre>
 
- &#125;
+<h2 id="controller使用"><a href="#controller使用" class="headerlink" title="controller使用"></a>controller使用</h2><pre class="language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token class-name">Response</span> <span class="token function">login</span><span class="token punctuation">(</span><span class="token annotation punctuation">@Valid</span> <span class="token annotation punctuation">@RequestBody</span> <span class="token class-name">LoginInfo</span> loginInfo<span class="token punctuation">,</span> <span class="token class-name">HttpServletRequest</span> request<span class="token punctuation">,</span> <span class="token class-name">HttpSession</span> session<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+
+<span class="token punctuation">&#125;</span>
 
 </code></pre>
 <p>这里要对<code>@Valid</code> 进行使用</p>
-<h2 id="全局处理"><a href="#全局处理" class="headerlink" title="全局处理"></a>全局处理</h2><pre><code class="java">
-@RestControllerAdvice
-public class ControllerAdvice &#123;
+<h2 id="全局处理"><a href="#全局处理" class="headerlink" title="全局处理"></a>全局处理</h2><pre class="language-java" data-language="java"><code class="language-java"> 
+<span class="token annotation punctuation">@RestControllerAdvice</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">ControllerAdvice</span> <span class="token punctuation">&#123;</span>
 
-    /**
+    <span class="token comment">/**
      * ConstraintViolationException
-     */
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public Response handleConstraintViolationException(MethodArgumentNotValidException ex) &#123;
-        Map&lt;String, String&gt; errors = new HashMap&lt;&gt;();
-        ex.getBindingResult().getAllErrors().forEach((error) -&gt; &#123;
-            String fieldName = ((FieldError) error).getField();
-            System.out.println(fieldName);
-            String errorMessage = error.getDefaultMessage();
-            errors.put(fieldName, errorMessage);
-            System.out.println(errorMessage);
-        &#125;);
-        return new Response(ResponseCode.parametrErrror, &quot;参数错误&quot;, errors);
-    &#125;
+     */</span>
+    <span class="token annotation punctuation">@ExceptionHandler</span><span class="token punctuation">(</span><span class="token class-name">MethodArgumentNotValidException</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span>
+    <span class="token keyword">public</span> <span class="token class-name">Response</span> <span class="token function">handleConstraintViolationException</span><span class="token punctuation">(</span><span class="token class-name">MethodArgumentNotValidException</span> ex<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token class-name">Map</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">String</span><span class="token punctuation">,</span> <span class="token class-name">String</span><span class="token punctuation">></span></span> errors <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">HashMap</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token punctuation">></span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        ex<span class="token punctuation">.</span><span class="token function">getBindingResult</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getAllErrors</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span><span class="token punctuation">(</span>error<span class="token punctuation">)</span> <span class="token operator">-></span> <span class="token punctuation">&#123;</span>
+            <span class="token class-name">String</span> fieldName <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token class-name">FieldError</span><span class="token punctuation">)</span> error<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getField</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>fieldName<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token class-name">String</span> errorMessage <span class="token operator">=</span> error<span class="token punctuation">.</span><span class="token function">getDefaultMessage</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            errors<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span>fieldName<span class="token punctuation">,</span> errorMessage<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>errorMessage<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">Response</span><span class="token punctuation">(</span><span class="token class-name">ResponseCode</span><span class="token punctuation">.</span>parametrErrror<span class="token punctuation">,</span> <span class="token string">"参数错误"</span><span class="token punctuation">,</span> errors<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
 
-&#125;</code></pre>
+<span class="token punctuation">&#125;</span></code></pre>
 <p>由于使用<code>@Valid</code>对参数进行校验之后，如果有校验不通过会抛出一个<code>MethodArgumentNotValidException</code>异常。全局进行捕获之后可以全局处理参数不正确的情况。</p>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/fqybzhangji/p/10384347.html">https://www.cnblogs.com/fqybzhangji/p/10384347.html</a></p>
 

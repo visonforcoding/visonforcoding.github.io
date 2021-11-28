@@ -10,7 +10,9 @@
 
 
 glances安装glances是由python编写的，因此可以使用pip直接安装
-pip3 install glancesinfluxdb安装wget ht">
+pip3 install glances
+
+influxdb安装wget ">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -480,66 +482,77 @@ pip3 install glancesinfluxdb安装wget ht">
 <span id="more"></span>
 
 <h2 id="glances安装"><a href="#glances安装" class="headerlink" title="glances安装"></a>glances安装</h2><p>glances是由python编写的，因此可以使用pip直接安装</p>
-<pre><code>pip3 install glances</code></pre><h2 id="influxdb安装"><a href="#influxdb安装" class="headerlink" title="influxdb安装"></a>influxdb安装</h2><pre><code>wget https://dl.influxdata.com/influxdb/releases/influxdb-1.8.2.x86_64.rpm
-sudo yum localinstall influxdb-1.8.2.x86_64.rpm</code></pre><h2 id="收集数据到influxdb"><a href="#收集数据到influxdb" class="headerlink" title="收集数据到influxdb"></a>收集数据到influxdb</h2><p>配置 glances</p>
+<pre class="language-none"><code class="language-none">pip3 install glances</code></pre>
+
+<h2 id="influxdb安装"><a href="#influxdb安装" class="headerlink" title="influxdb安装"></a>influxdb安装</h2><pre class="language-none"><code class="language-none">wget https:&#x2F;&#x2F;dl.influxdata.com&#x2F;influxdb&#x2F;releases&#x2F;influxdb-1.8.2.x86_64.rpm
+sudo yum localinstall influxdb-1.8.2.x86_64.rpm</code></pre>
+
+<h2 id="收集数据到influxdb"><a href="#收集数据到influxdb" class="headerlink" title="收集数据到influxdb"></a>收集数据到influxdb</h2><p>配置 glances</p>
 <p><code>vim /etc/glances/glances.conf</code></p>
-<pre><code class="ini">[influxdb]
-# Configuration for the --export influxdb option
-# https://influxdb.com/
-host=localhost
-port=8086
-user=root
-password=root
-db=glances
-prefix=localhost
-#tags=foo:bar,spam:eggs</code></pre>
-<pre><code>pip3 install influxdb
-glances --export influxdb</code></pre><p>执行 <code>glances --export influxdb</code> 测试下，报错</p>
+<pre class="language-ini" data-language="ini"><code class="language-ini"><span class="token header"><span class="token punctuation">[</span><span class="token section-name selector">influxdb</span><span class="token punctuation">]</span></span>
+<span class="token comment"># Configuration for the --export influxdb option</span>
+<span class="token comment"># https://influxdb.com/</span>
+<span class="token key attr-name">host</span><span class="token punctuation">=</span><span class="token value attr-value">localhost</span>
+<span class="token key attr-name">port</span><span class="token punctuation">=</span><span class="token value attr-value">8086</span>
+<span class="token key attr-name">user</span><span class="token punctuation">=</span><span class="token value attr-value">root</span>
+<span class="token key attr-name">password</span><span class="token punctuation">=</span><span class="token value attr-value">root</span>
+<span class="token key attr-name">db</span><span class="token punctuation">=</span><span class="token value attr-value">glances</span>
+<span class="token key attr-name">prefix</span><span class="token punctuation">=</span><span class="token value attr-value">localhost</span>
+<span class="token comment">#tags=foo:bar,spam:eggs</span></code></pre>
+
+<pre class="language-none"><code class="language-none">pip3 install influxdb
+glances --export influxdb</code></pre>
+<p>执行 <code>glances --export influxdb</code> 测试下，报错</p>
 <p><code>InfluxDB database &#39;glances&#39; did not exist. Please create it</code>需要新建数据库。</p>
 <p>执行shell <code>influx</code></p>
-<pre><code>CREATE DATABASE glances  #创建数据
-SHOW DATABASES   # 查看数据库</code></pre><p>再次执行<code>glances --export influxdb</code> ,可显示如下代表目前一切正常</p>
+<pre class="language-none"><code class="language-none">CREATE DATABASE glances  #创建数据
+SHOW DATABASES   # 查看数据库</code></pre>
+<p>再次执行<code>glances --export influxdb</code> ,可显示如下代表目前一切正常</p>
 <p><img src="https://vison-blog.oss-cn-beijing.aliyuncs.com/20210430141339.png" alt=""></p>
 <h2 id="作为服务运行"><a href="#作为服务运行" class="headerlink" title="作为服务运行"></a>作为服务运行</h2><p>此时我们需要编写.service脚本作为服务后台运行</p>
-<pre><code class="service">[Unit]
-Description=glances  daemon
-After=network.target influxdb.service
+<pre class="language-service" data-language="service"><code class="language-service">[Unit]
+Description&#x3D;glances  daemon
+After&#x3D;network.target influxdb.service
 
 [Service]
-User=root
-Group=root
-ExecStart=/usr/local/bin/glances --quiet --export influxdb
-Type=simple
-KillMode=process
+User&#x3D;root
+Group&#x3D;root
+ExecStart&#x3D;&#x2F;usr&#x2F;local&#x2F;bin&#x2F;glances --quiet --export influxdb
+Type&#x3D;simple
+KillMode&#x3D;process
 
 [Install]
-WantedBy=multi-user.target</code></pre>
+WantedBy&#x3D;multi-user.target</code></pre>
+
 <p>命名该文件为<code>glances.service</code>并放到<code>/usr/lib/systemd/system</code>目录下</p>
 <p><code>systemctl start glances</code> 启动</p>
 <p>更多的 <code>service</code>脚本编写可参考，<a target="_blank" rel="noopener" href="http://www.jinbuguo.com/systemd/systemd.service.html">http://www.jinbuguo.com/systemd/systemd.service.html</a></p>
-<h2 id="granfana安装"><a href="#granfana安装" class="headerlink" title="granfana安装"></a>granfana安装</h2><pre><code>wget https://dl.grafana.com/oss/release/grafana-7.1.5-1.x86_64.rpm
-sudo yum install grafana-7.1.5-1.x86_64.rpm</code></pre><h3 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h3><pre><code class="shell">systemctl daemon-reload
+<h2 id="granfana安装"><a href="#granfana安装" class="headerlink" title="granfana安装"></a>granfana安装</h2><pre class="language-none"><code class="language-none">wget https:&#x2F;&#x2F;dl.grafana.com&#x2F;oss&#x2F;release&#x2F;grafana-7.1.5-1.x86_64.rpm
+sudo yum install grafana-7.1.5-1.x86_64.rpm</code></pre>
+<h3 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h3><pre class="language-shell" data-language="shell"><code class="language-shell">systemctl daemon-reload
 systemctl start grafana-server
 systemctl status grafana-server
 
-systemctl enable grafana-server.service</code></pre>
-<h3 id="docker-granfana安装"><a href="#docker-granfana安装" class="headerlink" title="docker-granfana安装"></a>docker-granfana安装</h3><pre><code class="yml"># docker-compose.yml
-version: &quot;3.1&quot;
+systemctl <span class="token builtin class-name">enable</span> grafana-server.service</code></pre>
 
-services:
-  grafana:
-    image: grafana/grafana:5.1.0
-    ports:
-      - 3001:3000
-    environment:
-        - GF_SECURITY_ADMIN_PASSWORD__FILE=/run/secrets/granfa_admin_pwd # 5.2.0之后才可用</code></pre>
-<h3 id="nginx配置"><a href="#nginx配置" class="headerlink" title="nginx配置"></a>nginx配置</h3><pre><code class="conf"> server &#123;
+<h3 id="docker-granfana安装"><a href="#docker-granfana安装" class="headerlink" title="docker-granfana安装"></a>docker-granfana安装</h3><pre class="language-yml" data-language="yml"><code class="language-yml"><span class="token comment"># docker-compose.yml</span>
+<span class="token key atrule">version</span><span class="token punctuation">:</span> <span class="token string">"3.1"</span>
+
+<span class="token key atrule">services</span><span class="token punctuation">:</span>
+  <span class="token key atrule">grafana</span><span class="token punctuation">:</span>
+    <span class="token key atrule">image</span><span class="token punctuation">:</span> grafana/grafana<span class="token punctuation">:</span>5.1.0
+    <span class="token key atrule">ports</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> 3001<span class="token punctuation">:</span><span class="token number">3000</span>
+    <span class="token key atrule">environment</span><span class="token punctuation">:</span>
+        <span class="token punctuation">-</span> GF_SECURITY_ADMIN_PASSWORD__FILE=/run/secrets/granfa_admin_pwd <span class="token comment"># 5.2.0之后才可用</span></code></pre>
+
+<h3 id="nginx配置"><a href="#nginx配置" class="headerlink" title="nginx配置"></a>nginx配置</h3><pre class="language-conf" data-language="conf"><code class="language-conf"> server &#123;
         listen       80;
         server_name  grafana-dev.domain.cn;
 
         #charset koi8-r;
-        location / &#123;
-           proxy_pass  http://127.0.0.1:3001;
+        location &#x2F; &#123;
+           proxy_pass  http:&#x2F;&#x2F;127.0.0.1:3001;
            proxy_http_version 1.1;
            proxy_set_header Upgrade $http_upgrade;
            proxy_set_header Connection &quot;upgrade&quot;;
@@ -549,8 +562,9 @@ services:
 <p>就可以在web上进行访问,初始的账号密码都是<code>admin</code></p>
 <h3 id="配置数据源"><a href="#配置数据源" class="headerlink" title="配置数据源"></a>配置数据源</h3><p><img src="https://vison-blog.oss-cn-beijing.aliyuncs.com/20210430141408.png" alt=""></p>
 <p>docker安装情况应注意docker容器ip 和宿主机ip</p>
-<pre><code class="shell">docker network ls # 查看docker网络
-docker network inspect $networkid # 查看具体网络信息</code></pre>
+<pre class="language-shell" data-language="shell"><code class="language-shell">docker network <span class="token function">ls</span> <span class="token comment"># 查看docker网络</span>
+docker network inspect <span class="token variable">$networkid</span> <span class="token comment"># 查看具体网络信息</span></code></pre>
+
 <p><img src="https://vison-blog.oss-cn-beijing.aliyuncs.com/20210811145603.png" alt=""></p>
 <p>在配置<code>influxdb</code> 数据源时，如果你是用<code>docker</code>安装，需要保持<code>granfana</code>和<code>influxdb</code>是在同一个网段</p>
 <p><img src="https://vison-blog.oss-cn-beijing.aliyuncs.com/20210811145551.png" alt=""></p>

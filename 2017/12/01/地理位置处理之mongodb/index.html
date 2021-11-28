@@ -493,49 +493,50 @@ postgresql ">
 <p>本文测试下mongodb geo索引 函数运算的性能</p>
 <span id="more"></span>
 
-<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><h3 id="创建数据表"><a href="#创建数据表" class="headerlink" title="创建数据表"></a>创建数据表</h3><pre><code class="sql">db.driver.createIndex(&#123;loc: &quot;2dsphere&quot;&#125;)</code></pre>
-<h2 id="创建数据python脚本"><a href="#创建数据python脚本" class="headerlink" title="创建数据python脚本"></a>创建数据python脚本</h2><pre><code class="python"># coding=utf-8
-from pymongo import MongoClient
-import logging
-import random
-import threading
+<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><h3 id="创建数据表"><a href="#创建数据表" class="headerlink" title="创建数据表"></a>创建数据表</h3><pre class="language-sql" data-language="sql"><code class="language-sql">db<span class="token punctuation">.</span>driver<span class="token punctuation">.</span>createIndex<span class="token punctuation">(</span>&#123;loc: <span class="token string">"2dsphere"</span>&#125;<span class="token punctuation">)</span></code></pre>
 
-&quot;&quot;&quot; 中国的经纬度范围 纬度3.86~53.55，经度73.66~135.05。大概0.00001度差距1米 &quot;&quot;&quot;
+<h2 id="创建数据python脚本"><a href="#创建数据python脚本" class="headerlink" title="创建数据python脚本"></a>创建数据python脚本</h2><pre class="language-python" data-language="python"><code class="language-python"><span class="token comment"># coding=utf-8</span>
+<span class="token keyword">from</span> pymongo <span class="token keyword">import</span> MongoClient
+<span class="token keyword">import</span> logging
+<span class="token keyword">import</span> random
+<span class="token keyword">import</span> threading
 
-# 创建 日志 对象
-logger = logging.getLogger()
-handler = logging.StreamHandler()
-formatter = logging.Formatter(
-    &#39;%(asctime)s %(name)-12s %(levelname)-8s %(message)s&#39;)
-handler.setFormatter(formatter)
-logger.addHandler(handler)
-logger.setLevel(logging.DEBUG)
+<span class="token triple-quoted-string string">""" 中国的经纬度范围 纬度3.86~53.55，经度73.66~135.05。大概0.00001度差距1米 """</span>
 
-# Connect to the mongodb database
+<span class="token comment"># 创建 日志 对象</span>
+logger <span class="token operator">=</span> logging<span class="token punctuation">.</span>getLogger<span class="token punctuation">(</span><span class="token punctuation">)</span>
+handler <span class="token operator">=</span> logging<span class="token punctuation">.</span>StreamHandler<span class="token punctuation">(</span><span class="token punctuation">)</span>
+formatter <span class="token operator">=</span> logging<span class="token punctuation">.</span>Formatter<span class="token punctuation">(</span>
+    <span class="token string">'%(asctime)s %(name)-12s %(levelname)-8s %(message)s'</span><span class="token punctuation">)</span>
+handler<span class="token punctuation">.</span>setFormatter<span class="token punctuation">(</span>formatter<span class="token punctuation">)</span>
+logger<span class="token punctuation">.</span>addHandler<span class="token punctuation">(</span>handler<span class="token punctuation">)</span>
+logger<span class="token punctuation">.</span>setLevel<span class="token punctuation">(</span>logging<span class="token punctuation">.</span>DEBUG<span class="token punctuation">)</span>
 
-mongoconn = MongoClient(&#39;127.0.0.1&#39;, 27017)
-mdb = mongoconn.geo_analysis
-driver_collection = mdb.driver
+<span class="token comment"># Connect to the mongodb database</span>
 
-
-def ins_driver(thread_name, nums):
-    logger.info(&#39;开启线程%s&#39; % thread_name)
-    for i in range(nums):
-        lng = &#39;%.5f&#39; % random.uniform(73.66, 135.05)
-        lat = &#39;%.5f&#39; % random.uniform(3.86, 53.55)
-        logging.debug(&#39;插入记录:%s&#39; % i)
-        driver_collection.insert_one(&#123;
-            &quot;loc&quot;:[
-                float(lng),
-                float(lat)
-            ]
-        &#125;)
+mongoconn <span class="token operator">=</span> MongoClient<span class="token punctuation">(</span><span class="token string">'127.0.0.1'</span><span class="token punctuation">,</span> <span class="token number">27017</span><span class="token punctuation">)</span>
+mdb <span class="token operator">=</span> mongoconn<span class="token punctuation">.</span>geo_analysis
+driver_collection <span class="token operator">=</span> mdb<span class="token punctuation">.</span>driver
 
 
-thread_nums = 10
-for i in range(thread_nums):
-    t = threading.Thread(target=ins_driver, args=(i, 40000))
-    t.start()
+<span class="token keyword">def</span> <span class="token function">ins_driver</span><span class="token punctuation">(</span>thread_name<span class="token punctuation">,</span> nums<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    logger<span class="token punctuation">.</span>info<span class="token punctuation">(</span><span class="token string">'开启线程%s'</span> <span class="token operator">%</span> thread_name<span class="token punctuation">)</span>
+    <span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span>nums<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        lng <span class="token operator">=</span> <span class="token string">'%.5f'</span> <span class="token operator">%</span> random<span class="token punctuation">.</span>uniform<span class="token punctuation">(</span><span class="token number">73.66</span><span class="token punctuation">,</span> <span class="token number">135.05</span><span class="token punctuation">)</span>
+        lat <span class="token operator">=</span> <span class="token string">'%.5f'</span> <span class="token operator">%</span> random<span class="token punctuation">.</span>uniform<span class="token punctuation">(</span><span class="token number">3.86</span><span class="token punctuation">,</span> <span class="token number">53.55</span><span class="token punctuation">)</span>
+        logging<span class="token punctuation">.</span>debug<span class="token punctuation">(</span><span class="token string">'插入记录:%s'</span> <span class="token operator">%</span> i<span class="token punctuation">)</span>
+        driver_collection<span class="token punctuation">.</span>insert_one<span class="token punctuation">(</span><span class="token punctuation">&#123;</span>
+            <span class="token string">"loc"</span><span class="token punctuation">:</span><span class="token punctuation">[</span>
+                <span class="token builtin">float</span><span class="token punctuation">(</span>lng<span class="token punctuation">)</span><span class="token punctuation">,</span>
+                <span class="token builtin">float</span><span class="token punctuation">(</span>lat<span class="token punctuation">)</span>
+            <span class="token punctuation">]</span>
+        <span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+
+
+thread_nums <span class="token operator">=</span> <span class="token number">10</span>
+<span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span>thread_nums<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    t <span class="token operator">=</span> threading<span class="token punctuation">.</span>Thread<span class="token punctuation">(</span>target<span class="token operator">=</span>ins_driver<span class="token punctuation">,</span> args<span class="token operator">=</span><span class="token punctuation">(</span>i<span class="token punctuation">,</span> <span class="token number">40000</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    t<span class="token punctuation">.</span>start<span class="token punctuation">(</span><span class="token punctuation">)</span>
 </code></pre>
 <p><img src="http://upload-images.jianshu.io/upload_images/4033700-dda526bdfcc5c759.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
 <p>以上脚本创建10个线程，10个线程插入4万条数据。耗费52.43s执行完,总共插入40万条数据</p>
@@ -547,7 +548,7 @@ for i in range(thread_nums):
 <p>cpu: intel core i5</p>
 <p>硬盘: 500g 固态硬盘</p>
 <p>测试下查找距离(134.38753,18.56734)附近20公里的司机</p>
-<pre><code class="js">db.runCommand(&#123;geoNear:&#39;driver&#39;, near:[134.38753,18.56734], spherical:true, maxDistance:20000/6378000, distanceMultiplier:6378000&#125;);</code></pre>
+<pre class="language-js" data-language="js"><code class="language-js">db<span class="token punctuation">.</span><span class="token function">runCommand</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span>geoNear<span class="token operator">:</span><span class="token string">'driver'</span><span class="token punctuation">,</span> near<span class="token operator">:</span><span class="token punctuation">[</span><span class="token number">134.38753</span><span class="token punctuation">,</span><span class="token number">18.56734</span><span class="token punctuation">]</span><span class="token punctuation">,</span> spherical<span class="token operator">:</span><span class="token boolean">true</span><span class="token punctuation">,</span> maxDistance<span class="token operator">:</span><span class="token number">20000</span><span class="token operator">/</span><span class="token number">6378000</span><span class="token punctuation">,</span> distanceMultiplier<span class="token operator">:</span><span class="token number">6378000</span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 <ul>
 <li>耗时：0.001s</li>
 <li>explain:使用索引</li>

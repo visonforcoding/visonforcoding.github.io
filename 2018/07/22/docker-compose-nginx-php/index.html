@@ -483,28 +483,31 @@ Docker 可以让开发者打包他们的应用以及依赖包到一个轻量级�
 <p>Docker 可以让开发者打包他们的应用以及依赖包到一个轻量级、可移植的容器中，然后发布到任何流行的 Linux 机器上，也可以实现虚拟化。</p>
 </blockquote>
 <h2 id="我用docker做什么？"><a href="#我用docker做什么？" class="headerlink" title="我用docker做什么？"></a>我用docker做什么？</h2><p>快速搭建开发所需环境，测试实验新组件(如rabbitmq,kafka).避免因安装而浪费太多时间，我的目的是快速尝试使用。</p>
-<h2 id="安装docker"><a href="#安装docker" class="headerlink" title="安装docker"></a>安装docker</h2><pre><code class="shell">brew cask install docker</code></pre>
+<h2 id="安装docker"><a href="#安装docker" class="headerlink" title="安装docker"></a>安装docker</h2><pre class="language-shell" data-language="shell"><code class="language-shell">brew cask install docker</code></pre>
+
 <h2 id="docker-compose"><a href="#docker-compose" class="headerlink" title="docker-compose"></a>docker-compose</h2><p>Compose 是一个用户定义和运行多个容器的 Docker 应用程序。在 Compose 中你可以使用 YAML 文件来配置你的应用服务。然后，只需要一个简单的命令，就可以创建并启动你配置的所有服务。</p>
 <h2 id="目录结构"><a href="#目录结构" class="headerlink" title="目录结构"></a>目录结构</h2><p><img src="http://upload-images.jianshu.io/upload_images/4033700-1a2d2c681ac9df9c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="2018-08-07-14-17-25"></p>
 <p>一组服务建立一个目录</p>
-<h2 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h2><pre><code class="yaml">version: &#39;2&#39;
-services:
-  php7.2:
-    image: php:7.2-fpm
-    ports:
-      - &quot;9000:9000&quot;
-    volumes: 
-      - ./php:/usr/local/etc/php
-      - /Users/caowenpeng/www:/www
-  nginx:
-    image: nginx
-    ports: 
-      - &quot;80:80&quot;
-    volumes:
-      - /Users/caowenpeng/www:/www
-      - ./nginx:/etc/nginx
+<h2 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h2><pre class="language-yaml" data-language="yaml"><code class="language-yaml"><span class="token key atrule">version</span><span class="token punctuation">:</span> <span class="token string">'2'</span>
+<span class="token key atrule">services</span><span class="token punctuation">:</span>
+  <span class="token key atrule">php7.2</span><span class="token punctuation">:</span>
+    <span class="token key atrule">image</span><span class="token punctuation">:</span> php<span class="token punctuation">:</span>7.2<span class="token punctuation">-</span>fpm
+    <span class="token key atrule">ports</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> <span class="token string">"9000:9000"</span>
+    <span class="token key atrule">volumes</span><span class="token punctuation">:</span> 
+      <span class="token punctuation">-</span> ./php<span class="token punctuation">:</span>/usr/local/etc/php
+      <span class="token punctuation">-</span> /Users/caowenpeng/www<span class="token punctuation">:</span>/www
+  <span class="token key atrule">nginx</span><span class="token punctuation">:</span>
+    <span class="token key atrule">image</span><span class="token punctuation">:</span> nginx
+    <span class="token key atrule">ports</span><span class="token punctuation">:</span> 
+      <span class="token punctuation">-</span> <span class="token string">"80:80"</span>
+    <span class="token key atrule">volumes</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> /Users/caowenpeng/www<span class="token punctuation">:</span>/www
+      <span class="token punctuation">-</span> ./nginx<span class="token punctuation">:</span>/etc/nginx
 </code></pre>
-<h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><pre><code class="shell">docker-compose up -d</code></pre>
+
+<h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><pre class="language-shell" data-language="shell"><code class="language-shell">docker-compose up -d</code></pre>
+
 <h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><table>
 <thead>
 <tr>
@@ -539,33 +542,34 @@ services:
 </tbody></table>
 <p><strong>第一次使用up,之后使用start,如果再次使用up将会重新创建容器，一些对容器的修改将会丢失</strong></p>
 <h2 id="其他问题"><a href="#其他问题" class="headerlink" title="其他问题"></a>其他问题</h2><p>进入容器 </p>
-<pre><code class="bash"> docker-compose exec php7.2 bash</code></pre>
+<pre class="language-bash" data-language="bash"><code class="language-bash">docker-compose <span class="token builtin class-name">exec</span> php7.2 <span class="token function">bash</span></code></pre>
+
 <p>进入容器后会发现只能用少量命令，连ps等都没有，这个时候需要安装一些程序</p>
-<pre><code class="bash">apt-get update  ##更新元
-apt-get install procps  ## 安装 ps</code></pre>
+<pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token function">apt-get</span> update  <span class="token comment">##更新元</span>
+<span class="token function">apt-get</span> <span class="token function">install</span> procps  <span class="token comment">## 安装 ps</span></code></pre>
+
 <p>安装php-rdkafka拓展</p>
-<pre><code class="bash">apt-get install wget
-wget https://github.com/edenhill/librdkafka/archive/master.zip
+<pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token function">apt-get</span> <span class="token function">install</span> <span class="token function">wget</span>
+<span class="token function">wget</span> https://github.com/edenhill/librdkafka/archive/master.zip
 
-apt-get install unzip
+<span class="token function">apt-get</span> <span class="token function">install</span> <span class="token function">unzip</span>
 
-unzip master.zip
+<span class="token function">unzip</span> master.zip
 
-cd librdkafka
+<span class="token builtin class-name">cd</span> librdkafka
 
 ./configure 
 
-make
+<span class="token function">make</span>
 
-make install 
+<span class="token function">make</span> <span class="token function">install</span> 
 
-pecl install http://pecl.php.net/get/rdkafka-3.0.4.tgz
+pecl <span class="token function">install</span> http://pecl.php.net/get/rdkafka-3.0.4.tgz
 
-#在php.ini 配置启用 rdkafka拓展
+<span class="token comment">#在php.ini 配置启用 rdkafka拓展</span>
 
 
 </code></pre>
-
                 
             </div>
             <hr/>

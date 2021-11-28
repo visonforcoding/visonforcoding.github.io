@@ -493,12 +493,13 @@ postgresql ">
 <p>本文测试下mysql 函数运算的性能</p>
 <span id="more"></span>
 
-<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><h3 id="创建数据表"><a href="#创建数据表" class="headerlink" title="创建数据表"></a>创建数据表</h3><pre><code class="sql">CREATE TABLE `driver` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `lng` float DEFAULT NULL,
-  `lat` float DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;</code></pre>
+<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><h3 id="创建数据表"><a href="#创建数据表" class="headerlink" title="创建数据表"></a>创建数据表</h3><pre class="language-sql" data-language="sql"><code class="language-sql"><span class="token keyword">CREATE</span> <span class="token keyword">TABLE</span> <span class="token punctuation">`</span>driver<span class="token punctuation">`</span> <span class="token punctuation">(</span>
+  <span class="token punctuation">`</span>id<span class="token punctuation">`</span> <span class="token keyword">int</span><span class="token punctuation">(</span><span class="token number">11</span><span class="token punctuation">)</span> <span class="token keyword">unsigned</span> <span class="token operator">NOT</span> <span class="token boolean">NULL</span> <span class="token keyword">AUTO_INCREMENT</span><span class="token punctuation">,</span>
+  <span class="token punctuation">`</span>lng<span class="token punctuation">`</span> <span class="token keyword">float</span> <span class="token keyword">DEFAULT</span> <span class="token boolean">NULL</span><span class="token punctuation">,</span>
+  <span class="token punctuation">`</span>lat<span class="token punctuation">`</span> <span class="token keyword">float</span> <span class="token keyword">DEFAULT</span> <span class="token boolean">NULL</span><span class="token punctuation">,</span>
+  <span class="token keyword">PRIMARY</span> <span class="token keyword">KEY</span> <span class="token punctuation">(</span><span class="token punctuation">`</span>id<span class="token punctuation">`</span><span class="token punctuation">)</span>
+<span class="token punctuation">)</span> <span class="token keyword">ENGINE</span><span class="token operator">=</span><span class="token keyword">InnoDB</span> <span class="token keyword">DEFAULT</span> <span class="token keyword">CHARSET</span><span class="token operator">=</span>utf8<span class="token punctuation">;</span></code></pre>
+
 <h3 id="创建测试数据"><a href="#创建测试数据" class="headerlink" title="创建测试数据"></a>创建测试数据</h3><p>在创建数据之前先了解下基本的地理知识:</p>
 <ul>
 <li><p><strong>全球经纬度的取值范围为:</strong> 纬度-90<del>90，经度-180</del>180</p>
@@ -522,90 +523,91 @@ postgresql ">
 <ul>
 <li>纬度每隔0.00001度，距离相差约1.1米</li>
 </ul>
-<h2 id="mysql函数计算"><a href="#mysql函数计算" class="headerlink" title="mysql函数计算"></a>mysql函数计算</h2><pre><code class="sql">DELIMITER //
-CREATE DEFINER=`root`@`localhost` FUNCTION `getDistance`(
-    `lng1` float(10,7) 
-    ,
-    `lat1` float(10,7)
-    ,
-    `lng2` float(10,7) 
-    ,
-    `lat2` float(10,7)
+<h2 id="mysql函数计算"><a href="#mysql函数计算" class="headerlink" title="mysql函数计算"></a>mysql函数计算</h2><pre class="language-sql" data-language="sql"><code class="language-sql"><span class="token keyword">DELIMITER</span> <span class="token comment">//</span>
+<span class="token keyword">CREATE</span> <span class="token keyword">DEFINER</span><span class="token operator">=</span><span class="token punctuation">`</span>root<span class="token punctuation">`</span><span class="token variable">@`localhost`</span> <span class="token keyword">FUNCTION</span> <span class="token punctuation">`</span>getDistance<span class="token punctuation">`</span><span class="token punctuation">(</span>
+	<span class="token punctuation">`</span>lng1<span class="token punctuation">`</span> <span class="token keyword">float</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">,</span><span class="token number">7</span><span class="token punctuation">)</span> 
+    <span class="token punctuation">,</span>
+	<span class="token punctuation">`</span>lat1<span class="token punctuation">`</span> <span class="token keyword">float</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">,</span><span class="token number">7</span><span class="token punctuation">)</span>
+    <span class="token punctuation">,</span>
+	<span class="token punctuation">`</span>lng2<span class="token punctuation">`</span> <span class="token keyword">float</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">,</span><span class="token number">7</span><span class="token punctuation">)</span> 
+    <span class="token punctuation">,</span>
+	<span class="token punctuation">`</span>lat2<span class="token punctuation">`</span> <span class="token keyword">float</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">,</span><span class="token number">7</span><span class="token punctuation">)</span>
 
-) RETURNS double
-    COMMENT &#39;计算2坐标点距离&#39;
-BEGIN
-    declare d double;
-    declare radius int;
-    set radius = 6371000; #假设地球为正球形，直径为6371000米
-    set d = (2*ATAN2(SQRT(SIN((lat1-lat2)*PI()/180/2)   
-        *SIN((lat1-lat2)*PI()/180/2)+   
-        COS(lat2*PI()/180)*COS(lat1*PI()/180)   
-        *SIN((lng1-lng2)*PI()/180/2)   
-        *SIN((lng1-lng2)*PI()/180/2)),   
-        SQRT(1-SIN((lat1-lat2)*PI()/180/2)   
-        *SIN((lat1-lat2)*PI()/180/2)   
-        +COS(lat2*PI()/180)*COS(lat1*PI()/180)   
-        *SIN((lng1-lng2)*PI()/180/2)   
-        *SIN((lng1-lng2)*PI()/180/2))))*radius;
-    return d;
-END//
-DELIMITER ;</code></pre>
-<h2 id="创建数据python脚本"><a href="#创建数据python脚本" class="headerlink" title="创建数据python脚本"></a>创建数据python脚本</h2><pre><code class="python"># coding=utf-8
-from orator import DatabaseManager, Model
-import logging
-import random
-import threading
+<span class="token punctuation">)</span> <span class="token keyword">RETURNS</span> <span class="token keyword">double</span>
+    <span class="token keyword">COMMENT</span> <span class="token string">'计算2坐标点距离'</span>
+<span class="token keyword">BEGIN</span>
+	<span class="token keyword">declare</span> d <span class="token keyword">double</span><span class="token punctuation">;</span>
+    <span class="token keyword">declare</span> radius <span class="token keyword">int</span><span class="token punctuation">;</span>
+    <span class="token keyword">set</span> radius <span class="token operator">=</span> <span class="token number">6371000</span><span class="token punctuation">;</span> <span class="token comment">#假设地球为正球形，直径为6371000米</span>
+    <span class="token keyword">set</span> d <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token number">2</span><span class="token operator">*</span>ATAN2<span class="token punctuation">(</span>SQRT<span class="token punctuation">(</span>SIN<span class="token punctuation">(</span><span class="token punctuation">(</span>lat1<span class="token operator">-</span>lat2<span class="token punctuation">)</span><span class="token operator">*</span>PI<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">/</span><span class="token number">180</span><span class="token operator">/</span><span class="token number">2</span><span class="token punctuation">)</span>   
+        <span class="token operator">*</span>SIN<span class="token punctuation">(</span><span class="token punctuation">(</span>lat1<span class="token operator">-</span>lat2<span class="token punctuation">)</span><span class="token operator">*</span>PI<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">/</span><span class="token number">180</span><span class="token operator">/</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token operator">+</span>   
+        COS<span class="token punctuation">(</span>lat2<span class="token operator">*</span>PI<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">/</span><span class="token number">180</span><span class="token punctuation">)</span><span class="token operator">*</span>COS<span class="token punctuation">(</span>lat1<span class="token operator">*</span>PI<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">/</span><span class="token number">180</span><span class="token punctuation">)</span>   
+        <span class="token operator">*</span>SIN<span class="token punctuation">(</span><span class="token punctuation">(</span>lng1<span class="token operator">-</span>lng2<span class="token punctuation">)</span><span class="token operator">*</span>PI<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">/</span><span class="token number">180</span><span class="token operator">/</span><span class="token number">2</span><span class="token punctuation">)</span>   
+        <span class="token operator">*</span>SIN<span class="token punctuation">(</span><span class="token punctuation">(</span>lng1<span class="token operator">-</span>lng2<span class="token punctuation">)</span><span class="token operator">*</span>PI<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">/</span><span class="token number">180</span><span class="token operator">/</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span>   
+        SQRT<span class="token punctuation">(</span><span class="token number">1</span><span class="token operator">-</span>SIN<span class="token punctuation">(</span><span class="token punctuation">(</span>lat1<span class="token operator">-</span>lat2<span class="token punctuation">)</span><span class="token operator">*</span>PI<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">/</span><span class="token number">180</span><span class="token operator">/</span><span class="token number">2</span><span class="token punctuation">)</span>   
+        <span class="token operator">*</span>SIN<span class="token punctuation">(</span><span class="token punctuation">(</span>lat1<span class="token operator">-</span>lat2<span class="token punctuation">)</span><span class="token operator">*</span>PI<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">/</span><span class="token number">180</span><span class="token operator">/</span><span class="token number">2</span><span class="token punctuation">)</span>   
+        <span class="token operator">+</span>COS<span class="token punctuation">(</span>lat2<span class="token operator">*</span>PI<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">/</span><span class="token number">180</span><span class="token punctuation">)</span><span class="token operator">*</span>COS<span class="token punctuation">(</span>lat1<span class="token operator">*</span>PI<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">/</span><span class="token number">180</span><span class="token punctuation">)</span>   
+        <span class="token operator">*</span>SIN<span class="token punctuation">(</span><span class="token punctuation">(</span>lng1<span class="token operator">-</span>lng2<span class="token punctuation">)</span><span class="token operator">*</span>PI<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">/</span><span class="token number">180</span><span class="token operator">/</span><span class="token number">2</span><span class="token punctuation">)</span>   
+        <span class="token operator">*</span>SIN<span class="token punctuation">(</span><span class="token punctuation">(</span>lng1<span class="token operator">-</span>lng2<span class="token punctuation">)</span><span class="token operator">*</span>PI<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">/</span><span class="token number">180</span><span class="token operator">/</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token operator">*</span>radius<span class="token punctuation">;</span>
+    <span class="token keyword">return</span> d<span class="token punctuation">;</span>
+<span class="token keyword">END</span><span class="token comment">//</span>
+<span class="token keyword">DELIMITER</span> <span class="token punctuation">;</span></code></pre>
 
-&quot;&quot;&quot; 中国的经纬度范围 纬度3.86~53.55，经度73.66~135.05。大概0.00001度差距1米 &quot;&quot;&quot;
+<h2 id="创建数据python脚本"><a href="#创建数据python脚本" class="headerlink" title="创建数据python脚本"></a>创建数据python脚本</h2><pre class="language-python" data-language="python"><code class="language-python"><span class="token comment"># coding=utf-8</span>
+<span class="token keyword">from</span> orator <span class="token keyword">import</span> DatabaseManager<span class="token punctuation">,</span> Model
+<span class="token keyword">import</span> logging
+<span class="token keyword">import</span> random
+<span class="token keyword">import</span> threading
 
-# 创建 日志 对象
-logger = logging.getLogger()
-handler = logging.StreamHandler()
-formatter = logging.Formatter(
-    &#39;%(asctime)s %(name)-12s %(levelname)-8s %(message)s&#39;)
-handler.setFormatter(formatter)
-logger.addHandler(handler)
-logger.setLevel(logging.DEBUG)
+<span class="token triple-quoted-string string">""" 中国的经纬度范围 纬度3.86~53.55，经度73.66~135.05。大概0.00001度差距1米 """</span>
 
-# Connect to the database
+<span class="token comment"># 创建 日志 对象</span>
+logger <span class="token operator">=</span> logging<span class="token punctuation">.</span>getLogger<span class="token punctuation">(</span><span class="token punctuation">)</span>
+handler <span class="token operator">=</span> logging<span class="token punctuation">.</span>StreamHandler<span class="token punctuation">(</span><span class="token punctuation">)</span>
+formatter <span class="token operator">=</span> logging<span class="token punctuation">.</span>Formatter<span class="token punctuation">(</span>
+    <span class="token string">'%(asctime)s %(name)-12s %(levelname)-8s %(message)s'</span><span class="token punctuation">)</span>
+handler<span class="token punctuation">.</span>setFormatter<span class="token punctuation">(</span>formatter<span class="token punctuation">)</span>
+logger<span class="token punctuation">.</span>addHandler<span class="token punctuation">(</span>handler<span class="token punctuation">)</span>
+logger<span class="token punctuation">.</span>setLevel<span class="token punctuation">(</span>logging<span class="token punctuation">.</span>DEBUG<span class="token punctuation">)</span>
 
-config = &#123;
-    &#39;mysql&#39;: &#123;
-        &#39;driver&#39;: &#39;mysql&#39;,
-        &#39;host&#39;: &#39;localhost&#39;,
-        &#39;database&#39;: &#39;dbtest&#39;,
-        &#39;user&#39;: &#39;root&#39;,
-        &#39;password&#39;: &#39;&#39;,
-        &#39;prefix&#39;: &#39;&#39;
-    &#125;
-&#125;
+<span class="token comment"># Connect to the database</span>
 
-db = DatabaseManager(config)
-Model.set_connection_resolver(db)
+config <span class="token operator">=</span> <span class="token punctuation">&#123;</span>
+    <span class="token string">'mysql'</span><span class="token punctuation">:</span> <span class="token punctuation">&#123;</span>
+        <span class="token string">'driver'</span><span class="token punctuation">:</span> <span class="token string">'mysql'</span><span class="token punctuation">,</span>
+        <span class="token string">'host'</span><span class="token punctuation">:</span> <span class="token string">'localhost'</span><span class="token punctuation">,</span>
+        <span class="token string">'database'</span><span class="token punctuation">:</span> <span class="token string">'dbtest'</span><span class="token punctuation">,</span>
+        <span class="token string">'user'</span><span class="token punctuation">:</span> <span class="token string">'root'</span><span class="token punctuation">,</span>
+        <span class="token string">'password'</span><span class="token punctuation">:</span> <span class="token string">''</span><span class="token punctuation">,</span>
+        <span class="token string">'prefix'</span><span class="token punctuation">:</span> <span class="token string">''</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
 
-
-class Driver(Model):
-    __table__ = &#39;driver&#39;
-    __timestamps__ = False
-    pass
+db <span class="token operator">=</span> DatabaseManager<span class="token punctuation">(</span>config<span class="token punctuation">)</span>
+Model<span class="token punctuation">.</span>set_connection_resolver<span class="token punctuation">(</span>db<span class="token punctuation">)</span>
 
 
-def ins_driver(thread_name,nums):
-    logger.info(&#39;开启线程%s&#39; % thread_name)
-    for _ in range(nums):
-        lng = &#39;%.5f&#39; % random.uniform(73.66, 135.05)
-        lat = &#39;%.5f&#39; % random.uniform(3.86, 53.55)
+<span class="token keyword">class</span> <span class="token class-name">Driver</span><span class="token punctuation">(</span>Model<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    __table__ <span class="token operator">=</span> <span class="token string">'driver'</span>
+    __timestamps__ <span class="token operator">=</span> <span class="token boolean">False</span>
+    <span class="token keyword">pass</span>
 
-        driver = Driver()
-        driver.lng = lng
-        driver.lat = lat
-        driver.save()
 
-thread_nums = 10
-for i in range(thread_nums):
-    t = threading.Thread(target=ins_driver, args=(i, 400000))
-    t.start()</code></pre>
+<span class="token keyword">def</span> <span class="token function">ins_driver</span><span class="token punctuation">(</span>thread_name<span class="token punctuation">,</span>nums<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    logger<span class="token punctuation">.</span>info<span class="token punctuation">(</span><span class="token string">'开启线程%s'</span> <span class="token operator">%</span> thread_name<span class="token punctuation">)</span>
+    <span class="token keyword">for</span> _ <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span>nums<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        lng <span class="token operator">=</span> <span class="token string">'%.5f'</span> <span class="token operator">%</span> random<span class="token punctuation">.</span>uniform<span class="token punctuation">(</span><span class="token number">73.66</span><span class="token punctuation">,</span> <span class="token number">135.05</span><span class="token punctuation">)</span>
+        lat <span class="token operator">=</span> <span class="token string">'%.5f'</span> <span class="token operator">%</span> random<span class="token punctuation">.</span>uniform<span class="token punctuation">(</span><span class="token number">3.86</span><span class="token punctuation">,</span> <span class="token number">53.55</span><span class="token punctuation">)</span>
+
+        driver <span class="token operator">=</span> Driver<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        driver<span class="token punctuation">.</span>lng <span class="token operator">=</span> lng
+        driver<span class="token punctuation">.</span>lat <span class="token operator">=</span> lat
+        driver<span class="token punctuation">.</span>save<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+thread_nums <span class="token operator">=</span> <span class="token number">10</span>
+<span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span>thread_nums<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    t <span class="token operator">=</span> threading<span class="token punctuation">.</span>Thread<span class="token punctuation">(</span>target<span class="token operator">=</span>ins_driver<span class="token punctuation">,</span> args<span class="token operator">=</span><span class="token punctuation">(</span>i<span class="token punctuation">,</span> <span class="token number">400000</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    t<span class="token punctuation">.</span>start<span class="token punctuation">(</span><span class="token punctuation">)</span></code></pre>
 <p><img src="http://upload-images.jianshu.io/upload_images/4033700-dda526bdfcc5c759.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
 <p>以上脚本创建10个线程，10个线程插入4万条数据。耗费150.18s执行完,总共插入40万条数据</p>
 <h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><ul>
@@ -616,7 +618,7 @@ for i in range(thread_nums):
 <p>cpu: intel core i5</p>
 <p>硬盘: 500g 固态硬盘</p>
 <p>测试下查找距离(134.38753,18.56734)这个坐标点最近的10个司机</p>
-<pre><code class="sql">select *,`getDistance`(134.38753,18.56734,`lng`,`lat`) as dis from driver ORDER BY dis limit 10</code></pre>
+<pre class="language-sql" data-language="sql"><code class="language-sql"><span class="token keyword">select</span> <span class="token operator">*</span><span class="token punctuation">,</span><span class="token punctuation">`</span>getDistance<span class="token punctuation">`</span><span class="token punctuation">(</span><span class="token number">134.38753</span><span class="token punctuation">,</span><span class="token number">18.56734</span><span class="token punctuation">,</span><span class="token punctuation">`</span>lng<span class="token punctuation">`</span><span class="token punctuation">,</span><span class="token punctuation">`</span>lat<span class="token punctuation">`</span><span class="token punctuation">)</span> <span class="token keyword">as</span> dis <span class="token keyword">from</span> driver <span class="token keyword">ORDER</span> <span class="token keyword">BY</span> dis <span class="token keyword">limit</span> <span class="token number">10</span></code></pre>
 <ul>
 <li>耗时：18.0s</li>
 <li>explain:全表扫描</li>

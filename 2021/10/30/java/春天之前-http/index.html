@@ -498,85 +498,86 @@
 <h1 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h1><p>设计HTTP最初的目的是为了提供一种发布和接收HTML页面的方法。</p>
 <p><img src="https://vison-blog.oss-cn-beijing.aliyuncs.com/20201218163846.png" alt=""></p>
 <h1 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h1><p>一个连接是由传输层来控制的，这从根本上不属于HTTP的范围。HTTP并不需要其底层的传输层协议是面向连接的，只需要它是可靠的，或不丢失消息的（至少返回错误）。在互联网中，有两个最常用的传输层协议：TCP是可靠的，而UDP不是。因此，HTTP依赖于面向连接的TCP进行消息传递，但连接并不是必须的。因此通过socket编程就能实现http协议。</p>
-<pre><code class="java">public class Server &#123;
+<pre class="language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Server</span> <span class="token punctuation">&#123;</span>
 
-    private static int port = 8081;
+    <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">int</span> port <span class="token operator">=</span> <span class="token number">8081</span><span class="token punctuation">;</span>
 
-    public static void main(String[] args) throws IOException &#123;
-        ServerSocket ss = new ServerSocket(port); // 监听指定端口
-        System.out.println(&quot;server is running...&quot;);
-        for (;;) &#123;
-            Socket sock = ss.accept();
-            System.out.println(&quot;connected from &quot; + sock.getRemoteSocketAddress());
-            Thread t = new Handler(sock);
-            t.start();
-        &#125;
-    &#125;
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">IOException</span> <span class="token punctuation">&#123;</span>
+        <span class="token class-name">ServerSocket</span> ss <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ServerSocket</span><span class="token punctuation">(</span>port<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 监听指定端口</span>
+        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"server is running..."</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token punctuation">;</span><span class="token punctuation">;</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token class-name">Socket</span> sock <span class="token operator">=</span> ss<span class="token punctuation">.</span><span class="token function">accept</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"connected from "</span> <span class="token operator">+</span> sock<span class="token punctuation">.</span><span class="token function">getRemoteSocketAddress</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token class-name">Thread</span> t <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Handler</span><span class="token punctuation">(</span>sock<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            t<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
 
-&#125;
+<span class="token punctuation">&#125;</span>
 
-public class Handler extends Thread &#123;
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Handler</span> <span class="token keyword">extends</span> <span class="token class-name">Thread</span> <span class="token punctuation">&#123;</span>
 
-    Socket sock;
+    <span class="token class-name">Socket</span> sock<span class="token punctuation">;</span>
 
-    public Handler(Socket sock) &#123;
-        this.sock = sock;
-    &#125;
+    <span class="token keyword">public</span> <span class="token class-name">Handler</span><span class="token punctuation">(</span><span class="token class-name">Socket</span> sock<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>sock <span class="token operator">=</span> sock<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
 
-    public void run() &#123;
-        try ( InputStream input = this.sock.getInputStream()) &#123;
-            try ( OutputStream output = this.sock.getOutputStream()) &#123;
-                handle(input, output);
-            &#125;
-        &#125; catch (Exception e) &#123;
-            try &#123;
-                this.sock.close();
-            &#125; catch (IOException ioe) &#123;
-            &#125;
-            System.out.println(&quot;client disconnected.&quot;);
-        &#125;
-    &#125;
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">try</span> <span class="token punctuation">(</span> <span class="token class-name">InputStream</span> input <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>sock<span class="token punctuation">.</span><span class="token function">getInputStream</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token keyword">try</span> <span class="token punctuation">(</span> <span class="token class-name">OutputStream</span> output <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>sock<span class="token punctuation">.</span><span class="token function">getOutputStream</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                <span class="token function">handle</span><span class="token punctuation">(</span>input<span class="token punctuation">,</span> output<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span>
+        <span class="token punctuation">&#125;</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Exception</span> e<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token keyword">try</span> <span class="token punctuation">&#123;</span>
+                <span class="token keyword">this</span><span class="token punctuation">.</span>sock<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">IOException</span> ioe<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token punctuation">&#125;</span>
+            <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"client disconnected."</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
 
-    private void handle(InputStream input, OutputStream output) throws IOException &#123;
-        System.out.println(&quot;Process new http request...&quot;);
-        var reader = new BufferedReader(new InputStreamReader(input, StandardCharsets.UTF_8));
-        var writer = new BufferedWriter(new OutputStreamWriter(output, StandardCharsets.UTF_8));
-        // 读取HTTP请求:
-        boolean requestOk = false;
-        String first = reader.readLine();
-        if (first.startsWith(&quot;GET / HTTP/1.&quot;)) &#123;
-            requestOk = true;
-        &#125;
-        for (;;) &#123;
-            String header = reader.readLine();
-            if (header.isEmpty()) &#123; // 读取到空行时, HTTP Header读取完毕
-                break;
-            &#125;
-            System.out.println(header);
-        &#125;
-        System.out.println(requestOk ? &quot;Response OK&quot; : &quot;Response Error&quot;);
-        if (!requestOk) &#123;
-            // 发送错误响应:
-            writer.write(&quot;HTTP/1.0 404 Not Found\r\n&quot;);
-            writer.write(&quot;Content-Length: 0\r\n&quot;);
-            writer.write(&quot;\r\n&quot;);
-            writer.flush();
-        &#125; else &#123;
-            // 发送成功响应:
-            String data = &quot;&lt;html&gt;&lt;body&gt;&lt;h1&gt;Hello, world!&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;&quot;;
-            int length = data.getBytes(StandardCharsets.UTF_8).length;
-            writer.write(&quot;HTTP/1.0 200 OK\r\n&quot;);
-            writer.write(&quot;Connection: close\r\n&quot;);
-            writer.write(&quot;Content-Type: text/html\r\n&quot;);
-            writer.write(&quot;Content-Length: &quot; + length + &quot;\r\n&quot;);
-            writer.write(&quot;\r\n&quot;); // 空行标识Header和Body的分隔
-            writer.write(data);
-            writer.flush();
-        &#125;
-        // TODO: 处理HTTP请求
-    &#125;
+    <span class="token keyword">private</span> <span class="token keyword">void</span> <span class="token function">handle</span><span class="token punctuation">(</span><span class="token class-name">InputStream</span> input<span class="token punctuation">,</span> <span class="token class-name">OutputStream</span> output<span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">IOException</span> <span class="token punctuation">&#123;</span>
+        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"Process new http request..."</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">var</span> reader <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">BufferedReader</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">InputStreamReader</span><span class="token punctuation">(</span>input<span class="token punctuation">,</span> <span class="token class-name">StandardCharsets</span><span class="token punctuation">.</span>UTF_8<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">var</span> writer <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">BufferedWriter</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">OutputStreamWriter</span><span class="token punctuation">(</span>output<span class="token punctuation">,</span> <span class="token class-name">StandardCharsets</span><span class="token punctuation">.</span>UTF_8<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment">// 读取HTTP请求:</span>
+        <span class="token keyword">boolean</span> requestOk <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+        <span class="token class-name">String</span> first <span class="token operator">=</span> reader<span class="token punctuation">.</span><span class="token function">readLine</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>first<span class="token punctuation">.</span><span class="token function">startsWith</span><span class="token punctuation">(</span><span class="token string">"GET / HTTP/1."</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            requestOk <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token punctuation">;</span><span class="token punctuation">;</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token class-name">String</span> header <span class="token operator">=</span> reader<span class="token punctuation">.</span><span class="token function">readLine</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>header<span class="token punctuation">.</span><span class="token function">isEmpty</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span> <span class="token comment">// 读取到空行时, HTTP Header读取完毕</span>
+                <span class="token keyword">break</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span>
+            <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>header<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>requestOk <span class="token operator">?</span> <span class="token string">"Response OK"</span> <span class="token operator">:</span> <span class="token string">"Response Error"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>requestOk<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token comment">// 发送错误响应:</span>
+            writer<span class="token punctuation">.</span><span class="token function">write</span><span class="token punctuation">(</span><span class="token string">"HTTP/1.0 404 Not Found\r\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            writer<span class="token punctuation">.</span><span class="token function">write</span><span class="token punctuation">(</span><span class="token string">"Content-Length: 0\r\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            writer<span class="token punctuation">.</span><span class="token function">write</span><span class="token punctuation">(</span><span class="token string">"\r\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            writer<span class="token punctuation">.</span><span class="token function">flush</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span> <span class="token keyword">else</span> <span class="token punctuation">&#123;</span>
+            <span class="token comment">// 发送成功响应:</span>
+            <span class="token class-name">String</span> data <span class="token operator">=</span> <span class="token string">"&lt;html>&lt;body>&lt;h1>Hello, world!&lt;/h1>&lt;/body>&lt;/html>"</span><span class="token punctuation">;</span>
+            <span class="token keyword">int</span> length <span class="token operator">=</span> data<span class="token punctuation">.</span><span class="token function">getBytes</span><span class="token punctuation">(</span><span class="token class-name">StandardCharsets</span><span class="token punctuation">.</span>UTF_8<span class="token punctuation">)</span><span class="token punctuation">.</span>length<span class="token punctuation">;</span>
+            writer<span class="token punctuation">.</span><span class="token function">write</span><span class="token punctuation">(</span><span class="token string">"HTTP/1.0 200 OK\r\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            writer<span class="token punctuation">.</span><span class="token function">write</span><span class="token punctuation">(</span><span class="token string">"Connection: close\r\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            writer<span class="token punctuation">.</span><span class="token function">write</span><span class="token punctuation">(</span><span class="token string">"Content-Type: text/html\r\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            writer<span class="token punctuation">.</span><span class="token function">write</span><span class="token punctuation">(</span><span class="token string">"Content-Length: "</span> <span class="token operator">+</span> length <span class="token operator">+</span> <span class="token string">"\r\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            writer<span class="token punctuation">.</span><span class="token function">write</span><span class="token punctuation">(</span><span class="token string">"\r\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 空行标识Header和Body的分隔</span>
+            writer<span class="token punctuation">.</span><span class="token function">write</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            writer<span class="token punctuation">.</span><span class="token function">flush</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token comment">// TODO: 处理HTTP请求</span>
+    <span class="token punctuation">&#125;</span>
 
-&#125;</code></pre>
+<span class="token punctuation">&#125;</span></code></pre>
+
 <h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
 <li><p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP">https://developer.mozilla.org/zh-CN/docs/Web/HTTP</a></p>
 </li>

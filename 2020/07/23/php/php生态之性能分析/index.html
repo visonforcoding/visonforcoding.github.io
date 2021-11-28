@@ -485,12 +485,13 @@ xhprof正是这样的工具。但是由于年久失修，目前已经不支持PH
 <p>不过，好在还有非官方商业组织开源了PHP7版本,<code>tideways-xhprof</code>。</p>
 <p><img src="http://img.rc5j.cn/blog20200724154306.gif" alt=""></p>
 <p>官网  <a target="_blank" rel="noopener" href="https://tideways.com/profiler/xhprof-for-php7">https://tideways.com/profiler/xhprof-for-php7</a></p>
-<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><pre><code class="shell">git clone &quot;https://github.com/tideways/php-xhprof-extension.git&quot;
-cd php-xhprof-extension
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><pre class="language-shell" data-language="shell"><code class="language-shell"><span class="token function">git</span> clone <span class="token string">"https://github.com/tideways/php-xhprof-extension.git"</span>
+<span class="token builtin class-name">cd</span> php-xhprof-extension
 phpize
 ./configure
-make
-sudo make install</code></pre>
+<span class="token function">make</span>
+<span class="token function">sudo</span> <span class="token function">make</span> <span class="token function">install</span></code></pre>
+
 <p>配置好ini，重启查看下php -m</p>
 <h2 id="图形化"><a href="#图形化" class="headerlink" title="图形化"></a>图形化</h2><p><code>tideways-xhprof</code> 可以将分析出方法调用、方法调用过程和性能消耗数据。</p>
 <p><code>tideways-xhprof</code> 本身还提供商业化服务，有着比较好的体验。不过也同时有开源的图形化工具。比较好的是<code>xhgui</code>和他配套的是<code>perftools/php-profiler</code>.看了下作者，还是<code>markstory</code>，cakephp的作者，几年前使用cakephp的时候，还有过交流。</p>
@@ -504,97 +505,97 @@ sudo make install</code></pre>
 </li>
 </ol>
 <h2 id="php-profiler使用"><a href="#php-profiler使用" class="headerlink" title="php-profiler使用"></a>php-profiler使用</h2><p>官方github上写几种接入方式，我推荐用注册shutdown方式，正在对项目代码无入侵。保存过程在shutdown之后。</p>
-<pre><code class="PHP"> $profiler = new \Xhgui\Profiler\Profiler($config);
+<pre class="language-PHP" data-language="PHP"><code class="language-PHP"> $profiler &#x3D; new \Xhgui\Profiler\Profiler($config);
 
-    // The profiler itself checks whether it should be enabled
-    // for request (executes lambda function from config)
+    &#x2F;&#x2F; The profiler itself checks whether it should be enabled
+    &#x2F;&#x2F; for request (executes lambda function from config)
 $profiler-&gt;enable();
 
-    // shutdown handler collects and stores the data.
+    &#x2F;&#x2F; shutdown handler collects and stores the data.
 $profiler-&gt;registerShutdownHandler();</code></pre>
 <p>上面的<code>$config</code>，在使用非文件存储的时候要注意不要安装官方配置来，官方配置目前存在一点问题，新配置会不生效。我看了源码，并且提交了PR。</p>
-<pre><code class="PHP">//    &#39;db.host&#39; =&gt; &#39;mongodb://127.0.0.1:27018&#39;,
-//    &#39;db.db&#39; =&gt; &#39;xhprof&#39;,
-    &#39;save.handler.mongodb&#39; =&gt; array(
-        &#39;dsn&#39; =&gt; &#39;mongodb://127.0.0.1:27018&#39;,
-        &#39;database&#39; =&gt; &#39;xhprof&#39;,
-        // Allows you to pass additional options like replicaSet to MongoClient.
-        // &#39;username&#39;, &#39;password&#39; and &#39;db&#39; (where the user is added)
-        &#39;options&#39; =&gt; array(),
+<pre class="language-PHP" data-language="PHP"><code class="language-PHP">&#x2F;&#x2F;    &#39;db.host&#39; &#x3D;&gt; &#39;mongodb:&#x2F;&#x2F;127.0.0.1:27018&#39;,
+&#x2F;&#x2F;    &#39;db.db&#39; &#x3D;&gt; &#39;xhprof&#39;,
+    &#39;save.handler.mongodb&#39; &#x3D;&gt; array(
+        &#39;dsn&#39; &#x3D;&gt; &#39;mongodb:&#x2F;&#x2F;127.0.0.1:27018&#39;,
+        &#39;database&#39; &#x3D;&gt; &#39;xhprof&#39;,
+        &#x2F;&#x2F; Allows you to pass additional options like replicaSet to MongoClient.
+        &#x2F;&#x2F; &#39;username&#39;, &#39;password&#39; and &#39;db&#39; (where the user is added)
+        &#39;options&#39; &#x3D;&gt; array(),
     ),</code></pre>
 <p>注释部分才有效.</p>
-<h2 id="默认配置"><a href="#默认配置" class="headerlink" title="默认配置"></a>默认配置</h2><pre><code class="PHP">&lt;?php
-/**
+<h2 id="默认配置"><a href="#默认配置" class="headerlink" title="默认配置"></a>默认配置</h2><pre class="language-PHP" data-language="PHP"><code class="language-PHP">&lt;?php
+&#x2F;**
  * Default configuration for Xhgui
- */
+ *&#x2F;
 
-$mongoUri = getenv(&#39;XHGUI_MONGO_URI&#39;) ?: &#39;127.0.0.1:27017&#39;;
-$mongoUri = str_replace(&#39;mongodb://&#39;, &#39;&#39;, $mongoUri);
-$mongoDb = getenv(&#39;XHGUI_MONGO_DB&#39;) ?: &#39;xhprof&#39;;
+$mongoUri &#x3D; getenv(&#39;XHGUI_MONGO_URI&#39;) ?: &#39;127.0.0.1:27017&#39;;
+$mongoUri &#x3D; str_replace(&#39;mongodb:&#x2F;&#x2F;&#39;, &#39;&#39;, $mongoUri);
+$mongoDb &#x3D; getenv(&#39;XHGUI_MONGO_DB&#39;) ?: &#39;xhprof&#39;;
 
 return array(
-    &#39;debug&#39; =&gt; false,
-    &#39;mode&#39; =&gt; &#39;development&#39;,
+    &#39;debug&#39; &#x3D;&gt; false,
+    &#39;mode&#39; &#x3D;&gt; &#39;development&#39;,
 
-    // Can be mongodb, file or upload.
+    &#x2F;&#x2F; Can be mongodb, file or upload.
 
-    // For file
-    //
-    //&#39;save.handler&#39; =&gt; &#39;file&#39;,
-    //&#39;save.handler.filename&#39; =&gt; dirname(__DIR__) . &#39;/cache/&#39; . &#39;xhgui.data.&#39; . microtime(true) . &#39;_&#39; . substr(md5($url), 0, 6),
+    &#x2F;&#x2F; For file
+    &#x2F;&#x2F;
+    &#x2F;&#x2F;&#39;save.handler&#39; &#x3D;&gt; &#39;file&#39;,
+    &#x2F;&#x2F;&#39;save.handler.filename&#39; &#x3D;&gt; dirname(__DIR__) . &#39;&#x2F;cache&#x2F;&#39; . &#39;xhgui.data.&#39; . microtime(true) . &#39;_&#39; . substr(md5($url), 0, 6),
 
-    // For upload
-    //
-    // Saving profile data by upload is only recommended with HTTPS
-    // endpoints that have IP whitelists applied.
-    //
-    // The timeout option is in seconds and defaults to 3 if unspecified.
-    //
-    //&#39;save.handler&#39; =&gt; &#39;upload&#39;,
-    //&#39;save.handler.upload.uri&#39; =&gt; &#39;https://example.com/run/import&#39;,
-    //&#39;save.handler.upload.timeout&#39; =&gt; 3,
+    &#x2F;&#x2F; For upload
+    &#x2F;&#x2F;
+    &#x2F;&#x2F; Saving profile data by upload is only recommended with HTTPS
+    &#x2F;&#x2F; endpoints that have IP whitelists applied.
+    &#x2F;&#x2F;
+    &#x2F;&#x2F; The timeout option is in seconds and defaults to 3 if unspecified.
+    &#x2F;&#x2F;
+    &#x2F;&#x2F;&#39;save.handler&#39; &#x3D;&gt; &#39;upload&#39;,
+    &#x2F;&#x2F;&#39;save.handler.upload.uri&#39; &#x3D;&gt; &#39;https:&#x2F;&#x2F;example.com&#x2F;run&#x2F;import&#39;,
+    &#x2F;&#x2F;&#39;save.handler.upload.timeout&#39; &#x3D;&gt; 3,
 
-    // For MongoDB
-    &#39;save.handler&#39; =&gt; &#39;mongodb&#39;,
-    &#39;db.host&#39; =&gt; sprintf(&#39;mongodb://%s&#39;, $mongoUri),
-    &#39;db.db&#39; =&gt; $mongoDb,
+    &#x2F;&#x2F; For MongoDB
+    &#39;save.handler&#39; &#x3D;&gt; &#39;mongodb&#39;,
+    &#39;db.host&#39; &#x3D;&gt; sprintf(&#39;mongodb:&#x2F;&#x2F;%s&#39;, $mongoUri),
+    &#39;db.db&#39; &#x3D;&gt; $mongoDb,
 
-    &#39;pdo&#39; =&gt; array(
-        &#39;dsn&#39; =&gt; &#39;sqlite:/tmp/xhgui.sqlite3&#39;,
-        &#39;user&#39; =&gt; null,
-        &#39;pass&#39; =&gt; null,
-        &#39;table&#39; =&gt; &#39;results&#39;
+    &#39;pdo&#39; &#x3D;&gt; array(
+        &#39;dsn&#39; &#x3D;&gt; &#39;sqlite:&#x2F;tmp&#x2F;xhgui.sqlite3&#39;,
+        &#39;user&#39; &#x3D;&gt; null,
+        &#39;pass&#39; &#x3D;&gt; null,
+        &#39;table&#39; &#x3D;&gt; &#39;results&#39;
     ),
 
-    // Allows you to pass additional options like replicaSet to MongoClient.
-    // &#39;username&#39;, &#39;password&#39; and &#39;db&#39; (where the user is added)
-    &#39;db.options&#39; =&gt; array(),
-    &#39;templates.path&#39; =&gt; dirname(__DIR__) . &#39;/src/templates&#39;,
-    &#39;date.format&#39; =&gt; &#39;M jS H:i:s&#39;,
-    &#39;detail.count&#39; =&gt; 6,
-    &#39;page.limit&#39; =&gt; 25,
+    &#x2F;&#x2F; Allows you to pass additional options like replicaSet to MongoClient.
+    &#x2F;&#x2F; &#39;username&#39;, &#39;password&#39; and &#39;db&#39; (where the user is added)
+    &#39;db.options&#39; &#x3D;&gt; array(),
+    &#39;templates.path&#39; &#x3D;&gt; dirname(__DIR__) . &#39;&#x2F;src&#x2F;templates&#39;,
+    &#39;date.format&#39; &#x3D;&gt; &#39;M jS H:i:s&#39;,
+    &#39;detail.count&#39; &#x3D;&gt; 6,
+    &#39;page.limit&#39; &#x3D;&gt; 25,
 
-    // call fastcgi_finish_request() in shutdown handler
-    &#39;fastcgi_finish_request&#39; =&gt; true,
+    &#x2F;&#x2F; call fastcgi_finish_request() in shutdown handler
+    &#39;fastcgi_finish_request&#39; &#x3D;&gt; true,
 
-    // Profile x in 100 requests. (E.g. set XHGUI_PROFLING_RATIO=50 to profile 50% of requests)
-    // You can return true to profile every request.
-    &#39;profiler.enable&#39; =&gt; function() &#123;
-        $ratio = getenv(&#39;XHGUI_PROFILING_RATIO&#39;) ?: 100;
-        return (getenv(&#39;XHGUI_PROFILING&#39;) !== false) &amp;&amp; (mt_rand(1, 100) &lt;= $ratio);
+    &#x2F;&#x2F; Profile x in 100 requests. (E.g. set XHGUI_PROFLING_RATIO&#x3D;50 to profile 50% of requests)
+    &#x2F;&#x2F; You can return true to profile every request.
+    &#39;profiler.enable&#39; &#x3D;&gt; function() &#123;
+        $ratio &#x3D; getenv(&#39;XHGUI_PROFILING_RATIO&#39;) ?: 100;
+        return (getenv(&#39;XHGUI_PROFILING&#39;) !&#x3D;&#x3D; false) &amp;&amp; (mt_rand(1, 100) &lt;&#x3D; $ratio);
     &#125;,
 
-    &#39;profiler.simple_url&#39; =&gt; function($url) &#123;
-        return preg_replace(&#39;/\=\d+/&#39;, &#39;&#39;, $url);
+    &#39;profiler.simple_url&#39; &#x3D;&gt; function($url) &#123;
+        return preg_replace(&#39;&#x2F;\&#x3D;\d+&#x2F;&#39;, &#39;&#39;, $url);
     &#125;,
+    
+    &#x2F;&#x2F;&#39;profiler.replace_url&#39; &#x3D;&gt; function($url) &#123;
+    &#x2F;&#x2F;    return str_replace(&#39;token&#39;, &#39;&#39;, $url);
+    &#x2F;&#x2F;&#125;,
 
-    //&#39;profiler.replace_url&#39; =&gt; function($url) &#123;
-    //    return str_replace(&#39;token&#39;, &#39;&#39;, $url);
-    //&#125;,
+    &#39;profiler.options&#39; &#x3D;&gt; array(),
 
-    &#39;profiler.options&#39; =&gt; array(),
-
-    &#39;profiler.skip_built_in&#39; =&gt; false,
+    &#39;profiler.skip_built_in&#39; &#x3D;&gt; false,
 );
 </code></pre>
 <p>以上是默认配置</p>

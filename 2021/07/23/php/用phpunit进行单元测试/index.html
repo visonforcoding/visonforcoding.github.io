@@ -492,22 +492,23 @@ clean code,编写整洁、易维护的代码
 <p>请注意，并不推荐全局安装 PHPUnit，比如说放在 /usr/bin/phpunit 或 /usr/local/bin/phpunit。<br>相反，PHPUnit 应该作为项目本地依赖项进行管理。</p>
 </blockquote>
 <p>但是我还是选择全局安装，因为不想将本地太多依赖。</p>
-<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><h3 id="IDE提示"><a href="#IDE提示" class="headerlink" title="IDE提示"></a>IDE提示</h3><pre><code class="php">&lt;?php
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><h3 id="IDE提示"><a href="#IDE提示" class="headerlink" title="IDE提示"></a>IDE提示</h3><pre class="language-php" data-language="php"><code class="language-php"><span class="token php language-php"><span class="token delimiter important">&lt;?php</span>
 
-declare(strict_types=1);
+<span class="token keyword">declare</span><span class="token punctuation">(</span>strict_types<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-use PHPUnit\Framework\TestCase;
+<span class="token keyword">use</span> <span class="token package">PHPUnit<span class="token punctuation">\</span>Framework<span class="token punctuation">\</span>TestCase</span><span class="token punctuation">;</span>
 
-final class RedisCacheTest extends TestCase
-&#123;
+<span class="token keyword">final</span> <span class="token keyword">class</span> <span class="token class-name-definition class-name">RedisCacheTest</span> <span class="token keyword">extends</span> <span class="token class-name">TestCase</span>
+<span class="token punctuation">&#123;</span>
 
-    public function testSet(): void
-    &#123;
-       $res =  \Hll\Cache\Cache::set(&#39;foo&#39;, date(&#39;Y-m-d H:i:s&#39;),10);
-       $this-&gt;assertTrue($res);
-    &#125;
+    <span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function-definition function">testSet</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword return-type">void</span>
+    <span class="token punctuation">&#123;</span>
+       <span class="token variable">$res</span> <span class="token operator">=</span>  <span class="token class-name class-name-fully-qualified static-context"><span class="token punctuation">\</span>Hll<span class="token punctuation">\</span>Cache<span class="token punctuation">\</span>Cache</span><span class="token operator">::</span><span class="token function">set</span><span class="token punctuation">(</span><span class="token string single-quoted-string">'foo'</span><span class="token punctuation">,</span> <span class="token function">date</span><span class="token punctuation">(</span><span class="token string single-quoted-string">'Y-m-d H:i:s'</span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+       <span class="token variable">$this</span><span class="token operator">-></span><span class="token function">assertTrue</span><span class="token punctuation">(</span><span class="token variable">$res</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
 
-&#125;</code></pre>
+<span class="token punctuation">&#125;</span></span></code></pre>
+
 <p>这是我的一个测试用例脚本，测试脚本类需要继承<code>TestCase</code>.</p>
 <p>由于我的安装方式并不是本地项目安装，所以在ide不会提示TestCase的相关方法。这对于来说是不能容忍的，不过好在IDE能额外的配置引入项目外的文件进行提示。</p>
 <p><img src="https://vison-blog.oss-cn-beijing.aliyuncs.com/20210723100857.png" alt=""></p>
@@ -519,7 +520,7 @@ final class RedisCacheTest extends TestCase
 <li><code>tests</code>作为测试用例目录</li>
 <li><code>bootstrap.php</code>是phpunit的启动加载文件，用于做些全局的初始化动作，比如加载autoload.</li>
 </ul>
-<h3 id="执行测试"><a href="#执行测试" class="headerlink" title="执行测试"></a>执行测试</h3><pre><code class="shell">phpunit --bootstrap tests/bootstrap.php --verbose tests/case </code></pre>
+<h3 id="执行测试"><a href="#执行测试" class="headerlink" title="执行测试"></a>执行测试</h3><pre class="language-shell" data-language="shell"><code class="language-shell">phpunit --bootstrap tests/bootstrap.php --verbose tests/case </code></pre>
 <p>该命令是执行测试 tests/case下的所有测试用例文件，当然你也可以具体到只执行单个文件。</p>
 <p><code>--bootstrap</code></p>
 <p>加载启动文件</p>

@@ -11,7 +11,7 @@
 
 import pandas
 import json
-data = pandas.read_excel(&amp;#3">
+data = pandas.read_excel(&#39;da">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -480,23 +480,23 @@ data = pandas.read_excel(&amp;#3">
 <p>销售同事拿到一份数据，但是数据导出列是json,我顺手就帮他处理了下。不得不说 pandas在处理这类问题还是非常效率高的.</p>
 <span id="more"></span>
 
-<pre><code class="python">import pandas
-import json
-data = pandas.read_excel(&#39;data.xlsx&#39;)
+<pre class="language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> pandas
+<span class="token keyword">import</span> json
+data <span class="token operator">=</span> pandas<span class="token punctuation">.</span>read_excel<span class="token punctuation">(</span><span class="token string">'data.xlsx'</span><span class="token punctuation">)</span>
 
-address = data[&#39;address&#39;].values.tolist()
-ordertime_list = data[&#39;order_datetime&#39;].values.tolist()
-address_new_list = []
-for ad in address:
-    addressJson = json.loads(ad)
-    address_new_list.append(addressJson[0])
+address <span class="token operator">=</span> data<span class="token punctuation">[</span><span class="token string">'address'</span><span class="token punctuation">]</span><span class="token punctuation">.</span>values<span class="token punctuation">.</span>tolist<span class="token punctuation">(</span><span class="token punctuation">)</span>
+ordertime_list <span class="token operator">=</span> data<span class="token punctuation">[</span><span class="token string">'order_datetime'</span><span class="token punctuation">]</span><span class="token punctuation">.</span>values<span class="token punctuation">.</span>tolist<span class="token punctuation">(</span><span class="token punctuation">)</span>
+address_new_list <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+<span class="token keyword">for</span> ad <span class="token keyword">in</span> address<span class="token punctuation">:</span>
+    addressJson <span class="token operator">=</span> json<span class="token punctuation">.</span>loads<span class="token punctuation">(</span>ad<span class="token punctuation">)</span>
+    address_new_list<span class="token punctuation">.</span>append<span class="token punctuation">(</span>addressJson<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
 
-for ad in address_new_list:
-    for t in ordertime_list:
-        ad[&#39;order_time&#39;] = t
+<span class="token keyword">for</span> ad <span class="token keyword">in</span> address_new_list<span class="token punctuation">:</span>
+    <span class="token keyword">for</span> t <span class="token keyword">in</span> ordertime_list<span class="token punctuation">:</span>
+        ad<span class="token punctuation">[</span><span class="token string">'order_time'</span><span class="token punctuation">]</span> <span class="token operator">=</span> t
 
-df = pandas.DataFrame.from_records(address_new_list)
-df.to_excel(&#39;new_data.xlsx&#39;)
+df <span class="token operator">=</span> pandas<span class="token punctuation">.</span>DataFrame<span class="token punctuation">.</span>from_records<span class="token punctuation">(</span>address_new_list<span class="token punctuation">)</span>
+df<span class="token punctuation">.</span>to_excel<span class="token punctuation">(</span><span class="token string">'new_data.xlsx'</span><span class="token punctuation">)</span>
 
 
 

@@ -491,122 +491,122 @@
 <p>很多网站可能会做一些防爬虫的处理，面对同一个请求ip的短时间的高频率请求会进行服务隔断(直接告诉你服务不可用)，这个时候可以去网上找一些代理进行请求。</p>
 <p><strong>3.多线程的任务分配</strong></p>
 <p>采用多线程爬取你当然不能让多个线程去爬取同样的链接做别人已经做过的事情，那样多线程毫无意义。所以你需要制定一套规则，让不同线程爬取不同的链接。</p>
-<pre><code class="python"># coding=utf-8
-from __future__ import division
-from pymongo import MongoClient
-import requests
-import sys
-import re
-import random
-import time
-import logging
-import threading
-import json
-from os import path
-import math
+<pre class="language-python" data-language="python"><code class="language-python"><span class="token comment"># coding=utf-8</span>
+<span class="token keyword">from</span> __future__ <span class="token keyword">import</span> division
+<span class="token keyword">from</span> pymongo <span class="token keyword">import</span> MongoClient
+<span class="token keyword">import</span> requests
+<span class="token keyword">import</span> sys
+<span class="token keyword">import</span> re
+<span class="token keyword">import</span> random
+<span class="token keyword">import</span> time
+<span class="token keyword">import</span> logging
+<span class="token keyword">import</span> threading
+<span class="token keyword">import</span> json
+<span class="token keyword">from</span> os <span class="token keyword">import</span> path
+<span class="token keyword">import</span> math
 
-# 爬取微博评论
-# m站微博地址
-weibo_url = &#39;https://m.weibo.cn/status/4132385564040383&#39; 
+<span class="token comment"># 爬取微博评论</span>
+<span class="token comment"># m站微博地址</span>
+weibo_url <span class="token operator">=</span> <span class="token string">'https://m.weibo.cn/status/4132385564040383'</span> 
 
-thread_nums = 5  #线程数
+thread_nums <span class="token operator">=</span> <span class="token number">5</span>  <span class="token comment">#线程数</span>
 
-#代理地址
-proxies = &#123;
-  &quot;http&quot;: &quot;http://171.92.4.67:9000&quot;,
-  &quot;http&quot;: &quot;http://163.125.222.240:8118&quot;,
-  &quot;http&quot;: &quot;http://121.232.145.251:9000&quot;,
-  &quot;http&quot;: &quot;http://121.232.147.247:9000&quot;,
-
-&#125;
-
-
-# 创建 日志 对象
-logger = logging.getLogger()
-handler = logging.StreamHandler()
-formatter = logging.Formatter(
-    &#39;%(asctime)s %(name)-12s %(levelname)-8s %(message)s&#39;)
-handler.setFormatter(formatter)
-logger.addHandler(handler)
-logger.setLevel(logging.DEBUG)
-
-mongoconn = MongoClient(&#39;127.0.0.1&#39;, 27017)
-mdb = mongoconn.data_analysis
-das_collection = mdb.weibo
-
-weiboid_reobj = re.match(r&#39;.*status/(\d+)&#39;, weibo_url)
-weibo_id = weiboid_reobj.group(1)
+<span class="token comment">#代理地址</span>
+proxies <span class="token operator">=</span> <span class="token punctuation">&#123;</span>
+  <span class="token string">"http"</span><span class="token punctuation">:</span> <span class="token string">"http://171.92.4.67:9000"</span><span class="token punctuation">,</span>
+  <span class="token string">"http"</span><span class="token punctuation">:</span> <span class="token string">"http://163.125.222.240:8118"</span><span class="token punctuation">,</span>
+  <span class="token string">"http"</span><span class="token punctuation">:</span> <span class="token string">"http://121.232.145.251:9000"</span><span class="token punctuation">,</span>
+  <span class="token string">"http"</span><span class="token punctuation">:</span> <span class="token string">"http://121.232.147.247:9000"</span><span class="token punctuation">,</span>
+  
+<span class="token punctuation">&#125;</span>
 
 
-def scrapy_comments(weibo_id, page):
-    weibo_comment_url = &#39;https://m.weibo.cn/api/comments/show?id=%s&amp;page=%d&#39; % (
-        weibo_id, page)
-    res = requests.get(weibo_comment_url)
-    res_obj = json.loads(res.content)
-    return res_obj
+<span class="token comment"># 创建 日志 对象</span>
+logger <span class="token operator">=</span> logging<span class="token punctuation">.</span>getLogger<span class="token punctuation">(</span><span class="token punctuation">)</span>
+handler <span class="token operator">=</span> logging<span class="token punctuation">.</span>StreamHandler<span class="token punctuation">(</span><span class="token punctuation">)</span>
+formatter <span class="token operator">=</span> logging<span class="token punctuation">.</span>Formatter<span class="token punctuation">(</span>
+    <span class="token string">'%(asctime)s %(name)-12s %(levelname)-8s %(message)s'</span><span class="token punctuation">)</span>
+handler<span class="token punctuation">.</span>setFormatter<span class="token punctuation">(</span>formatter<span class="token punctuation">)</span>
+logger<span class="token punctuation">.</span>addHandler<span class="token punctuation">(</span>handler<span class="token punctuation">)</span>
+logger<span class="token punctuation">.</span>setLevel<span class="token punctuation">(</span>logging<span class="token punctuation">.</span>DEBUG<span class="token punctuation">)</span>
+
+mongoconn <span class="token operator">=</span> MongoClient<span class="token punctuation">(</span><span class="token string">'127.0.0.1'</span><span class="token punctuation">,</span> <span class="token number">27017</span><span class="token punctuation">)</span>
+mdb <span class="token operator">=</span> mongoconn<span class="token punctuation">.</span>data_analysis
+das_collection <span class="token operator">=</span> mdb<span class="token punctuation">.</span>weibo
+
+weiboid_reobj <span class="token operator">=</span> re<span class="token punctuation">.</span>match<span class="token punctuation">(</span><span class="token string">r'.*status/(\d+)'</span><span class="token punctuation">,</span> weibo_url<span class="token punctuation">)</span>
+weibo_id <span class="token operator">=</span> weiboid_reobj<span class="token punctuation">.</span>group<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
 
 
-def import_comments(threadName, weibo_id, page_start, page_end):
-    logger.info(&#39;开始线程:%s&#39; % threadName)
-    for page in range(page_start, page_end + 1):
-        logging.info(&#39;读取第%s页&#39; % page)
-        time.sleep(1)
-        # continue
-        try:
-            res_obj = scrapy_comments(weibo_id, page)
-            logging.info(&#39;该页有%s条记录&#39; % len(res_obj[&#39;data&#39;]))
-        except:
-            logging.error(&#39;读取%s页时发生错误&#39; % page)
-            continue
-        if res_obj[&#39;ok&#39;] == 1:
-            comments = res_obj[&#39;data&#39;]
-            for comment in comments:
-                comment_text = re.sub(
-                    r&#39;&lt;/?\w+[^&gt;]*&gt;&#39;, &#39;&#39;, comment[&#39;text&#39;]).encode(&#39;utf-8&#39;)
-                if re.search(r&#39;回复@.*:&#39;, comment_text):
-                    # 过滤掉回复别人的评论
-                    continue
-                comment[&#39;text&#39;] = comment_text
-                comment[&#39;weibo_id&#39;] = weibo_id
-                logging.info(&#39;读取评论:%s&#39; % comment[&#39;id&#39;])
-                try:
-                    if das_collection.find_one(&#123;&#39;id&#39;: comment[&#39;id&#39;]&#125;):
-                        logging.info(&#39;在mongodb中存在&#39;)
-                    else:
-                        logging.info(&#39;插入记录:%s&#39; % comment[&#39;id&#39;])
-                        das_collection.insert_one(comment)
-                except:
-                    logging.error(&#39;mongodb发生错误&#39;)
-        else:
-            logging.error(&#39;读取第%s页时发生错误&#39; % page)
-    logging.info(&#39;线程%s结束&#39; % threadName)
-    # res_obj = scrapy_comments(weibo_id, page)
+<span class="token keyword">def</span> <span class="token function">scrapy_comments</span><span class="token punctuation">(</span>weibo_id<span class="token punctuation">,</span> page<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    weibo_comment_url <span class="token operator">=</span> <span class="token string">'https://m.weibo.cn/api/comments/show?id=%s&amp;page=%d'</span> <span class="token operator">%</span> <span class="token punctuation">(</span>
+        weibo_id<span class="token punctuation">,</span> page<span class="token punctuation">)</span>
+    res <span class="token operator">=</span> requests<span class="token punctuation">.</span>get<span class="token punctuation">(</span>weibo_comment_url<span class="token punctuation">)</span>
+    res_obj <span class="token operator">=</span> json<span class="token punctuation">.</span>loads<span class="token punctuation">(</span>res<span class="token punctuation">.</span>content<span class="token punctuation">)</span>
+    <span class="token keyword">return</span> res_obj
 
 
-if __name__ == &#39;__main__&#39;:
-    # 分配不同链接到不同的线程上去
-    res_obj = scrapy_comments(weibo_id, 1)
-    if res_obj[&#39;ok&#39;] == 1:
-        total_number = res_obj[&#39;total_number&#39;]
-        logging.info(&#39;该条微博有:%s条评论&#39; % total_number)
-        max_page = res_obj[&#39;max&#39;]
-        page_nums = math.ceil(max_page / thread_nums)
-    else:
-        raise
+<span class="token keyword">def</span> <span class="token function">import_comments</span><span class="token punctuation">(</span>threadName<span class="token punctuation">,</span> weibo_id<span class="token punctuation">,</span> page_start<span class="token punctuation">,</span> page_end<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    logger<span class="token punctuation">.</span>info<span class="token punctuation">(</span><span class="token string">'开始线程:%s'</span> <span class="token operator">%</span> threadName<span class="token punctuation">)</span>
+    <span class="token keyword">for</span> page <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span>page_start<span class="token punctuation">,</span> page_end <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        logging<span class="token punctuation">.</span>info<span class="token punctuation">(</span><span class="token string">'读取第%s页'</span> <span class="token operator">%</span> page<span class="token punctuation">)</span>
+        time<span class="token punctuation">.</span>sleep<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
+        <span class="token comment"># continue</span>
+        <span class="token keyword">try</span><span class="token punctuation">:</span>
+            res_obj <span class="token operator">=</span> scrapy_comments<span class="token punctuation">(</span>weibo_id<span class="token punctuation">,</span> page<span class="token punctuation">)</span>
+            logging<span class="token punctuation">.</span>info<span class="token punctuation">(</span><span class="token string">'该页有%s条记录'</span> <span class="token operator">%</span> <span class="token builtin">len</span><span class="token punctuation">(</span>res_obj<span class="token punctuation">[</span><span class="token string">'data'</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token keyword">except</span><span class="token punctuation">:</span>
+            logging<span class="token punctuation">.</span>error<span class="token punctuation">(</span><span class="token string">'读取%s页时发生错误'</span> <span class="token operator">%</span> page<span class="token punctuation">)</span>
+            <span class="token keyword">continue</span>
+        <span class="token keyword">if</span> res_obj<span class="token punctuation">[</span><span class="token string">'ok'</span><span class="token punctuation">]</span> <span class="token operator">==</span> <span class="token number">1</span><span class="token punctuation">:</span>
+            comments <span class="token operator">=</span> res_obj<span class="token punctuation">[</span><span class="token string">'data'</span><span class="token punctuation">]</span>
+            <span class="token keyword">for</span> comment <span class="token keyword">in</span> comments<span class="token punctuation">:</span>
+                comment_text <span class="token operator">=</span> re<span class="token punctuation">.</span>sub<span class="token punctuation">(</span>
+                    <span class="token string">r'&lt;/?\w+[^>]*>'</span><span class="token punctuation">,</span> <span class="token string">''</span><span class="token punctuation">,</span> comment<span class="token punctuation">[</span><span class="token string">'text'</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">.</span>encode<span class="token punctuation">(</span><span class="token string">'utf-8'</span><span class="token punctuation">)</span>
+                <span class="token keyword">if</span> re<span class="token punctuation">.</span>search<span class="token punctuation">(</span><span class="token string">r'回复@.*:'</span><span class="token punctuation">,</span> comment_text<span class="token punctuation">)</span><span class="token punctuation">:</span>
+                    <span class="token comment"># 过滤掉回复别人的评论</span>
+                    <span class="token keyword">continue</span>
+                comment<span class="token punctuation">[</span><span class="token string">'text'</span><span class="token punctuation">]</span> <span class="token operator">=</span> comment_text
+                comment<span class="token punctuation">[</span><span class="token string">'weibo_id'</span><span class="token punctuation">]</span> <span class="token operator">=</span> weibo_id
+                logging<span class="token punctuation">.</span>info<span class="token punctuation">(</span><span class="token string">'读取评论:%s'</span> <span class="token operator">%</span> comment<span class="token punctuation">[</span><span class="token string">'id'</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+                <span class="token keyword">try</span><span class="token punctuation">:</span>
+                    <span class="token keyword">if</span> das_collection<span class="token punctuation">.</span>find_one<span class="token punctuation">(</span><span class="token punctuation">&#123;</span><span class="token string">'id'</span><span class="token punctuation">:</span> comment<span class="token punctuation">[</span><span class="token string">'id'</span><span class="token punctuation">]</span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+                        logging<span class="token punctuation">.</span>info<span class="token punctuation">(</span><span class="token string">'在mongodb中存在'</span><span class="token punctuation">)</span>
+                    <span class="token keyword">else</span><span class="token punctuation">:</span>
+                        logging<span class="token punctuation">.</span>info<span class="token punctuation">(</span><span class="token string">'插入记录:%s'</span> <span class="token operator">%</span> comment<span class="token punctuation">[</span><span class="token string">'id'</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+                        das_collection<span class="token punctuation">.</span>insert_one<span class="token punctuation">(</span>comment<span class="token punctuation">)</span>
+                <span class="token keyword">except</span><span class="token punctuation">:</span>
+                    logging<span class="token punctuation">.</span>error<span class="token punctuation">(</span><span class="token string">'mongodb发生错误'</span><span class="token punctuation">)</span>
+        <span class="token keyword">else</span><span class="token punctuation">:</span>
+            logging<span class="token punctuation">.</span>error<span class="token punctuation">(</span><span class="token string">'读取第%s页时发生错误'</span> <span class="token operator">%</span> page<span class="token punctuation">)</span>
+    logging<span class="token punctuation">.</span>info<span class="token punctuation">(</span><span class="token string">'线程%s结束'</span> <span class="token operator">%</span> threadName<span class="token punctuation">)</span>
+    <span class="token comment"># res_obj = scrapy_comments(weibo_id, page)</span>
 
-    # print max_page
-    # print page_nums
 
-    for i in range(1, thread_nums + 1):
-        if i &lt; thread_nums:
-            page_end = page_nums * i
-        else:
-            page_end = max_page
-        page_start = (i - 1) * page_nums + 1
+<span class="token keyword">if</span> __name__ <span class="token operator">==</span> <span class="token string">'__main__'</span><span class="token punctuation">:</span>
+    <span class="token comment"># 分配不同链接到不同的线程上去</span>
+    res_obj <span class="token operator">=</span> scrapy_comments<span class="token punctuation">(</span>weibo_id<span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span>
+    <span class="token keyword">if</span> res_obj<span class="token punctuation">[</span><span class="token string">'ok'</span><span class="token punctuation">]</span> <span class="token operator">==</span> <span class="token number">1</span><span class="token punctuation">:</span>
+        total_number <span class="token operator">=</span> res_obj<span class="token punctuation">[</span><span class="token string">'total_number'</span><span class="token punctuation">]</span>
+        logging<span class="token punctuation">.</span>info<span class="token punctuation">(</span><span class="token string">'该条微博有:%s条评论'</span> <span class="token operator">%</span> total_number<span class="token punctuation">)</span>
+        max_page <span class="token operator">=</span> res_obj<span class="token punctuation">[</span><span class="token string">'max'</span><span class="token punctuation">]</span>
+        page_nums <span class="token operator">=</span> math<span class="token punctuation">.</span>ceil<span class="token punctuation">(</span>max_page <span class="token operator">/</span> thread_nums<span class="token punctuation">)</span>
+    <span class="token keyword">else</span><span class="token punctuation">:</span>
+        <span class="token keyword">raise</span>
 
-        t = threading.Thread(target=import_comments, args=(
-            i, weibo_id, int(page_start), int(page_end)))
-        t.start()
+    <span class="token comment"># print max_page</span>
+    <span class="token comment"># print page_nums</span>
+
+    <span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> thread_nums <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">if</span> i <span class="token operator">&lt;</span> thread_nums<span class="token punctuation">:</span>
+            page_end <span class="token operator">=</span> page_nums <span class="token operator">*</span> i
+        <span class="token keyword">else</span><span class="token punctuation">:</span>
+            page_end <span class="token operator">=</span> max_page
+        page_start <span class="token operator">=</span> <span class="token punctuation">(</span>i <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">*</span> page_nums <span class="token operator">+</span> <span class="token number">1</span>
+
+        t <span class="token operator">=</span> threading<span class="token punctuation">.</span>Thread<span class="token punctuation">(</span>target<span class="token operator">=</span>import_comments<span class="token punctuation">,</span> args<span class="token operator">=</span><span class="token punctuation">(</span>
+            i<span class="token punctuation">,</span> weibo_id<span class="token punctuation">,</span> <span class="token builtin">int</span><span class="token punctuation">(</span>page_start<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token builtin">int</span><span class="token punctuation">(</span>page_end<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+        t<span class="token punctuation">.</span>start<span class="token punctuation">(</span><span class="token punctuation">)</span>
 </code></pre>
 <h2 id="数据整理可视化-data-visualization"><a href="#数据整理可视化-data-visualization" class="headerlink" title="数据整理可视化(data visualization)"></a>数据整理可视化(data visualization)</h2><p>运行脚本完毕，我的MongoDB得到了2万多条评论数据，接下来要做的事是对这部分数据进行提取、清洗、结构化等操作。这里顺便说明一下python 数据分析的 大致基本流程。</p>
 <p><strong>1.与外界进行交互</strong><br>这个过程包括数据的获取、读取。不管是从网络资源上爬取、还是从现有资源(各样的文件如文本、excel、数据库存储对象)</p>
@@ -615,59 +615,59 @@ if __name__ == &#39;__main__&#39;:
 <p><strong>4.建模和计算</strong><br>将数据跟统计模型、机器学习算法或其他计算工具联系起来</p>
 <p><strong>5.展示</strong><br>创建交互式的或静态的图片或文字摘要</p>
 <p>下面我们来进行2、3及5的工作:</p>
-<pre><code class="python"># coding=utf-8
-import sys
-from pymongo import MongoClient
-import random
-# 分词库
-# from snownlp import SnowNLP
-import jieba
-import uniout
-from collections import Counter, OrderedDict
-# 词语云 文本统计可视化库
-from wordcloud import WordCloud
+<pre class="language-python" data-language="python"><code class="language-python"><span class="token comment"># coding=utf-8</span>
+<span class="token keyword">import</span> sys
+<span class="token keyword">from</span> pymongo <span class="token keyword">import</span> MongoClient
+<span class="token keyword">import</span> random
+<span class="token comment"># 分词库</span>
+<span class="token comment"># from snownlp import SnowNLP</span>
+<span class="token keyword">import</span> jieba
+<span class="token keyword">import</span> uniout
+<span class="token keyword">from</span> collections <span class="token keyword">import</span> Counter<span class="token punctuation">,</span> OrderedDict
+<span class="token comment"># 词语云 文本统计可视化库</span>
+<span class="token keyword">from</span> wordcloud <span class="token keyword">import</span> WordCloud
 
 
-mongoconn = MongoClient(&#39;127.0.0.1&#39;, 27017)
-mdb = mongoconn.data_analysis
-das_collection = mdb.weibo
+mongoconn <span class="token operator">=</span> MongoClient<span class="token punctuation">(</span><span class="token string">'127.0.0.1'</span><span class="token punctuation">,</span> <span class="token number">27017</span><span class="token punctuation">)</span>
+mdb <span class="token operator">=</span> mongoconn<span class="token punctuation">.</span>data_analysis
+das_collection <span class="token operator">=</span> mdb<span class="token punctuation">.</span>weibo
 
 
-total_counts = das_collection.find().count()
+total_counts <span class="token operator">=</span> das_collection<span class="token punctuation">.</span>find<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>count<span class="token punctuation">(</span><span class="token punctuation">)</span>
 
-# random_int = random.randint(0, total_counts - 1)
-docs = das_collection.find()
-print docs.count()
-words_counts = &#123;&#125;
-for doc in docs:
-    print doc
-    comment_text = doc[&#39;text&#39;].encode(&#39;utf-8&#39;)
-    if len(comment_text) == 0:
-        continue
-    words = jieba.cut(comment_text)
-    for word in words:
-        if word not in words_counts:
-            words_counts[word] = 1
-        else:
-            words_counts[word] += 1
+<span class="token comment"># random_int = random.randint(0, total_counts - 1)</span>
+docs <span class="token operator">=</span> das_collection<span class="token punctuation">.</span>find<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span> docs<span class="token punctuation">.</span>count<span class="token punctuation">(</span><span class="token punctuation">)</span>
+words_counts <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span>
+<span class="token keyword">for</span> doc <span class="token keyword">in</span> docs<span class="token punctuation">:</span>
+    <span class="token keyword">print</span> doc
+    comment_text <span class="token operator">=</span> doc<span class="token punctuation">[</span><span class="token string">'text'</span><span class="token punctuation">]</span><span class="token punctuation">.</span>encode<span class="token punctuation">(</span><span class="token string">'utf-8'</span><span class="token punctuation">)</span>
+    <span class="token keyword">if</span> <span class="token builtin">len</span><span class="token punctuation">(</span>comment_text<span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">:</span>
+        <span class="token keyword">continue</span>
+    words <span class="token operator">=</span> jieba<span class="token punctuation">.</span>cut<span class="token punctuation">(</span>comment_text<span class="token punctuation">)</span>
+    <span class="token keyword">for</span> word <span class="token keyword">in</span> words<span class="token punctuation">:</span>
+        <span class="token keyword">if</span> word <span class="token keyword">not</span> <span class="token keyword">in</span> words_counts<span class="token punctuation">:</span>
+            words_counts<span class="token punctuation">[</span>word<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">1</span>
+        <span class="token keyword">else</span><span class="token punctuation">:</span>
+            words_counts<span class="token punctuation">[</span>word<span class="token punctuation">]</span> <span class="token operator">+=</span> <span class="token number">1</span>
 
-for word in words_counts.keys():
-    if words_counts[word] &lt; 2 or len(word) &lt; 2:
-        del words_counts[word]
+<span class="token keyword">for</span> word <span class="token keyword">in</span> words_counts<span class="token punctuation">.</span>keys<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">if</span> words_counts<span class="token punctuation">[</span>word<span class="token punctuation">]</span> <span class="token operator">&lt;</span> <span class="token number">2</span> <span class="token keyword">or</span> <span class="token builtin">len</span><span class="token punctuation">(</span>word<span class="token punctuation">)</span> <span class="token operator">&lt;</span> <span class="token number">2</span><span class="token punctuation">:</span>
+        <span class="token keyword">del</span> words_counts<span class="token punctuation">[</span>word<span class="token punctuation">]</span>
 
-# print words_counts.items()
-#注意要让中文不乱码要指定中文字体
-#fit_words 接收参数是dict  eg:&#123;&#39;你&#39;:333,&#39;好&#39;:23&#125;  文字:出现次数
-wordcloud = WordCloud(
-    font_path=&#39;/Users/cwp/font/msyh.ttf&#39;,
-    background_color=&#39;white&#39;,
-    width=1200,
-    height=1000
-).fit_words(words_counts)
-import matplotlib.pyplot as plt
-plt.imshow(wordcloud, interpolation=&#39;bilinear&#39;)
-plt.axis(&quot;off&quot;)
-plt.show()</code></pre>
+<span class="token comment"># print words_counts.items()</span>
+<span class="token comment">#注意要让中文不乱码要指定中文字体</span>
+<span class="token comment">#fit_words 接收参数是dict  eg:&#123;'你':333,'好':23&#125;  文字:出现次数</span>
+wordcloud <span class="token operator">=</span> WordCloud<span class="token punctuation">(</span>
+    font_path<span class="token operator">=</span><span class="token string">'/Users/cwp/font/msyh.ttf'</span><span class="token punctuation">,</span>
+    background_color<span class="token operator">=</span><span class="token string">'white'</span><span class="token punctuation">,</span>
+    width<span class="token operator">=</span><span class="token number">1200</span><span class="token punctuation">,</span>
+    height<span class="token operator">=</span><span class="token number">1000</span>
+<span class="token punctuation">)</span><span class="token punctuation">.</span>fit_words<span class="token punctuation">(</span>words_counts<span class="token punctuation">)</span>
+<span class="token keyword">import</span> matplotlib<span class="token punctuation">.</span>pyplot <span class="token keyword">as</span> plt
+plt<span class="token punctuation">.</span>imshow<span class="token punctuation">(</span>wordcloud<span class="token punctuation">,</span> interpolation<span class="token operator">=</span><span class="token string">'bilinear'</span><span class="token punctuation">)</span>
+plt<span class="token punctuation">.</span>axis<span class="token punctuation">(</span><span class="token string">"off"</span><span class="token punctuation">)</span>
+plt<span class="token punctuation">.</span>show<span class="token punctuation">(</span><span class="token punctuation">)</span></code></pre>
 <p>介绍下以上代码：<br>我们主要用到了2个工具，jieba和word_cloud。前者对中文进行分词后者图形化展示词语的出现频率。<br>众所周知，中文系的语言处理恐怕是最难的自然语言处理(NLP)的语种。就基本的分词而言都是一项比较困难的工作,(英语句子中每个单词都是有空格分开的，而中文是由单个字组成词连接成串组成句).<br>举个例子,请用“孩提”造句,”那个男孩提交完代码就下班了”。如果人工分词，可以知道”男孩”和”提交”应该是分开的2个词，<strong>但是对于机器而言，要辨别”提”应该与”男”还是”交”进行组词就很难办了</strong>。要想机器能够更精确的辨别这类问题，就需要让机器不停学习，让它知道这种情况该这么分而不是那么分。研究中文自然语言处理将是一个长久而大的工程，对于分析数据(我们不是要研究自然语言处理😏)，这里就借助jieba这个库进行工作了.</p>
 <p>对于word_cloud,图形化文本统计，网上有不少的博文都贴了代码，但我想说的是我不了解它们是不是真的运行出了结果。因为fit_words 这个函数接收的是dict而不是list，官方文档和函数doc其实写错了,在github上有披露。</p>
 <p>最后得到结果:</p>

@@ -483,50 +483,55 @@ from res">
 
 <h2 id="flask-结构"><a href="#flask-结构" class="headerlink" title="flask 结构"></a>flask 结构</h2><p>首先简单看看 flask_rest的目录结构。</p>
 <p><img src="http://img.rc5j.cn/blog20200820155423.png" alt=""></p>
-<h3 id="入口文件"><a href="#入口文件" class="headerlink" title="入口文件"></a>入口文件</h3><pre><code class="python">#app.py
-from flask import Flask
-from flask_restful import Resource, Api
-from resources.bd import Index,Format
-from flask_cors import CORS
+<h3 id="入口文件"><a href="#入口文件" class="headerlink" title="入口文件"></a>入口文件</h3><pre class="language-python" data-language="python"><code class="language-python"><span class="token comment">#app.py</span>
+<span class="token keyword">from</span> flask <span class="token keyword">import</span> Flask
+<span class="token keyword">from</span> flask_restful <span class="token keyword">import</span> Resource<span class="token punctuation">,</span> Api
+<span class="token keyword">from</span> resources<span class="token punctuation">.</span>bd <span class="token keyword">import</span> Index<span class="token punctuation">,</span>Format
+<span class="token keyword">from</span> flask_cors <span class="token keyword">import</span> CORS
 
-# from common import config
-app = Flask(__name__)
-CORS(app)
-api = Api(app)
+<span class="token comment"># from common import config</span>
+app <span class="token operator">=</span> Flask<span class="token punctuation">(</span>__name__<span class="token punctuation">)</span>
+CORS<span class="token punctuation">(</span>app<span class="token punctuation">)</span>
+api <span class="token operator">=</span> Api<span class="token punctuation">(</span>app<span class="token punctuation">)</span>
 
 
 
-api.add_resource(Format, &#39;/bd/format&#39;)
+api<span class="token punctuation">.</span>add_resource<span class="token punctuation">(</span>Format<span class="token punctuation">,</span> <span class="token string">'/bd/format'</span><span class="token punctuation">)</span>
 
-# if __name__ == &#39;__main__&#39;:
-#     app.run(debug=True)</code></pre>
+<span class="token comment"># if __name__ == '__main__':</span>
+<span class="token comment">#     app.run(debug=True)</span></code></pre>
+
 <p>如果使用gunicorn启动，则注释掉app.run</p>
-<h2 id="gunicorn启动配置"><a href="#gunicorn启动配置" class="headerlink" title="gunicorn启动配置"></a>gunicorn启动配置</h2><pre><code class="python"># config.py
-import os
-import gevent.monkey
-gevent.monkey.patch_all()
+<h2 id="gunicorn启动配置"><a href="#gunicorn启动配置" class="headerlink" title="gunicorn启动配置"></a>gunicorn启动配置</h2><pre class="language-python" data-language="python"><code class="language-python"><span class="token comment"># config.py</span>
+<span class="token keyword">import</span> os
+<span class="token keyword">import</span> gevent<span class="token punctuation">.</span>monkey
+gevent<span class="token punctuation">.</span>monkey<span class="token punctuation">.</span>patch_all<span class="token punctuation">(</span><span class="token punctuation">)</span>
 
-import multiprocessing
+<span class="token keyword">import</span> multiprocessing
 
-debug = True
-loglevel = &#39;debug&#39;
-bind = &quot;0.0.0.0:5000&quot;
-pidfile = &quot;logs/gunicorn.pid&quot;
-accesslog = &quot;logs/access.log&quot;
-errorlog = &quot;logs/debug.log&quot;
-daemon = True
+debug <span class="token operator">=</span> <span class="token boolean">True</span>
+loglevel <span class="token operator">=</span> <span class="token string">'debug'</span>
+bind <span class="token operator">=</span> <span class="token string">"0.0.0.0:5000"</span>
+pidfile <span class="token operator">=</span> <span class="token string">"logs/gunicorn.pid"</span>
+accesslog <span class="token operator">=</span> <span class="token string">"logs/access.log"</span>
+errorlog <span class="token operator">=</span> <span class="token string">"logs/debug.log"</span>
+daemon <span class="token operator">=</span> <span class="token boolean">True</span>
 
-# 启动的进程数
-workers = multiprocessing.cpu_count()
-worker_class = &#39;gevent&#39;
-x_forwarded_for_header = &#39;X-FORWARDED-FOR&#39;</code></pre>
-<h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><pre><code class="shell">python3 -m venv webpj
-source webpj/bin/activate
-pip install -r requirements.txt -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com
-pip install xlrd -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com
-pip install openpyxl -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com
+<span class="token comment"># 启动的进程数</span>
+workers <span class="token operator">=</span> multiprocessing<span class="token punctuation">.</span>cpu_count<span class="token punctuation">(</span><span class="token punctuation">)</span>
+worker_class <span class="token operator">=</span> <span class="token string">'gevent'</span>
+x_forwarded_for_header <span class="token operator">=</span> <span class="token string">'X-FORWARDED-FOR'</span></code></pre>
+
+<h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><pre class="language-shell" data-language="shell"><code class="language-shell">python3 -m venv webpj
+<span class="token builtin class-name">source</span> webpj/bin/activate
+pip <span class="token function">install</span> -r requirements.txt -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com
+pip <span class="token function">install</span> xlrd -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com
+pip <span class="token function">install</span> openpyxl -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com
 gunicorn -c config.py app:app</code></pre>
-<h2 id="平滑重启"><a href="#平滑重启" class="headerlink" title="平滑重启"></a>平滑重启</h2><pre><code class="shell">cat logs/gunicorn.pid | xargs kill -HUP</code></pre>
+
+<h2 id="平滑重启"><a href="#平滑重启" class="headerlink" title="平滑重启"></a>平滑重启</h2><pre class="language-shell" data-language="shell"><code class="language-shell"><span class="token function">cat</span> logs/gunicorn.pid <span class="token operator">|</span> <span class="token function">xargs</span> <span class="token function">kill</span> -HUP</code></pre>
+
+
 
                 
             </div>

@@ -483,7 +483,7 @@ https://dev.mysql">
 
 <h2 id="revoke"><a href="#revoke" class="headerlink" title="revoke"></a>revoke</h2><p>Mysql本身是支持用revoke进行权限回收操作的。</p>
 <p><a target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/5.6/en/revoke.html">https://dev.mysql.com/doc/refman/5.6/en/revoke.html</a></p>
-<pre><code>REVOKE
+<pre class="language-none"><code class="language-none">REVOKE
     priv_type [(column_list)]
       [, priv_type [(column_list)]] ...
     ON [object_type] priv_level
@@ -493,18 +493,22 @@ REVOKE ALL [PRIVILEGES], GRANT OPTION
     FROM user [, user] ...
 
 REVOKE PROXY ON user
-    FROM user [, user] ...</code></pre><p>从语法当中可以看到还可以做到列级别的控制。</p>
-<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><pre><code>mysql&gt; revoke insert,delete,update on db_oms.t_order from &#39;oms_order_ro&#39;@&#39;localhost&#39;;
-ERROR 1147 (42000): There is no such grant defined for user &#39;oms_order_ro&#39; on host &#39;localhost&#39; on table &#39;t_order&#39;</code></pre><p>但是事实上，执行的时候会遇到问题。</p>
+    FROM user [, user] ...</code></pre>
+<p>从语法当中可以看到还可以做到列级别的控制。</p>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><pre class="language-none"><code class="language-none">mysql&gt; revoke insert,delete,update on db_oms.t_order from &#39;oms_order_ro&#39;@&#39;localhost&#39;;
+ERROR 1147 (42000): There is no such grant defined for user &#39;oms_order_ro&#39; on host &#39;localhost&#39; on table &#39;t_order&#39;</code></pre>
+
+<p>但是事实上，执行的时候会遇到问题。</p>
 <p><strong>什么原因呢？</strong></p>
-<pre><code>mysql&gt; show grants for oms_order_ro@localhost
+<pre class="language-none"><code class="language-none">mysql&gt; show grants for oms_order_ro@localhost
     -&gt; ;
 +----------------------------------------------------------------------------------+
 | Grants for oms_order_ro@localhost                                                |
 +----------------------------------------------------------------------------------+
 | GRANT USAGE ON *.* TO &#39;oms_order_ro&#39;@&#39;localhost&#39;                                 |
-| GRANT SELECT, INSERT, UPDATE, DELETE ON `db_oms`.* TO &#39;oms_order_ro&#39;@&#39;localhost&#39; |
-+----------------------------------------------------------------------------------+</code></pre><p>仔细看下，我们是使用的通配符去进行赋权限。看起来这里mysql还是表现的比较本。认为没有该权限进行回收。</p>
+| GRANT SELECT, INSERT, UPDATE, DELETE ON &#96;db_oms&#96;.* TO &#39;oms_order_ro&#39;@&#39;localhost&#39; |
++----------------------------------------------------------------------------------+</code></pre>
+<p>仔细看下，我们是使用的通配符去进行赋权限。看起来这里mysql还是表现的比较本。认为没有该权限进行回收。</p>
 <p>那么正确的做法应该是怎样的呢？</p>
 <blockquote>
 <p>Managing access in mysql can be quite dificult !!</p>

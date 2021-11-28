@@ -479,28 +479,32 @@ mysql 可以设置数据库级别，表级别，列级别 字符集编码；控�
 
 <p>mysql 可以设置数据库级别，表级别，列级别 字符集编码；控制粒度依次细化，也就是如果都设置了，列级别优先级最高。</p>
 <p>定义数据表结构时建议不要定义列的字符集，以免将来修改变得麻烦。</p>
-<h2 id="修改表的字符集"><a href="#修改表的字符集" class="headerlink" title="修改表的字符集"></a>修改表的字符集</h2><h3 id="修改表的字符集-并刷新之前已存在的数据"><a href="#修改表的字符集-并刷新之前已存在的数据" class="headerlink" title="修改表的字符集 并刷新之前已存在的数据"></a>修改表的字符集 并刷新之前已存在的数据</h3><pre><code>ALTER table table_name CONVERT to CHARACTER set  新的字符集; </code></pre><h3 id="修改表的字符集，但不对之前已存在的数据刷新"><a href="#修改表的字符集，但不对之前已存在的数据刷新" class="headerlink" title="修改表的字符集，但不对之前已存在的数据刷新"></a>修改表的字符集，但不对之前已存在的数据刷新</h3><pre><code>ALTER table table_name DEFAULT to CHARACTER set  新的字符集; </code></pre><h2 id="批量修改"><a href="#批量修改" class="headerlink" title="批量修改"></a>批量修改</h2><pre><code class="sql">SELECT
-    CONCAT(
-        &#39;ALTER TABLE &#39;,
-        TABLE_NAME,
-        &#39; CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;&#39;
-    )
-FROM
-    information_schema.`TABLES`
-WHERE
-    TABLE_SCHEMA = &#39;DATABASE_NAME&#39;;</code></pre>
+<h2 id="修改表的字符集"><a href="#修改表的字符集" class="headerlink" title="修改表的字符集"></a>修改表的字符集</h2><h3 id="修改表的字符集-并刷新之前已存在的数据"><a href="#修改表的字符集-并刷新之前已存在的数据" class="headerlink" title="修改表的字符集 并刷新之前已存在的数据"></a>修改表的字符集 并刷新之前已存在的数据</h3><pre class="language-none"><code class="language-none">ALTER table table_name CONVERT to CHARACTER set  新的字符集; </code></pre>
+
+<h3 id="修改表的字符集，但不对之前已存在的数据刷新"><a href="#修改表的字符集，但不对之前已存在的数据刷新" class="headerlink" title="修改表的字符集，但不对之前已存在的数据刷新"></a>修改表的字符集，但不对之前已存在的数据刷新</h3><pre class="language-none"><code class="language-none">ALTER table table_name DEFAULT to CHARACTER set  新的字符集; </code></pre>
+
+<h2 id="批量修改"><a href="#批量修改" class="headerlink" title="批量修改"></a>批量修改</h2><pre class="language-sql" data-language="sql"><code class="language-sql"><span class="token keyword">SELECT</span>
+	CONCAT<span class="token punctuation">(</span>
+		<span class="token string">'ALTER TABLE '</span><span class="token punctuation">,</span>
+		TABLE_NAME<span class="token punctuation">,</span>
+		<span class="token string">' CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;'</span>
+	<span class="token punctuation">)</span>
+<span class="token keyword">FROM</span>
+	information_schema<span class="token punctuation">.</span><span class="token punctuation">`</span><span class="token keyword">TABLES</span><span class="token punctuation">`</span>
+<span class="token keyword">WHERE</span>
+	TABLE_SCHEMA <span class="token operator">=</span> <span class="token string">'DATABASE_NAME'</span><span class="token punctuation">;</span></code></pre>
 <p>得到修改语句，复制出执行语句，进行执行。如果数据库数据较多，将会比较耗时。</p>
 <p>如果只是修改默认字符集不修改数据。</p>
-<pre><code class="sql">SELECT
-    CONCAT(
-        &#39;ALTER TABLE &#39;,
-        TABLE_NAME,
-        &#39; DEFAULT  CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;&#39;
-    )
-FROM
-    information_schema.`TABLES`
-WHERE
-    TABLE_SCHEMA = &#39;DATABASE_NAME&#39;;</code></pre>
+<pre class="language-sql" data-language="sql"><code class="language-sql"><span class="token keyword">SELECT</span>
+	CONCAT<span class="token punctuation">(</span>
+		<span class="token string">'ALTER TABLE '</span><span class="token punctuation">,</span>
+		TABLE_NAME<span class="token punctuation">,</span>
+		<span class="token string">' DEFAULT  CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;'</span>
+	<span class="token punctuation">)</span>
+<span class="token keyword">FROM</span>
+	information_schema<span class="token punctuation">.</span><span class="token punctuation">`</span><span class="token keyword">TABLES</span><span class="token punctuation">`</span>
+<span class="token keyword">WHERE</span>
+	TABLE_SCHEMA <span class="token operator">=</span> <span class="token string">'DATABASE_NAME'</span><span class="token punctuation">;</span></code></pre>
 <p>这样执行应该较为安全，也满足一般需求。</p>
 
                 

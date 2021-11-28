@@ -511,83 +511,88 @@
 <p>声明java类为servlet</p>
 <p><code>@WebInitParam</code> </p>
 <p>作为<code>WebServlet</code>参数注解。初始化serverl参数。</p>
-<pre><code class="java">@WebServlet(
-  name = &quot;BankAccountServlet&quot;, 
-  description = &quot;Represents a Bank Account and it&#39;s transactions&quot;, 
-  urlPatterns = &#123;&quot;/account&quot;, &quot;/bankAccount&quot; &#125;, 
-  initParams = &#123; @WebInitParam(name = &quot;type&quot;, value = &quot;savings&quot;)&#125;)
-public class AccountServlet extends javax.servlet.http.HttpServlet &#123;
+<pre class="language-java" data-language="java"><code class="language-java"><span class="token annotation punctuation">@WebServlet</span><span class="token punctuation">(</span>
+  name <span class="token operator">=</span> <span class="token string">"BankAccountServlet"</span><span class="token punctuation">,</span> 
+  description <span class="token operator">=</span> <span class="token string">"Represents a Bank Account and it's transactions"</span><span class="token punctuation">,</span> 
+  urlPatterns <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token string">"/account"</span><span class="token punctuation">,</span> <span class="token string">"/bankAccount"</span> <span class="token punctuation">&#125;</span><span class="token punctuation">,</span> 
+  initParams <span class="token operator">=</span> <span class="token punctuation">&#123;</span> <span class="token annotation punctuation">@WebInitParam</span><span class="token punctuation">(</span>name <span class="token operator">=</span> <span class="token string">"type"</span><span class="token punctuation">,</span> value <span class="token operator">=</span> <span class="token string">"savings"</span><span class="token punctuation">)</span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">AccountServlet</span> <span class="token keyword">extends</span> <span class="token class-name"><span class="token namespace">javax<span class="token punctuation">.</span>servlet<span class="token punctuation">.</span>http<span class="token punctuation">.</span></span>HttpServlet</span> <span class="token punctuation">&#123;</span>
 
-    String accountType = null;
+    <span class="token class-name">String</span> accountType <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
 
-    public void init(ServletConfig config) throws ServletException &#123;
-        accountType = config.getInitParameter(&quot;type&quot;);
-    &#125;
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">init</span><span class="token punctuation">(</span><span class="token class-name">ServletConfig</span> config<span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">ServletException</span> <span class="token punctuation">&#123;</span>
+        accountType <span class="token operator">=</span> config<span class="token punctuation">.</span><span class="token function">getInitParameter</span><span class="token punctuation">(</span><span class="token string">"type"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
 
-    public void doPost(HttpServletRequest request, HttpServletResponse response) 
-      throws IOException &#123;
-        // ...
-    &#125;
-&#125;</code></pre>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">doPost</span><span class="token punctuation">(</span><span class="token class-name">HttpServletRequest</span> request<span class="token punctuation">,</span> <span class="token class-name">HttpServletResponse</span> response<span class="token punctuation">)</span> 
+      <span class="token keyword">throws</span> <span class="token class-name">IOException</span> <span class="token punctuation">&#123;</span>
+        <span class="token comment">// ...</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span></code></pre>
+
 <p><code>@WebFilter</code></p>
 <p>声明过滤器，如果要对请求进行拦截、修改而不影响逻辑代码。</p>
-<pre><code class="java">@WebFilter(
-  urlPatterns = &quot;/account/*&quot;,
-  filterName = &quot;LoggingFilter&quot;,
-  description = &quot;Filter all account transaction URLs&quot;)
-public class LogInFilter implements javax.servlet.Filter &#123;
+<pre class="language-java" data-language="java"><code class="language-java"><span class="token annotation punctuation">@WebFilter</span><span class="token punctuation">(</span>
+  urlPatterns <span class="token operator">=</span> <span class="token string">"/account/*"</span><span class="token punctuation">,</span>
+  filterName <span class="token operator">=</span> <span class="token string">"LoggingFilter"</span><span class="token punctuation">,</span>
+  description <span class="token operator">=</span> <span class="token string">"Filter all account transaction URLs"</span><span class="token punctuation">)</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">LogInFilter</span> <span class="token keyword">implements</span> <span class="token class-name"><span class="token namespace">javax<span class="token punctuation">.</span>servlet<span class="token punctuation">.</span></span>Filter</span> <span class="token punctuation">&#123;</span>
+    
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">init</span><span class="token punctuation">(</span><span class="token class-name">FilterConfig</span> filterConfig<span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">ServletException</span> <span class="token punctuation">&#123;</span>
+    <span class="token punctuation">&#125;</span>
 
-    public void init(FilterConfig filterConfig) throws ServletException &#123;
-    &#125;
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">doFilter</span><span class="token punctuation">(</span>
+        <span class="token class-name">ServletRequest</span> request<span class="token punctuation">,</span> <span class="token class-name">ServletResponse</span> response<span class="token punctuation">,</span> <span class="token class-name">FilterChain</span> chain<span class="token punctuation">)</span> 
+          <span class="token keyword">throws</span> <span class="token class-name">IOException</span><span class="token punctuation">,</span> <span class="token class-name">ServletException</span> <span class="token punctuation">&#123;</span>
+        <span class="token class-name">HttpServletRequest</span> req <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token class-name">HttpServletRequest</span><span class="token punctuation">)</span> request<span class="token punctuation">;</span>
+        <span class="token class-name">HttpServletResponse</span> res <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token class-name">HttpServletResponse</span><span class="token punctuation">)</span> response<span class="token punctuation">;</span>
 
-    public void doFilter(
-        ServletRequest request, ServletResponse response, FilterChain chain) 
-          throws IOException, ServletException &#123;
-        HttpServletRequest req = (HttpServletRequest) request;
-        HttpServletResponse res = (HttpServletResponse) response;
+        res<span class="token punctuation">.</span><span class="token function">sendRedirect</span><span class="token punctuation">(</span>req<span class="token punctuation">.</span><span class="token function">getContextPath</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">"/login.jsp"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        chain<span class="token punctuation">.</span><span class="token function">doFilter</span><span class="token punctuation">(</span>request<span class="token punctuation">,</span> response<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
 
-        res.sendRedirect(req.getContextPath() + &quot;/login.jsp&quot;);
-        chain.doFilter(request, response);
-    &#125;
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">destroy</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token punctuation">&#125;</span>
 
-    public void destroy() &#123;
-    &#125;
+<span class="token punctuation">&#125;</span></code></pre>
 
-&#125;</code></pre>
 <p><code>@WebListener</code></p>
 <p>声明事件监听器。</p>
-<pre><code class="java">@WebListener
-public class BankAppServletContextListener 
-  implements ServletContextListener &#123;
+<pre class="language-java" data-language="java"><code class="language-java"><span class="token annotation punctuation">@WebListener</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">BankAppServletContextListener</span> 
+  <span class="token keyword">implements</span> <span class="token class-name">ServletContextListener</span> <span class="token punctuation">&#123;</span>
 
-    public void contextInitialized(ServletContextEvent sce) &#123; 
-        sce.getServletContext().setAttribute(&quot;ATTR_DEFAULT_LANGUAGE&quot;, &quot;english&quot;); 
-    &#125; 
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">contextInitialized</span><span class="token punctuation">(</span><span class="token class-name">ServletContextEvent</span> sce<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span> 
+        sce<span class="token punctuation">.</span><span class="token function">getServletContext</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">setAttribute</span><span class="token punctuation">(</span><span class="token string">"ATTR_DEFAULT_LANGUAGE"</span><span class="token punctuation">,</span> <span class="token string">"english"</span><span class="token punctuation">)</span><span class="token punctuation">;</span> 
+    <span class="token punctuation">&#125;</span> 
+    
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">contextDestroyed</span><span class="token punctuation">(</span><span class="token class-name">ServletContextEvent</span> sce<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span> 
+        <span class="token comment">// ... </span>
+    <span class="token punctuation">&#125;</span> 
+<span class="token punctuation">&#125;</span></code></pre>
 
-    public void contextDestroyed(ServletContextEvent sce) &#123; 
-        // ... 
-    &#125; 
-&#125;</code></pre>
 <p><code>@ServletSecurity</code>、<code>@HttpConstraint</code>、<code>@HttpMethodConstraint</code></p>
 <p>类似nginx认证功能</p>
 <p><code>@MultipartConfig</code></p>
 <p>处理文件上传配置</p>
-<pre><code class="java">@WebServlet(urlPatterns = &#123; &quot;/uploadCustDocs&quot; &#125;)
-@MultipartConfig(
-  fileSizeThreshold = 1024 * 1024 * 20,
-  maxFileSize = 1024 * 1024 * 20,
-  maxRequestSize = 1024 * 1024 * 25,
-  location = &quot;./custDocs&quot;)
-public class UploadCustomerDocumentsServlet extends HttpServlet &#123;
+<pre class="language-java" data-language="java"><code class="language-java"><span class="token annotation punctuation">@WebServlet</span><span class="token punctuation">(</span>urlPatterns <span class="token operator">=</span> <span class="token punctuation">&#123;</span> <span class="token string">"/uploadCustDocs"</span> <span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+<span class="token annotation punctuation">@MultipartConfig</span><span class="token punctuation">(</span>
+  fileSizeThreshold <span class="token operator">=</span> <span class="token number">1024</span> <span class="token operator">*</span> <span class="token number">1024</span> <span class="token operator">*</span> <span class="token number">20</span><span class="token punctuation">,</span>
+  maxFileSize <span class="token operator">=</span> <span class="token number">1024</span> <span class="token operator">*</span> <span class="token number">1024</span> <span class="token operator">*</span> <span class="token number">20</span><span class="token punctuation">,</span>
+  maxRequestSize <span class="token operator">=</span> <span class="token number">1024</span> <span class="token operator">*</span> <span class="token number">1024</span> <span class="token operator">*</span> <span class="token number">25</span><span class="token punctuation">,</span>
+  location <span class="token operator">=</span> <span class="token string">"./custDocs"</span><span class="token punctuation">)</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">UploadCustomerDocumentsServlet</span> <span class="token keyword">extends</span> <span class="token class-name">HttpServlet</span> <span class="token punctuation">&#123;</span>
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) 
-      throws ServletException, IOException &#123;
-        for (Part part : request.getParts()) &#123;
-            part.write(&quot;myFile&quot;);
-        &#125;
-    &#125;
+    <span class="token keyword">protected</span> <span class="token keyword">void</span> <span class="token function">doPost</span><span class="token punctuation">(</span><span class="token class-name">HttpServletRequest</span> request<span class="token punctuation">,</span> <span class="token class-name">HttpServletResponse</span> response<span class="token punctuation">)</span> 
+      <span class="token keyword">throws</span> <span class="token class-name">ServletException</span><span class="token punctuation">,</span> <span class="token class-name">IOException</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token class-name">Part</span> part <span class="token operator">:</span> request<span class="token punctuation">.</span><span class="token function">getParts</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            part<span class="token punctuation">.</span><span class="token function">write</span><span class="token punctuation">(</span><span class="token string">"myFile"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
 
-&#125;</code></pre>
+<span class="token punctuation">&#125;</span></code></pre>
+
+
 <h2 id="参考阅读"><a href="#参考阅读" class="headerlink" title="参考阅读"></a>参考阅读</h2><ol>
 <li><a target="_blank" rel="noopener" href="https://o7planning.org/10395/java-servlet-filter">https://o7planning.org/10395/java-servlet-filter</a></li>
 <li><a target="_blank" rel="noopener" href="https://www.codejava.net/java-ee/servlet/how-to-modify-http-response-using-java-filter">https://www.codejava.net/java-ee/servlet/how-to-modify-http-response-using-java-filter 如何使用filter修改response</a></li>

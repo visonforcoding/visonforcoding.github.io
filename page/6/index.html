@@ -11,7 +11,7 @@
         name="viewport"
         content="width=device-width, initial-scale=1, maximum-scale=1"
       />
-      <title>Archives |  麦田麦穗</title>
+      <title> 麦田麦穗</title>
   <meta name="generator" content="hexo-theme-ayer">
       
       <link rel="shortcut icon" href="/favicon.ico" />
@@ -52,248 +52,146 @@
     
       
     <main class="content on">
-      <section class="outer">
+      
+
+
+<script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js"></script>
+
+
+<!-- Subtitle -->
+
+  <script>
+    try {
+      var typed = new Typed("#subtitle", {
+        strings: ['积累、总结，不断学习', '愿你一生努力，一生被爱', '想要的都拥有，得不到的都释怀'],
+        startDelay: 0,
+        typeSpeed: 200,
+        loop: true,
+        backSpeed: 100,
+        showCursor: true
+      });
+    } catch (err) {
+      console.log(err)
+    }
+  </script>
   
+<div id="main">
+  <section class="outer">
+  
+  
+  
+
+<div class="notice" style="margin-top:50px">
+    <i class="ri-heart-fill"></i>
+    <div class="notice-content" id="broad"></div>
+</div>
+<script type="text/javascript">
+    fetch('https://v1.hitokoto.cn')
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById("broad").innerHTML = data.hitokoto;
+        })
+        .catch(console.error)
+</script>
+
+<style>
+    .notice {
+        padding: 20px;
+        border: 1px dashed #e6e6e6;
+        color: #969696;
+        position: relative;
+        display: inline-block;
+        width: 100%;
+        background: #fbfbfb50;
+        border-radius: 10px;
+    }
+
+    .notice i {
+        float: left;
+        color: #999;
+        font-size: 16px;
+        padding-right: 10px;
+        vertical-align: middle;
+        margin-top: -2px;
+    }
+
+    .notice-content {
+        display: initial;
+        vertical-align: middle;
+    }
+</style>
   
   <article class="articles">
     
     
-    <h1 class="page-type-title">Archives</h1>
     
     
-  
-  
-  
-  
-  
-  
-  <div class="archives-wrap">
-    <div class="archive-year-wrap">
-      <a href="/archives/2021" class="archive-year">2021</a>
+    <article
+  id="post-python/程序员代码下的许豪杰-技术篇"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2017/08/05/python/%E7%A8%8B%E5%BA%8F%E5%91%98%E4%BB%A3%E7%A0%81%E4%B8%8B%E7%9A%84%E8%AE%B8%E8%B1%AA%E6%9D%B0-%E6%8A%80%E6%9C%AF%E7%AF%87/"
+    >程序员代码下的许豪杰(技术篇)</a> 
+</h2>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2017/08/05/python/%E7%A8%8B%E5%BA%8F%E5%91%98%E4%BB%A3%E7%A0%81%E4%B8%8B%E7%9A%84%E8%AE%B8%E8%B1%AA%E6%9D%B0-%E6%8A%80%E6%9C%AF%E7%AF%87/" class="article-date">
+  <time datetime="2017-08-05T05:16:00.000Z" itemprop="datePublished">2017-08-05</time>
+</a>    
     </div>
-    <div class="archives">
       
-      <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2021/07/07/php/%E5%AD%A6%E4%B9%A0%E7%BC%96%E5%86%99php%E6%8B%93%E5%B1%95/" class="archive-article-date">
-  <time datetime="2021-07-07T07:10:27.000Z" itemprop="datePublished">07/07</time>
-</a>
+    <div class="article-entry" itemprop="articleBody">
        
-<h2 itemprop="name">
-  <a class="archive-article-title" href="/2021/07/07/php/%E5%AD%A6%E4%B9%A0%E7%BC%96%E5%86%99php%E6%8B%93%E5%B1%95/"
-    >学习编写php拓展</a> 
-</h2>
- 
-
-    </header>
-    
-    
-  </div>
-</article>
-      
-  
-  
-      <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2021/06/25/RabbitMQ%E4%BB%8B%E7%BB%8D%E5%92%8C%E5%9C%BA%E6%99%AF%E4%BD%BF%E7%94%A8/" class="archive-article-date">
-  <time datetime="2021-06-25T01:28:32.000Z" itemprop="datePublished">06/25</time>
-</a>
+  <blockquote>
+<p>接上篇，这一篇将从技术层面讲讲是如何实现的。阅读本文您将会了解如何用python爬取微博的评论以及如何用python word_cloud库进行数据可视化。</p>
+</blockquote>
+<p>上一篇:<a target="_blank" rel="noopener" href="http://www.jianshu.com/p/ab49113c1fda">程序员代码下的许豪杰</a></p> 
+      <a class="article-more-link" href="/2017/08/05/python/%E7%A8%8B%E5%BA%8F%E5%91%98%E4%BB%A3%E7%A0%81%E4%B8%8B%E7%9A%84%E8%AE%B8%E8%B1%AA%E6%9D%B0-%E6%8A%80%E6%9C%AF%E7%AF%87/"
+        >阅读更多...</a
+      >
        
-<h2 itemprop="name">
-  <a class="archive-article-title" href="/2021/06/25/RabbitMQ%E4%BB%8B%E7%BB%8D%E5%92%8C%E5%9C%BA%E6%99%AF%E4%BD%BF%E7%94%A8/"
-    >RabbitMQ介绍和场景使用</a> 
-</h2>
- 
-
-    </header>
-    
-    
-  </div>
-</article>
-      
-  
-  
-      <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2021/06/02/mysql%E7%9A%84waitimeout/" class="archive-article-date">
-  <time datetime="2021-06-02T12:33:18.000Z" itemprop="datePublished">06/02</time>
-</a>
-       
-<h2 itemprop="name">
-  <a class="archive-article-title" href="/2021/06/02/mysql%E7%9A%84waitimeout/"
-    >mysql的waitimeout</a> 
-</h2>
- 
-
-    </header>
-    
-    
-  </div>
-</article>
-      
-  
-  
-      <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2021/04/09/vue-quasar-electron-springboot-mysql%E6%92%B8%E4%B8%80%E4%B8%AATODO-LIST-%E7%9C%8B%E6%9D%BF/" class="archive-article-date">
-  <time datetime="2021-04-09T03:39:08.000Z" itemprop="datePublished">04/09</time>
-</a>
-       
-<h2 itemprop="name">
-  <a class="archive-article-title" href="/2021/04/09/vue-quasar-electron-springboot-mysql%E6%92%B8%E4%B8%80%E4%B8%AATODO-LIST-%E7%9C%8B%E6%9D%BF/"
-    >vue+quasar+electron+springboot+mysql撸一个TODO LIST 看板</a> 
-</h2>
- 
-
-    </header>
-    
-    
-  </div>
-</article>
-      
-  
-  
-      <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2021/03/03/%E7%BC%96%E5%8F%91%E7%BC%96%E7%A8%8B%E6%97%A5%E8%AE%B0-%E7%BA%BF%E7%A8%8B%E4%B8%8D%E5%AE%89%E5%85%A8%E7%9A%84%E5%8D%B1%E5%AE%B3/" class="archive-article-date">
-  <time datetime="2021-03-03T11:16:37.000Z" itemprop="datePublished">03/03</time>
-</a>
-       
-<h2 itemprop="name">
-  <a class="archive-article-title" href="/2021/03/03/%E7%BC%96%E5%8F%91%E7%BC%96%E7%A8%8B%E6%97%A5%E8%AE%B0-%E7%BA%BF%E7%A8%8B%E4%B8%8D%E5%AE%89%E5%85%A8%E7%9A%84%E5%8D%B1%E5%AE%B3/"
-    >并发编程日记-线程不安全的危害</a> 
-</h2>
- 
-
-    </header>
-    
-    
-  </div>
-</article>
-      
-  
-  
-      <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2021/02/23/java/spring-boot%E8%AE%B0%E5%BD%95sql%E6%8E%A2%E7%B4%A2/" class="archive-article-date">
-  <time datetime="2021-02-23T11:28:29.000Z" itemprop="datePublished">02/23</time>
-</a>
-       
-<h2 itemprop="name">
-  <a class="archive-article-title" href="/2021/02/23/java/spring-boot%E8%AE%B0%E5%BD%95sql%E6%8E%A2%E7%B4%A2/"
-    >spring-boot记录sql探索</a> 
-</h2>
- 
-
-    </header>
-    
-    
-  </div>
-</article>
-      
-  
-  
-      <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2021/02/22/java/spring-boot-vue%E7%9A%84%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E9%83%A8%E7%BD%B2/" class="archive-article-date">
-  <time datetime="2021-02-22T06:43:54.000Z" itemprop="datePublished">02/22</time>
-</a>
-       
-<h2 itemprop="name">
-  <a class="archive-article-title" href="/2021/02/22/java/spring-boot-vue%E7%9A%84%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E9%83%A8%E7%BD%B2/"
-    >spring-boot+vue+supervisor+nginx的前后端分离部署</a> 
-</h2>
- 
-
-    </header>
-    
-    
-  </div>
-</article>
-      
-  
-  
-      <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2021/01/23/%E5%88%A9%E7%94%A8Locust%E8%BF%9B%E8%A1%8C%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/" class="archive-article-date">
-  <time datetime="2021-01-23T02:17:02.000Z" itemprop="datePublished">01/23</time>
-</a>
-       
-<h2 itemprop="name">
-  <a class="archive-article-title" href="/2021/01/23/%E5%88%A9%E7%94%A8Locust%E8%BF%9B%E8%A1%8C%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/"
-    >利用Locust进行性能测试</a> 
-</h2>
- 
-
-    </header>
-    
-    
-  </div>
-</article>
-      
-  
-  
-      <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2021/01/21/%E9%BB%91%E5%90%AF%E5%8A%A8/" class="archive-article-date">
-  <time datetime="2021-01-21T13:38:28.000Z" itemprop="datePublished">01/21</time>
-</a>
-       
-<h2 itemprop="name">
-  <a class="archive-article-title" href="/2021/01/21/%E9%BB%91%E5%90%AF%E5%8A%A8/"
-    >黑启动</a> 
-</h2>
- 
-
-    </header>
-    
-    
-  </div>
-</article>
-      
-  
-  
-      <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2021/01/06/java/servlet%E9%9B%86%E6%88%90mybatis-%E6%97%A0xml-%E6%B3%A8%E8%A7%A3%E6%96%B9%E5%BC%8F/" class="archive-article-date">
-  <time datetime="2021-01-06T08:14:24.000Z" itemprop="datePublished">01/06</time>
-</a>
-       
-<h2 itemprop="name">
-  <a class="archive-article-title" href="/2021/01/06/java/servlet%E9%9B%86%E6%88%90mybatis-%E6%97%A0xml-%E6%B3%A8%E8%A7%A3%E6%96%B9%E5%BC%8F/"
-    >servlet | servlet集成mybatis-无xml&amp;注解方式</a> 
-</h2>
- 
-
-    </header>
-    
-    
-  </div>
-</article>
-      
+      <!-- reward -->
       
     </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+    </footer>
   </div>
-  
+
+    
+ 
+    
+</article>
+
+    
+  </article>
   
 
   
   <nav class="page-nav">
     
-    <a class="extend prev" rel="prev" href="/archives/">上一页</a><a class="page-number" href="/archives/">1</a><span class="page-number current">2</span><a class="page-number" href="/archives/page/3/">3</a><a class="page-number" href="/archives/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/6/">6</a><a class="extend next" rel="next" href="/archives/page/3/">下一页</a>
+    <a class="extend prev" rel="prev" href="/page/5/">上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span>
   </nav>
   
 </section>
+</div>
+
       <footer class="footer">
   <div class="outer">
     <ul>

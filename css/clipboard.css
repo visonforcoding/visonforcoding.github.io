@@ -13,7 +13,7 @@
   color: #333;
   background: rgba(255,255,255,0.8);
   border-radius: 2px;
-  position: absolute;
+  float: right;
   top: 0;
   right: 0;
   opacity: 0;

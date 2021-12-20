@@ -143,7 +143,6 @@
 <p>并不意味着将batchSize设置最大就是最有效的方式，batchSize越大也意味着flush的工作将会更耗时。</p>
 <p>但与mysql 本身的批量处理还是会多非常多次的通信。</p>
 <pre class="language-sql" data-language="sql"><code class="language-sql"><span class="token keyword">INSERT</span> <span class="token keyword">INTO</span> tbl_name <span class="token punctuation">(</span>a<span class="token punctuation">,</span>b<span class="token punctuation">,</span>c<span class="token punctuation">)</span> <span class="token keyword">VALUES</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">,</span><span class="token number">5</span><span class="token punctuation">,</span><span class="token number">6</span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token punctuation">(</span><span class="token number">7</span><span class="token punctuation">,</span><span class="token number">8</span><span class="token punctuation">,</span><span class="token number">9</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-
 <p>使用mysql本身的方法可能只要执行2次通信。</p>
 <p>因此，其实doctrine官网那段话说的非常忠恳了，要想获得最佳性能可能需要根据特定RDBMS来相应的处理。</p>
  

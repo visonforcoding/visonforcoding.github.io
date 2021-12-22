@@ -81,7 +81,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">522</span>
+            <span class="post-count">555</span>
         </span>
     </span>
 
@@ -97,6 +97,8 @@
  
     </div>
       
+    <div class="tocbot"></div>
+
 
 
 
@@ -144,6 +146,8 @@
 <pre class="language-sql" data-language="sql"><code class="language-sql"><span class="token keyword">INSERT</span> <span class="token keyword">INTO</span> tbl_name <span class="token punctuation">(</span>a<span class="token punctuation">,</span>b<span class="token punctuation">,</span>c<span class="token punctuation">)</span> <span class="token keyword">VALUES</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">,</span><span class="token number">5</span><span class="token punctuation">,</span><span class="token number">6</span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token punctuation">(</span><span class="token number">7</span><span class="token punctuation">,</span><span class="token number">8</span><span class="token punctuation">,</span><span class="token number">9</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 <p>使用mysql本身的方法可能只要执行2次通信。</p>
 <p>因此，其实doctrine官网那段话说的非常忠恳了，要想获得最佳性能可能需要根据特定RDBMS来相应的处理。</p>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>长时间的事务不提交，会阻塞其他事务的提交么？</p>
+<p>我们知道有的情况是会的。</p>
  
       <!-- reward -->
       
@@ -226,6 +230,15 @@
 
    
   <nav class="article-nav">
+    
+      <a href="/2021/12/22/spring-boot%E5%85%A8%E5%B1%80%E5%A4%84%E7%90%86%E5%BC%82%E5%B8%B8-%E9%98%B2%E9%87%8D%E5%A4%8D%E8%BE%93%E5%87%BA/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            spring-boot全局处理异常[兜底、防重]
+          
+        </div>
+      </a>
     
     
       <a href="/2021/12/21/somthing-fun/" class="article-nav-link">

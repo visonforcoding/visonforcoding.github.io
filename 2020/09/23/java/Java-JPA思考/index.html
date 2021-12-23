@@ -81,7 +81,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">2.9k</span>
+            <span class="post-count">3.1k</span>
         </span>
     </span>
 
@@ -90,7 +90,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> Reading time≈</span>
-            <span class="post-count">11 min</span>
+            <span class="post-count">12 min</span>
         </span>
     </span>
 </div>
@@ -432,6 +432,41 @@
 
 <p><img src="https://vison-blog.oss-cn-beijing.aliyuncs.com/20211223190914.png" alt=""></p>
 <h3 id="Many-to-Many-With-a-New-Entity"><a href="#Many-to-Many-With-a-New-Entity" class="headerlink" title="Many-to-Many With a New Entity"></a>Many-to-Many With a New Entity</h3><p>有种场景是多对多的关联表还需要其他属性，可能这是实际当中更为常见的情况。比如订单商品表还需要记录商品数量,这个时候最好的方式是用一个新的Entity来建立多对多的关联关系。</p>
+<pre class="language-java" data-language="java"><code class="language-java"><span class="token annotation punctuation">@Entity</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">OrderGoods</span> <span class="token keyword">extends</span> <span class="token class-name">BaseEntity</span> <span class="token punctuation">&#123;</span>
+
+    <span class="token annotation punctuation">@Column</span><span class="token punctuation">(</span>columnDefinition <span class="token operator">=</span> <span class="token string">"int NOT NULL comment '数量'"</span><span class="token punctuation">)</span>
+    <span class="token keyword">private</span> <span class="token keyword">int</span> nums<span class="token punctuation">;</span>
+
+    <span class="token annotation punctuation">@ManyToOne</span>
+    <span class="token annotation punctuation">@JoinColumn</span><span class="token punctuation">(</span>foreignKey <span class="token operator">=</span> <span class="token annotation punctuation">@ForeignKey</span><span class="token punctuation">(</span>value <span class="token operator">=</span> <span class="token class-name">ConstraintMode</span><span class="token punctuation">.</span>NO_CONSTRAINT<span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token annotation punctuation">@JsonIgnoreProperties</span><span class="token punctuation">(</span>value <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token string">"orderGoods"</span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+    <span class="token keyword">private</span> <span class="token class-name">Order</span> order<span class="token punctuation">;</span>
+
+    <span class="token annotation punctuation">@ManyToOne</span>
+    <span class="token annotation punctuation">@JoinColumn</span><span class="token punctuation">(</span>foreignKey <span class="token operator">=</span> <span class="token annotation punctuation">@ForeignKey</span><span class="token punctuation">(</span>value <span class="token operator">=</span> <span class="token class-name">ConstraintMode</span><span class="token punctuation">.</span>NO_CONSTRAINT<span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token keyword">private</span> <span class="token class-name">Goods</span> goods<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span></code></pre>
+
+<p>还需对<code>Goods</code>和<code>Order</code>进行<code>mappedBy</code>,防止被重复关联。</p>
+<pre class="language-java" data-language="java"><code class="language-java"><span class="token annotation punctuation">@Entity</span>
+<span class="token annotation punctuation">@Table</span><span class="token punctuation">(</span>appliesTo <span class="token operator">=</span> <span class="token string">"goods"</span><span class="token punctuation">,</span> comment <span class="token operator">=</span> <span class="token string">"商品表"</span><span class="token punctuation">)</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Goods</span> <span class="token keyword">extends</span> <span class="token class-name">BaseEntity</span> <span class="token punctuation">&#123;</span>
+   <span class="token annotation punctuation">@OneToMany</span><span class="token punctuation">(</span>mappedBy <span class="token operator">=</span> <span class="token string">"goods"</span><span class="token punctuation">)</span>
+    <span class="token keyword">private</span> <span class="token class-name">Set</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">OrderGoods</span><span class="token punctuation">></span></span> orderGoods<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token annotation punctuation">@Entity</span><span class="token punctuation">(</span>name <span class="token operator">=</span> <span class="token string">"dorder"</span><span class="token punctuation">)</span>
+<span class="token annotation punctuation">@Table</span><span class="token punctuation">(</span>appliesTo <span class="token operator">=</span> <span class="token string">"dorder"</span><span class="token punctuation">,</span> comment <span class="token operator">=</span> <span class="token string">"订单表"</span><span class="token punctuation">)</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Order</span> <span class="token keyword">extends</span> <span class="token class-name">BaseEntity</span> <span class="token punctuation">&#123;</span>
+    <span class="token annotation punctuation">@OneToMany</span><span class="token punctuation">(</span>mappedBy <span class="token operator">=</span> <span class="token string">"order"</span><span class="token punctuation">)</span>
+    <span class="token annotation punctuation">@Transient</span>
+    <span class="token annotation punctuation">@JsonIgnoreProperties</span><span class="token punctuation">(</span>value <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token string">"order"</span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+    <span class="token keyword">private</span> <span class="token class-name">Set</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">OrderGoods</span><span class="token punctuation">></span></span> orderGoods<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span></code></pre>
+
+<p>最终完成订单和订单商品的添加</p>
+<p><img src="https://vison-blog.oss-cn-beijing.aliyuncs.com/20211223232404.png" alt=""></p>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ol>
 <li><a target="_blank" rel="noopener" href="https://fanlychie.github.io/post/jpa-column-annotation.html">https://fanlychie.github.io/post/jpa-column-annotation.html</a></li>
 <li><a target="_blank" rel="noopener" href="https://dzone.com/articles/what-is-the-difference-between-hibernate-and-sprin-1">https://dzone.com/articles/what-is-the-difference-between-hibernate-and-sprin-1</a></li>

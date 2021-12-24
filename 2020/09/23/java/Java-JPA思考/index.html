@@ -81,7 +81,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">3.1k</span>
+            <span class="post-count">3.2k</span>
         </span>
     </span>
 
@@ -467,6 +467,9 @@
 
 <p>最终完成订单和订单商品的添加</p>
 <p><img src="https://vison-blog.oss-cn-beijing.aliyuncs.com/20211223232404.png" alt=""></p>
+<h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><p>以上代码与直接的<code>ManyToMany</code>方式不同的是，我没能实现主表的save让JPA自动将关联表数据也插入,是我手动处理的。<br>因为遇到的问题现在还没解决。</p>
+<p>想让其自动将关联数据save,把hibernate的info日志打开。会发现<code>Collection found: was: [&lt;unreferenced&gt;] (initialized)</code>日志记录,应该是哪里不对，但是目前不纠结了。</p>
+<p>以上代码虽然能完成需求但是数据插入并不是在一个事务内执行的，因此实际生产当中这种写法也不可取,需写在一个事务内。</p>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ol>
 <li><a target="_blank" rel="noopener" href="https://fanlychie.github.io/post/jpa-column-annotation.html">https://fanlychie.github.io/post/jpa-column-annotation.html</a></li>
 <li><a target="_blank" rel="noopener" href="https://dzone.com/articles/what-is-the-difference-between-hibernate-and-sprin-1">https://dzone.com/articles/what-is-the-difference-between-hibernate-and-sprin-1</a></li>

@@ -81,7 +81,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">3.2k</span>
+            <span class="post-count">3.3k</span>
         </span>
     </span>
 
@@ -90,7 +90,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> Reading time≈</span>
-            <span class="post-count">12 min</span>
+            <span class="post-count">13 min</span>
         </span>
     </span>
 </div>
@@ -118,6 +118,20 @@
 <p>JSR定义了标准，众多组织对这个标准进行了实现，这使得开发者几乎可以在不同的实现版本里无缝切换。</p>
 <h2 id="spring-data-jpa"><a href="#spring-data-jpa" class="headerlink" title="spring-data-jpa"></a>spring-data-jpa</h2><p>事实上Spring-data-jpa并不是jpa的具体实现或提供商。它只是jpa的一个数据访问抽象.在spring-data-jpa中你可以使用<br>Hibernate, Eclipse Link, 和其他的JPA provider。</p>
 <p><img src="https://vison-blog.oss-cn-beijing.aliyuncs.com/20211222145130.png" alt=""></p>
+<h3 id="hibernate"><a href="#hibernate" class="headerlink" title="hibernate"></a>hibernate</h3><p>spring-data-jpa 默认使用的是hibernate,我们可以查看使用的版本。</p>
+<pre class="language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Application</span> <span class="token punctuation">&#123;</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token class-name">SpringApplication</span><span class="token punctuation">.</span><span class="token function">run</span><span class="token punctuation">(</span><span class="token class-name">Application</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">,</span> args<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        log<span class="token punctuation">.</span><span class="token function">info</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">.</span><span class="token function">format</span><span class="token punctuation">(</span><span class="token string">"spring version is : %s"</span><span class="token punctuation">,</span><span class="token class-name">SpringVersion</span><span class="token punctuation">.</span><span class="token function">getVersion</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment">//查看 hibernate 版本</span>
+        log<span class="token punctuation">.</span><span class="token function">info</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">.</span><span class="token function">format</span><span class="token punctuation">(</span><span class="token string">"hibernate version is : %s"</span><span class="token punctuation">,</span><span class="token class-name">Version</span><span class="token punctuation">.</span><span class="token function">getVersionString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+<span class="token punctuation">&#125;</span></code></pre>
+
+<p><img src="https://vison-blog.oss-cn-beijing.aliyuncs.com/20211224111236.png" alt=""></p>
+<p>更多官方文档可查阅 <a target="_blank" rel="noopener" href="https://docs.jboss.org/hibernate/orm/5.6/userguide/html_single/Hibernate_User_Guide.html">https://docs.jboss.org/hibernate/orm/5.6/userguide/html_single/Hibernate_User_Guide.html</a></p>
 <h2 id="注解-Annotations"><a href="#注解-Annotations" class="headerlink" title="注解 Annotations"></a>注解 Annotations</h2><p>通常，Xml文件用于配置特定组件，或映射两种不同规格的组件。 在我们的例子中，我们必须在框架中单独维护xml。 这意味着在编写映射xml文件时，我们需要将POJO类属性与mapping.xml文件中的实体标记进行比较。</p>
 <p>这是解决方案:在类定义中，我们可以使用注释编写配置部分。 注释用于类，属性和方法。 注释以“@”符号开头。 在声明类，属性或方法之前声明注释。 JPA的所有注释都在javax.persistence包中定义。</p>
 <p>以下是我们的示例中使用的注释列表</p>
@@ -633,7 +647,7 @@
     <ul>
       <li>
         Copyrights &copy;
-        2015-2021
+        2015-2022
         <i class="ri-heart-fill heart_icon"></i> vison
       </li>
     </ul>

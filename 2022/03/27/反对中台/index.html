@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+
+
+<html lang="en">
+  
+
+    <head>
+      <meta charset="utf-8" />
+        
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1"
+      />
+      <title>反对中台 |  麦田麦穗</title>
+  <meta name="generator" content="hexo-theme-ayer">
+      
+      <link rel="shortcut icon" href="/favicon.ico" />
+       
+<link rel="stylesheet" href="/dist/main.css">
+
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/css/remixicon.min.css"
+      />
+      
+<link rel="stylesheet" href="/css/custom.css">
+ 
+      <script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+       
+ 
+
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-bulma@5.0.1/bulma.min.css"
+      />
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
+
+      <!-- mermaid -->
+      
+      <style>
+        .swal2-styled.swal2-confirm {
+          font-size: 1.6rem;
+        }
+      </style>
+    </head>
+  </html>
+</html>
+
+
+<body>
+  <div id="app">
+    
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-反对中台"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  反对中台
+</h1>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2022/03/27/%E5%8F%8D%E5%AF%B9%E4%B8%AD%E5%8F%B0/" class="article-date">
+  <time datetime="2022-03-27T04:22:30.000Z" itemprop="datePublished">2022-03-27</time>
+</a>   
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> Word count:</span>
+            <span class="post-count">3.4k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> Reading time≈</span>
+            <span class="post-count">11 min</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p>起初我还不反对中台，当渐渐的被迫与中台慢慢打交道的时候，我深深的厌恶中台。可以说，中台是毒瘤。对待技术应当客观、有理论根据、讲事实。<br>如果你要反对一个东西你就要拿出必要的依据来证明你的反对是对的。</p>
+<h2 id="事实"><a href="#事实" class="headerlink" title="事实"></a>事实</h2><h3 id="中台在降低效率"><a href="#中台在降低效率" class="headerlink" title="中台在降低效率"></a>中台在降低效率</h3><p>我所体验的实际情况，我作为新业务技术经理，在处理订单支付这个非常普通都不能再普通的场景确遇到麻烦重重。</p>
+<p>首先，支付场景本质处理起来不麻烦,无非就是接入支付宝、微信支付，对接接口唤起支付。这本质是一个简单、普通的技术问题。<br>现在的问题是，不知道什么原因一定要接入技术中心的交易中台，而这个交易中台本身还要调用支付中台。</p>
+<p><img src="https://vison-blog.oss-cn-beijing.aliyuncs.com/20220327124440.png" alt=""></p>
+<p>在绝大多数企业都只需对接支付宝、微信渠道的情况下，由业务直接对接也并不是件耗时的事。</p>
+<p>现实情况是，由于需要对接中台。这当中需要提需求、需求PK、等待排期、2个团队沟通技术协议、协调发版，等等一系列的事情。<br>最要命的是可能你的需求被排到猴年马月，严重影响业务迭代计划。就算最理想的情况下，也比由业务方自己对接要慢。</p>
+<h3 id="中台在降低性能"><a href="#中台在降低性能" class="headerlink" title="中台在降低性能"></a>中台在降低性能</h3><p>由上面的调用链条可以看到，这其中多了2次的HTTP调用，系统调用链路拉长本身就使得性能损耗。</p>
+<h3 id="中台在制约系统稳定性"><a href="#中台在制约系统稳定性" class="headerlink" title="中台在制约系统稳定性"></a>中台在制约系统稳定性</h3><p>由于增加了系统调用，如果是同步调用，那么就意味着中台系统的故障会直接牵连接入业务的运行。一旦出现故障，业务只能干着急，等待恢复。</p>
+<blockquote>
+<p>献上铁索连环之计，各个大船连在一起，军队可以骑马在各个船上行动，如同平地，东吴只日可降也。俞数日，中台失火，殃及各线业务。仅未接入者，幸免。割须弃袍，败走华容道。</p>
+</blockquote>
+<p>这是某架构群里，一个大佬对于中台的评价。</p>
+<h2 id="理论"><a href="#理论" class="headerlink" title="理论"></a>理论</h2><p>大家都知道，中台概念源自于阿里。因此，我特意去看了《企业IT架构转型之道，阿里巴巴中台战略思想与架构实践》一书(名字有点场，后面统称《阿里中台》)。在实践中台或被迫接入中台的过程当中，我感受到中台带来的种种弊端。当时我在想，也许是我们实践得不对，也许中台本身就是个错误。本着反驳或求证的目的，阅读了这本书。</p>
+<p>看完后我写下了书评。</p>
+<blockquote>
+<p>起初看本书的目的是为了反驳或求证中台建设。实际上本书也没有讲清楚为何做中台建设，这一板块篇幅极其少。甚至本身不多的篇幅中表达的一些观点也天然矛盾。根据近来的一些信息，释放的抽象化薄化中台或多元化治理信号。我更愿意相信，中台更像政治任务而非技术架构。但是并不妨碍本书是一本优秀的分布式架构设计和亿级流量企业IT治理类书籍，提供了许多新思路参考。总之，这个世界上有很多问题就像翘翘板一样，只能要一边，这一边上去了，另边就下来了。不要过分神话或美化，不要宣扬救世主降临。</p>
+</blockquote>
+<p>也在某云计算群里回答别人疑问</p>
+<p><img src="https://vison-blog.oss-cn-beijing.aliyuncs.com/20220329225754.png" alt=""></p>
+<blockquote>
+<p>我的感觉是 做中台的决定应该是来自高层，非技术层主动提议。高层要效率，认为中台能解决效率问题。可实际上根本就会导致业务和中台的矛盾，业务要动，中台要稳。组织架构上的隔离也天然降低效率。根本是事与愿违的事情。</p>
+</blockquote>
+<h3 id="阿里中台"><a href="#阿里中台" class="headerlink" title="阿里中台"></a>阿里中台</h3><p>我们再来从这本书来看看<code>中台</code>。</p>
+<blockquote>
+<p>共享服务架构的建设使得阿里巴巴摆脱了因为”烟囱式”所带来的种种桎楛,最终成为阿里巴巴中台战略的核心组成。</p>
+</blockquote>
+<p>这里说的<code>共享服务架构</code>是中台战略的核心。</p>
+<p><img src="https://vison-blog.oss-cn-beijing.aliyuncs.com/20220329231118.png" alt="阿里巴巴共享服务架构"></p>
+<p>上图为阿里巴巴吧共享架构，可以看到阿里所有业务都是共用同一套用户、商品、交易、评价、营销体系。</p>
+<p>该书作者也认为，<code>SOA的本质就是服务重用</code>。</p>
+<p>看上去确实是服务、成果在复用，理论上来说可以达到降本增效的目的。</p>
+<p>那么SOA的本质目的是服务重用么？</p>
+<h3 id="SOA和微服务"><a href="#SOA和微服务" class="headerlink" title="SOA和微服务"></a>SOA和微服务</h3><blockquote>
+<p>以下指导原则是开发，维护和使用SOA的基本原则</p>
+</blockquote>
+<ul>
+<li>可重复使用、粒度、模块性、可组合型、对象化原件、构件化以及具交互操作性</li>
+<li>符合开放标准（通用的或行业的）</li>
+<li>服务的识别和分类，提供和发布，监控和跟踪。</li>
+</ul>
+<p><em>的确SOA提到了可重复使用。</em></p>
+<p>下面是一些特定的体系架构原则：</p>
+<ul>
+<li>服务封装</li>
+<li>服务松耦合（Loosely Coupled） - 服务之间的关系最小化，只是互相知道。</li>
+<li>服务契约 - 服务按照服务描述文档所定义的服务契约行事。</li>
+<li>服务抽象 - 除了服务契约中所描述的内容，服务将对外部隐藏逻辑。</li>
+<li>服务的重用性 - 将逻辑分布在不同的服务中，以提高服务的重用性。</li>
+<li>服务的可组合性 - 一组服务可以协调工作并组合起来形成一个组合服务。</li>
+<li>服务自治 – 服务对所封装的逻辑具有控制权</li>
+<li>服务无状态 – 服务将一个活动所需保存的信息最小化。</li>
+<li>服务的可被发现性 – 服务需要对外部提供描述信息，这样可以通过现有的发现机制发现并访问这些服务。</li>
+</ul>
+<p>我们看到服务重用只是SOA的众多原则的一个原则。看到这些列举的原则，我们会很容易想到另一个大热的技术名词”微服务”。</p>
+<p><img src="https://vison-blog.oss-cn-beijing.aliyuncs.com/Before-SOA-vs-After-SOA-The-diagram-shown-in-figure-24-provides-an-explanation-using.png" alt="SOA和单体架构"></p>
+<p>我们常常认为微服务是SOA的实现，谈论微服务我们总会拿<code>单体架构</code>与之对比。</p>
+<p>单体架构随着业务规模的增大暴露的问题:</p>
+<ol>
+<li>编译构建变慢</li>
+<li>难维护，代码量大交叉调用易出错</li>
+<li>难部署</li>
+<li>不容易扩展</li>
+<li>稳定性变差，一损俱损</li>
+</ol>
+<p>通过微服务，对单体应用的拆<em>分</em>，将单一、庞大化为分布、颗粒，能直接解决构建慢、代码庞大恐惧维护等问题。并且细粒度的对外服务也可以按需灵活拓展。</p>
+<p><img src="https://vison-blog.oss-cn-beijing.aliyuncs.com/20220329235239.png" alt="微服务"></p>
+<p>其实SOA本身是在讨论软件功能的服务化、解耦化，本质目的还是为了解决软件的构建、发布问题,在适当的条件下服务可以重复利用。它是软件模块化、OOP编程思想的演化。模块化编程固然有复用的原则，但不光是为了解决重用问题。它很大程度的意义还是提高可维护性。与MVC思想一样，模块化、结构化、层级化难道就是为了重用吗？</p>
+<p>所以首先，我反对SOA的本质就是重用的说法。</p>
+<p>为了重用而进行的架构，如果收益大于损失,那没有批评它的理由。结果导向，它是对的。</p>
+<p>但事实上，为了重用而把所有业务强行集中在一起,所有业务的看起来是同一个场景的功能强行走同一个系统。比如，所有业务的评价系统都走评价中台，所有业务的订单交易都走交易中台。<em>显然每个业务都有自己特殊的需求细节。</em> 中台不可能随时都能满足业务需求。《阿里中台》一书也讲到，”服务需要不断的业务滋养”并且”服务不需要业务稳定”。说明，他承认这一点,中台需要一直迭代才能满足业务。那么试问，既然需要迭代如何满足业务快速接入上线的需求，如何做到书中说的『赋予业务快速创新和试错能力』。</p>
+<p>更糟糕的问题是，一个中台如何同时满足多个业务的不同的新特性需求？于是就有了需求优先级、业务PK等等所谓的解决方案。那么，我们说的『赋予业务快速创新和试错能力』，能力在哪里？</p>
+<p>现在，我们看到了阿里中台就是为了复用，而把各个业务强行集中走同一个通道进行所谓的复用。我们所有其他技术概念都在讲的是“分”，分布式、MapReduce、Sharding、Partition、微服务、区块链,我一直认为技术有一个”道”,就是『分而治之』。然而,中台却是反其道的。</p>
+<p>阿里中台失败了，阿里张勇2021年12月6日的内部文摘:</p>
+<blockquote>
+<p>2015年起开始施行的“中台战略”，是过去几年集团最重要的组织战略。随着整个集团正在形成多业务引擎驱动未来增长的格局，面向未来，“多元化治理”将成为集团全新的组织战略。我们希望通过更多新型治理方式的探索，始终用生产关系的先进性来驱动先进生产力的释放，用组织的创新去驱动业务的创新。</p>
+</blockquote>
+<p>以及网络上MR.K的观点，中台适合做“组合式创新”，没法做“颠覆式创新”。<a target="_blank" rel="noopener" href="https://developer.51cto.com/art/202012/636807.htm">https://developer.51cto.com/art/202012/636807.htm</a></p>
+<p>何畏”多元化治理”？连系下我上文说的”分而治之”。</p>
+<h2 id="天然错误"><a href="#天然错误" class="headerlink" title="天然错误"></a>天然错误</h2><p>为什么我要说,中台根本是事与愿违的事情。中台的梦是重用，是降本增效。看看中台做了什么，中台组织与业务组织分属于不同的组织架构。</p>
+<p><em>不同的组织架构必然会增加沟通成本，降低协作效率。</em></p>
+<p>不同的组织架构,具体的职责目标必然是不一样的。不要说都属于同一个公司，都应有着共同的使命、愿景。但是事实上，真的可能那么容易做到么？业务部门追求的就是业务快速的上线、订单用户数据的增长。那么技术中台部门追求的是什么？他们追求的是稳定运行，不出错就是功。技术中台会更注重，存量高流量业务的系统稳定性。他们的KPI是99.999%,类似这样的稳定性指标。</p>
+<p>所以说，<em>不同的KPI决定了做事方向不会完全一致，效率肯定会打折扣。</em></p>
+<p>我们经常会高含『合力』的口号,高举共背KPI的旗号。我们要强调的东西，必然是不那么容易做到的东西。事实上，部门墙，合力难是所有公司乃至整个人类面临的难题。真的同一个世界、同一个梦想的话。北约也不会到处去部署导弹，现在俄罗斯也不会去干乌克兰了。</p>
+<p>再回过头看微服务，为什么要微服务？因为单体架构的缺陷,因为无限膨胀的隐患。那么所有业务全部集中走一个通道是在做什么？还是在做堆叠在膨胀。多业务接入的情况下还造成中台牵一发而动全身的局面。进而造成业务严重受中台牵连，中台臃肿不堪举步维艰，心理上害怕迭代，而业务本身需要中台支持迭代。</p>
+<h2 id="总结和客观"><a href="#总结和客观" class="headerlink" title="总结和客观"></a>总结和客观</h2><h3 id="客观"><a href="#客观" class="headerlink" title="客观"></a>客观</h3><p>客观上，现在有很多反对中台的言论和文章,这里我随便列举2个。</p>
+<ol>
+<li><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/tfxXbVI6JoZ2KfS-6fOOIw">https://mp.weixin.qq.com/s/tfxXbVI6JoZ2KfS-6fOOIw</a></li>
+<li><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/9j3BnR3UqA-lnJDoM5Hrvg">https://mp.weixin.qq.com/s/9j3BnR3UqA-lnJDoM5Hrvg</a></li>
+</ol>
+<p>以及还有的正在做中台，但是发现了问题的。比如有赞：</p>
+<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/Lew0tQcfyupe1KGjtu0XoQ">https://mp.weixin.qq.com/s/Lew0tQcfyupe1KGjtu0XoQ</a></p>
+<p>里面也提到了<em>需求规划困难，阻碍业务发展</em></p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ol>
+<li>『复用增效』逻辑正确，但是不能极端功利。完全为了复用的架构，必然会产生问题,软件的目的始终是解决人类的现实需求。何畏架构？</li>
+</ol>
+<blockquote>
+<p>软件架构设计的主要目标是支撑软件系统的生命周期，设计良好的架构可以让系统便于理解、易于修改、方便维护，并且能轻松部署。软件架构的终极目标是最大化程序员的生产力，同时最小化系统的总运营成本。–《架构整洁之道》</p>
+</blockquote>
+<ol start="2">
+<li><p>中台也并不完全错误，我认为运维中台完全成立。像devops这类与具体业务关联性甚少的基础设施，完全可以做成中台复用。但是一旦关联到具体业务的东西，必须慎重做成中台。</p>
+</li>
+<li><p>微服务是公司规模化发展的必然之路，中台不是。</p>
+</li>
+</ol>
+<p>最后,个人愚见仅供参考。</p>
+ 
+      <!-- reward -->
+      
+      <div id="reword-out">
+        <div id="reward-btn">
+          Donate
+        </div>
+      </div>
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>Copyright： </strong>
+          
+          Copyright is owned by the author. For commercial reprints, please contact the author for authorization. For non-commercial reprints, please indicate the source.
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://visonforcoding.xyz/2022/03/27/%E5%8F%8D%E5%AF%B9%E4%B8%AD%E5%8F%B0/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+    
+      <a href="/2022/02/25/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%AD%E9%97%B4%E4%BB%B6shardingsphere/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">数据库中间件shardingsphere-proxy</div>
+      </a>
+    
+  </nav>
+
+   
+<!-- valine评论 -->
+<div id="vcomments-box">
+  <div id="vcomments"></div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js"></script>
+<script>
+  new Valine({
+    el: "#vcomments",
+    app_id: "",
+    app_key: "",
+    path: window.location.pathname,
+    avatar: "monsterid",
+    placeholder: "给我的文章加点评论吧~",
+    recordIP: true,
+  });
+  const infoEle = document.querySelector("#vcomments .info");
+  if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+    infoEle.childNodes.forEach(function (item) {
+      item.parentNode.removeChild(item);
+    });
+  }
+</script>
+<style>
+  #vcomments-box {
+    padding: 5px 30px;
+  }
+
+  @media screen and (max-width: 800px) {
+    #vcomments-box {
+      padding: 5px 0px;
+    }
+  }
+
+  #vcomments-box #vcomments {
+    background-color: #fff;
+  }
+
+  .v .vlist .vcard .vh {
+    padding-right: 20px;
+  }
+
+  .v .vlist .vcard {
+    padding-left: 10px;
+  }
+</style>
+
+ 
+   
+     
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2015-2022
+        <i class="ri-heart-fill heart_icon"></i> vison
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        <span>
+  <span><i class="ri-user-3-fill"></i>Visitors:<span id="busuanzi_value_site_uv"></span></span>
+  <span class="division">|</span>
+  <span><i class="ri-eye-fill"></i>Views:<span id="busuanzi_value_page_pv"></span></span>
+</span>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+        <script type="text/javascript" src='https://s9.cnzz.com/z_stat.php?id=1278069914&amp;web_id=1278069914'></script>
+        
+      </li>
+    </ul>
+  </div>
+</footer>    
+    </main>
+    <div class="float_btns">
+      <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+    </div>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/ayer-side.svg" alt="麦田麦穗"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags/%E6%97%85%E8%A1%8C/">旅行</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" target="_blank" rel="noopener" href="http://shenyu-vip.lofter.com">摄影</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/friends">友链</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">关于我</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/null">Gallery</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+      <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+        <i class="ri-rss-line"></i>
+      </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>Buy me a cup of coffee~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/alipay.jpeg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/wallet.png">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-3.6.0.min.js"></script>
+ 
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+ 
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: ".tocbot",
+    contentSelector: ".article-entry",
+    headingSelector: "h1, h2, h3, h4, h5, h6",
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: "main",
+    positionFixedSelector: ".tocbot",
+    positionFixedClass: "is-position-fixed",
+    fixedSidebarOffset: "auto",
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css"
+/>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+ <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script> 
+<!-- MathJax -->
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+ 
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+ 
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+ 
+<link rel="stylesheet" href="/css/clipboard.css">
+ <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+ 
+<!-- CanvasBackground -->
+
+<script>
+  if (window.mermaid) {
+    mermaid.initialize({ theme: "forest" });
+  }
+</script>
+
+
+    
+    
+
+  </div>
+</body>
+
+</html>

@@ -11,7 +11,7 @@
         name="viewport"
         content="width=device-width, initial-scale=1, maximum-scale=1"
       />
-      <title>用phpunit进行单元测试 |  麦田麦穗</title>
+      <title>流程|用phpunit进行单元测试 |  麦田麦穗</title>
   <meta name="generator" content="hexo-theme-ayer">
       
       <link rel="shortcut icon" href="/favicon.ico" />
@@ -65,7 +65,7 @@
     <header class="article-header">
        
 <h1 class="article-title sea-center" style="border-left:0" itemprop="name">
-  用phpunit进行单元测试
+  流程|用phpunit进行单元测试
 </h1>
  
 
@@ -81,7 +81,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">620</span>
+            <span class="post-count">840</span>
         </span>
     </span>
 
@@ -90,7 +90,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> Reading time≈</span>
-            <span class="post-count">2 min</span>
+            <span class="post-count">3 min</span>
         </span>
     </span>
 </div>
@@ -105,7 +105,7 @@
   
     <div class="article-entry" itemprop="articleBody">
        
-  <p>最近读了一本书《clean code》。深有感悟，感觉非常接底气，讲到了日常编码中真正遇到的困扰。大致我总结下就是要做几件事：</p>
+  <p>最近读了一本书《clean code》。深有感悟，感觉非常接地气，讲到了日常编码中真正遇到的困扰。大致我总结下就是要做几件事：</p>
 <ul>
 <li>重构，定期重构，保持重构</li>
 <li>clean code,编写整洁、易维护的代码</li>
@@ -149,7 +149,8 @@
 <li><code>tests</code>作为测试用例目录</li>
 <li><code>bootstrap.php</code>是phpunit的启动加载文件，用于做些全局的初始化动作，比如加载autoload.</li>
 </ul>
-<h3 id="执行测试"><a href="#执行测试" class="headerlink" title="执行测试"></a>执行测试</h3><pre class="language-shell" data-language="shell"><code class="language-shell">phpunit --bootstrap tests/bootstrap.php --verbose tests/case </code></pre>
+<h3 id="执行测试"><a href="#执行测试" class="headerlink" title="执行测试"></a>执行测试</h3><pre class="language-shell" data-language="shell"><code class="language-shell">phpunit --bootstrap tests&#x2F;bootstrap.php --verbose tests&#x2F;case </code></pre>
+
 <p>该命令是执行测试 tests/case下的所有测试用例文件，当然你也可以具体到只执行单个文件。</p>
 <p><code>--bootstrap</code></p>
 <p>加载启动文件</p>
@@ -163,6 +164,21 @@
 <p><code>--configuration</code>、<code>-c</code></p>
 <p>从 XML 文件中读取配置信息。</p>
 <p>如果<code>phpunit.xml</code> 或 <code>phpunit.xml.dist</code>（按此顺序）存在于当前工作目录并且未使用 <code>--configuration</code>，将自动从此文件中读取配置。</p>
+<h2 id="覆盖率"><a href="#覆盖率" class="headerlink" title="覆盖率"></a>覆盖率</h2><pre class="language-shell" data-language="shell"><code class="language-shell">phpunit -d memory_limit&#x3D;256M tests&#x2F;Unit&#x2F;TestMessage.php --coverage-html .&#x2F;tests&#x2F;html --whitelist app&#x2F;Services&#x2F;MessageService.php</code></pre>
+
+<p>带上<code>--coverage-html</code>选项后,phpunit会生成覆盖率检测报告。使用者可以以此来查看项目代码当中,被测试的情况。哪些代码经过了测试，哪些未被测试。</p>
+<p><img src="https://vison-blog.oss-cn-beijing.aliyuncs.com/20220406134808.png" alt=""></p>
+<p>如上图，展示了方法的测试覆盖情况。有1个覆盖率是0,另一个是100%。</p>
+<p>为什么方法还有覆盖百分比？ 一个方法有不同逻辑条件流程，测试参数不一定能把所以的逻辑覆盖到。可能测试了<code>if</code>的情况,<code>else</code>的并未覆盖到。所以有的时候,测试用例需要对一个测试方法进行多次调用测试。</p>
+<pre class="language-php" data-language="php"><code class="language-php"><span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function-definition function">testFoo</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token variable">$service</span> <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ExampleService</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token variable">$r</span> <span class="token operator">=</span> <span class="token variable">$service</span><span class="token operator">-></span><span class="token function">foo</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">33</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token variable">$this</span><span class="token operator">-></span><span class="token function">assertIsInt</span><span class="token punctuation">(</span><span class="token variable">$r</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token variable">$r</span> <span class="token operator">=</span> <span class="token variable">$service</span><span class="token operator">-></span><span class="token function">foo</span><span class="token punctuation">(</span><span class="token number">12</span><span class="token punctuation">,</span><span class="token number">33</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token variable">$this</span><span class="token operator">-></span><span class="token function">assertIsInt</span><span class="token punctuation">(</span><span class="token variable">$r</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token punctuation">&#125;</span></code></pre>
  
       <!-- reward -->
       

@@ -85,6 +85,80 @@
     
     
     <article
+  id="post-基础-websocket协议"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2022/04/06/%E5%9F%BA%E7%A1%80-websocket%E5%8D%8F%E8%AE%AE/"
+    >基础|websocket协议</a> 
+</h2>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2022/04/06/%E5%9F%BA%E7%A1%80-websocket%E5%8D%8F%E8%AE%AE/" class="article-date">
+  <time datetime="2022-04-06T06:54:02.000Z" itemprop="datePublished">2022-04-06</time>
+</a>    
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h2 id="历史"><a href="#历史" class="headerlink" title="历史"></a>历史</h2><ul>
+<li>2008年,<code>websocket</code>首次提出来是在HTML5规范里。</li>
+<li>2009年12也，chrome浏览器第一个支持了websocket标准。</li>
+</ul>
+<h2 id="浏览器支持情况"><a href="#浏览器支持情况" class="headerlink" title="浏览器支持情况"></a>浏览器支持情况</h2><p><img src="https://vison-blog.oss-cn-beijing.aliyuncs.com/20220406150025.png" alt=""></p>
+<p>到2011年，市面上所有的浏览器都支持了websocket.</p>
+<h2 id="协议"><a href="#协议" class="headerlink" title="协议"></a>协议</h2><p>客户端请求</p>
+<pre class="language-none"><code class="language-none">GET &#x2F;chat HTTP&#x2F;1.1
+Host: server.example.com
+Upgrade: websocket
+Connection: Upgrade
+Sec-WebSocket-Key: x3JJHMbDL1EzLkh9GBhXDw&#x3D;&#x3D;
+Sec-WebSocket-Protocol: chat, superchat
+Sec-WebSocket-Version: 13
+Origin: http:&#x2F;&#x2F;example.com</code></pre>
+
+<p>服务应答</p>
+<pre class="language-none"><code class="language-none">HTTP&#x2F;1.1 101 Switching Protocols
+Upgrade: websocket
+Connection: Upgrade
+Sec-WebSocket-Accept: HSmrc0sMlYUkAGmm5OPpG2HaGWk&#x3D;
+Sec-WebSocket-Protocol: chat</code></pre>
+
+<p>websocket由http协议升级而成，client的请求头必须包含<code>Upgrade: websocket</code></p>
+<p>除了 Upgrade 头部外，客户端还发送一个包含 base64编码的随机字节的 <code>Sec-WebSocket-Key</code> 头部，服务器用 <code>Sec-WebSocket-Accept</code>头部中的密钥散列作为响应。这是为了防止缓存代理重新发送以前的 WebSocket 对话，并且不提供任何身份验证、隐私或完整性。散列函数将固定字符串<code>258eafa5-e914-47da-95ca-c5ab0dc85b11</code>(一个 UUID)附加到来自 Sec-WebSocket-Key 报头的值(不从 base64解码) ，应用 sha-1散列函数，并使用 base64对结果进行编码。</p>
+<p><code>Rfc6455</code>标准要求密钥必须是一个 nonce，由随机选择的16字节值组成，该值已经以 base64编码，即 base64中的24字节(最后两个字节为 = =)。虽然一些宽松的 HTTP 服务器允许显示较短的密钥，但许多现代 HTTP 服务器会拒绝请求，并出现错误“无效的 Sec-WebSocket-Key 标头”。</p>
+<p>一旦连接建立起来，客户端和服务器就可以以全双工模式来回发送 WebSocket 数据或文本帧。</p>
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2> 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+    </footer>
+  </div>
+
+    
+ 
+    
+</article>
+
+    
+    <article
   id="post-反对中台"
   class="article article-type-post"
   itemscope
@@ -97,7 +171,7 @@
        
 <h2 itemprop="name">
   <a class="article-title" href="/2022/03/27/%E5%8F%8D%E5%AF%B9%E4%B8%AD%E5%8F%B0/"
-    >反对中台</a> 
+    >架构|反对中台</a> 
 </h2>
  
 
@@ -204,7 +278,7 @@
        
 <h2 itemprop="name">
   <a class="article-title" href="/2022/02/23/%E9%98%BF%E9%87%8Cmysql%E4%B8%AD%E9%97%B4%E4%BB%B6%E5%A4%9A%E8%A1%A8%E6%9F%A5%E8%AF%A2%E6%A8%A1%E5%9E%8B/"
-    >阿里mysql中间件多表查询模型</a> 
+    >数据|阿里mysql中间件多表查询模型</a> 
 </h2>
  
 
@@ -652,64 +726,6 @@
     <footer class="article-footer">
        
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/PHP/" rel="tag">PHP</a></li></ul>
-
-    </footer>
-  </div>
-
-    
- 
-    
-</article>
-
-    
-    <article
-  id="post-java/Intercetors-记录请求日志"
-  class="article article-type-post"
-  itemscope
-  itemprop="blogPost"
-  data-scroll-reveal
->
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2021/12/02/java/Intercetors-%E8%AE%B0%E5%BD%95%E8%AF%B7%E6%B1%82%E6%97%A5%E5%BF%97/"
-    >Servlet Filiter 和 Spring Intercetors,记录请求日志</a> 
-</h2>
- 
-
-      
-    </header>
-     
-    <div class="article-meta">
-      <a href="/2021/12/02/java/Intercetors-%E8%AE%B0%E5%BD%95%E8%AF%B7%E6%B1%82%E6%97%A5%E5%BF%97/" class="article-date">
-  <time datetime="2021-12-02T02:46:17.000Z" itemprop="datePublished">2021-12-02</time>
-</a>    
-    </div>
-      
-    <div class="article-entry" itemprop="articleBody">
-       
-  <blockquote>
-<p>在前面的文章我们有看到Servlet Filiter的作用。与之类似的Spring中我们知道有拦截器Intercetors。</p>
-</blockquote>
-<p>现在有1个需求，记录request的所有请求信息，URL、请求方法、请求体。我们自然而然会想到使用<code>Filiter</code>或<code>Intercetors</code></p>
-<p><img src="https://vison-blog.oss-cn-beijing.aliyuncs.com/20211201133516.png" alt=""></p>
-<p><code>Filiter</code>和<code>Intercetors</code>的区别在于所执行的时间点不同，但都在到达controller之前。看起来二者都可以完成这个需求。</p> 
-      <a class="article-more-link" href="/2021/12/02/java/Intercetors-%E8%AE%B0%E5%BD%95%E8%AF%B7%E6%B1%82%E6%97%A5%E5%BF%97/"
-        >阅读更多...</a
-      >
-       
-      <!-- reward -->
-      
-    </div>
-    
-
-    <!-- copyright -->
-    
-    <footer class="article-footer">
-       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li></ul>
 
     </footer>
   </div>

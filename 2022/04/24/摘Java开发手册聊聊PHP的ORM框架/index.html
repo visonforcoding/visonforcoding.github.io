@@ -81,7 +81,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">1.6k</span>
+            <span class="post-count">1.8k</span>
         </span>
     </span>
 
@@ -90,7 +90,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> Reading time≈</span>
-            <span class="post-count">6 min</span>
+            <span class="post-count">7 min</span>
         </span>
     </span>
 </div>
@@ -258,10 +258,20 @@
 <p>有两点需要特别注意的是我们需要解决嵌套和数组的映射问题。<br><code>ArrayDenormalizer</code>和<code>PhpDocExtractor</code>需要被用到。<br>正如网上有的人说的，<code>Serializer</code>是一个强大并复杂的组件。要用好它，需要花些时间了解。</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>这样，通过doctrine和atlas的配合使用，CUD使用doctrine，R使用atlas+ObjectMapper。基本解决了我的问题和一直一来坚持的几个原则。</p>
 <ul>
-<li>80%的工作在处理数据，因此需要一个非常用得习惯的<code>ActiveRecord</code>框架。</li>
-<li>用对象少用PHP Array,把POPO用起来。</li>
-<li>少使用join</li>
-<li>不使用外键</li>
+<li><p>80%的工作在处理数据，因此需要一个非常用得习惯的<code>ActiveRecord</code>框架。</p>
+</li>
+<li><p>用对象少用PHP Array,把POPO用起来。</p>
+</li>
+<li><p>少使用join</p>
+</li>
+<li><p>不使用外键</p>
+<h2 id="补充问题"><a href="#补充问题" class="headerlink" title="补充问题"></a>补充问题</h2></li>
+<li><p>实际使用中发现<code>atlas</code> 会产生大量的依赖文件，感觉没必要。其实使用cakephp一样能达到目的。</p>
+</li>
+<li><p>多个ORM框架在一起使用时事务可能产生问题，建议还是使用一个ORM框架。doctrine entity只用于对象映射。封装一层通用方法，同样能进行对象CUD操作。</p>
+</li>
+<li><p><code>cakephp</code>没有hook在自定义日志和事件上面不好处理</p>
+</li>
 </ul>
  
       <!-- reward -->
@@ -343,6 +353,15 @@
 
    
   <nav class="article-nav">
+    
+      <a href="/2022/05/08/php-in-feature/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            php in feature
+          
+        </div>
+      </a>
     
     
       <a href="/2022/04/21/%E4%BB%8Ewebsocket%E7%BD%91%E5%85%B3%E8%B0%88%E8%B0%88Java%E5%92%8CPHP/" class="article-nav-link">

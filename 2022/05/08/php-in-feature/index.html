@@ -11,7 +11,7 @@
         name="viewport"
         content="width=device-width, initial-scale=1, maximum-scale=1"
       />
-      <title>PHPStorm使用配置 |  麦田麦穗</title>
+      <title>php in feature |  麦田麦穗</title>
   <meta name="generator" content="hexo-theme-ayer">
       
       <link rel="shortcut icon" href="/favicon.ico" />
@@ -54,7 +54,7 @@
     <main class="content on">
       <section class="outer">
   <article
-  id="post-PHPStorm使用配置"
+  id="post-php-in-feature"
   class="article article-type-post"
   itemscope
   itemprop="blogPost"
@@ -65,7 +65,7 @@
     <header class="article-header">
        
 <h1 class="article-title sea-center" style="border-left:0" itemprop="name">
-  PHPStorm使用配置
+  php in feature
 </h1>
  
 
@@ -73,15 +73,15 @@
     </header>
      
     <div class="article-meta">
-      <a href="/2021/09/24/PHPStorm%E4%BD%BF%E7%94%A8%E9%85%8D%E7%BD%AE/" class="article-date">
-  <time datetime="2021-09-24T09:34:26.000Z" itemprop="datePublished">2021-09-24</time>
+      <a href="/2022/05/08/php-in-feature/" class="article-date">
+  <time datetime="2022-05-08T02:45:20.000Z" itemprop="datePublished">2022-05-08</time>
 </a>   
 <div class="word_count">
     <span class="post-time">
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">262</span>
+            <span class="post-count">1.2k</span>
         </span>
     </span>
 
@@ -90,7 +90,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> Reading time≈</span>
-            <span class="post-count">1 min</span>
+            <span class="post-count">5 min</span>
         </span>
     </span>
 </div>
@@ -105,18 +105,83 @@
   
     <div class="article-entry" itemprop="articleBody">
        
-  <p>最近又开始使用PHPStorm了，为什么是”又”？因为断断续续使用过几次，都中断过。要破解感觉还是麻烦，一直使用netbeans也感觉没什么问题。</p>
-<p>由于最近在考虑<code>doctrine\annotation</code>,netbeans的支持能力还是不足，所以又开始体验<code>phpstorm</code>。<br>几个在netbeans里喜欢的功能，千方百计开始在phpstorm找回来,以下是记录。</p>
+  <p>当你不在只是需要简单的把数据库当中的数据展示到web页面的时候，PHP变得非常的捉襟见肘了。不过PHP生态还是有很多非常努力的贡献者或联盟，来让PHP的开发效率或性能变得更好。本文就是来收录这些PHP生态的项目。</p>
 <span id="more"></span>
 
-<h2 id="项目名显示git分支"><a href="#项目名显示git分支" class="headerlink" title="项目名显示git分支"></a>项目名显示git分支</h2><p><img src="https://vison-blog.oss-cn-beijing.aliyuncs.com/20210924174001.png" alt=""></p>
-<p>如图，由于经常切换分支。有时候可能会在错误的分支上进行开发，项目名后面标上分支名这个功能我很喜欢。</p>
-<p>发现phpstorm使用<code>GitToolBox</code>可以解决。</p>
-<h2 id="关闭显示项目路径"><a href="#关闭显示项目路径" class="headerlink" title="关闭显示项目路径"></a>关闭显示项目路径</h2><p>但是还有个问题是，项目名会显示项目地址，这点很烦。可以通过自定义phpstorm属性办到。<br>打开 Help/Edit Custom Properties…<br>新建 idea.properties file</p>
-<pre class="language-ini" data-language="ini"><code class="language-ini"><span class="token key attr-name">project.tree.structure.show.url</span><span class="token punctuation">=</span><span class="token value attr-value">false</span>
-<span class="token key attr-name">ide.tree.horizontal.default.autoscrolling</span><span class="token punctuation">=</span><span class="token value attr-value">false</span></code></pre>
+<h2 id="thephpleague"><a href="#thephpleague" class="headerlink" title="thephpleague"></a>thephpleague</h2><p><strong>官网</strong> <a target="_blank" rel="noopener" href="https://thephpleague.com/">https://thephpleague.com/</a></p>
+<blockquote>
+<p>The League of Extraordinary Packages is a group of developers who have banded together to build solid, well tested PHP packages using modern coding standards.</p>
+</blockquote>
+<h2 id="reactphp"><a href="#reactphp" class="headerlink" title="reactphp"></a>reactphp</h2><p><strong>官网</strong> <a target="_blank" rel="noopener" href="https://reactphp.org/">https://reactphp.org/</a></p>
+<p>这可能是纯php生态(区别c扩展)对php影响最大的项目了。</p>
+<blockquote>
+<p>Its event-driven architecture makes it a perfect fit for efficient network servers and clients handling hundreds or thousands of concurrent connections, long-running applications and many other forms of cooperative multitasking with non-blocking I/O operations.<br>事件驱动架构让它可以完美支持成百上千链接的网络服务、长运行、多任务和其他的非阻塞IO的操作应用。</p>
+</blockquote>
+<blockquote>
+<p>The event loop is based on the reactor pattern (hence the name) and strongly inspired by libraries such as EventMachine (Ruby), Twisted (Python) and Node.js (V8).<br>很多的灵感来自于，<code>ruby</code>的EventMachine、<code>python</code>的Twisted、<code>node.js</code>的v8.<br>再来看看官网上对自己的评价：</p>
+</blockquote>
+<ul>
+<li><strong>Production ready</strong> and battle-tested.  预备生产和经过战斗测试</li>
+<li>*<em>Rock-solid *</em> with stable long-term support (LTS) releases. 坚如磐石并长期稳定支持版本</li>
+<li><strong>Requires no extensions</strong> and runs on any platform - no excuses! 不依赖PHP扩展</li>
+<li>Takes advantage of <strong>optional extensions</strong> to get better performance when available. 在必要的时候有可选扩展能提高性能</li>
+<li><strong>Supports latest version of PHP 8+ and PHP 7+</strong> for best performance and support.  支持最新的版本</li>
+<li>Still supports <strong>legacy PHP 5.3</strong>+ and HHVM for maximum compatibility. 历史的php5.3依然支持</li>
+<li>*<em>Well designed *</em>and reusable components. 良好的设计和组件可复用化</li>
+<li><strong>Decoupled parts</strong> so they can be replaced by alternate implementations. 组件可分离替换</li>
+<li><strong>Carefully tested</strong> (unit &amp; functional).  谨慎的测试</li>
+<li>Promotes** standard PSRs** where possible for maximum interoperability.  遵守PSR</li>
+<li>Aims to be <strong>technology neutra</strong>l, so you can use your preferred application stack  技术中立</li>
+<li>Small <strong>core team of professionals</strong> supported by *<em>large network *</em>of outside contributors.  小规模的核心技术团队和大规模的网络贡献者。保质也保量。</li>
+</ul>
+<h3 id="案例"><a href="#案例" class="headerlink" title="案例"></a>案例</h3><p><strong>问题</strong> 我们的线上redis 统一都设置了timeout,只要client在timeout内都处于idle状态就会被close。 这是一种保护connection资源的方式，无可厚非。我们有许多的常驻进程需要处理异步类的任务。有基于<code>while true</code>的定时轮询，只要轮询周期小于timeout则都不会出现idle超时而被close的情况。</p>
+<blockquote>
+<p>if the client is idle for more than the specified number of seconds, the client connection will be closed.<br><a target="_blank" rel="noopener" href="https://redis.io/docs/reference/clients/#client-timeouts">https://redis.io/docs/reference/clients/#client-timeouts</a></p>
+</blockquote>
+<p>另外一种情况是我们有许多是订阅<code>rabbitmq</code>的进程。只要在timeout内都没有消息从mq过来，则redis client实例对象的连接将一直处于idle状态而被close。等到再来消息，则原先的连接已经时处于被断开状态，而导致业务代码在读取redis数据时发生<code>ConnectionException</code>。</p>
+<p>其实要解决这2个问题应该有2个办法。</p>
+<ol>
+<li>每次的消息消费都使用新的redis client实例，即依赖注入的redis对象不能时单例的。每次都是重新进行连接操作。</li>
+<li>在timeout内定时向server发送heartbeat，告诉它我还活着，别把老子丢下。</li>
+</ol>
+<p><img src="https://vison-blog.oss-cn-beijing.aliyuncs.com/20220508204048.png" alt="donleaveme"></p>
+<p>首先第一个解决办法，每次都是重连一定会有性能损耗，而且如果连接不注意close会引发连接资源耗尽问题。<br>第二个解决办法应该是最合理的，但问题是对于PHP这种极少进行异步操作的语言来说。这个简单的需求都变得非常不简单。因为如果时定时轮询去发送heartbeat使用<code>while true</code>，则进程会阻塞在这里，根本不能再做其他的操作了。对于java而言，重新打开一个线程去轮询发送心跳就是了，根本不是个问题。<br>而对于PHP来说，可太难了，线程扩展已经废弃。多进程之间又不能共享对象。<br>我们需要<code>non-blocking I/O operations</code>，没错<code>reactphp</code>说它可以。<br>我试了下，还真的可以。</p>
+<pre class="language-php" data-language="php"><code class="language-php"><span class="token keyword">protected</span> <span class="token keyword">function</span> <span class="token function-definition function">execute</span><span class="token punctuation">(</span><span class="token class-name type-declaration">InputInterface</span> <span class="token variable">$input</span><span class="token punctuation">,</span> <span class="token class-name type-declaration">OutputInterface</span> <span class="token variable">$output</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token variable">$redis</span> <span class="token operator">=</span> <span class="token variable">$this</span><span class="token operator">-></span><span class="token property">redis</span><span class="token punctuation">;</span>
+        <span class="token comment">//启动一个非阻塞事件循环</span>
+        <span class="token variable">$timer</span> <span class="token operator">=</span> <span class="token class-name static-context">Loop</span><span class="token operator">::</span><span class="token function">addPeriodicTimer</span><span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token keyword">use</span><span class="token punctuation">(</span><span class="token variable">$redis</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token comment">//每隔5秒发送一个ping</span>
+            <span class="token variable">$this</span><span class="token operator">-></span><span class="token function">redisCheckHealth</span><span class="token punctuation">(</span><span class="token variable">$redis</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">dump</span><span class="token punctuation">(</span><span class="token variable">$redis</span><span class="token operator">-></span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string single-quoted-string">'foo'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">dump</span><span class="token punctuation">(</span><span class="token variable">$this</span><span class="token operator">-></span><span class="token function">redisCheckHealth</span><span class="token punctuation">(</span><span class="token variable">$redis</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">sleep</span><span class="token punctuation">(</span><span class="token number">12</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token variable">$this</span><span class="token operator">-></span><span class="token function">redisCheckHealth</span><span class="token punctuation">(</span><span class="token variable">$redis</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token function">dump</span><span class="token punctuation">(</span><span class="token string single-quoted-string">'reconnect'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token variable">$redis</span><span class="token operator">-></span><span class="token function">connect</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token variable">$cmdSet</span> <span class="token operator">=</span> <span class="token variable">$redis</span><span class="token operator">-></span><span class="token function">createCommand</span><span class="token punctuation">(</span><span class="token string single-quoted-string">'config'</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token string single-quoted-string">'get'</span><span class="token punctuation">,</span> <span class="token string single-quoted-string">'timeout'</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token variable">$cmdSetReply</span> <span class="token operator">=</span> <span class="token variable">$redis</span><span class="token operator">-></span><span class="token function">executeCommand</span><span class="token punctuation">(</span><span class="token variable">$cmdSet</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">dump</span><span class="token punctuation">(</span><span class="token variable">$cmdSetReply</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token class-name static-context">Command</span><span class="token operator">::</span><span class="token constant">SUCCESS</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
 
-<h2 id="隐藏nbproject"><a href="#隐藏nbproject" class="headerlink" title="隐藏nbproject"></a>隐藏nbproject</h2><p>nbproject是netbeans的配置文件夹,在phpstorm项目中显示非常难受。<br>Preferences-&gt;File Types -&gt; Files and Folders to Ignore.</p>
+    <span class="token comment">/**
+     * @param Client $redis
+     */</span>
+    <span class="token keyword">private</span> <span class="token keyword">function</span> <span class="token function-definition function">redisCheckHealth</span><span class="token punctuation">(</span><span class="token variable">$redis</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token keyword">try</span> <span class="token punctuation">&#123;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token variable">$redis</span><span class="token operator">-></span><span class="token function">ping</span><span class="token punctuation">(</span><span class="token string double-quoted-string">"hello"</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token string double-quoted-string">"hello"</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                <span class="token keyword">return</span> <span class="token constant boolean">true</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span>
+        <span class="token punctuation">&#125;</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">ConnectionException</span> <span class="token variable">$exception</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token keyword">return</span> <span class="token constant boolean">false</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token keyword">return</span> <span class="token constant boolean">false</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span></code></pre>
+<p>我设置了redis 的timeout 为10s,结果发现<code>Loop::addPeriodicTimer</code>的事件循环并没有阻塞后面的代码，并且每隔5s发送了ping 。在12s后连接依然可用。</p>
  
       <!-- reward -->
       
@@ -187,12 +252,12 @@
     <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://visonforcoding.xyz/2021/09/24/PHPStorm%E4%BD%BF%E7%94%A8%E9%85%8D%E7%BD%AE/" alt="微信分享二维码">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://visonforcoding.xyz/2022/05/08/php-in-feature/" alt="微信分享二维码">
     </div>
 </div>
 
 <div id="share-mask"></div>  
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6/" rel="tag">软件</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/php/" rel="tag">php</a></li></ul>
 
     </footer>
   </div>
@@ -200,19 +265,10 @@
    
   <nav class="article-nav">
     
-      <a href="/2021/11/28/java/servlet%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="article-nav-link">
-        <strong class="article-nav-caption">上一篇</strong>
-        <div class="article-nav-title">
-          
-            servlet | servlet学习笔记
-          
-        </div>
-      </a>
     
-    
-      <a href="/2021/09/09/%E5%86%99%E5%A5%BD%E4%BB%A3%E7%A0%81%E7%9A%84%E4%B8%83%E7%A7%8D%E6%AD%A6%E5%99%A8%E4%B9%8B%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5/" class="article-nav-link">
+      <a href="/2022/04/24/%E6%91%98Java%E5%BC%80%E5%8F%91%E6%89%8B%E5%86%8C%E8%81%8A%E8%81%8APHP%E7%9A%84ORM%E6%A1%86%E6%9E%B6/" class="article-nav-link">
         <strong class="article-nav-caption">下一篇</strong>
-        <div class="article-nav-title">写好代码的七种武器之依赖注入</div>
+        <div class="article-nav-title">摘阿里Java开发手册聊聊PHP的ORM框架</div>
       </a>
     
   </nav>

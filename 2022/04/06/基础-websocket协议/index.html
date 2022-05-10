@@ -81,7 +81,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">1k</span>
+            <span class="post-count">1.3k</span>
         </span>
     </span>
 
@@ -90,7 +90,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> Reading time≈</span>
-            <span class="post-count">5 min</span>
+            <span class="post-count">6 min</span>
         </span>
     </span>
 </div>
@@ -268,7 +268,82 @@ Sec-WebSocket-Protocol: chat</code></pre>
 <p>这里我们看到,我们在建立<code>websocket</code>连接之后，使用了一个轮训的方式进行数据读取和处理。</p>
 <p>这与浏览器端友好的事件驱动形的API不同。那么如何实现服务端的事件驱动呢?</p>
 <p>后续还需要继续探讨。</p>
- 
+<h2 id="事件驱动API"><a href="#事件驱动API" class="headerlink" title="事件驱动API"></a>事件驱动API</h2><p>我们了解到浏览器端的websocket API是十分的便利的。</p>
+<pre class="language-javascript" data-language="javascript"><code class="language-javascript"><span class="token comment">// Create WebSocket connection.</span>
+<span class="token keyword">const</span> socket <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">WebSocket</span><span class="token punctuation">(</span><span class="token string">'ws://localhost:8080'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Connection opened</span>
+socket<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'open'</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">event</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    socket<span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span><span class="token string">'Hello Server!'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Listen for messages</span>
+socket<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'message'</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">event</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Message from server '</span><span class="token punctuation">,</span> event<span class="token punctuation">.</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>相较于上面用java socket 实现的websocket server版本事件驱动型的API让程序开发变得更容易。</p>
+<h3 id="PHP实现"><a href="#PHP实现" class="headerlink" title="PHP实现"></a>PHP实现</h3><p><code>cboden/ratchet</code>也是基于事件驱动的websocket实现。<a target="_blank" rel="noopener" href="http://socketo.me/">ratchet</a></p>
+<p>我基于自己的<code>wonfu</code>框架集成进去写了个demo测试</p>
+<pre class="language-php" data-language="php"><code class="language-php"><span class="token comment">## wsserver</span>
+        <span class="token variable">$handler</span> <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Mychat</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token variable">$handler</span><span class="token operator">-></span><span class="token function">setRedis</span><span class="token punctuation">(</span><span class="token variable">$this</span><span class="token operator">-></span><span class="token property">redis</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token variable">$ws</span> <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">RatchetWsServer</span><span class="token punctuation">(</span><span class="token variable">$handler</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment">// Make sure you're running this as root</span>
+        <span class="token variable">$port</span> <span class="token operator">=</span> <span class="token variable">$input</span><span class="token operator">-></span><span class="token function">getOption</span><span class="token punctuation">(</span><span class="token string single-quoted-string">'port'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token variable">$output</span><span class="token operator">-></span><span class="token function">writeln</span><span class="token punctuation">(</span><span class="token string double-quoted-string">"server will run in port <span class="token interpolation"><span class="token punctuation">&#123;</span><span class="token variable">$port</span><span class="token punctuation">&#125;</span></span>"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token variable">$server</span> <span class="token operator">=</span> <span class="token class-name static-context">IoServer</span><span class="token operator">::</span><span class="token function">factory</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">HttpServer</span><span class="token punctuation">(</span><span class="token variable">$ws</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token variable">$port</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token variable">$server</span><span class="token operator">-></span><span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+
+<pre class="language-php" data-language="php"><code class="language-php"><span class="token php language-php"><span class="token delimiter important">&lt;?php</span>
+
+<span class="token keyword">namespace</span> <span class="token package">App<span class="token punctuation">\</span>Service</span><span class="token punctuation">;</span>
+
+<span class="token keyword">use</span> <span class="token package">Predis<span class="token punctuation">\</span>Client</span><span class="token punctuation">;</span>
+<span class="token keyword">use</span> <span class="token package">Ratchet<span class="token punctuation">\</span>MessageComponentInterface</span><span class="token punctuation">;</span>
+<span class="token keyword">use</span> <span class="token package">Ratchet<span class="token punctuation">\</span>ConnectionInterface</span><span class="token punctuation">;</span>
+
+<span class="token comment">/**
+ * chat.php
+ * Send any incoming messages to all connected clients (except sender)
+ */</span>
+<span class="token keyword">class</span> <span class="token class-name-definition class-name">Mychat</span> <span class="token keyword">implements</span> <span class="token class-name">MessageComponentInterface</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">protected</span> <span class="token variable">$clients</span><span class="token punctuation">;</span>
+
+
+    <span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function-definition function">__construct</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token variable">$this</span><span class="token operator">-></span><span class="token property">clients</span> <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name class-name-fully-qualified"><span class="token punctuation">\</span>SplObjectStorage</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+
+
+    <span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function-definition function">onOpen</span><span class="token punctuation">(</span><span class="token class-name type-declaration">ConnectionInterface</span> <span class="token variable">$conn</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token variable">$this</span><span class="token operator">-></span><span class="token property">clients</span><span class="token operator">-></span><span class="token function">attach</span><span class="token punctuation">(</span><span class="token variable">$conn</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function-definition function">onMessage</span><span class="token punctuation">(</span><span class="token class-name type-declaration">ConnectionInterface</span> <span class="token variable">$from</span><span class="token punctuation">,</span> <span class="token variable">$msg</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">foreach</span> <span class="token punctuation">(</span><span class="token variable">$this</span><span class="token operator">-></span><span class="token property">clients</span> <span class="token keyword">as</span> <span class="token variable">$client</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+<span class="token comment">//            if ($from != $client) &#123;</span>
+                <span class="token variable">$client</span><span class="token operator">-></span><span class="token function">send</span><span class="token punctuation">(</span><span class="token string double-quoted-string">"we receive your msg:"</span><span class="token operator">.</span><span class="token variable">$msg</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">//            &#125;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function-definition function">onClose</span><span class="token punctuation">(</span><span class="token class-name type-declaration">ConnectionInterface</span> <span class="token variable">$conn</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token variable">$this</span><span class="token operator">-></span><span class="token property">clients</span><span class="token operator">-></span><span class="token function">detach</span><span class="token punctuation">(</span><span class="token variable">$conn</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function-definition function">onError</span><span class="token punctuation">(</span><span class="token class-name type-declaration">ConnectionInterface</span> <span class="token variable">$conn</span><span class="token punctuation">,</span> <span class="token class-name class-name-fully-qualified type-declaration"><span class="token punctuation">\</span>Exception</span> <span class="token variable">$e</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token variable">$conn</span><span class="token operator">-></span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+
+
+<span class="token punctuation">&#125;</span></span></code></pre>
+
+<p>非常简单的代码就能完成基本的demo测试。</p>
+<p><img src="https://vison-blog.oss-cn-beijing.aliyuncs.com/20220419215814.png" alt=""></p>
+<h3 id="java实现"><a href="#java实现" class="headerlink" title="java实现"></a>java实现</h3> 
       <!-- reward -->
       
       <div id="reword-out">
@@ -359,9 +434,9 @@ Sec-WebSocket-Protocol: chat</code></pre>
       </a>
     
     
-      <a href="/2022/03/27/%E5%8F%8D%E5%AF%B9%E4%B8%AD%E5%8F%B0/" class="article-nav-link">
+      <a href="/2022/04/01/java/%E6%98%A5%E5%A4%A9%E4%B9%8B%E5%89%8D-http/" class="article-nav-link">
         <strong class="article-nav-caption">下一篇</strong>
-        <div class="article-nav-title">架构|反对中台</div>
+        <div class="article-nav-title">HTTP本质</div>
       </a>
     
   </nav>

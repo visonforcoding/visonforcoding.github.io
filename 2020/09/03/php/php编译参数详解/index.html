@@ -81,7 +81,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">3.1k</span>
+            <span class="post-count">3.2k</span>
         </span>
     </span>
 
@@ -90,7 +90,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> Reading time≈</span>
-            <span class="post-count">18 min</span>
+            <span class="post-count">19 min</span>
         </span>
     </span>
 </div>
@@ -525,10 +525,15 @@ systemctl start php-fpm.service
 systemctl status php-fpm.service
 systemctl enable php-fpm.service</code></pre>
 
+<h2 id="php8"><a href="#php8" class="headerlink" title="php8"></a>php8</h2><h3 id="mac下"><a href="#mac下" class="headerlink" title="mac下"></a>mac下</h3><p><code>openssl</code>和<code>icu4c</code>依赖需要定义</p>
+<pre class="language-none"><code class="language-none">export PKG_CONFIG_PATH&#x3D;&quot;$PKG_CONFIG_PATH:&#x2F;usr&#x2F;local&#x2F;bin&#x2F;openssl-1.1.1g&quot;</code></pre>
+<pre class="language-none"><code class="language-none">export PKG_CONFIG_PATH&#x3D;&quot;$PKG_CONFIG_PATH:&#x2F;usr&#x2F;local&#x2F;opt&#x2F;icu4c&#x2F;lib&#x2F;pkgconfig&quot;</code></pre>
 
-
-
-
+<p><strong>什么是<code>pkg-config</code></strong></p>
+<blockquote>
+<p>The pkg-config program is used to retrieve information about installed libraries in the system. It is typically used to compile and link against one or more libraries. Here is a typical usage scenario in a Makefile:</p>
+</blockquote>
+<p>收集系统安装库的程序，在<code>Makefile</code>里会用到。</p>
  
       <!-- reward -->
       

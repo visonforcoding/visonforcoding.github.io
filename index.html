@@ -85,6 +85,91 @@
     
     
     <article
+  id="post-IO模型与并发"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2022/05/15/IO%E6%A8%A1%E5%9E%8B%E4%B8%8E%E5%B9%B6%E5%8F%91/"
+    >IO模型与并发</a> 
+</h2>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2022/05/15/IO%E6%A8%A1%E5%9E%8B%E4%B8%8E%E5%B9%B6%E5%8F%91/" class="article-date">
+  <time datetime="2022-05-15T13:14:50.000Z" itemprop="datePublished">2022-05-15</time>
+</a>    
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p>在谈论IO模型之前必须要先了解内核态和用户态<code>Kernel Mode</code>和<code>User Mode</code></p>
+<h2 id="内核态与用户态"><a href="#内核态与用户态" class="headerlink" title="内核态与用户态"></a>内核态与用户态</h2><p><img src="https://vison-blog.oss-cn-beijing.aliyuncs.com/20220515222622.png" alt=""></p>
+<p>其实简单的讲，<code>Kernel Mode</code>和<code>User Mode</code>的区别核心在于系统资源(System Resources)的访问。System Resources也就是CPU、内存、磁盘文件、网络。</p>
+<p><strong>Kernel Mode</strong></p>
+<ul>
+<li>能直接对系统资源进行访问</li>
+<li>内核态一旦出错，可能整个系统都会崩溃</li>
+<li>内核态下所有进程共享一个虚拟地址空间</li>
+</ul>
+<p><strong>User Mode</strong></p>
+<ul>
+<li>不能直接对系统资源进行访问,要访问系统资源必须通过<code>System Call</code>切换到内核态</li>
+<li>中断发生，顶多这个进程的崩溃</li>
+<li>用户态下，所有进程都隔离在不同的虚拟地址空间</li>
+<li>一个程序在运行时，大部分时间都时处于用户态，只有需要内核提供的服务时才会切换到内核态。</li>
+</ul>
+<p><img src="https://vison-blog.oss-cn-beijing.aliyuncs.com/20220515224906.png" alt=""></p>
+<p>举个例子：</p>
+<p>假设我们需要读取一个日志文件：</p>
+<ol>
+<li>由于用户态下不能读取系统资源，因此程序需要切换到内核态。</li>
+<li>当在内核态下读取到了磁盘文件到内存当中，这个时候就可以切换到用户态下进行操作。</li>
+</ol>
+<h2 id="BIO-阻塞IO"><a href="#BIO-阻塞IO" class="headerlink" title="BIO 阻塞IO"></a>BIO 阻塞IO</h2><p><img src="https://vison-blog.oss-cn-beijing.aliyuncs.com/20220515230041.png" alt=""></p>
+<p>应用程序在内核处理完成之前都会一直处于阻塞状态。</p>
+<h2 id="NIO-非阻塞式IO"><a href="#NIO-非阻塞式IO" class="headerlink" title="NIO 非阻塞式IO"></a>NIO 非阻塞式IO</h2><p><img src="https://vison-blog.oss-cn-beijing.aliyuncs.com/20220515230801.png" alt=""></p>
+<p>应用程序会不间断地询问内核是否准备好资源。</p>
+<h2 id="I-O-Multiplexing-IO多路复用"><a href="#I-O-Multiplexing-IO多路复用" class="headerlink" title="I/O Multiplexing IO多路复用"></a>I/O Multiplexing IO多路复用</h2><p><img src="https://vison-blog.oss-cn-beijing.aliyuncs.com/20220515232225.png" alt=""></p>
+<p><code>select</code> 能够在处理多个IO在非常短的时间内以极低的开销。</p>
+<h2 id="Event-Driver-IO-事件驱动IO"><a href="#Event-Driver-IO-事件驱动IO" class="headerlink" title="Event-Driver IO 事件驱动IO"></a>Event-Driver IO 事件驱动IO</h2><p><img src="https://vison-blog.oss-cn-beijing.aliyuncs.com/20220515232648.png" alt=""></p>
+<p>首先注册一个回调函数，当内核准备好资源后就调用这个回调函数。</p>
+<h2 id="AIO-异步IO"><a href="#AIO-异步IO" class="headerlink" title="AIO 异步IO"></a>AIO 异步IO</h2><p><img src="https://vison-blog.oss-cn-beijing.aliyuncs.com/20220515232909.png" alt=""></p>
+<p>理论上，只有这种才是真正异步IO。上述的4种，数据从内核态到用户态都是同步操作。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://rickhw.github.io/2019/02/27/ComputerScience/IO-Models/">一位台湾博主的博客讲的IO模型</a></li>
+<li><a target="_blank" rel="noopener" href="https://developpaper.com/five-io-models-of-unix/">Five io mode</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.geeksforgeeks.org/difference-between-user-mode-and-kernel-mode/">Difference Between User Mode and Kernel Mode</a></li>
+</ol>
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+    </footer>
+  </div>
+
+    
+ 
+    
+</article>
+
+    
+    <article
   id="post-php-in-feature"
   class="article article-type-post"
   itemscope
@@ -663,144 +748,6 @@
        
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li></ul>
 
-    </footer>
-  </div>
-
-    
- 
-    
-</article>
-
-    
-    <article
-  id="post-阿里mysql中间件多表查询模型"
-  class="article article-type-post"
-  itemscope
-  itemprop="blogPost"
-  data-scroll-reveal
->
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2022/02/23/%E9%98%BF%E9%87%8Cmysql%E4%B8%AD%E9%97%B4%E4%BB%B6%E5%A4%9A%E8%A1%A8%E6%9F%A5%E8%AF%A2%E6%A8%A1%E5%9E%8B/"
-    >数据|阿里mysql中间件多表查询模型</a> 
-</h2>
- 
-
-      
-    </header>
-     
-    <div class="article-meta">
-      <a href="/2022/02/23/%E9%98%BF%E9%87%8Cmysql%E4%B8%AD%E9%97%B4%E4%BB%B6%E5%A4%9A%E8%A1%A8%E6%9F%A5%E8%AF%A2%E6%A8%A1%E5%9E%8B/" class="article-date">
-  <time datetime="2022-02-23T07:36:45.000Z" itemprop="datePublished">2022-02-23</time>
-</a>    
-    </div>
-      
-    <div class="article-entry" itemprop="articleBody">
-       
-  <p>之前读了一本书《企业IT架构转型之道:阿里巴巴中台战略思想与架构实战》，期中有关于数据库中间件的部分实现令我映像深刻。</p>
-<p><img src="https://vison-blog.oss-cn-beijing.aliyuncs.com/20220223170048.png" alt="图片来源:https://shardingsphere.apache.org/document/current/en/concepts/pluggable/"></p>
-<p>中间件解决了几个问题：</p>
-<ul>
-<li>数据库使用治理,通过mysql proxy的形式,能在开发时期的建表不规范ddl、生产的查询潜在危害sql进行预警、拦截、监控等操作</li>
-<li>sharding处理,通过中间件的处理使得业务开发不用太关心sharding处理专心处理业务逻辑。</li>
-<li>负载均衡处理,可以使得sql分散到不同实例，并对业务层无侵入。</li>
-</ul>
-<p>对于sharding这一块还解决了在分库分表之后跨库夸表的查询，采用多线程查询内存聚合的方式来提高查询效率。</p>
-<pre class="language-java" data-language="java"><code class="language-java"><span class="token keyword">package</span> <span class="token namespace">com<span class="token punctuation">.</span>vison<span class="token punctuation">.</span>jpal<span class="token punctuation">.</span>queryprocess</span><span class="token punctuation">;</span>
-
-<span class="token keyword">import</span> <span class="token namespace">java<span class="token punctuation">.</span>sql<span class="token punctuation">.</span></span><span class="token class-name">Connection</span><span class="token punctuation">;</span>
-<span class="token keyword">import</span> <span class="token namespace">java<span class="token punctuation">.</span>sql<span class="token punctuation">.</span></span><span class="token class-name">DriverManager</span><span class="token punctuation">;</span>
-<span class="token keyword">import</span> <span class="token namespace">java<span class="token punctuation">.</span>sql<span class="token punctuation">.</span></span><span class="token class-name">ResultSet</span><span class="token punctuation">;</span>
-<span class="token keyword">import</span> <span class="token namespace">java<span class="token punctuation">.</span>sql<span class="token punctuation">.</span></span><span class="token class-name">Statement</span><span class="token punctuation">;</span>
-<span class="token keyword">import</span> <span class="token namespace">java<span class="token punctuation">.</span>util<span class="token punctuation">.</span></span><span class="token operator">*</span><span class="token punctuation">;</span>
-<span class="token keyword">import</span> <span class="token namespace">org<span class="token punctuation">.</span>apache<span class="token punctuation">.</span>logging<span class="token punctuation">.</span>log4j<span class="token punctuation">.</span></span><span class="token class-name">LogManager</span><span class="token punctuation">;</span>
-<span class="token keyword">import</span> <span class="token namespace">org<span class="token punctuation">.</span>apache<span class="token punctuation">.</span>logging<span class="token punctuation">.</span>log4j<span class="token punctuation">.</span></span><span class="token class-name">Logger</span><span class="token punctuation">;</span>
-
-<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">ThreadQuery</span> <span class="token keyword">extends</span> <span class="token class-name">Thread</span> <span class="token punctuation">&#123;</span>
-
-    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token class-name">String</span> URL <span class="token operator">=</span> <span class="token string">"jdbc:mysql://localhost:3306/demo"</span><span class="token punctuation">;</span>
-    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token class-name">String</span> USER <span class="token operator">=</span> <span class="token string">"root"</span><span class="token punctuation">;</span>
-    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token class-name">String</span> PASSWORD <span class="token operator">=</span> <span class="token string">""</span><span class="token punctuation">;</span>
-    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Map</span><span class="token punctuation">&lt;</span><span class="token class-name">String</span><span class="token punctuation">,</span> <span class="token class-name">Object</span><span class="token punctuation">></span><span class="token punctuation">></span></span> totalListUser<span class="token punctuation">;</span>
-    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token class-name">Logger</span> logger <span class="token operator">=</span> <span class="token class-name">LogManager</span><span class="token punctuation">.</span><span class="token function">getLogger</span><span class="token punctuation">(</span><span class="token class-name">ThreadQuery</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">.</span><span class="token function">getName</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-    <span class="token keyword">protected</span> <span class="token class-name">String</span> table<span class="token punctuation">;</span>
-
-    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">setTable</span><span class="token punctuation">(</span><span class="token class-name">String</span> table<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-        <span class="token keyword">this</span><span class="token punctuation">.</span>table <span class="token operator">=</span> table<span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span>
-
-    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">Exception</span> <span class="token punctuation">&#123;</span>
-        totalListUser <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token punctuation">></span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">String</span><span class="token punctuation">></span></span> tables <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token punctuation">></span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;=</span> <span class="token number">246</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-            tables<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">.</span><span class="token function">format</span><span class="token punctuation">(</span><span class="token string">"user_%02d"</span><span class="token punctuation">,</span> i<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token punctuation">&#125;</span>
-        <span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Map</span><span class="token punctuation">&lt;</span><span class="token class-name">String</span><span class="token punctuation">,</span> <span class="token class-name">Object</span><span class="token punctuation">></span><span class="token punctuation">></span></span> listUser <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token punctuation">></span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">ThreadQuery</span><span class="token punctuation">></span></span> threads <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token punctuation">></span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token class-name">String</span> table <span class="token operator">:</span> tables<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-            <span class="token class-name">ThreadQuery</span> threadQuery <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ThreadQuery</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-            threadQuery<span class="token punctuation">.</span><span class="token function">setTable</span><span class="token punctuation">(</span>table<span class="token punctuation">)</span><span class="token punctuation">;</span>
-            threadQuery<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-            threads<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>threadQuery<span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token punctuation">&#125;</span>
-        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token class-name">Thread</span> thread <span class="token operator">:</span> threads<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-            thread<span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token punctuation">&#125;</span>
-        logger<span class="token punctuation">.</span><span class="token function">info</span><span class="token punctuation">(</span><span class="token string">"完成"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">print</span><span class="token punctuation">(</span>totalListUser<span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-    <span class="token punctuation">&#125;</span>
-
-
-    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-        <span class="token keyword">try</span> <span class="token punctuation">&#123;</span>
-            <span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Map</span><span class="token punctuation">&lt;</span><span class="token class-name">String</span><span class="token punctuation">,</span> <span class="token class-name">Object</span><span class="token punctuation">></span><span class="token punctuation">></span></span> rs <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">singleQueryUser</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-            <span class="token class-name">ThreadQuery</span><span class="token punctuation">.</span>totalListUser<span class="token punctuation">.</span><span class="token function">addAll</span><span class="token punctuation">(</span>rs<span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token punctuation">&#125;</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Exception</span> e<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-            <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>e<span class="token punctuation">.</span><span class="token function">getMessage</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token punctuation">&#125;</span>
-    <span class="token punctuation">&#125;</span>
-
-    <span class="token keyword">public</span> <span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Map</span><span class="token punctuation">&lt;</span><span class="token class-name">String</span><span class="token punctuation">,</span> <span class="token class-name">Object</span><span class="token punctuation">></span><span class="token punctuation">></span></span> <span class="token function">singleQueryUser</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">Exception</span> <span class="token punctuation">&#123;</span>
-        <span class="token comment">//2. 获得数据库连接</span>
-        logger<span class="token punctuation">.</span><span class="token function">info</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">.</span><span class="token function">format</span><span class="token punctuation">(</span><span class="token string">"线程%s启动"</span><span class="token punctuation">,</span>table<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token class-name">Connection</span> conn <span class="token operator">=</span> <span class="token class-name">DriverManager</span><span class="token punctuation">.</span><span class="token function">getConnection</span><span class="token punctuation">(</span>URL<span class="token punctuation">,</span> USER<span class="token punctuation">,</span> PASSWORD<span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token comment">//3.操作数据库，实现增删改查</span>
-        <span class="token class-name">Statement</span> stmt <span class="token operator">=</span> conn<span class="token punctuation">.</span><span class="token function">createStatement</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token class-name">ResultSet</span> rs <span class="token operator">=</span> stmt<span class="token punctuation">.</span><span class="token function">executeQuery</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">.</span><span class="token function">format</span><span class="token punctuation">(</span><span class="token string">"SELECT * FROM %s WHERE `age` = 25 LIMIT 2 "</span><span class="token punctuation">,</span>table<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token comment">//如果有数据，rs.next()返回true</span>
-        <span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Map</span><span class="token punctuation">&lt;</span><span class="token class-name">String</span><span class="token punctuation">,</span> <span class="token class-name">Object</span><span class="token punctuation">></span><span class="token punctuation">></span></span> listUser <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token punctuation">></span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token keyword">while</span> <span class="token punctuation">(</span>rs<span class="token punctuation">.</span><span class="token function">next</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-            <span class="token class-name">Map</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">String</span><span class="token punctuation">,</span> <span class="token class-name">Object</span><span class="token punctuation">></span></span> user <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">HashMap</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token punctuation">></span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-            user<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span><span class="token string">"name"</span><span class="token punctuation">,</span> rs<span class="token punctuation">.</span><span class="token function">getString</span><span class="token punctuation">(</span><span class="token string">"name"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-            user<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span><span class="token string">"age"</span><span class="token punctuation">,</span> rs<span class="token punctuation">.</span><span class="token function">getInt</span><span class="token punctuation">(</span><span class="token string">"age"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-            listUser<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>user<span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token punctuation">&#125;</span>
-        <span class="token keyword">return</span> listUser<span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span>
-<span class="token punctuation">&#125;</span>
-</code></pre>
-
-<p>此代码只是一个非常基础的实现demo,真正上生产还需要解决很多其他问题：</p>
-<ol>
-<li>线程池链接池解决链接和线程建立开销</li>
-<li>并发数的最佳数量设置</li>
-<li>limit和order by的处理,设想<code>select * from user where age = 25  order by create_time desc limit 10</code>该如何从sharding表进行处理</li>
-</ol>
- 
-      <!-- reward -->
-      
-    </div>
-    
-
-    <!-- copyright -->
-    
-    <footer class="article-footer">
-       
     </footer>
   </div>
 

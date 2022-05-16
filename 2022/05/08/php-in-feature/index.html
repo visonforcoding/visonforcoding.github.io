@@ -145,43 +145,46 @@
 <li>在timeout内定时向server发送heartbeat，告诉它我还活着，别把老子丢下。</li>
 </ol>
 <p><img src="https://vison-blog.oss-cn-beijing.aliyuncs.com/20220508204048.png" alt="donleaveme"></p>
-<p>首先第一个解决办法，每次都是重连一定会有性能损耗，而且如果连接不注意close会引发连接资源耗尽问题。<br>第二个解决办法应该是最合理的，但问题是对于PHP这种极少进行异步操作的语言来说。这个简单的需求都变得非常不简单。因为如果时定时轮询去发送heartbeat使用<code>while true</code>，则进程会阻塞在这里，根本不能再做其他的操作了。对于java而言，重新打开一个线程去轮询发送心跳就是了，根本不是个问题。<br>而对于PHP来说，可太难了，线程扩展已经废弃。多进程之间又不能共享对象。<br>我们需要<code>non-blocking I/O operations</code>，没错<code>reactphp</code>说它可以。<br>我试了下，还真的可以。</p>
-<pre class="language-php" data-language="php"><code class="language-php"><span class="token keyword">protected</span> <span class="token keyword">function</span> <span class="token function-definition function">execute</span><span class="token punctuation">(</span><span class="token class-name type-declaration">InputInterface</span> <span class="token variable">$input</span><span class="token punctuation">,</span> <span class="token class-name type-declaration">OutputInterface</span> <span class="token variable">$output</span><span class="token punctuation">)</span>
-    <span class="token punctuation">&#123;</span>
-        <span class="token variable">$redis</span> <span class="token operator">=</span> <span class="token variable">$this</span><span class="token operator">-></span><span class="token property">redis</span><span class="token punctuation">;</span>
-        <span class="token comment">//启动一个非阻塞事件循环</span>
-        <span class="token variable">$timer</span> <span class="token operator">=</span> <span class="token class-name static-context">Loop</span><span class="token operator">::</span><span class="token function">addPeriodicTimer</span><span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token keyword">use</span><span class="token punctuation">(</span><span class="token variable">$redis</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-            <span class="token comment">//每隔5秒发送一个ping</span>
-            <span class="token variable">$this</span><span class="token operator">-></span><span class="token function">redisCheckHealth</span><span class="token punctuation">(</span><span class="token variable">$redis</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<p>首先第一个解决办法，每次都是重连一定会有性能损耗，而且如果连接不注意close会引发连接资源耗尽问题。<br>第二个解决办法应该是最合理的，但问题是对于PHP这种极少进行异步操作的语言来说。这个简单的需求都变得非常不简单。因为如果时定时轮询去发送heartbeat使用<code>while true</code>，则进程会阻塞在这里，根本不能再做其他的操作了。对于java而言，重新打开一个线程去轮询发送心跳就是了，根本不是个问题。<br>而对于PHP来说，可太难了，线程扩展已经废弃。多进程之间又不能共享对象。<br>我们需要<code>non-blocking I/O operations</code>，没错<code>reactphp</code>说它可以。<br>我试了下,似乎没成功。</p>
+<pre class="language-php" data-language="php"><code class="language-php">
+
+<span class="token keyword">protected</span> <span class="token keyword">function</span> <span class="token function-definition function">execute</span><span class="token punctuation">(</span><span class="token class-name type-declaration">InputInterface</span> <span class="token variable">$input</span><span class="token punctuation">,</span> <span class="token class-name type-declaration">OutputInterface</span> <span class="token variable">$output</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token variable">$climate</span> <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">CLImate</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token variable">$pid</span> <span class="token operator">=</span> <span class="token function">getmypid</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token variable">$climate</span><span class="token operator">-></span><span class="token function">info</span><span class="token punctuation">(</span><span class="token string double-quoted-string">"run in <span class="token interpolation"><span class="token punctuation">&#123;</span><span class="token variable">$pid</span><span class="token punctuation">&#125;</span></span>"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token variable">$redis</span> <span class="token operator">=</span> <span class="token variable">$this</span><span class="token operator">-></span><span class="token property">redis</span><span class="token punctuation">;</span>
+    <span class="token variable">$timer</span> <span class="token operator">=</span> <span class="token class-name static-context">Loop</span><span class="token operator">::</span><span class="token function">addPeriodicTimer</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">use</span> <span class="token punctuation">(</span><span class="token variable">$redis</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token variable">$this</span><span class="token operator">-></span><span class="token function">redisCheckHealth</span><span class="token punctuation">(</span><span class="token variable">$redis</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token variable">$this</span><span class="token operator">-></span><span class="token property">logger</span><span class="token operator">-></span><span class="token function">info</span><span class="token punctuation">(</span><span class="token string double-quoted-string">"heartbeat"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token variable">$time2</span> <span class="token operator">=</span> <span class="token class-name static-context">Loop</span><span class="token operator">::</span><span class="token function">addTimer</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">use</span> <span class="token punctuation">(</span><span class="token variable">$redis</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
         <span class="token function">dump</span><span class="token punctuation">(</span><span class="token variable">$redis</span><span class="token operator">-></span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string single-quoted-string">'foo'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
         <span class="token function">dump</span><span class="token punctuation">(</span><span class="token variable">$this</span><span class="token operator">-></span><span class="token function">redisCheckHealth</span><span class="token punctuation">(</span><span class="token variable">$redis</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token function">sleep</span><span class="token punctuation">(</span><span class="token number">12</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token variable">$this</span><span class="token operator">-></span><span class="token function">redisCheckHealth</span><span class="token punctuation">(</span><span class="token variable">$redis</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-            <span class="token function">dump</span><span class="token punctuation">(</span><span class="token string single-quoted-string">'reconnect'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-            <span class="token variable">$redis</span><span class="token operator">-></span><span class="token function">connect</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token punctuation">&#125;</span>
+        <span class="token function">sleep</span><span class="token punctuation">(</span><span class="token number">22</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
         <span class="token variable">$cmdSet</span> <span class="token operator">=</span> <span class="token variable">$redis</span><span class="token operator">-></span><span class="token function">createCommand</span><span class="token punctuation">(</span><span class="token string single-quoted-string">'config'</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token string single-quoted-string">'get'</span><span class="token punctuation">,</span> <span class="token string single-quoted-string">'timeout'</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
         <span class="token variable">$cmdSetReply</span> <span class="token operator">=</span> <span class="token variable">$redis</span><span class="token operator">-></span><span class="token function">executeCommand</span><span class="token punctuation">(</span><span class="token variable">$cmdSet</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
         <span class="token function">dump</span><span class="token punctuation">(</span><span class="token variable">$cmdSetReply</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token keyword">return</span> <span class="token class-name static-context">Command</span><span class="token operator">::</span><span class="token constant">SUCCESS</span><span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token class-name static-context">Loop</span><span class="token operator">::</span><span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-    <span class="token comment">/**
-     * @param Client $redis
-     */</span>
-    <span class="token keyword">private</span> <span class="token keyword">function</span> <span class="token function-definition function">redisCheckHealth</span><span class="token punctuation">(</span><span class="token variable">$redis</span><span class="token punctuation">)</span>
-    <span class="token punctuation">&#123;</span>
-        <span class="token keyword">try</span> <span class="token punctuation">&#123;</span>
-            <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token variable">$redis</span><span class="token operator">-></span><span class="token function">ping</span><span class="token punctuation">(</span><span class="token string double-quoted-string">"hello"</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token string double-quoted-string">"hello"</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-                <span class="token keyword">return</span> <span class="token constant boolean">true</span><span class="token punctuation">;</span>
-            <span class="token punctuation">&#125;</span>
-        <span class="token punctuation">&#125;</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">ConnectionException</span> <span class="token variable">$exception</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-            <span class="token keyword">return</span> <span class="token constant boolean">false</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token class-name static-context">Command</span><span class="token operator">::</span><span class="token constant">SUCCESS</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token comment">/**
+ * @param Client $redis
+ */</span>
+<span class="token keyword">private</span> <span class="token keyword">function</span> <span class="token function-definition function">redisCheckHealth</span><span class="token punctuation">(</span><span class="token variable">$redis</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">try</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token variable">$redis</span><span class="token operator">-></span><span class="token function">ping</span><span class="token punctuation">(</span><span class="token string double-quoted-string">"hello"</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token string double-quoted-string">"hello"</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token keyword">return</span> <span class="token constant boolean">true</span><span class="token punctuation">;</span>
         <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">ConnectionException</span> <span class="token variable">$exception</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
         <span class="token keyword">return</span> <span class="token constant boolean">false</span><span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span></code></pre>
-<p>我设置了redis 的timeout 为10s,结果发现<code>Loop::addPeriodicTimer</code>的事件循环并没有阻塞后面的代码，并且每隔5s发送了ping 。在12s后连接依然可用。</p>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">return</span> <span class="token constant boolean">false</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span></code></pre>
+<p>发现2个<code>time</code>是互相阻塞的，也许是我姿势不对。但是它的原理似乎官方并没有说清楚。到底时基于什么并发模型来实现的?</p>
  
       <!-- reward -->
       
@@ -264,6 +267,15 @@
 
    
   <nav class="article-nav">
+    
+      <a href="/2022/05/15/IO%E6%A8%A1%E5%9E%8B%E4%B8%8E%E5%B9%B6%E5%8F%91/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            IO模型与并发
+          
+        </div>
+      </a>
     
     
       <a href="/2022/04/24/%E6%91%98Java%E5%BC%80%E5%8F%91%E6%89%8B%E5%86%8C%E8%81%8A%E8%81%8APHP%E7%9A%84ORM%E6%A1%86%E6%9E%B6/" class="article-nav-link">

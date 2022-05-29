@@ -4,6 +4,19 @@
   
     
     <entry>
+      <title>周五该不该发布</title>
+      <link href="2022/05/29/%E5%91%A8%E4%BA%94%E8%AF%A5%E4%B8%8D%E8%AF%A5%E5%8F%91%E5%B8%83/"/>
+      <url>2022/05/29/%E5%91%A8%E4%BA%94%E8%AF%A5%E4%B8%8D%E8%AF%A5%E5%8F%91%E5%B8%83/</url>
+      
+        <content type="html"><![CDATA[<blockquote><p> 在很早的时候，也就是刚毕业那会。看过一本书，李智慧的《大型网站技术架构》。其中讲到了，一般会选择周四进行发布，这样周五还有时间去处理发布可能产生的问题。如果选择周五发布，那工程师们不得不要加班进行处理。</p></blockquote><p><strong>加班处理意味着什么？</strong></p><p>当然线上出问题，必须第一时间处理。这是原则。但是周末处理意味着效率会打折扣。</p><ol><li>工程师的原计划陪家人或处理个人事情需要先搁置,心理上的负担会导致工程师不能100%投入。</li><li>相关依赖人员，运营、产品或者需要领导总监审批处理的事情，人员协调难度会加大。</li></ol><p>但是如果业务需求周五要发布，那到底时发还是不发呢？有没有较为有说服力的原则来指导我们做抉择呢？看了一篇博文就此写的非常好，并且非常有人文气质。</p><p>原文：<a href="https://rickhw.github.io/2020/10/18/DevOps/Deploy-on-Friday-or-Not/">Deploy-on-Friday-or-Not/</a></p><p>我引用一些值得思考的观点。</p><h2 id="业界的不同观点"><a href="#业界的不同观点" class="headerlink" title="业界的不同观点"></a>业界的不同观点</h2><p><strong>赞成的</strong></p><blockquote><p> 一個團隊當要能夠在任何時間部署，這跟哪一天沒關係，理由是敏捷團隊應該如何、身為一個開發者應該如何 …. (省略3000 字)</p></blockquote><p><strong>反对的</strong></p><blockquote><p>大多會以風險角度考慮事情，普遍認為時間會影響之後的生活或者士氣 … (省略 30000 字).</p></blockquote><h2 id="回到主题定义"><a href="#回到主题定义" class="headerlink" title="回到主题定义"></a>回到主题定义</h2><p>问题其实可以换一个角度。<br>从<code>该与不该</code>到<code>能与不能</code><br>于是，其实可以裂变成2个问题。</p><ul><li>周五能不能发布？</li><li>周五该不该发布?<br>这2个问题，前者<code>能与不能</code> 是能力问题<code>Skills / Ability</code>。<br><code>该与不该</code>似乎是时空背景 (Timeline)、政策原则 (Policy) 和态度 (Attitude) 有关系。</li></ul><h2 id="层次问题"><a href="#层次问题" class="headerlink" title="层次问题"></a>层次问题</h2><h3 id="骑士精神-侠之大者"><a href="#骑士精神-侠之大者" class="headerlink" title="骑士精神/侠之大者"></a>骑士精神/侠之大者</h3><p>‎如果你所处的环境是’应该’在星期五也能部署，那么团队就要具备’能够’在星期五部署承担风险的能力 （Skills / Ability） 。 如果你处在的环境觉得’不应该’，那么身为一个专业的工作者，面子很重要，你也要让自己能够有在任何时间部署的能力 （Skills）。</p><p>专业工作者，要具备 骑士精神 ，也就是</p><p><strong>你应该，所以你能够</strong></p><p><strong>你的团队应该能随时部署，所以即使是星期五团队也能够部署。</strong></p><p>类似西方或日本的骑士精神或武士道精神。在我们这里，可以认为是武侠精神，就像郭靖的<code>侠之大者</code></p><p>所以，最后的原是什么？</p><p><strong>尽量 （80%） 不在星期五部署，但需要时 （20%） 团队也不会担心，因为团队有能力驾驭自己的系统。</strong></p>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>IO模型与并发</title>
       <link href="2022/05/15/IO%E6%A8%A1%E5%9E%8B%E4%B8%8E%E5%B9%B6%E5%8F%91/"/>
       <url>2022/05/15/IO%E6%A8%A1%E5%9E%8B%E4%B8%8E%E5%B9%B6%E5%8F%91/</url>

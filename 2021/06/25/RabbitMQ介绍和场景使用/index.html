@@ -81,7 +81,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">2.8k</span>
+            <span class="post-count">2.9k</span>
         </span>
     </span>
 
@@ -297,6 +297,9 @@
 <span class="token variable">$channel</span><span class="token operator">-></span><span class="token function">basic_consume</span><span class="token punctuation">(</span><span class="token string single-quoted-string">'task_queue'</span><span class="token punctuation">,</span> <span class="token string single-quoted-string">''</span><span class="token punctuation">,</span> <span class="token constant boolean">false</span><span class="token punctuation">,</span> <span class="token constant boolean">false</span><span class="token punctuation">,</span> <span class="token constant boolean">false</span><span class="token punctuation">,</span> <span class="token constant boolean">false</span><span class="token punctuation">,</span> <span class="token variable">$callback</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 
 <p>以上代码示例展示ack使用，basic_consume的第4个参数要 设置为<code>false</code>。</p>
+<p><strong>When Consumers Fail or Lose Connection: Automatic Requeueing</strong></p>
+<p>某些情况下,消费者的连接断开或者消费进程挂了都会导致消息的丢失。而且是大量的，因为在不启用ack的情况下,消息大概会是批量的发送。而不是你想象中的，一个消息接着一个消息的发送。</p>
+<p>当手动ack启用的时候,消息会被重新放入队列。并且重发的消息会有个属性值<code>redeliver</code>,重发的时候会被设置为<code>true</code></p>
 <h3 id="拒绝消息"><a href="#拒绝消息" class="headerlink" title="拒绝消息"></a>拒绝消息</h3><p>当一个消费者接收到某条消息后，处理过程有可能成功，有可能失败。应用可以向消息代理表明，本条消息由于“拒绝消息（Rejecting Messages）”的原因处理失败了（或者未能在此时完成）。当拒绝某条消息时，应用可以告诉消息代理如何处理这条消息——销毁它或者重新放入队列。当此队列只有一个消费者时，请确认不要由于拒绝消息并且选择了重新放入队列的行为而引起消息在同一个消费者身上无限循环的情况发生。</p>
 <h3 id="连接"><a href="#连接" class="headerlink" title="连接"></a>连接</h3><p>AMQP连接通常是长连接。AMQP是一个使用TCP提供可靠投递的应用层协议。AMQP使用认证机制并且提供TLS（SSL）保护。当一个应用不再需要连接到AMQP代理的时候，需要优雅的释放掉AMQP连接，而不是直接将TCP连接关闭。</p>
 <h3 id="虚拟主机-vhost"><a href="#虚拟主机-vhost" class="headerlink" title="虚拟主机 vhost"></a>虚拟主机 vhost</h3><p>为了在一个单独的代理上实现多个隔离的环境（用户、用户组、交换机、队列 等），AMQP提供了一个虚拟主机（virtual hosts - vhosts）的概念。这跟Web servers虚拟主机概念非常相似，这为AMQP实体提供了完全隔离的环境。</p>
